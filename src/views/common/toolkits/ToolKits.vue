@@ -30,7 +30,7 @@ function changeDayTime() {
       <Card
         :class="{ 'l-box-bg': !setting.card.open, 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
         class="back-home absolute hover left-0 rd-2"
-        @click="EcyUtils.Router.go({ path: '/home', router })">
+        @click="EcyUtils.Router.go({ path: '/', router })">
         <div class="f-c-c w-8 h-8">
           <i-ep-house />
         </div>

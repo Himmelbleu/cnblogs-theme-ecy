@@ -8,14 +8,14 @@ const routes = [
     component: () => import("@/views/Index.vue")
   },
   {
+    name: name.Profile,
+    path: "/profile",
+    component: () => import("@/views/Profile.vue")
+  },
+  {
     name: name.Writing,
     path: "/p/:id",
     component: () => import("@/views/Writing.vue")
-  },
-  {
-    name: name.Home,
-    path: "/home",
-    component: () => import("@/views/Home.vue")
   },
   {
     name: name.MarkSort,

@@ -79,3 +79,19 @@
     resize: none;
   }
 }
+
+@include pc() {
+  .page {
+    --uno: f-c-c;
+
+    & > .content {
+      width: var(--content-width);
+    }
+  }
+}
+
+@include mb() {
+  .page {
+    width: 100%;
+  }
+}

@@ -13,7 +13,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100% !important;
-  background-color: var(--l-box-bg);
+  // background-color: var(--l-box-bg);
   color: var(--l-pri-color);
   font-size: var(--font-size);
   font-weight: 400;
@@ -33,10 +33,6 @@ body {
   word-break: break-all;
   line-break: anywhere;
   box-sizing: border-box;
-}
-
-#app {
-  --uno: f-c-c;
 }
 
 img {

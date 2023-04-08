@@ -9,16 +9,16 @@
 import { useAnchorStore } from "@/store";
 
 export enum name {
-  // 铭牌
+  // 首页
   Index = "Index",
+  // 铭牌
+  Profile = "Profile",
   // 文章或随笔
   Writing = "Writing",
   // 分类
   Sort = "Sort",
   // 档案
   Archive = "Archive",
-  // 随笔列表，即首页
-  Home = "Home",
   // 标签随笔列表
   MarkSort = "MarkSort",
   // 标签列表
