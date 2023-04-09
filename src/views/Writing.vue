@@ -74,134 +74,124 @@ watch(route, async () => {
 </script>
 
 <template>
-  <ContextMenu id="l-writing" class="min-height">
-    <Card :padding="setting.pages.writing.padding" :margin="setting.pages.writing.margin">
-      <template v-if="!isLock">
-        <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
-          <template #title>
-            <div class="f-c-c">
-              <i-ep-back />
-            </div>
-          </template>
-          <template #content>
-            <div class="l-pri-size">{{ writing.text }}</div>
-          </template>
-        </el-page-header>
-        <div class="l-writing__tdesc l-sec-color f-c-s mt-4 l-fiv-size">
-          <div class="f-c-c mr-4">
-            <i-ep-clock class="mr-1" />
-            <span>{{ writing.date }}</span>
-          </div>
-          <div class="f-c-c mr-4">
-            <i-ep-view class="mr-1" />
-            <span>{{ writing.view }}次阅读</span>
-          </div>
-          <div class="f-c-c mr-4">
-            <i-ep-chat-line-square class="mr-1" />
-            <span>{{ writing.comm }}条评论</span>
-          </div>
-          <div
-            v-if="EcyConfig.isOwner"
-            class="f-c-c hover"
-            @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + postId })">
-            <i-ep-edit-pen class="mr-1" />
-            <span>编辑</span>
-          </div>
-        </div>
-        <div class="l-writing__props l-sec-color mt-4">
-          <div class="mb-4 flex-wrap f-c-s" v-if="writingProps.sorts.length > 0">
-            <div class="f-c-c l-fiv-size">
-              <i-ep-folder-opened class="mr-1" />
-              <span>分类：</span>
-            </div>
-            <div
-              v-for="(item, index) in writingProps.sorts"
-              class="l-fiv-size"
-              :class="{ 'mr-2': index !== writingProps.sorts.length - 1 }">
-              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/sort/p/' + item.href, router })">
-                {{ item.text }}
-              </LTag>
-            </div>
-          </div>
-          <div class="f-c-s flex-wrap" v-if="writingProps.tags.length > 0">
-            <div class="f-c-c l-fiv-size">
-              <i-ep-price-tag class="mr-1" />
-              <span>标签：</span>
-            </div>
-            <div v-for="(item, index) in writingProps.tags" class="l-fiv-size" :class="{ 'mr-2': index !== writingProps.tags.length - 1 }">
-              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/mark/' + item.text, router })">
-                {{ item.text }}
-              </LTag>
-            </div>
-          </div>
-        </div>
-        <div class="l-writing__content mt-8 l-thr-size" v-html="writing.content" v-hljs v-catalog v-mathjax></div>
-        <Highslide />
-        <Catalog />
-        <div class="divider flex-col"></div>
-        <div class="l-writing__bdesc l-sec-color f-c-e l-fiv-size">
-          <div class="f-c-c mr-4">
-            <i-ep-clock class="mr-1" />
-            <span>{{ writing.date }}</span>
-          </div>
-          <div class="f-c-c mr-4">
-            <i-ep-view class="mr-1" />
-            <span>{{ writing.view }}次阅读</span>
-          </div>
+  <Card :padding="setting.pages.writing.padding" :margin="setting.pages.writing.margin">
+    <template v-if="!isLock">
+      <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+        <template #title>
           <div class="f-c-c">
-            <i-ep-chat-line-square class="mr-1" />
-            <span>{{ writing.comm }}条评论</span>
+            <i-ep-back />
+          </div>
+        </template>
+        <template #content>
+          <div class="l-pri-size">{{ writing.text }}</div>
+        </template>
+      </el-page-header>
+      <div class="l-writing__tdesc l-sec-color f-c-s mt-4 l-fiv-size">
+        <div class="f-c-c mr-4">
+          <i-ep-clock class="mr-1" />
+          <span>{{ writing.date }}</span>
+        </div>
+        <div class="f-c-c mr-4">
+          <i-ep-view class="mr-1" />
+          <span>{{ writing.view }}次阅读</span>
+        </div>
+        <div class="f-c-c mr-4">
+          <i-ep-chat-line-square class="mr-1" />
+          <span>{{ writing.comm }}条评论</span>
+        </div>
+        <div
+          v-if="EcyConfig.isOwner"
+          class="f-c-c hover"
+          @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + postId })">
+          <i-ep-edit-pen class="mr-1" />
+          <span>编辑</span>
+        </div>
+      </div>
+      <div class="l-writing__props l-sec-color mt-4">
+        <div class="mb-4 flex-wrap f-c-s" v-if="writingProps.sorts.length > 0">
+          <div class="f-c-c l-fiv-size">
+            <i-ep-folder-opened class="mr-1" />
+            <span>分类：</span>
+          </div>
+          <div v-for="(item, index) in writingProps.sorts" class="l-fiv-size" :class="{ 'mr-2': index !== writingProps.sorts.length - 1 }">
+            <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/sort/p/' + item.href, router })">
+              {{ item.text }}
+            </LTag>
           </div>
         </div>
-        <div class="l-writing__prev-next mt-10 l-fiv-size">
-          <div class="prev hover f-c-s mb-2" v-if="prevNext.prev.href">
-            <i-ep-d-arrow-left />
-            <a class="hover l-pri-color" :href="prevNext.prev.href"> 上一篇：{{ prevNext.prev.text }} </a>
+        <div class="f-c-s flex-wrap" v-if="writingProps.tags.length > 0">
+          <div class="f-c-c l-fiv-size">
+            <i-ep-price-tag class="mr-1" />
+            <span>标签：</span>
           </div>
-          <div class="next hover f-c-s" v-if="prevNext.next.href">
-            <i-ep-d-arrow-right />
-            <a class="hover l-pri-color" :href="prevNext.next.href"> 下一篇：{{ prevNext.next.text }} </a>
-          </div>
-        </div>
-        <div class="l-writing__viewpoint my-10 f-c-e">
-          <div class="mr-5">
-            <el-button plain @click="vote('Digg')">
-              点赞 {{ viewPoint.diggCount }}
-              <template #icon>
-                <i-ep-caret-top />
-              </template>
-            </el-button>
-          </div>
-          <div>
-            <el-button plain @click="vote('Bury')">
-              反对 {{ viewPoint.buryCount }}
-              <template #icon>
-                <i-ep-caret-bottom />
-              </template>
-            </el-button>
+          <div v-for="(item, index) in writingProps.tags" class="l-fiv-size" :class="{ 'mr-2': index !== writingProps.tags.length - 1 }">
+            <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/mark/' + item.text, router })">
+              {{ item.text }}
+            </LTag>
           </div>
         </div>
-        <Comment :post-id="postId" />
-      </template>
-      <template v-else>
-        <div class="modal fixed w-100vw h-100vh top-0 left-0 l-box-bg f-c-c z-9999">
-          <el-form>
-            <el-form-item label="密码：">
-              <el-input show-password type="password" v-model="pwd" placeholder="输入博文阅读密码" />
-            </el-form-item>
-            <el-form-item>
-              <el-button size="small" type="primary" @click="submit">确定</el-button>
-            </el-form-item>
-          </el-form>
+      </div>
+      <div class="l-writing__content mt-8 l-thr-size" v-html="writing.content" v-hljs v-catalog v-mathjax></div>
+      <Highslide />
+      <Catalog />
+      <div class="divider flex-col"></div>
+      <div class="l-writing__bdesc l-sec-color f-c-e l-fiv-size">
+        <div class="f-c-c mr-4">
+          <i-ep-clock class="mr-1" />
+          <span>{{ writing.date }}</span>
         </div>
-      </template>
-    </Card>
-    <template #title>盒子模型设置</template>
-    <template #content>
-      <CodeStyleSetting />
-      <BoxSetting :padding="setting.pages.writing.padding" :margin="setting.pages.writing.margin" />
+        <div class="f-c-c mr-4">
+          <i-ep-view class="mr-1" />
+          <span>{{ writing.view }}次阅读</span>
+        </div>
+        <div class="f-c-c">
+          <i-ep-chat-line-square class="mr-1" />
+          <span>{{ writing.comm }}条评论</span>
+        </div>
+      </div>
+      <div class="l-writing__prev-next mt-10 l-fiv-size">
+        <div class="prev hover f-c-s mb-2" v-if="prevNext.prev.href">
+          <i-ep-d-arrow-left />
+          <a class="hover l-pri-color" :href="prevNext.prev.href"> 上一篇：{{ prevNext.prev.text }} </a>
+        </div>
+        <div class="next hover f-c-s" v-if="prevNext.next.href">
+          <i-ep-d-arrow-right />
+          <a class="hover l-pri-color" :href="prevNext.next.href"> 下一篇：{{ prevNext.next.text }} </a>
+        </div>
+      </div>
+      <div class="l-writing__viewpoint my-10 f-c-e">
+        <div class="mr-5">
+          <el-button plain @click="vote('Digg')">
+            点赞 {{ viewPoint.diggCount }}
+            <template #icon>
+              <i-ep-caret-top />
+            </template>
+          </el-button>
+        </div>
+        <div>
+          <el-button plain @click="vote('Bury')">
+            反对 {{ viewPoint.buryCount }}
+            <template #icon>
+              <i-ep-caret-bottom />
+            </template>
+          </el-button>
+        </div>
+      </div>
+      <Comment :post-id="postId" />
     </template>
-  </ContextMenu>
+    <template v-else>
+      <div class="modal fixed w-100vw h-100vh top-0 left-0 l-box-bg f-c-c z-9999">
+        <el-form>
+          <el-form-item label="密码：">
+            <el-input show-password type="password" v-model="pwd" placeholder="输入博文阅读密码" />
+          </el-form-item>
+          <el-form-item>
+            <el-button size="small" type="primary" @click="submit">确定</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </template>
+  </Card>
 </template>
 
 <style lang="scss">

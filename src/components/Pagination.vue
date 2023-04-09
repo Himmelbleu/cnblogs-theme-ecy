@@ -3,10 +3,6 @@ const props = defineProps({
   count: {
     type: Number,
     required: true
-  },
-  disabled: {
-    type: Boolean,
-    default: false
   }
 });
 
@@ -37,16 +33,16 @@ function nexprChange(elIndex: number) {
 
 <template>
   <div class="l-pagination relative">
-    <div v-if="count" class="sorter hover left z-1 f-c-c rd-l-4" @click="prevChange" v-show="disabled && index !== 1">
+    <div v-if="count" class="sorter hover left z-1 f-c-c rd-l-4" @click="prevChange" v-show="index !== 1">
       <i-ep-arrow-left-bold />
     </div>
     <div class="l-pagination__content">
       <slot name="content" />
     </div>
-    <div v-if="count" class="sorter hover right z-1 f-c-c rd-l-4" @click="nextChange" v-show="disabled && index !== count">
+    <div v-if="count" class="sorter hover right z-1 f-c-c rd-l-4" @click="nextChange" v-show="index !== count">
       <i-ep-arrow-right-bold />
     </div>
-    <div class="l-pagination__bottom f-c-e my-4" :class="{ 'l-box-bg': !setting.card.open }">
+    <div class="l-pagination__bottom f-c-e my-4">
       <Card v-if="count">
         <el-pagination layout="pager, next" :page-count="count" v-model:current-page="index" @current-change="nexprChange" />
       </Card>

@@ -51,14 +51,16 @@ watch(route, async () => {
   <Suspense>
     <LeftCabinet :disabled="ldisabled" />
   </Suspense>
-  <div id="l-content">
+  <div id="l-content" class="l-transition">
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
-      <KeepAlive :include="['Home', 'MarkList', 'Index', 'Calendar']">
-        <Suspense>
-          <component :is="Component" />
-        </Suspense>
-      </KeepAlive>
+      <template v-if="Component">
+        <KeepAlive :include="['Home', 'MarkList', 'Index', 'Calendar']">
+          <Suspense>
+            <component :is="Component" />
+          </Suspense>
+        </KeepAlive>
+      </template>
     </RouterView>
     <div id="l-bottom-nail"></div>
   </div>
@@ -110,6 +112,20 @@ watch(route, async () => {
 
   .l-pro__track.static {
     left: 0;
+  }
+}
+</style>
+
+<style scoped lang="scss">
+.l-transition {
+  animation: transition-animation 0.5s ease-in;
+
+  @keyframes transition-animation {
+    @for $index from 0 to 10 {
+      #{$index * 10%} {
+        opacity: math.div($index, 10);
+      }
+    }
   }
 }
 </style>

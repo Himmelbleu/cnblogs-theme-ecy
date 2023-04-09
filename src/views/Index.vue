@@ -3,7 +3,6 @@ import { getHomeWritingList } from "@/apis/remote-api";
 
 EcyUtils.startLoading();
 
-const setting = EcyUtils.getSetting();
 const listing = shallowRef(await getHomeWritingList(1));
 
 async function fetchData(e: any) {
@@ -23,7 +22,7 @@ onMounted(() => {
 
 <template>
   <div id="l-cover" class="relative h-100vh w-100vw">
-    <div class="z-1 absolute top-0 left-0 h-100% w-100% f-c-c">
+    <div class="z-999 absolute top-0 left-0 h-100% w-100% f-c-c">
       <div>
         <div class="color-white size-2.5rem text-center">Welcome to {{ EcyConfig.blogApp }}'s blog.</div>
         <div class="color-white size-1.2rem text-center mt-4">Time tick away, dream faded away!</div>
@@ -34,26 +33,22 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="wave z-1 absolute bottom-0 left-0 h-75px w-100%">
+    <div class="wave z-999 absolute bottom-0 left-0 h-75px w-100%">
       <div class="wave-1 absolute h-100% w-200%"></div>
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>
-    <div class="cover absolute left-0 top-0 h-100% w-100%">
+    <div class="cover z-99 absolute left-0 top-0 h-100% w-100%">
       <img
-        class="z--1 h-100% w-100%"
+        class="z-9 h-100% w-100%"
         src="https://ts1.cn.mm.bing.net/th/id/R-C.a5cc371a8bcd320e5b82dd1e6f1b4507?rik=Hv3Y78fE8buapg&riu=http%3a%2f%2fpic.vjshi.com%2f2017-06-13%2ff5e5a32b81bd671095ba99e58f4c0c77%2f00002.jpg%3fx-oss-process%3dstyle%2fwatermark&ehk=hZfteTa0hie3%2bwnSaJNBCz4tdtmqHG6NUw8khyOUDC4%3d&risl=&pid=ImgRaw&r=0" />
     </div>
   </div>
   <div id="l-start-nail"></div>
   <div id="l-index" class="page">
     <div class="content">
-      <Pagination @prev="fetchData" @next="fetchData" @nexpr="fetchData" :count="listing.page" :disabled="setting.other.pagation.pin">
+      <Pagination @prev="fetchData" @next="fetchData" @nexpr="fetchData" :count="listing.page">
         <template #content>
-          <WritingItem
-            v-if="listing.data.length > 0"
-            :padding="setting.pages.sort.padding"
-            :margin="setting.pages.sort.margin"
-            :data="listing.data" />
+          <WritingItem v-if="listing.data.length > 0" :data="listing.data" />
         </template>
       </Pagination>
     </div>

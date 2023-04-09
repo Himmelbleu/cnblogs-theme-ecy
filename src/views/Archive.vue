@@ -47,33 +47,27 @@ watch(route, async () => {
 </script>
 
 <template>
-  <ContextMenu>
-    <div id="l-archive" class="min-height">
-      <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="archive.page" :disabled="setting.other.pagation.pin">
-        <template #content>
-          <Card>
-            <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
-              <template #title>
-                <div class="f-c-c">
-                  <i-ep-back />
-                </div>
-              </template>
-              <template #content>
-                <div class="l-sec-size mb-5 mt-4">{{ archive.hint }}</div>
-              </template>
-            </el-page-header>
-          </Card>
-          <WritingItem
-            v-if="archive.data.length > 0"
-            :padding="setting.pages.sort.padding"
-            :margin="setting.pages.sort.margin"
-            :data="archive.data" />
-        </template>
-      </Pagination>
-    </div>
-    <template #title>盒子模型设置</template>
-    <template #content>
-      <BoxSetting :padding="setting.pages.sort.padding" :margin="setting.pages.sort.margin" />
-    </template>
-  </ContextMenu>
+  <div id="l-archive" class="min-height">
+    <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="archive.page" :disabled="setting.other.pagation.pin">
+      <template #content>
+        <Card>
+          <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+            <template #title>
+              <div class="f-c-c">
+                <i-ep-back />
+              </div>
+            </template>
+            <template #content>
+              <div class="l-sec-size mb-5 mt-4">{{ archive.hint }}</div>
+            </template>
+          </el-page-header>
+        </Card>
+        <WritingItem
+          v-if="archive.data.length > 0"
+          :padding="setting.pages.sort.padding"
+          :margin="setting.pages.sort.margin"
+          :data="archive.data" />
+      </template>
+    </Pagination>
+  </div>
 </template>

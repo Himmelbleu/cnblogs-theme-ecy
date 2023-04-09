@@ -25,40 +25,8 @@ export namespace EcyUtils {
     return {
       theme: { mode: "dark", color: "#409eff" },
       toolkits: { pin: true },
-      pages: {
-        home: {
-          padding: { left: 1, right: 1, top: 1, bottom: 1 },
-          margin: { left: 0, right: 0, top: 0, bottom: 1 }
-        },
-        writing: {
-          code: { light: { color: "#f2f2f2" }, dark: { color: "#222222" } },
-          padding: { left: 1, right: 1, top: 1, bottom: 1 },
-          margin: { left: 0, right: 0, top: 0, bottom: 1 }
-        },
-        markList: {
-          padding: { left: 0, right: 0, top: 0, bottom: 0 },
-          margin: { left: 0, right: 0, top: 0, bottom: 0 }
-        },
-        markSort: {
-          padding: { left: 1, right: 1, top: 1, bottom: 1 },
-          margin: { left: 0, right: 0, top: 0, bottom: 1 }
-        },
-        gallery: {
-          padding: { left: 1, right: 1, top: 1, bottom: 1 },
-          margin: { left: 0, right: 0, top: 0, bottom: 0 }
-        },
-        sort: {
-          padding: { left: 1, right: 1, top: 1, bottom: 1 },
-          margin: { left: 0, right: 0, top: 0, bottom: 1 }
-        }
-      },
-      font: {
-        size: { level1: 1.3, level2: 1.2, level3: 1.1, level4: 1, level5: 0.9, level6: 0.8 },
-        light: { color: { level1: "#393939", level2: "#4e4e4e", level3: "#707070" } },
-        dark: { color: { level1: "#a7a7a7", level2: "#8d9095", level3: "#878787" } }
-      },
       content: {
-        width: 50,
+        width: 60,
         padding: { left: 0, right: 0, top: 0, bottom: 0 },
         margin: { left: 0, right: 0, top: 0, bottom: 0 }
       },
@@ -74,16 +42,7 @@ export namespace EcyUtils {
           推荐书籍: { open: true, show: true }
         },
         width: 17.5
-      },
-      background: { open: false, filter: 6, src: "" },
-      card: {
-        color: "rgba(31, 31, 31, 1)",
-        open: false,
-        radius: 10,
-        padding: { left: 1, right: 1, top: 1, bottom: 1 },
-        margin: { left: 0, right: 1, top: 0, bottom: 1 }
-      },
-      other: { github: { position: "left" }, pagation: { pin: true } }
+      }
     };
   }
 

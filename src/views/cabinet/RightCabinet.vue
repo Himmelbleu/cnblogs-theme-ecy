@@ -27,68 +27,49 @@ const fixed = computed(() => {
 </script>
 
 <template>
-  <ContextMenu
+  <Card
     id="l-rcabinet"
+    style="width: var(--cabinet-width)"
     :style="{ right: right }"
-    class="fixed top-0 right-0"
+    class="noscroll l-fiv-size h-100vh ofw-auto fixed top-0 right-0"
     :class="{ 'show-rcabinet z-4': block, 'hidden-rcabinet': hidden, 'fixed-rcabinet': fixed }"
-    style="width: var(--cabinet-width)">
-    <Card
-      class="noscroll l-fiv-size h-100vh ofw-auto"
-      :class="{ 'l-box-bg px-2': !setting.card.open }"
-      :padding="setting.cabinet.right.padding"
-      :margin="setting.cabinet.right.margin">
-      <ExpandableBox text="我的技术栈" v-if="EcyConfig.__ECY_CONFIG__.graph">
-        <template #icon>
-          <i-ep-aim />
-        </template>
-        <SkillGraph />
-      </ExpandableBox>
-      <ExpandableBox text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.links && EcyConfig.__ECY_CONFIG__.links.length">
-        <template #icon>
-          <i-ep-link />
-        </template>
-        <a class="hover block mb-3" v-for="item in EcyConfig.__ECY_CONFIG__.links" :href="item.href" target="_blank">
-          {{ item.text }}
-        </a>
-      </ExpandableBox>
-      <ExpandableBox text="推荐书籍" v-if="EcyConfig.__ECY_CONFIG__.books && EcyConfig.__ECY_CONFIG__.books.length">
-        <template #icon>
-          <i-ep-notebook />
-        </template>
-        <div class="mb-3 f-c-b" v-for="item in EcyConfig.__ECY_CONFIG__.books">
-          <img class="h-25 w-20" :src="item.img" alt="FAILED" />
-          <div style="width: calc(100% - 6rem)">
-            <div class="mb-1" v-if="!item.href">
-              <span>{{ item.text }}</span>
-            </div>
-            <div class="mb-2" v-else>
-              <a class="hover" target="_blank" :href="item.href">
-                {{ item.text }}
-              </a>
-            </div>
-            <div class="mb-1">{{ item.author }}</div>
-            <el-rate style="width: 100%" v-model="item.rate" disabled size="small" />
+    :padding="setting.cabinet.right.padding"
+    :margin="setting.cabinet.right.margin">
+    <ExpandableBox text="我的技术栈" v-if="EcyConfig.__ECY_CONFIG__.graph">
+      <template #icon>
+        <i-ep-aim />
+      </template>
+      <SkillGraph />
+    </ExpandableBox>
+    <ExpandableBox text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.links && EcyConfig.__ECY_CONFIG__.links.length">
+      <template #icon>
+        <i-ep-link />
+      </template>
+      <a class="hover block mb-3" v-for="item in EcyConfig.__ECY_CONFIG__.links" :href="item.href" target="_blank">
+        {{ item.text }}
+      </a>
+    </ExpandableBox>
+    <ExpandableBox text="推荐书籍" v-if="EcyConfig.__ECY_CONFIG__.books && EcyConfig.__ECY_CONFIG__.books.length">
+      <template #icon>
+        <i-ep-notebook />
+      </template>
+      <div class="mb-3 f-c-b" v-for="item in EcyConfig.__ECY_CONFIG__.books">
+        <img class="h-25 w-20" :src="item.img" alt="FAILED" />
+        <div style="width: calc(100% - 6rem)">
+          <div class="mb-1" v-if="!item.href">
+            <span>{{ item.text }}</span>
           </div>
+          <div class="mb-2" v-else>
+            <a class="hover" target="_blank" :href="item.href">
+              {{ item.text }}
+            </a>
+          </div>
+          <div class="mb-1">{{ item.author }}</div>
+          <el-rate style="width: 100%" v-model="item.rate" disabled size="small" />
         </div>
-      </ExpandableBox>
-    </Card>
-    <template #title> 右陈列柜设置 </template>
-    <template #content>
-      <el-collapse v-model="collapseActive" accordion>
-        <el-collapse-item title="统一设置">
-          <div class="ml-4">
-            <CabinetSetting />
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="盒子模型">
-          <div class="ml-4">
-            <BoxSetting :padding="setting.cabinet.right.padding" :margin="setting.cabinet.right.margin" />
-          </div>
-        </el-collapse-item>
-      </el-collapse>
-    </template>
-  </ContextMenu>
+      </div>
+    </ExpandableBox>
+  </Card>
 </template>
 
 <style scoped lang="scss">

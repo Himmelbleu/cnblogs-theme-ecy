@@ -41,10 +41,8 @@ export namespace EcyConfig {
 
     $("html").attr("class", setting.theme.mode);
     $("html").css({
-      "--l-theme-color": setting.theme.color,
       "--cabinet-width": `${setting.cabinet.width}rem`,
-      "--content-width": `${setting.content.width}vw`,
-      "--l-bg-filter": `${setting.background.filter}px`
+      "--content-width": `${setting.content.width}vw`
     });
   }
 
@@ -55,12 +53,8 @@ export namespace EcyConfig {
    */
   export function useLite(dev: Function, pro: Function) {
     $("body").append(`<div id="app"></div>`);
-    $("body").append(`<div id="l-menu-container"></div>`);
     $("head").append(`<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css" />`);
-
-    window.oncontextmenu = () => {
-      return false;
-    };
+    $("head").append(` <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/amutham"  />`);
 
     if (import.meta.env.PROD) {
       blogId = currentBlogId;
