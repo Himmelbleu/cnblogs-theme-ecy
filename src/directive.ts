@@ -124,7 +124,7 @@ export function useDirective(Vue: any) {
         .each((i, e) => {
           const id = $(e).attr("id");
           const type: string = $(e)[0].localName;
-          const level = EcyConfig.__ECY_CONFIG__.catalog?.level;
+          const level = EcyConfig.__ECY_CONFIG__.other?.catalog?.level;
           let content = ``;
           item = `${$(e).text()}`;
 

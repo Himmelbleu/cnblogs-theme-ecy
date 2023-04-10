@@ -14,15 +14,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card border :padding="setting.pages.markList.padding" :margin="setting.pages.markList.margin">
-    <div id="l-tags" class="min-height">
+  <div class="page z-9 relative mt-4">
+    <div id="l-tags" class="content min-height">
       <LTag round hover line="dotted" class="item mb-4" v-for="item of markList">
         <div class="f-c-c w-100% h-100%">
           <router-link :to="'/mark/' + item.text"> {{ item.text }} ({{ item.count }}) </router-link>
         </div>
       </LTag>
     </div>
-  </Card>
+  </div>
 </template>
 
 <style scoped lang="scss">

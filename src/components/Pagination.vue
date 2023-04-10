@@ -7,8 +7,6 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["next", "prev", "nexpr"]);
-
-const setting = EcyUtils.getSetting();
 const index = ref(1);
 
 function nextChange() {
@@ -32,20 +30,18 @@ function nexprChange(elIndex: number) {
 </script>
 
 <template>
-  <div class="l-pagination relative">
-    <div v-if="count" class="sorter hover left z-1 f-c-c rd-l-4" @click="prevChange" v-show="index !== 1">
+  <div class="pagination relative">
+    <div class="sorter hover left z-1 f-c-c rd-l-4" @click="prevChange" v-show="index !== 1 && count">
       <i-ep-arrow-left-bold />
     </div>
-    <div class="l-pagination__content">
+    <div class="content">
       <slot name="content" />
     </div>
-    <div v-if="count" class="sorter hover right z-1 f-c-c rd-l-4" @click="nextChange" v-show="index !== count">
+    <div class="sorter hover right z-1 f-c-c rd-l-4" @click="nextChange" v-show="index !== count && count">
       <i-ep-arrow-right-bold />
     </div>
-    <div class="l-pagination__bottom f-c-e my-4">
-      <Card v-if="count">
-        <el-pagination layout="pager, next" :page-count="count" v-model:current-page="index" @current-change="nexprChange" />
-      </Card>
+    <div v-if="count" class="bottom f-c-e my-4">
+      <el-pagination layout="pager, next" :page-count="count" v-model:current-page="index" @current-change="nexprChange" />
     </div>
   </div>
 </template>
@@ -68,11 +64,11 @@ function nexprChange(elIndex: number) {
   }
 
   .sorter.left {
-    left: calc(calc(calc(100vw - var(--content-width)) / 2) - 2.6rem);
+    left: calc(calc(calc(100vw - var(--content-width)) / 2) - 4rem);
   }
 
   .sorter.right {
-    right: calc(calc(calc(100vw - var(--content-width)) / 2) - 2.6rem);
+    right: calc(calc(calc(100vw - var(--content-width)) / 2) - 4rem);
   }
 }
 </style>

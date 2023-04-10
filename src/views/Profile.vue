@@ -20,8 +20,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card class="l-profile min-height l-fiv-size">
-    <div class="l-profile__content">
+  <div class="l-profile min-height mt-4 l-fiv-size relative page z-9">
+    <div class="content">
       <div class="mb-6 f-s-c">
         <div class="w-40%">
           <div class="mb-6">
@@ -110,7 +110,7 @@ onMounted(() => {
             </div>
           </div>
           <div v-if="!EcyConfig.__ECY_CONFIG__.nameplate.photo.disabled">
-            <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Get Started</el-button>
+            <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Go Index</el-button>
             <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts/edit' })">新建随笔</el-button>
             <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts' })">管理博客</el-button>
           </div>
@@ -140,7 +140,7 @@ onMounted(() => {
             </div>
           </div>
           <div v-else>
-            <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Get Started</el-button>
+            <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Go Index</el-button>
             <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts/edit' })">新建随笔</el-button>
             <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts' })">管理博客</el-button>
           </div>
@@ -161,7 +161,7 @@ onMounted(() => {
           </div>
         </div>
         <div class="mb-6">
-          <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Get Started</el-button>
+          <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Go Index</el-button>
           <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts/edit' })">新建随笔</el-button>
           <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts' })">管理博客</el-button>
         </div>
@@ -207,7 +207,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-  </Card>
+  </div>
 </template>
 
 <style scoped lang="scss">

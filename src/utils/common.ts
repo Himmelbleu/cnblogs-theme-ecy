@@ -3,7 +3,6 @@
  *
  * @author Himmelbleu
  * @date 2022 年 12 月 1 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 
 import $ from "jquery";
@@ -26,7 +25,7 @@ export namespace EcyUtils {
       theme: { mode: "dark", color: "#409eff" },
       toolkits: { pin: true },
       content: {
-        width: 60,
+        width: 55,
         padding: { left: 0, right: 0, top: 0, bottom: 0 },
         margin: { left: 0, right: 0, top: 0, bottom: 0 }
       },

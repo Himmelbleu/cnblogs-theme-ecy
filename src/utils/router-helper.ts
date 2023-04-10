@@ -3,7 +3,6 @@
  *
  * @author Himmelbleu
  * @date 2022 年 12 月 1 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 
 import { useAnchorStore } from "@/store";
@@ -14,7 +13,7 @@ export enum name {
   // 铭牌
   Profile = "Profile",
   // 文章或随笔
-  Writing = "Writing",
+  Works = "Works",
   // 分类
   Sort = "Sort",
   // 档案
@@ -32,9 +31,9 @@ export enum name {
 }
 
 const regexp = {
-  EssayList: /\/p\/\d+.html/g,
-  EssaySort: /\/category\/\d+/g,
-  EssayMark: /\/tag\/[\w\s\u4e00-\u9fa5\n.\-|_]+/g,
+  WorksList: /\/p\/\d+.html/g,
+  WorksSort: /\/category\/\d+/g,
+  WorksMark: /\/tag\/[\w\s\u4e00-\u9fa5\n.\-|_]+/g,
   AlbumnItem: /\/gallery\/image\/\d+/g
 };
 
@@ -66,21 +65,21 @@ export function redirect(next: any): () => void {
   let nextParam: any;
   const URL = window.location.href;
 
-  if (regexp.EssayList.test(URL)) {
-    const postId = URL.match(regexp.EssayList)[0].split("/")[2].split(".")[0];
+  if (regexp.WorksList.test(URL)) {
+    const postId = URL.match(regexp.WorksList)[0].split("/")[2].split(".")[0];
     setCommentAnchor(URL);
     nextParam = {
-      name: name.Writing,
+      name: name.Works,
       params: { id: postId }
     };
-  } else if (regexp.EssaySort.test(URL)) {
-    const sortId = URL.match(regexp.EssaySort)[0].split("/")[2].split(",")[0];
+  } else if (regexp.WorksSort.test(URL)) {
+    const sortId = URL.match(regexp.WorksSort)[0].split("/")[2].split(",")[0];
     nextParam = {
       name: name.Sort,
       params: { id: sortId }
     };
-  } else if (regexp.EssayMark.test(URL)) {
-    const tag = decodeURI(URL).match(regexp.EssayMark)[0].split("/")[2];
+  } else if (regexp.WorksMark.test(URL)) {
+    const tag = decodeURI(URL).match(regexp.WorksMark)[0].split("/")[2];
     nextParam = {
       name: name.MarkSort,
       params: { tag }

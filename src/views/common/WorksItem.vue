@@ -6,9 +6,8 @@ defineProps({
   }
 });
 
-const imgs = EcyConfig.__ECY_CONFIG__.covers || [
+const imgs = EcyConfig.__ECY_CONFIG__.covers.index || [
   "https://ts1.cn.mm.bing.net/th/id/R-C.4badb6d27851e519a24790386aef6461?rik=uUXkfL%2fVF6UAGg&riu=http%3a%2f%2fimg.mm4000.com%2ffile%2f4%2f31%2f603a19da02.jpg&ehk=Bxq7oNn5fHirjNU9QApEzGfPFIS7%2fchUXN1hFaEhvY0%3d&risl=&pid=ImgRaw&r=0",
-  "https://ts1.cn.mm.bing.net/th/id/R-C.014f24d6b88fd514e2b1af258d8a81d5?rik=6wL2a8nnVycIPw&riu=http%3a%2f%2fimgs.aixifan.com%2flive%2f1483601927981%2f1483601927981.jpg&ehk=WU5Hx0ObWJViv5UnNB9nVGQTxxocVpGrOKKzvJATbyk%3d&risl=&pid=ImgRaw&r=0",
   "https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"
 ];
 
@@ -45,9 +44,9 @@ const router = useRouter();
       </div>
       <div class="hover f-c-s mt-6 l-fiv-size">
         <i-ep-caret-right />
-        <router-link class="ml-0.5 b-b-1 b-b-dotted p-b-0.3" :to="'/p/' + item.id"> 阅读全文 </router-link>
+        <router-link class="ml-1 b-b-1 b-b-dotted p-b-0.5" :to="'/p/' + item.id"> 阅读全文 </router-link>
       </div>
-      <div class="mt-4" :class="{ 'f-c-s': index % 2 === 0, 'f-c-e': index % 2 !== 0 }">
+      <div class="mt-4 f-c-e">
         <div class="l-fiv-size l-sec-color f-c-c">
           <i-ep-clock class="mr-1" />
           {{ item.date }}

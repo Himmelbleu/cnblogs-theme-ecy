@@ -239,14 +239,19 @@ declare namespace CustType {
    * 博客配置项
    */
   interface IEcy {
-    // github
-    github?: string;
     // 网站 icon
     icon?: string;
-    // 侧边栏配置项
-    cabinet?: { avatar?: string; signature?: string };
-    // 目录配置项
-    catalog?: { level?: boolean };
+    // 陈列柜
+    cabinet?: {
+      // 头像
+      avatar?: string;
+      // 个性签名
+      signature?: string;
+      // 推荐链接
+      links?: { href: string; text: string }[];
+      // 推荐书籍
+      books?: { href?: string; text: string; img: string; author: string; rate: number }[];
+    };
     // 铭牌
     nameplate?: {
       tags?: string[];
@@ -257,9 +262,12 @@ declare namespace CustType {
       gossip?: string;
       photo?: { disabled: boolean; src?: string[] };
     };
-    // 随笔封面
-    covers?: string[];
-    // 技能栈配置项
+    covers?: {
+      index?: string[];
+      works?: string[];
+      app?: string[];
+    };
+    // 技能雷达
     graph?: {
       strokeColor?: string;
       alpha?: number;
@@ -271,10 +279,12 @@ declare namespace CustType {
       textColor?: string;
       data?: { title: string; star: number }[];
     };
-    // 我的链接配置项
-    links?: { href: string; text: string }[];
-    // 推荐书籍配置项
-    books?: { href?: string; text: string; img: string; author: string; rate: number }[];
+    other?: {
+      // 目录配置项
+      catalog?: { level?: boolean };
+      // github
+      github?: string;
+    };
   }
 
   type ToggleType = Record<string, { open: boolean; show: boolean }>;

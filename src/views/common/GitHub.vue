@@ -1,15 +1,5 @@
-<script setup lang="ts">
-const setting = EcyUtils.getSetting();
-</script>
-
 <template>
-  <a
-    id="l-github"
-    class="fixed top-0 w-15 h-15 border-0 z-1"
-    :style="{ transform: setting.other.github.position === 'right' ? 'rotate(90deg)' : 'rotate(0deg)' }"
-    :class="{ 'left-0': setting.other.github.position === 'left', 'right-0': setting.other.github.position === 'right' }"
-    :href="EcyConfig.__ECY_CONFIG__.github"
-    target="_blank">
+  <a id="l-github" class="fixed top-0 w-15 h-15 border-0 z-1" :href="EcyConfig.__ECY_CONFIG__.other?.github || ''" target="_blank">
     <svg viewBox="0 0 250 250" style="color: #fff">
       <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
       <path

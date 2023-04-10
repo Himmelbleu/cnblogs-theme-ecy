@@ -24,7 +24,7 @@ function changeDayTime() {
 </script>
 
 <template>
-  <div id="l-toolkits" class="fixed right-15 top-65vh l-thr-size z-1">
+  <div id="l-toolkits" class="fixed z-99 right-15 top-65vh l-thr-size z-1">
     <div class="relative">
       <div
         :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"

@@ -27,33 +27,30 @@ const fixed = computed(() => {
 </script>
 
 <template>
-  <Card
+  <div
     id="l-rcabinet"
     style="width: var(--cabinet-width)"
-    :style="{ right: right }"
-    class="noscroll l-fiv-size h-100vh ofw-auto fixed top-0 right-0"
-    :class="{ 'show-rcabinet z-4': block, 'hidden-rcabinet': hidden, 'fixed-rcabinet': fixed }"
-    :padding="setting.cabinet.right.padding"
-    :margin="setting.cabinet.right.margin">
+    class="noscroll z-99 l-fiv-size h-100vh ofw-auto fixed top-0 right-0 bg-#191919 p-3"
+    :class="{ 'show-rcabinet z-9': block, 'hidden-rcabinet': hidden, 'fixed-rcabinet': fixed }">
     <ExpandableBox text="我的技术栈" v-if="EcyConfig.__ECY_CONFIG__.graph">
       <template #icon>
         <i-ep-aim />
       </template>
       <SkillGraph />
     </ExpandableBox>
-    <ExpandableBox text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.links && EcyConfig.__ECY_CONFIG__.links.length">
+    <ExpandableBox text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.cabinet.links && EcyConfig.__ECY_CONFIG__.cabinet.links.length">
       <template #icon>
         <i-ep-link />
       </template>
-      <a class="hover block mb-3" v-for="item in EcyConfig.__ECY_CONFIG__.links" :href="item.href" target="_blank">
+      <a class="hover block mb-3" v-for="item in EcyConfig.__ECY_CONFIG__.cabinet.links" :href="item.href" target="_blank">
         {{ item.text }}
       </a>
     </ExpandableBox>
-    <ExpandableBox text="推荐书籍" v-if="EcyConfig.__ECY_CONFIG__.books && EcyConfig.__ECY_CONFIG__.books.length">
+    <ExpandableBox text="推荐书籍" v-if="EcyConfig.__ECY_CONFIG__.cabinet.books && EcyConfig.__ECY_CONFIG__.cabinet.books.length">
       <template #icon>
         <i-ep-notebook />
       </template>
-      <div class="mb-3 f-c-b" v-for="item in EcyConfig.__ECY_CONFIG__.books">
+      <div class="mb-3 f-c-b" v-for="item in EcyConfig.__ECY_CONFIG__.cabinet.books">
         <img class="h-25 w-20" :src="item.img" alt="FAILED" />
         <div style="width: calc(100% - 6rem)">
           <div class="mb-1" v-if="!item.href">
@@ -69,7 +66,7 @@ const fixed = computed(() => {
         </div>
       </div>
     </ExpandableBox>
-  </Card>
+  </div>
 </template>
 
 <style scoped lang="scss">

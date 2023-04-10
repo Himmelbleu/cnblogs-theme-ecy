@@ -15,24 +15,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="l-albumn-item" class="min-height">
-    <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
-      <template #title>
-        <div class="f-c-c">
-          <i-ep-back />
-        </div>
-      </template>
-      <template #content>
-        <div class="l-sec-size mb-5 mt-4">我的照片</div>
-      </template>
-    </el-page-header>
-    <div class="f-c-c">
-      <el-image class="albumn-item" :src="imgUrl" :preview-src-list="[imgUrl]" />
-      <el-result v-if="!imgUrl" icon="error" title="图片加载失败" sub-title="图片可能从相册移除">
-        <template #extra>
-          <el-button @click="router.push('/')" type="primary">返回首页</el-button>
+  <div id="l-albumn-item" class="min-height z-9 page">
+    <div class="content">
+      <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+        <template #title>
+          <div class="f-c-c">
+            <i-ep-back />
+          </div>
         </template>
-      </el-result>
+        <template #content>
+          <div class="l-sec-size mb-5 mt-4">我的照片</div>
+        </template>
+      </el-page-header>
+      <div class="f-c-c">
+        <el-image class="albumn-item" :src="imgUrl" :preview-src-list="[imgUrl]" />
+        <el-result v-if="!imgUrl" icon="error" title="图片加载失败" sub-title="图片可能从相册移除">
+          <template #extra>
+            <el-button @click="router.push('/')" type="primary">返回首页</el-button>
+          </template>
+        </el-result>
+      </div>
     </div>
   </div>
 </template>

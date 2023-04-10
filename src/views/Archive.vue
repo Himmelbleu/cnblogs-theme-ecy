@@ -47,27 +47,25 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div id="l-archive" class="min-height">
-    <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="archive.page" :disabled="setting.other.pagation.pin">
-      <template #content>
-        <Card>
-          <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
-            <template #title>
-              <div class="f-c-c">
-                <i-ep-back />
-              </div>
-            </template>
-            <template #content>
-              <div class="l-sec-size mb-5 mt-4">{{ archive.hint }}</div>
-            </template>
-          </el-page-header>
-        </Card>
-        <WritingItem
-          v-if="archive.data.length > 0"
-          :padding="setting.pages.sort.padding"
-          :margin="setting.pages.sort.margin"
-          :data="archive.data" />
-      </template>
-    </Pagination>
+  <div id="l-archive" class="min-height z-9 page">
+    <div class="content">
+      <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="archive.page">
+        <template #content>
+          <Card>
+            <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+              <template #title>
+                <div class="f-c-c">
+                  <i-ep-back />
+                </div>
+              </template>
+              <template #content>
+                <div class="l-sec-size mb-5 mt-4">{{ archive.hint }}</div>
+              </template>
+            </el-page-header>
+          </Card>
+          <WorksItem v-if="archive.data.length > 0" :data="archive.data" />
+        </template>
+      </Pagination>
+    </div>
   </div>
 </template>

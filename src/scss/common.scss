@@ -3,7 +3,6 @@
  *
  * @author Himmelbleu
  * @date 2023 年 1 月 15 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 @import "./mixins.scss";
 
@@ -82,7 +81,7 @@
 
 @include pc() {
   .page {
-    --uno: f-c-c;
+    --uno: f-s-c;
 
     & > .content {
       width: var(--content-width);

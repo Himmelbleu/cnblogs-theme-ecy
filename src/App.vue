@@ -29,6 +29,15 @@ onMounted(() => {
   };
 });
 
+const imgs = EcyConfig.__ECY_CONFIG__.covers.app || [
+  "https://ts1.cn.mm.bing.net/th/id/R-C.4badb6d27851e519a24790386aef6461?rik=uUXkfL%2fVF6UAGg&riu=http%3a%2f%2fimg.mm4000.com%2ffile%2f4%2f31%2f603a19da02.jpg&ehk=Bxq7oNn5fHirjNU9QApEzGfPFIS7%2fchUXN1hFaEhvY0%3d&risl=&pid=ImgRaw&r=0",
+  "https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"
+];
+
+function randomSurface() {
+  return imgs[Math.floor(Math.random() * imgs.length)];
+}
+
 watch(route, async () => {
   if (route.name === "Index" || route.name === "EssayList") {
     document.querySelector("title").innerText = `${EcyConfig.blogApp} - 博客园`;
@@ -37,20 +46,34 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div id="l-progress" class="z-99 fixed left-0 top-0 w-100vw">
-    <div class="l-pro__track absolute top-0">
-      <div class="l-pro__bar rd-2"></div>
+  <div class="l-tools">
+    <div id="l-progress" class="z-99999 fixed left-0 top-0 w-100vw">
+      <div class="l-pro__track absolute top-0">
+        <div class="l-pro__bar rd-2"></div>
+      </div>
     </div>
+    <div id="l-matte" class="fixed z-99 top-0 left-0 z-3 l-matee-bg" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
+    <ToolKits />
+    <GitHub />
+    <div id="l-background" class="fixed left-0 top-0 w-100vw h-100vh">
+      <div class="w-100% h-100% relative">
+        <div class="opacity-96 absolute left-0 top-0 w-100% h-100% bg-#191919"></div>
+        <img class="w-100% h-100% rd-0" :src="randomSurface()" />
+      </div>
+    </div>
+    <div
+      id="l-lstrip"
+      v-show="!setting.cabinet.left.pin"
+      class="z-99 fixed left-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
+    <Suspense>
+      <LeftCabinet :disabled="ldisabled" />
+    </Suspense>
+    <div
+      id="l-rstrip"
+      v-show="!setting.cabinet.right.pin"
+      class="z-99 fixed right-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
+    <RightCabinet :disabled="rdisabled" />
   </div>
-  <div id="l-matte" class="fixed top-0 left-0 z-3 l-matee-bg" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
-  <ToolKits />
-  <div
-    id="l-lstrip"
-    v-show="!setting.cabinet.left.pin"
-    class="fixed z-2 left-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
-  <Suspense>
-    <LeftCabinet :disabled="ldisabled" />
-  </Suspense>
   <div id="l-content" class="l-transition">
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
@@ -64,11 +87,6 @@ watch(route, async () => {
     </RouterView>
     <div id="l-bottom-nail"></div>
   </div>
-  <div
-    id="l-rstrip"
-    v-show="!setting.cabinet.right.pin"
-    class="fixed z-2 right-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
-  <RightCabinet :disabled="rdisabled" />
 </template>
 
 <style lang="scss">

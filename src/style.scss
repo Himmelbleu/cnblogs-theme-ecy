@@ -6,7 +6,6 @@
  *
  * @author Himmelbleu
  * @date 2023 年 2 月 14 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 html[class="dark"] {
   // 盒子背景颜色
@@ -19,6 +18,7 @@ html[class="dark"] {
   --l-matee-bg: #0d0d0d8f;
   // strip 条背景颜色
   --l-strip-bg: #7f7f7f;
+  --l-code-bg: #222222;
   // 隐藏代码块 modal
   --l-code-hidden: #2e2e2e;
   --l-theme-color: #409eff;
@@ -55,8 +55,19 @@ html[class="light"] {
   --l-matee-bg: #0d0d0d8f;
   // strip 条背景颜色
   --l-strip-bg: #d5d5d5;
+  --l-code-bg: #222222;
   // 隐藏代码块 modal
   --l-code-hidden: #e0e0e0;
+  --l-theme-color: #409eff;
+  --l-pri-color: #a7a7a7;
+  --l-sec-color: #8d9095;
+  --l-thr-color: #878787;
+  --l-pri-size: 1.3rem;
+  --l-sec-size: 1.2rem;
+  --l-thr-size: 1.1rem;
+  --l-for-size: 1rem;
+  --l-fiv-size: 0.9rem;
+  --l-six-size: 0.8rem;
   // highlight
   --hljs-color: #383a42;
   --hljs-bg: #fafafa;
@@ -75,7 +86,6 @@ html[class="light"] {
  *
  * @author Himmelbleu
  * @date 2023 年 2 月 14 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 html,
 body {
@@ -119,7 +129,6 @@ a:link {
  *
  * @author Himmelbleu
  * @date 2023 年 1 月 15 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 
 :root {
@@ -144,7 +153,6 @@ a:link {
  *
  * @author Himmelbleu
  * @date 2023 年 1 月 15 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 :root {
   --el-text-color-regular: var(--l-pri-color) !important;
@@ -166,7 +174,6 @@ a:link {
  *
  * @author Himmelbleu
  * @date 2023 年 1 月 16 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 .hljs {
   padding: 1rem;

@@ -113,8 +113,7 @@ declare module '@vue/runtime-core' {
     SkillGraph: typeof import('./src/views/common/skillgraph/SkillGraph.vue')['default']
     Sort: typeof import('./src/views/Sort.vue')['default']
     ToolKits: typeof import('./src/views/common/ToolKits.vue')['default']
-    Writing: typeof import('./src/views/Writing.vue')['default']
-    WritingItem: typeof import('./src/views/common/WritingItem.vue')['default']
-    WritingSynopsis: typeof import('./src/views/common/WritingSynopsis.vue')['default']
+    Works: typeof import('./src/views/Works.vue')['default']
+    WorksItem: typeof import('./src/views/common/WorksItem.vue')['default']
   }
 }

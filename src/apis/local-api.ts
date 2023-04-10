@@ -3,7 +3,6 @@
  *
  * @author Himmelbleu
  * @date 2022 年 1 月 14 日
- * @url https://www.cnblogs.com/Himmelbleu/#/
  */
 
 import $ from "jquery";

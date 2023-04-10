@@ -77,6 +77,50 @@ export namespace EcyConfig {
         cabinet: {
           signature: "Time tick away, dream faded away!"
         },
+        covers: {
+          app: [
+            // 间谍
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg",
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptjk8obj32y31wwnlv.jpg",
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptwnz55j337f1yib2e.jpg",
+            //
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h4smbf7pn8j31cw0qcn76.jpg"
+          ],
+          works: [
+            // 间谍
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg",
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptjk8obj32y31wwnlv.jpg",
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptwnz55j337f1yib2e.jpg",
+            //
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h4smbf7pn8j31cw0qcn76.jpg"
+          ],
+          index: [
+            // 间谍
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg",
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptjk8obj32y31wwnlv.jpg",
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptwnz55j337f1yib2e.jpg",
+            //
+            "https://gzw.sinaimg.cn/large/0073YlnVgy1h4smbf7pn8j31cw0qcn76.jpg"
+          ]
+        },
+        graph: {
+          alpha: 0.85,
+          sides: 9,
+          layer: 6,
+          lineWidth: 1,
+          textSize: 0.8,
+          data: [
+            { title: "scss", star: 5 },
+            { title: "vue3", star: 5 },
+            { title: "vite", star: 4 },
+            { title: "js", star: 5 },
+            { title: "ts", star: 4 },
+            { title: "C", star: 2 },
+            { title: "react", star: 2 },
+            { title: "uniapp", star: 5 },
+            { title: "java", star: 4 }
+          ]
+        },
         nameplate: {
           tags: ["Web 前端", "二次元", "简约", "拖延症", "吸猫"],
           connection: [

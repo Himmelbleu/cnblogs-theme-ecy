@@ -117,7 +117,7 @@ function drawDataArea(radius: any, coords: any, x: any, y: any, config: any, ctx
   ctx.fill();
 
   drawDataAreaTop(axis, ctx);
-  drawFloatingPanel(axis);
+  // drawFloatingPanel(axis);
 }
 
 /**
@@ -176,14 +176,14 @@ export function calcSize(sideWidthVw: number) {
   return (sideWidthVw / 100) * window.innerWidth;
 }
 
-export function useSkillGraph(vw: number, color: string, config: any) {
+export function useSkillGraph(vw: number, graph: HTMLCanvasElement, config: any) {
   if (config) {
-    fillColor = color;
+    fillColor = "#409effde";
     strokeColor = config.strokeColor || "#a7a7a7";
     config.textColor = config.textColor || "#a7a7a7";
     config.lineColor = config.textColor || "#a7a7a7";
     // @ts-ignore
-    const ctx = document.getElementById("graph").getContext("2d");
+    const ctx = graph.getContext("2d");
     drawRadarMap(config, vw, vw, ctx);
   }
   return vw;

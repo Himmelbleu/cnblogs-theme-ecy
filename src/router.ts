@@ -13,9 +13,9 @@ const routes = [
     component: () => import("@/views/Profile.vue")
   },
   {
-    name: name.Writing,
+    name: name.Works,
     path: "/p/:id",
-    component: () => import("@/views/Writing.vue")
+    component: () => import("@/views/Works.vue")
   },
   {
     name: name.MarkSort,
