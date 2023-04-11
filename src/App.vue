@@ -1,17 +1,7 @@
 <script setup lang="ts">
-import { useBaseAuthorData } from "@/store";
-import { getMasterData, getAuthorData } from "@/apis/remote-api";
-
 const route = useRoute();
 const ldisabled = ref(true);
 const rdisabled = ref(true);
-const { setBaseAuthorData } = useBaseAuthorData();
-
-getAuthorData().then(author => {
-  getMasterData().then(master => {
-    setBaseAuthorData({ author, master });
-  });
-});
 
 onMounted(() => {
   document.getElementById("l-lstrip").onclick = () => {

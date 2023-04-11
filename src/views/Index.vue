@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { getHomeWritingList } from "@/apis/remote-api";
+import { getHomeWritingList, getMasterData, getAuthorData } from "@/apis/remote-api";
 
 EcyUtils.startLoading();
 
+const cabinet = EcyConfig.__ECY_CONFIG__.cabinet;
 const listing = shallowRef(await getHomeWritingList(1));
+const authorData = shallowRef();
+const masterData = shallowRef();
 
 async function fetchData(e: any) {
   EcyUtils.startLoading();
-  listing.value = await getHomeWritingList(e.currentIndex);
-  EcyUtils.endLoading();
+  getHomeWritingList(e.currentIndex).then(res => {
+    listing.value = res;
+    EcyUtils.endLoading();
+  });
 }
 
 function moveToStartNail() {
@@ -25,16 +30,36 @@ function randomSurface() {
 }
 
 onMounted(() => {
-  EcyUtils.endLoading();
+  getAuthorData().then(author => {
+    getMasterData().then(master => {
+      authorData.value = author;
+      masterData.value = master;
+      EcyUtils.endLoading();
+    });
+  });
 });
 </script>
 
 <template>
   <div class="welcome relative h-100vh w-100vw">
-    <div class="z-999 absolute top-0 left-0 h-100% w-100% f-c-c">
-      <div class="absolute bottom-10vh left-0 f-c-c w-100vw">
-        <div class="w-10 h-10 hover" @click="moveToStartNail">
-          <i-ep-arrow-down-bold class="arrow color-#ededed size-1.5rem hover" />
+    <div class="z-999 absolute bottom-10vh left-0 f-c-c w-100vw">
+      <div class="w-10 h-10 hover" @click="moveToStartNail">
+        <i-ep-arrow-down-bold class="arrow color-#ededed size-1.5rem hover" />
+      </div>
+    </div>
+    <div class="z-999 color-#ededed absolute top-30vh left-0 f-c-c w-100vw">
+      <div>
+        <div class="f-c-c mb-10">
+          <router-link to="/profile">
+            <img class="h-30 w-30 cursor-pointer rd-50" :src="cabinet?.avatar" />
+          </router-link>
+        </div>
+        <div class="mb-10 text-center size-3rem">
+          <div>{{ EcyConfig.blogApp }}</div>
+        </div>
+        <div class="text-center size-2rem">
+          <div v-if="cabinet?.signature" v-html="cabinet.signature" />
+          <div v-else>这个人很懒，什么也没有留下</div>
         </div>
       </div>
     </div>
@@ -61,7 +86,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .welcome {
   div {
-    font-family: #{"Amutham", var(--font-family)};
+    font-family: Liu Jian Mao Cao, "Open Sans", "Microsoft Jhenghei", "Microsoft Yahei", sans-serif;
   }
 
   .cover::after {
@@ -72,7 +97,7 @@ onMounted(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(5px);
   }
 
   .wave-1 {

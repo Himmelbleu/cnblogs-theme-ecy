@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useBaseAuthorData } from "@/store";
-import { follow, unfollow, getCabinetColumn, getCabinetTopList } from "@/apis/remote-api";
+import { follow, unfollow, getCabinetColumn, getCabinetTopList, getAuthorData, getMasterData } from "@/apis/remote-api";
 
 const props = defineProps({
   disabled: {
@@ -9,8 +8,6 @@ const props = defineProps({
   }
 });
 
-const cabinet = EcyConfig.__ECY_CONFIG__.cabinet;
-const store = useBaseAuthorData();
 const searchVal = ref("");
 const tabActive = ref("first");
 const commonCollActive = ref("1");
@@ -20,9 +17,11 @@ const masterData = shallowRef();
 const columnData = shallowRef();
 const topListData = shallowRef();
 
-store.$onAction(({ args }) => {
-  authorData.value = args[0].author;
-  masterData.value = args[0].master;
+getAuthorData().then(author => {
+  getMasterData().then(master => {
+    authorData.value = author;
+    masterData.value = master;
+  });
 });
 
 getCabinetColumn().then(res => {
@@ -66,17 +65,6 @@ const hidden = computed(() => {
       <template #icon>
         <i-ep-house />
       </template>
-      <div v-if="cabinet?.avatar" class="f-c-c mb-5">
-        <el-tooltip effect="dark" placement="right">
-          <router-link to="/profile">
-            <img class="h-25 w-25 cursor-pointer rd-50" alt="FAILED" :src="cabinet?.avatar" />
-          </router-link>
-          <template #content>
-            <div v-if="cabinet?.signature" v-html="cabinet.signature" />
-            <div v-else>这个人很懒，什么也没有留下</div>
-          </template>
-        </el-tooltip>
-      </div>
       <div class="f-c-c mb-4" v-if="!EcyConfig.isOwner">
         <el-popconfirm @confirm="unsubscribe" confirm-button-text="确定" cancel-button-text="取消" title="确定取消关注？">
           <template #reference>

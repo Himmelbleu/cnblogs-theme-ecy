@@ -82,69 +82,69 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div v-show="!isLock" class="welcome relative h-35vh w-100vw">
+  <div v-show="!isLock" class="welcome relative h-50vh w-100vw">
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
       <img class="h-100% w-100% rd-0" :src="randomSurface()" />
+    </div>
+    <div class="z-999 absolute bottom-15vh left-10vw w-100%">
+      <div class="f-c-s mb-4 size-1.5rem hover" @click="EcyUtils.Router.go({ path: 'back', router })">
+        <i-ep-back />
+      </div>
+      <div class="size-2.3rem font-bold">{{ writing.text }}</div>
+      <div class="f-c-s mt-6 l-for-size">
+        <div class="f-c-c mr-4">
+          <i-ep-clock class="mr-1" />
+          <span>{{ writing.date }}</span>
+        </div>
+        <div class="f-c-c mr-4">
+          <i-ep-view class="mr-1" />
+          <span>{{ writing.view }}次阅读</span>
+        </div>
+        <div class="f-c-c mr-4">
+          <i-ep-chat-line-square class="mr-1" />
+          <span>{{ writing.comm }}条评论</span>
+        </div>
+        <div
+          v-if="EcyConfig.isOwner"
+          class="f-c-c hover"
+          @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + postId })">
+          <i-ep-edit-pen class="mr-1" />
+          <span>编辑</span>
+        </div>
+      </div>
+      <div class="mt-6">
+        <div class="mb-4 flex-wrap l-fiv-size f-c-s" v-if="writingProps.sorts.length > 0">
+          <div class="f-c-c">
+            <i-ep-folder-opened class="mr-1" />
+            <span>分类：</span>
+          </div>
+          <div v-for="(item, index) in writingProps.sorts" :class="{ 'mr-2': index !== writingProps.sorts.length - 1 }">
+            <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/sort/p/' + item.href, router })">
+              {{ item.text }}
+            </LTag>
+          </div>
+        </div>
+        <div class="f-c-s flex-wrap l-fiv-size" v-if="writingProps.tags.length > 0">
+          <div class="f-c-c">
+            <i-ep-price-tag class="mr-1" />
+            <span>标签：</span>
+          </div>
+          <div v-for="(item, index) in writingProps.tags" :class="{ 'mr-2': index !== writingProps.tags.length - 1 }">
+            <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/mark/' + item.text, router })">
+              {{ item.text }}
+            </LTag>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="z-999 absolute bottom-0 left-0 h-75px w-100%">
+      <div class="wave-1 absolute h-100% w-200%"></div>
+      <div class="wave-2 absolute h-100% w-200%"></div>
     </div>
   </div>
   <div id="l-works" class="page">
     <div class="content">
       <div v-show="!isLock">
-        <el-page-header class="mt-6" :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
-          <template #title>
-            <div class="f-c-c">
-              <i-ep-back />
-            </div>
-          </template>
-          <template #content>
-            <div>{{ writing.text }}</div>
-          </template>
-        </el-page-header>
-        <div class="f-c-s mt-4 l-six-size">
-          <div class="f-c-c mr-4">
-            <i-ep-clock class="mr-1" />
-            <span>{{ writing.date }}</span>
-          </div>
-          <div class="f-c-c mr-4">
-            <i-ep-view class="mr-1" />
-            <span>{{ writing.view }}次阅读</span>
-          </div>
-          <div class="f-c-c mr-4">
-            <i-ep-chat-line-square class="mr-1" />
-            <span>{{ writing.comm }}条评论</span>
-          </div>
-          <div
-            v-if="EcyConfig.isOwner"
-            class="f-c-c hover"
-            @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + postId })">
-            <i-ep-edit-pen class="mr-1" />
-            <span>编辑</span>
-          </div>
-        </div>
-        <div class="mt-4">
-          <div class="mb-4 flex-wrap l-fiv-size f-c-s" v-if="writingProps.sorts.length > 0">
-            <div class="f-c-c">
-              <i-ep-folder-opened class="mr-1" />
-              <span>分类：</span>
-            </div>
-            <div v-for="(item, index) in writingProps.sorts" :class="{ 'mr-2': index !== writingProps.sorts.length - 1 }">
-              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/sort/p/' + item.href, router })">
-                {{ item.text }}
-              </LTag>
-            </div>
-          </div>
-          <div class="f-c-s flex-wrap l-fiv-size" v-if="writingProps.tags.length > 0">
-            <div class="f-c-c">
-              <i-ep-price-tag class="mr-1" />
-              <span>标签：</span>
-            </div>
-            <div v-for="(item, index) in writingProps.tags" :class="{ 'mr-2': index !== writingProps.tags.length - 1 }">
-              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/mark/' + item.text, router })">
-                {{ item.text }}
-              </LTag>
-            </div>
-          </div>
-        </div>
         <div class="l-thr-size" v-html="writing.content" v-hljs v-catalog v-mathjax></div>
         <Highslide />
         <Catalog />
@@ -350,12 +350,45 @@ pre {
 
 <style scoped lang="scss">
 .welcome {
-  div {
-    font-family: #{"Amutham", var(--font-family)};
-  }
-
   * {
     color: #ededed !important;
+  }
+
+  .wave-1 {
+    top: 0;
+    left: -100%;
+    opacity: 0.5;
+    animation: move-wave-to-right 20s infinite linear;
+    background: url(https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2281365/o_230410092356_wave-1.png) repeat-x;
+  }
+
+  .wave-2 {
+    top: 0;
+    left: 0%;
+    opacity: 0.6;
+    animation: move-wave-to-left 30s infinite linear;
+    background: url(https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2281365/o_230410092402_wave-2.png) repeat-x;
+  }
+
+  @keyframes move-wave-to-right {
+    0% {
+      transform: translateX(0%) scaleY(1);
+    }
+    50% {
+      transform: translateX(25%) scaleY(0.85);
+    }
+    100% {
+      transform: translateX(50%) scaleY(1);
+    }
+  }
+
+  @keyframes move-wave-to-left {
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   .cover::after {
@@ -366,7 +399,7 @@ pre {
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(12px);
   }
 }
 </style>

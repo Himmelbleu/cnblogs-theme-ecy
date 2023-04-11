@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useBaseAuthorData } from "@/store";
+import { getAuthorData, getMasterData } from "@/apis/remote-api";
 
 EcyUtils.startLoading();
 
-const store = useBaseAuthorData();
+const router = useRouter();
 const authorData = shallowRef();
 const masterData = shallowRef();
 
-store.$onAction(({ args }) => {
-  authorData.value = args[0].author;
-  masterData.value = args[0].master;
+getAuthorData().then(author => {
+  getMasterData().then(master => {
+    authorData.value = author;
+    masterData.value = master;
+  });
 });
-
-const router = useRouter();
 
 onMounted(() => {
   EcyUtils.endLoading();
