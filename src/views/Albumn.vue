@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="l-albumn" class="min-height z-9 page">
+  <div id="l-albumn" class="min-height page">
     <div class="content">
       <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
         <template #title>

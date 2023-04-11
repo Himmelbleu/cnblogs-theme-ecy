@@ -16,7 +16,7 @@ defineExpose({
 </script>
 
 <template>
-  <div :style="{ left: x ? x + 'px' : '', top: y + 'px' }" :class="{ hidden: disabled }" class="l-movbox z-99 fixed">
+  <div :style="{ left: x ? x + 'px' : '', top: y + 'px' }" :class="{ hidden: disabled }" class="l-movbox z-9999 fixed">
     <Card>
       <div ref="head" class="mb-2 p-2 cursor-move">
         <slot name="head" />

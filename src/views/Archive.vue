@@ -7,7 +7,6 @@ const route = useRoute();
 const router = useRouter();
 let date = route.params.date;
 let mode = route.params.mode;
-const setting = EcyUtils.getSetting();
 const archive = shallowRef();
 
 async function fetchData() {
@@ -47,7 +46,7 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div id="l-archive" class="min-height z-9 page">
+  <div id="l-archive" class="min-height page">
     <div class="content">
       <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="archive.page">
         <template #content>

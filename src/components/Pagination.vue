@@ -31,13 +31,13 @@ function nexprChange(elIndex: number) {
 
 <template>
   <div class="pagination relative">
-    <div class="sorter hover left z-1 f-c-c rd-l-4" @click="prevChange" v-show="index !== 1 && count">
+    <div class="sorter hover left f-c-c rd-l-4" @click="prevChange" v-show="index !== 1 && count">
       <i-ep-arrow-left-bold />
     </div>
     <div class="content">
       <slot name="content" />
     </div>
-    <div class="sorter hover right z-1 f-c-c rd-l-4" @click="nextChange" v-show="index !== count && count">
+    <div class="sorter hover right f-c-c rd-l-4" @click="nextChange" v-show="index !== count && count">
       <i-ep-arrow-right-bold />
     </div>
     <div v-if="count" class="bottom f-c-e my-4">

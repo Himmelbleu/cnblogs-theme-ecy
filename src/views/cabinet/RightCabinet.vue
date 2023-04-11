@@ -6,23 +6,12 @@ const props = defineProps({
   }
 });
 
-const setting = EcyUtils.getSetting();
-const collapseActive = ref("1");
-
-const right = computed(() => {
-  return setting.value.cabinet.right.pin && setting.value.cabinet.position.break ? setting.value.cabinet.position.right + "vw" : 0;
-});
-
 const block = computed(() => {
-  return !props.disabled && !setting.value.cabinet.right.pin;
+  return !props.disabled;
 });
 
 const hidden = computed(() => {
-  return props.disabled && !setting.value.cabinet.right.pin;
-});
-
-const fixed = computed(() => {
-  return setting.value.cabinet.right.pin && !setting.value.cabinet.position.break;
+  return props.disabled;
 });
 </script>
 
@@ -30,14 +19,8 @@ const fixed = computed(() => {
   <div
     id="l-rcabinet"
     style="width: var(--cabinet-width)"
-    class="noscroll z-99 l-fiv-size h-100vh ofw-auto fixed top-0 right-0 bg-#191919 p-3"
-    :class="{ 'show-rcabinet z-9': block, 'hidden-rcabinet': hidden, 'fixed-rcabinet': fixed }">
-    <ExpandableBox text="我的技术栈" v-if="EcyConfig.__ECY_CONFIG__.graph">
-      <template #icon>
-        <i-ep-aim />
-      </template>
-      <SkillGraph />
-    </ExpandableBox>
+    class="noscroll l-fiv-size h-100vh ofw-auto fixed top-0 right-0 bg-#191919 p-3"
+    :class="{ 'show-rcabinet z-99': block, 'hidden-rcabinet': hidden }">
     <ExpandableBox text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.cabinet.links && EcyConfig.__ECY_CONFIG__.cabinet.links.length">
       <template #icon>
         <i-ep-link />

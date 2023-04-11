@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const setting = EcyUtils.getSetting();
-
 defineProps({
   line: {
     type: Boolean,

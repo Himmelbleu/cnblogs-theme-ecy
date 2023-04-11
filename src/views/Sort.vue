@@ -5,7 +5,6 @@ const route = useRoute();
 const router = useRouter();
 let id = route.params.id;
 let mode = route.params.mode;
-const setting = EcyUtils.getSetting();
 const child = shallowRef();
 const sort = shallowRef();
 
@@ -45,7 +44,7 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div id="l-sort" class="min-height z-9 page">
+  <div id="l-sort" class="min-height page">
     <div class="content">
       <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="sort.page">
         <template #content>

@@ -11,12 +11,10 @@ const props = defineProps({
 
 const cabinet = EcyConfig.__ECY_CONFIG__.cabinet;
 const store = useBaseAuthorData();
-const setting = EcyUtils.getSetting();
 const searchVal = ref("");
 const tabActive = ref("first");
 const commonCollActive = ref("1");
 const topListCollActive = ref("1");
-const settingCollActive = ref("1");
 const authorData = shallowRef();
 const masterData = shallowRef();
 const columnData = shallowRef();
@@ -49,20 +47,12 @@ async function unsubscribe() {
   if (data) ElMessage({ message: "取消关注博主！", type: "success", grouping: true });
 }
 
-const left = computed(() => {
-  return setting.value.cabinet.left.pin && setting.value.cabinet.position.break ? setting.value.cabinet.position.left + "vw" : 0;
-});
-
 const block = computed(() => {
-  return !props.disabled && !setting.value.cabinet.left.pin;
+  return !props.disabled;
 });
 
 const hidden = computed(() => {
-  return props.disabled && !setting.value.cabinet.left.pin;
-});
-
-const fixed = computed(() => {
-  return setting.value.cabinet.left.pin && !setting.value.cabinet.position.break;
+  return props.disabled;
 });
 </script>
 
@@ -70,8 +60,8 @@ const fixed = computed(() => {
   <div
     id="l-lcabinet"
     style="width: var(--cabinet-width)"
-    class="l-fiv-size z-99 fixed top-0 left-0 noscroll ofw-auto h-100vh bg-#191919 p-3"
-    :class="{ 'show-lcabinet z-9': block, 'hidden-lcabinet': hidden, 'fixed-lcabinet': fixed }">
+    class="l-fiv-size fixed top-0 left-0 noscroll ofw-auto h-100vh bg-#191919 p-3"
+    :class="{ 'show-lcabinet z-99': block, 'hidden-lcabinet': hidden }">
     <ExpandableBox text="博客信息" disabled>
       <template #icon>
         <i-ep-house />

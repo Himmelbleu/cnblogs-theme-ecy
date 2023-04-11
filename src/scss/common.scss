@@ -35,7 +35,7 @@
     right: 0;
     bottom: 1px;
     style: dashed;
-    color: var(--l-divider-bg);
+    color: #464646;
   }
 }
 
@@ -82,6 +82,7 @@
 @include pc() {
   .page {
     --uno: f-s-c;
+    z-index: 2;
 
     & > .content {
       width: var(--content-width);

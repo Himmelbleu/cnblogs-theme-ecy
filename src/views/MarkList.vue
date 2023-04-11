@@ -4,7 +4,6 @@ import { getMarkList } from "@/apis/remote-api";
 EcyUtils.startLoading();
 
 const markList = await getMarkList();
-const setting = EcyUtils.getSetting();
 
 document.querySelector("title").innerText = `标签 - ${EcyConfig.blogApp} - 博客园`;
 
@@ -14,7 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="page z-9 relative mt-4">
+  <div class="page mt-4">
     <div id="l-tags" class="content min-height">
       <LTag round hover line="dotted" class="item mb-4" v-for="item of markList">
         <div class="f-c-c w-100% h-100%">

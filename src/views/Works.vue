@@ -84,7 +84,7 @@ watch(route, async () => {
 <template>
   <div v-show="!isLock" class="welcome relative h-35vh w-100vw">
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
-      <img class="z-9 h-100% w-100% rd-0" :src="randomSurface()" />
+      <img class="h-100% w-100% rd-0" :src="randomSurface()" />
     </div>
   </div>
   <div id="l-works" class="page">
@@ -194,7 +194,7 @@ watch(route, async () => {
         <Comment :post-id="postId" />
       </div>
       <div v-show="isLock">
-        <div class="modal fixed w-100vw h-100vh top-0 left-0 l-box-bg f-c-c z-9999">
+        <div class="modal fixed w-100vw h-100vh top-0 left-0 l-box-bg f-c-c z-999999">
           <el-form>
             <el-form-item label="密码：">
               <el-input show-password type="password" v-model="pwd" placeholder="输入博文阅读密码" />
@@ -212,7 +212,7 @@ watch(route, async () => {
 <style lang="scss">
 code {
   --uno: rd-2;
-  background: var(--l-code-bg);
+  background: #22222299;
   color: var(--el-color-danger-light-3);
   padding: 0.15rem 0.4rem;
   margin: 0;
@@ -238,7 +238,7 @@ pre {
     position: absolute;
     bottom: 0;
     left: 0;
-    background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, var(--l-code-hidden) 100%);
+    background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, var(--l-code-hidden-bg) 100%);
   }
 }
 
@@ -336,7 +336,7 @@ pre {
       th,
       td {
         padding: 0.7rem 1.5rem;
-        border: 1px dotted var(--l-divider-bg);
+        border: 1px dotted #464646;
         border-radius: 0.5rem;
       }
     }
@@ -366,7 +366,7 @@ pre {
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(4px);
   }
 }
 </style>

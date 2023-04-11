@@ -32,16 +32,9 @@ onMounted(() => {
 <template>
   <div class="welcome relative h-100vh w-100vw">
     <div class="z-999 absolute top-0 left-0 h-100% w-100% f-c-c">
-      <div>
-        <div class="color-#ededed size-2.5rem text-center">
-          Welcome to <router-link class="hover" to="/profile">{{ EcyConfig.blogApp }}</router-link
-          >'s blog.
-        </div>
-        <div class="color-#ededed size-1.2rem text-center mt-4">Time tick away, dream faded away!</div>
-        <div class="absolute bottom-10vh left-0 f-c-c w-100vw">
-          <div class="w-10 h-10 hover" @click="moveToStartNail">
-            <i-ep-arrow-down-bold class="arrow color-#ededed size-1.5rem hover" />
-          </div>
+      <div class="absolute bottom-10vh left-0 f-c-c w-100vw">
+        <div class="w-10 h-10 hover" @click="moveToStartNail">
+          <i-ep-arrow-down-bold class="arrow color-#ededed size-1.5rem hover" />
         </div>
       </div>
     </div>
@@ -49,8 +42,8 @@ onMounted(() => {
       <div class="wave-1 absolute h-100% w-200%"></div>
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>
-    <div class="cover z-99 absolute left-0 top-0 h-100% w-100%">
-      <img class="z-9 h-100% w-100% rd-0" :src="randomSurface()" />
+    <div class="z-990 cover absolute left-0 top-0 h-100% w-100%">
+      <img class="relative h-100% w-100% rd-0" :src="randomSurface()" />
     </div>
   </div>
   <div id="l-start-nail"></div>
@@ -79,7 +72,7 @@ onMounted(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(4px);
   }
 
   .wave-1 {

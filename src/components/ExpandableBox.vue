@@ -42,7 +42,7 @@ function toggle() {
   }
 }
 
-function initHeight(msg?: string) {
+function initHeight() {
   height.value = $(content.value).height();
 
   if (!props.disabled) {

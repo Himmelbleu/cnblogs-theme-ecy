@@ -5,7 +5,6 @@ import { getMasterData, getAuthorData } from "@/apis/remote-api";
 const route = useRoute();
 const ldisabled = ref(true);
 const rdisabled = ref(true);
-const setting = EcyUtils.getSetting();
 const { setBaseAuthorData } = useBaseAuthorData();
 
 getAuthorData().then(author => {
@@ -52,29 +51,20 @@ watch(route, async () => {
         <div class="l-pro__bar rd-2"></div>
       </div>
     </div>
-    <div id="l-matte" class="fixed z-99 top-0 left-0 z-3 l-matee-bg" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
-    <ToolKits />
-    <GitHub />
+    <div id="l-matte" class="fixed top-0 left-0 l-matee-bg z-99" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
     <div id="l-background" class="fixed left-0 top-0 w-100vw h-100vh">
-      <div class="w-100% h-100% relative">
-        <div class="opacity-96 absolute left-0 top-0 w-100% h-100% bg-#191919"></div>
-        <img class="w-100% h-100% rd-0" :src="randomSurface()" />
-      </div>
+      <img class="w-100% h-100% opacity-4 rd-0 z--2 relative" :src="randomSurface()" />
     </div>
-    <div
-      id="l-lstrip"
-      v-show="!setting.cabinet.left.pin"
-      class="z-99 fixed left-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
+    <div id="l-lstrip" class="z-9 fixed left-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
     <Suspense>
       <LeftCabinet :disabled="ldisabled" />
     </Suspense>
-    <div
-      id="l-rstrip"
-      v-show="!setting.cabinet.right.pin"
-      class="z-99 fixed right-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
+    <div id="l-rstrip" class="z-9 fixed right-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
     <RightCabinet :disabled="rdisabled" />
+    <GitHub />
+    <ToolKits />
   </div>
-  <div id="l-content" class="l-transition">
+  <div id="l-content" class="l-transition relative">
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
       <template v-if="Component">

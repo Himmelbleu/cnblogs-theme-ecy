@@ -54,12 +54,12 @@ declare namespace BlogType {
   /**
    * 有些接口返回的数据类型是博客园的字段，需要该类型进行约束
    */
-  interface AjaxType {
-    id?: number;
-    isSuccess?: boolean;
-    message?: string;
-    data?: any;
-  }
+  type AjaxType = Partial<{
+    id: number;
+    isSuccess: boolean;
+    message: string;
+    data: any;
+  }>;
 }
 
 /**
@@ -69,66 +69,66 @@ declare namespace CustType {
   /**
    * 随笔/文章
    */
-  interface IWriting {
+  type IWriting = Partial<{
     // 随笔 ID
-    id?: string;
+    id: string;
     // 随笔标题
-    text?: string;
+    text: string;
     // 随笔内容
-    content?: string;
+    content: string;
     // 随笔摘要
-    desc?: string;
+    desc: string;
     // 随笔发表日期
-    date?: string;
+    date: string;
     // 随笔阅读数量
-    view?: string;
+    view: string;
     // 随笔评论数量
-    comm?: string;
+    comm: string;
     // 随笔点赞数量
-    digg?: string;
+    digg: string;
     // 随笔封面
-    surface?: string;
+    surface: string;
     // 文章是否被密码锁定
-    isLocked?: boolean;
+    isLocked: boolean;
     // 是否仅限于自己可见
-    isOnlyMe?: boolean;
+    isOnlyMe: boolean;
     // 是否置顶
-    isTop?: boolean;
-  }
+    isTop: boolean;
+  }>;
 
   /**
    * 评论
    */
-  interface IComment {
+  type IComment = Partial<{
     // 是否正在编辑
-    isEditing?: boolean;
+    isEditing: boolean;
     // 是否正在回复
-    isAnsling?: boolean;
+    isAnsling: boolean;
     // 评论 ID
-    commentId?: string;
+    commentId: string;
     // 个人主页地址
-    space?: string;
+    space: string;
     // 楼层
-    layer?: string;
+    layer: string;
     // 发表日期
-    date?: string;
+    date: string;
     // 发表人
-    author?: string;
+    author: string;
     // 点赞数量
-    digg?: string;
+    digg: string;
     // 反对数量
-    bury?: string;
+    bury: string;
     // 头像地址
-    avatar?: string;
+    avatar: string;
     // 随笔 ID
-    postId?: string;
+    postId: string;
     // 评论内容
-    content?: string;
+    content: string;
     // 回复评论 ID
-    parentCommentId?: number;
+    parentCommentId: number;
     // 当前评论所在评论列表的页数
-    pageIndex?: number;
-  }
+    pageIndex: number;
+  }>;
 
   /**
    * 标签
@@ -142,14 +142,14 @@ declare namespace CustType {
   /**
    * 随笔列表
    */
-  interface IWritingList {
+  type IWritingList = Partial<{
     // 页数
-    page?: number;
+    page: number;
     // 提示
-    hint?: string;
+    hint: string;
     // 数据
-    data?: IWriting[];
-  }
+    data: IWriting[];
+  }>;
 
   /**
    * 随笔列表，用于分类或标签区分的随笔列表
@@ -202,16 +202,16 @@ declare namespace CustType {
    * 第三种：
    * 随笔上一篇或下一篇随笔数据类型
    */
-  interface ICabinetItemData {
+  type ICabinetItemData = Partial<{
     // id
-    id?: string;
+    id: string;
     // 文本描述
-    text?: string;
+    text: string;
     // 数量
-    digg?: string;
+    digg: string;
     // 链接
-    href?: string;
-  }
+    href: string;
+  }>;
 
   /**
    * 侧边栏阅读排行榜
@@ -238,83 +238,75 @@ declare namespace CustType {
   /**
    * 博客配置项
    */
-  interface IEcy {
+  type IEcy = Partial<{
     // 网站 icon
-    icon?: string;
+    icon: string;
     // 陈列柜
-    cabinet?: {
+    cabinet: Partial<{
       // 头像
-      avatar?: string;
+      avatar: string;
       // 个性签名
-      signature?: string;
+      signature: string;
       // 推荐链接
-      links?: { href: string; text: string }[];
+      links: { href: string; text: string }[];
       // 推荐书籍
-      books?: { href?: string; text: string; img: string; author: string; rate: number }[];
-    };
+      books: { href?: string; text: string; img: string; author: string; rate: number }[];
+    }>;
     // 铭牌
-    nameplate?: {
-      tags?: string[];
-      connection?: { name: string; text: string; svg?: string; img?: string }[];
-      warehouse?: { url: string; text: string }[];
-      experience?: { text: string; date: string }[];
-      intro?: string;
-      gossip?: string;
-      photo?: { disabled: boolean; src?: string[] };
+    nameplate: {
+      tags: string[];
+      connection: { name: string; text: string; svg?: string; img?: string }[];
+      warehouse: { url: string; text: string }[];
+      experience: { text: string; date: string }[];
+      intro: string;
+      gossip: string;
+      photo: { disabled: boolean; src?: string[] };
     };
-    covers?: {
-      index?: string[];
-      works?: string[];
-      app?: string[];
+    covers: {
+      index: string[];
+      works: string[];
+      app: string[];
     };
     // 技能雷达
-    graph?: {
-      strokeColor?: string;
-      alpha?: number;
-      sides?: number;
-      layer?: number;
-      lineWidth?: number;
-      textSize?: number;
-      lineColor?: string;
-      textColor?: string;
-      data?: { title: string; star: number }[];
+    graph: {
+      alpha: number;
+      sides: number;
+      layer: number;
+      lineWidth: number;
+      textSize: number;
+      data: { title: string; star: number }[];
     };
-    other?: {
+    other: {
       // 目录配置项
-      catalog?: { level?: boolean };
+      catalog: { level: boolean };
       // github
-      github?: string;
+      github: string;
     };
-  }
+  }>;
 
-  type ToggleType = Record<string, { open: boolean; show: boolean }>;
-  interface IBox {
-    left?: number;
-    right?: number;
-    top?: number;
-    bottom?: number;
-  }
+  type IBox = Partial<{
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+  }>;
 
   /**
    * Ecy 主题设置数据类型
    */
-  interface ISetting {
+  type ISetting = Partial<{
     // 主题
-    theme?: { color?: string; mode?: string };
+    theme: { color: string; mode: string };
     // 工具箱
-    toolkits?: { pin?: boolean };
+    toolkits: { pin: boolean };
     // 中间内容
-    content?: { width?: number; padding?: IBox; margin?: IBox };
+    content: { width: number; padding: IBox; margin: IBox };
     // 陈列柜
-    cabinet?: {
-      position?: { left?: number; right?: number; break?: boolean };
-      left?: { pin?: boolean; padding?: IBox; margin?: IBox };
-      right?: { pin?: boolean; padding?: IBox; margin?: IBox };
-      toggles?: ToggleType;
-      width?: number;
-      break?: boolean;
+    cabinet: {
+      toggles: Record<string, { open: boolean; show: boolean }>;
+      width: number;
     };
-  }
+  }>;
 }
 
 /**

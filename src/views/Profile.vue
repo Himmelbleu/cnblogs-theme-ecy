@@ -20,7 +20,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="l-profile min-height mt-4 l-fiv-size relative page z-9">
+  <div class="l-profile min-height mt-4 l-fiv-size page">
     <div class="content">
       <div class="mb-6 f-s-c">
         <div class="w-40%">

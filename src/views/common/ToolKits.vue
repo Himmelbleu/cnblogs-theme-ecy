@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const setting = EcyUtils.getSetting();
 const router = useRouter();
-const dialog = ref(false);
 
 function moveToTopNail() {
   document.querySelector("#l-top-nail").scrollIntoView();
@@ -10,21 +9,10 @@ function moveToTopNail() {
 function moveToBottomNail() {
   document.querySelector("#l-bottom-nail").scrollIntoView();
 }
-
-function changeDayTime() {
-  const html = document.querySelector("html");
-  if (setting.value.theme.mode === "dark") {
-    html.className = "light";
-    setting.value.theme.mode = "light";
-  } else {
-    html.className = "dark";
-    setting.value.theme.mode = "dark";
-  }
-}
 </script>
 
 <template>
-  <div id="l-toolkits" class="fixed z-99 right-15 top-65vh l-thr-size z-1">
+  <div id="l-toolkits" class="fixed z-99 right-15 top-65vh l-thr-size">
     <div class="relative">
       <div
         :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
@@ -50,23 +38,7 @@ function changeDayTime() {
           <i-ep-bottom />
         </div>
       </div>
-      <div
-        :class="{ 'show-3': setting.toolkits.pin, 'close-3': !setting.toolkits.pin }"
-        @click="changeDayTime"
-        class="daytime absolute hover left-0 rd-2">
-        <div class="f-c-c w-8 h-8">
-          <template v-if="setting.theme.mode === 'light'">
-            <i-ep-sunny />
-          </template>
-          <template v-else>
-            <i-ep-moon />
-          </template>
-        </div>
-      </div>
-      <div
-        :class="{ 'show-4': setting.toolkits.pin, 'close-4': !setting.toolkits.pin }"
-        @click="dialog = !dialog"
-        class="setting absolute hover left-0 rd-2">
+      <div :class="{ 'show-3': setting.toolkits.pin, 'close-3': !setting.toolkits.pin }" class="setting absolute hover left-0 rd-2">
         <div class="f-c-c w-8 h-8">
           <i-ep-setting class="rotate-setting" />
         </div>
@@ -74,7 +46,7 @@ function changeDayTime() {
       <div
         @click="setting.toolkits.pin = !setting.toolkits.pin"
         :class="{ 'show-toolkits': setting.toolkits.pin, 'close-toolkits': !setting.toolkits.pin }"
-        class="kits-box absolute hover top-50 left-0 rd-2">
+        class="kits-box absolute hover top-40 left-0 rd-2 bg-#191919">
         <div class="f-c-c w-8 h-8">
           <i-ep-arrow-right />
         </div>
@@ -85,7 +57,7 @@ function changeDayTime() {
 
 <style scoped lang="scss">
 $show-top: 0;
-$close-end: 12.5rem;
+$close-end: 10rem;
 
 @for $index from 0 to 5 {
   @if $index != 0 {

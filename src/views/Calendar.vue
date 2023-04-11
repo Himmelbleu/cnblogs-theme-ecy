@@ -28,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="l-calendar z-9 min-height relative page">
+  <div class="l-calendar min-height page">
     <div class="content">
       <el-page-header class="mt-4 mb-6" :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
         <template #title>

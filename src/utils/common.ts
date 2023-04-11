@@ -10,11 +10,9 @@ import $ from "jquery";
 export namespace EcyUtils {
   /**
    * 获取本地博客设置数据
-   *
-   * @returns 博客设置
    */
   export function getSetting() {
-    return useStorage<CustType.ISetting>(`l-${EcyConfig.blogApp}-setting`, {});
+    return useStorage<CustType.ISetting>(`l-${EcyConfig.blogApp}-setting`, getSettingTemp());
   }
 
   /**
@@ -30,9 +28,6 @@ export namespace EcyUtils {
         margin: { left: 0, right: 0, top: 0, bottom: 0 }
       },
       cabinet: {
-        position: { left: 0, right: 0, break: false },
-        left: { pin: false, padding: { left: 1, right: 1, top: 1, bottom: 1 }, margin: { left: 0, right: 0, top: 0, bottom: 0 } },
-        right: { pin: false, padding: { left: 1, right: 1, top: 1, bottom: 1 }, margin: { left: 0, right: 0, top: 0, bottom: 0 } },
         toggles: {
           我的技术栈: { open: true, show: true },
           博客信息: { open: true, show: true },

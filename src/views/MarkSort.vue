@@ -6,7 +6,6 @@ EcyUtils.startLoading();
 const route = useRoute();
 const router = useRouter();
 const listing = shallowRef(await getWritingMark(`${route.params.tag}`));
-const setting = EcyUtils.getSetting();
 
 document.querySelector("title").innerText = `${listing.value.hint} - ${EcyConfig.blogApp} - 博客园`;
 
@@ -25,7 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="l-tagcoll" class="min-height z-9 page">
+  <div id="l-tagcoll" class="min-height page">
     <div class="content">
       <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
         <template #title>
