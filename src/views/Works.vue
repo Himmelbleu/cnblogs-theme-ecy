@@ -71,54 +71,56 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div v-show="!isLock" class="welcome relative h-50vh w-100vw">
+  <div v-if="!isLock" class="welcome relative h-50vh w-100vw">
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
       <img class="h-100% w-100% rd-0" :src="randomSurface()" />
     </div>
-    <div class="z-999 absolute left-0 top-0 pt-5rem pl-10rem w-100%">
-      <div class="size-2.2rem font-bold text-ellipsis line-clamp-2 w-50%">{{ works.text }}</div>
-      <div class="f-c-s mt-6 l-for-size">
-        <div class="f-c-c mr-4">
-          <i-ep-clock class="mr-1" />
-          <span>{{ works.date }}</span>
-        </div>
-        <div class="f-c-c mr-4">
-          <i-ep-view class="mr-1" />
-          <span>{{ works.view }}次阅读</span>
-        </div>
-        <div class="f-c-c mr-4">
-          <i-ep-chat-line-square class="mr-1" />
-          <span>{{ works.comm }}条评论</span>
-        </div>
-        <div
-          v-if="EcyConfig.isOwner"
-          class="f-c-c hover"
-          @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + postId })">
-          <i-ep-edit-pen class="mr-1" />
-          <span>编辑</span>
-        </div>
-      </div>
-      <div class="mt-6">
-        <div class="mb-4 flex-wrap l-fiv-size f-c-s" v-if="worksProps.sorts.length > 0">
-          <div class="f-c-c">
-            <i-ep-folder-opened class="mr-1" />
-            <span>分类：</span>
+    <div class="z-999 f-c-c absolute left-0 top-10vh w-100%">
+      <div class="w-55vw">
+        <div class="size-2.2rem font-bold text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
+        <div class="f-c-s mt-6 l-for-size">
+          <div class="f-c-c mr-4">
+            <i-ep-clock class="mr-1" />
+            <span>{{ works.date }}</span>
           </div>
-          <div v-for="(item, index) in worksProps.sorts" :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
-            <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/sort/p/' + item.href, router })">
-              {{ item.text }}
-            </LTag>
+          <div class="f-c-c mr-4">
+            <i-ep-view class="mr-1" />
+            <span>{{ works.view }}次阅读</span>
+          </div>
+          <div class="f-c-c mr-4">
+            <i-ep-chat-line-square class="mr-1" />
+            <span>{{ works.comm }}条评论</span>
+          </div>
+          <div
+            v-if="EcyConfig.isOwner"
+            class="f-c-c hover"
+            @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + postId })">
+            <i-ep-edit-pen class="mr-1" />
+            <span>编辑</span>
           </div>
         </div>
-        <div class="f-c-s flex-wrap l-fiv-size" v-if="worksProps.tags.length > 0">
-          <div class="f-c-c">
-            <i-ep-price-tag class="mr-1" />
-            <span>标签：</span>
+        <div class="mt-6">
+          <div class="mb-4 flex-wrap l-fiv-size f-c-s" v-if="worksProps.sorts.length > 0">
+            <div class="f-c-c">
+              <i-ep-folder-opened class="mr-1" />
+              <span>分类：</span>
+            </div>
+            <div v-for="(item, index) in worksProps.sorts" :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
+              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/sort/p/' + item.href, router })">
+                {{ item.text }}
+              </LTag>
+            </div>
           </div>
-          <div v-for="(item, index) in worksProps.tags" :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
-            <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/mark/' + item.text, router })">
-              {{ item.text }}
-            </LTag>
+          <div class="f-c-s flex-wrap l-fiv-size" v-if="worksProps.tags.length > 0">
+            <div class="f-c-c">
+              <i-ep-price-tag class="mr-1" />
+              <span>标签：</span>
+            </div>
+            <div v-for="(item, index) in worksProps.tags" :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
+              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/mark/' + item.text, router })">
+                {{ item.text }}
+              </LTag>
+            </div>
           </div>
         </div>
       </div>
@@ -179,7 +181,7 @@ watch(route, async () => {
         </div>
         <Comment :post-id="postId" />
       </div>
-      <div v-show="isLock">
+      <div v-if="isLock">
         <div class="modal fixed w-100vw h-100vh top-0 left-0 l-box-bg f-c-c z-999999">
           <el-form>
             <el-form-item label="密码：">

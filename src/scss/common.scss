@@ -86,7 +86,7 @@
 
 @include pc() {
   .page {
-    --uno: f-s-c;
+    --uno: f-s-c relative;
     z-index: 2;
 
     & > .content {
