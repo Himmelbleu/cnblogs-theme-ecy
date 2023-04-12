@@ -9,7 +9,7 @@ import $ from "jquery";
 import * as Parser from "@/services/parse-html";
 
 export function getCabinetColumn() {
-  return Parser.parseCabinetColumn($("#home").find("#blog-sidecolumn").html());
+  return Parser.parseMenuColumn($("#home").find("#blog-sidecolumn").html());
 }
 
 export function getAuthorData() {
@@ -21,7 +21,7 @@ export function getMasterData() {
 }
 
 export function getCabinetTopList() {
-  return Parser.parseCabinetTopList($("#home").find("#sidebar_topviewedposts").html());
+  return Parser.parseTopList($("#home").find("#sidebar_topviewedposts").html());
 }
 
 export function getAlbumnImg(): string {

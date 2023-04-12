@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { getHomeWritingList, getMasterData, getAuthorData } from "@/apis/remote-api";
+import { getHomeWorksList, getMasterData, getAuthorData } from "@/apis/remote-api";
 
 EcyUtils.startLoading();
 
 const cabinet = EcyConfig.__ECY_CONFIG__.cabinet;
-const listing = shallowRef(await getHomeWritingList(1));
+const worksList = shallowRef(await getHomeWorksList(1));
 const authorData = shallowRef();
 const masterData = shallowRef();
+const imgs = EcyConfig.__ECY_CONFIG__.covers.index || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 
 async function fetchData(e: any) {
   EcyUtils.startLoading();
-  getHomeWritingList(e.currentIndex).then(res => {
-    listing.value = res;
+  getHomeWorksList(e.currentIndex).then(newWorksList => {
+    worksList.value = newWorksList;
     EcyUtils.endLoading();
   });
 }
@@ -20,17 +21,15 @@ function moveToStartNail() {
   document.querySelector("#l-start-nail").scrollIntoView();
 }
 
-const imgs = EcyConfig.__ECY_CONFIG__.covers.index || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
-
 function randomSurface() {
   return imgs[Math.floor(Math.random() * imgs.length)];
 }
 
 onMounted(() => {
-  getAuthorData().then(author => {
-    getMasterData().then(master => {
-      authorData.value = author;
-      masterData.value = master;
+  getAuthorData().then(newAuthorData => {
+    getMasterData().then(newMasterData => {
+      authorData.value = newAuthorData;
+      masterData.value = newMasterData;
       EcyUtils.endLoading();
     });
   });
@@ -68,9 +67,9 @@ onMounted(() => {
   <div id="l-start-nail"></div>
   <div id="l-index" class="page">
     <div class="content">
-      <Pagination @prev="fetchData" @next="fetchData" @nexpr="fetchData" :count="listing.page">
+      <Pagination @prev="fetchData" @next="fetchData" @nexpr="fetchData" :count="worksList.page">
         <template #content>
-          <WorksItem v-if="listing.data.length > 0" :data="listing.data" />
+          <WorksItem v-if="worksList.data.length > 0" :data="worksList.data" />
         </template>
       </Pagination>
     </div>

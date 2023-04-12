@@ -8,10 +8,10 @@ const router = useRouter();
 const authorData = shallowRef();
 const masterData = shallowRef();
 
-getAuthorData().then(author => {
-  getMasterData().then(master => {
-    authorData.value = author;
-    masterData.value = master;
+getAuthorData().then(newAuthorData => {
+  getMasterData().then(newMasterData => {
+    authorData.value = newAuthorData;
+    masterData.value = newMasterData;
   });
 });
 

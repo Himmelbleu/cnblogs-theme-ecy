@@ -9,10 +9,10 @@ import $ from "jquery";
 
 export namespace EcyUtils {
   export function getLocalSetting() {
-    return useStorage<CustType.ISetting>(`l-${EcyConfig.blogApp}-setting`, getLocalSettingTemp());
+    return useStorage<CustType.ILocalSetting>(`l-${EcyConfig.blogApp}-setting`, getLocalSettingTemp());
   }
 
-  export function getLocalSettingTemp(): CustType.ISetting {
+  export function getLocalSettingTemp(): CustType.ILocalSetting {
     return {
       theme: { mode: "dark" },
       toolkits: { pin: true },

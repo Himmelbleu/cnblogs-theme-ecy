@@ -71,7 +71,6 @@ declare module '@vue/runtime-core' {
     IEpDocumentRemove: typeof import('~icons/ep/document-remove')['default']
     IEpEditPen: typeof import('~icons/ep/edit-pen')['default']
     IEpFiles: typeof import('~icons/ep/files')['default']
-    IEpFolder: typeof import('~icons/ep/folder')['default']
     IEpFolderOpened: typeof import('~icons/ep/folder-opened')['default']
     IEpHouse: typeof import('~icons/ep/house')['default']
     IEpLink: typeof import('~icons/ep/link')['default']

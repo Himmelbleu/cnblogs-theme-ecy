@@ -7,7 +7,7 @@ declare namespace BlogType {
   /**
    * 博客园评论和随笔的基础字段，一般是调用接口之后返回过来的字段
    */
-  interface IBlog {
+  interface IBasic {
     postId?: string;
     voteType?: VoteType;
     isAbandoned?: boolean;
@@ -16,7 +16,7 @@ declare namespace BlogType {
   /**
    * 博客园评论实体，区别于上面定义的评论实体，这个实体是根据博客园的数据库字段而来
    */
-  interface IComment extends IBlog {
+  interface IComment extends IBasic {
     // 评论 ID
     commentId?: string;
     // 评论内容
@@ -32,12 +32,12 @@ declare namespace BlogType {
   /**
    * 获取随笔，返回的博客园接口的字段
    */
-  interface IEssay extends IBlog {}
+  interface IWorks extends IBasic {}
 
   /**
    * 随笔投票，博客园接口需要的正确字段
    */
-  interface IEssayViewPoint {
+  interface IWorksViewPoint {
     buryCount: number;
     diggCount: number;
     feedbackCount: number;
@@ -63,7 +63,7 @@ declare namespace CustType {
   /**
    * 随笔/文章
    */
-  type IWriting = Partial<{
+  type IWorks = Partial<{
     id: string;
     // 随笔标题
     text: string;
@@ -121,16 +121,16 @@ declare namespace CustType {
   /**
    * 随笔列表
    */
-  type IWritingList = Partial<{
+  type IWorksList = Partial<{
     page: number;
     hint: string;
-    data: IWriting[];
+    data: IWorks[];
   }>;
 
   /**
    * 随笔列表，用于分类或标签区分的随笔列表
    */
-  interface IWritingList2 extends IWritingList {
+  interface IWorksList2 extends IWorksList {
     desc?: string;
     // 子分类描述
     desc2?: string;
@@ -139,7 +139,7 @@ declare namespace CustType {
   /**
    * 随笔的分类和标签数组
    */
-  interface IWritingProps {
+  interface IWorksProps {
     tags: { text: string }[];
     sorts: { href: string; text: string }[];
   }
@@ -147,7 +147,7 @@ declare namespace CustType {
   /**
    * 分类子分类
    */
-  interface IWritingSortChild {
+  interface IWorksSortChild {
     id: string;
     text: string;
   }
@@ -155,7 +155,7 @@ declare namespace CustType {
   /**
    * 侧边栏标签和分类数组
    */
-  interface ICabinetColumn {
+  interface IMenuColumn {
     essaySort: { id: string; text: string }[];
     essayArchive: { id: string; text: string }[];
     articleSort: { id: string; text: string }[];
@@ -177,7 +177,7 @@ declare namespace CustType {
    * 第三种：
    * 随笔上一篇或下一篇随笔数据类型
    */
-  type ICabinetItemData = Partial<{
+  type IMenuItemData = Partial<{
     id: string;
     // 文本描述
     text: string;
@@ -188,18 +188,18 @@ declare namespace CustType {
   /**
    * 侧边栏阅读排行榜
    */
-  interface ICabinetTopList {
-    topView: ICabinetItemData[];
-    topComments: ICabinetItemData[];
-    topDigg: ICabinetItemData[];
+  interface ITopList {
+    topView: IMenuItemData[];
+    topComments: IMenuItemData[];
+    topDigg: IMenuItemData[];
   }
 
   /**
    * 上一篇或下一篇随笔
    */
   interface IPrevNext {
-    prev: ICabinetItemData;
-    next: ICabinetItemData;
+    prev: IMenuItemData;
+    next: IMenuItemData;
   }
 
   interface AlbumnItem {
@@ -254,7 +254,7 @@ declare namespace CustType {
   /**
    * Ecy 主题设置数据类型
    */
-  type ISetting = Partial<{
+  type ILocalSetting = Partial<{
     theme: { mode: string };
     toolkits: { pin: boolean };
     cabinet: {
@@ -267,12 +267,12 @@ declare namespace CustType {
  * Ecy 工具
  */
 declare namespace EcyUtils {
-  function getLocalSetting(): RemovableRef<CustType.ISetting>;
-  function getLocalSettingTemp(): CustType.ISetting;
+  function getLocalSetting(): RemovableRef<CustType.ILocalSetting>;
+  function getLocalSettingTemp(): CustType.ILocalSetting;
   function endLoading(): void;
   function startLoading(): void;
   function openImageUploadWindow(el: string, onUploaded: (img: string) => void): void;
-  function reloadObjProps(source: CustType.ISetting, template: CustType.ISetting): CustType.ISetting;
+  function reloadObjProps(source: CustType.ILocalSetting, template: CustType.ILocalSetting): CustType.ILocalSetting;
   function setTitle(title?: string);
 
   namespace Log {

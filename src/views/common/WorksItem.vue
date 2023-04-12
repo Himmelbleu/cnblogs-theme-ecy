@@ -1,18 +1,17 @@
 <script setup lang="ts">
 defineProps({
   data: {
-    type: Array as PropType<CustType.IWriting[]>,
+    type: Array as PropType<CustType.IWorks[]>,
     required: true
   }
 });
 
+const router = useRouter();
 const imgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 
 function randomSurface() {
   return imgs[Math.floor(Math.random() * imgs.length)];
 }
-
-const router = useRouter();
 </script>
 
 <template>

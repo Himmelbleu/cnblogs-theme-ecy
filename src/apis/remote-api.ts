@@ -52,33 +52,33 @@ async function sendAwaitPost(url: string, data: any): Promise<any> {
  *
  * @param page 页数，可以是 0，也可以是 1，都代表第一页
  */
-export async function getHomeWritingList(page: number) {
+export async function getHomeWorksList(page: number) {
   const { data } = await sendAwaitGet(`/default.html?page=${page}`);
-  return Parser.parseWritingList(data);
+  return Parser.parseWorksList(data);
 }
 
 /**
  * 获取随笔、文章
  */
-export async function getWriting(id: string) {
+export async function getWorks(id: string) {
   const { data } = await sendAwaitGet(`/p/${id}.html`);
-  return Parser.parseWriting(id, data);
+  return Parser.parseWorks(id, data);
 }
 
 /**
  * 获取随笔、文章的标签和分类
  */
-export async function getWritingProps(id: string) {
+export async function getWorksProps(id: string) {
   const { data } = await sendAwaitGet(`/ajax/CategoriesTags.aspx?blogId=${EcyConfig.blogId}&postId=${id}`);
-  return Parser.parseWritingProps(data);
+  return Parser.parseWorksProps(data);
 }
 
 /**
  * 获取随笔、文章的上下篇
  */
-export async function getWritingPrevNext(id: string) {
+export async function getWorksPrevNext(id: string) {
   const { data } = await sendAwaitGet(`/ajax/post/prevnext?postId=${id}`);
-  return Parser.parseEssayPrevNext(data);
+  return Parser.parseWorksPrevNext(data);
 }
 
 /**
@@ -86,7 +86,7 @@ export async function getWritingPrevNext(id: string) {
  *
  * @param form 随笔、文章实体。必须包含：isAbandoned、postId、voteType 三个字段。
  */
-export async function voteWriting(form: BlogType.IEssay): Promise<BlogType.AjaxType> {
+export async function voteWorks(form: BlogType.IWorks): Promise<BlogType.AjaxType> {
   const { data } = await sendAwaitPost(`/ajax/vote/blogpost`, form);
   return data;
 }
@@ -96,7 +96,7 @@ export async function voteWriting(form: BlogType.IEssay): Promise<BlogType.AjaxT
  *
  * @param id 传递一个数组，数组第一个就是 postId 的值
  */
-export async function getWritingViewPoint(id: string): Promise<BlogType.IEssayViewPoint> {
+export async function getWorksViewPoint(id: string): Promise<BlogType.IWorksViewPoint> {
   const { data } = await sendAwaitPost(`/ajax/GetPostStat`, [id]);
   return data[0];
 }
@@ -107,9 +107,9 @@ export async function getWritingViewPoint(id: string): Promise<BlogType.IEssayVi
  * @param id 分类 id
  * @param page 页数
  */
-export async function getWritingSort(id: string, page: any) {
+export async function getWorksSort(id: string, page: any) {
   const { data } = await sendAwaitGet(`/category/${id}.html?page=${page}`);
-  return Parser.parseWritingsFull(data);
+  return Parser.parseWorksFull(data);
 }
 
 /**
@@ -117,9 +117,9 @@ export async function getWritingSort(id: string, page: any) {
  * @param id 分类 ID
  * @param type 分类类型，随笔的类型是1，文章的类型是2
  */
-export async function getWritingSortChild(id: string, type?: string) {
+export async function getWorksSortChild(id: string, type?: string) {
   const { data } = await sendAwaitGet(`/ajax/TreeCategoryList.aspx?parentId=${id}&categoryType=${type || "1"}`);
-  return Parser.parseWritingSortChild(data);
+  return Parser.parseWorksSortChild(data);
 }
 
 /**
@@ -128,27 +128,24 @@ export async function getWritingSortChild(id: string, type?: string) {
  * @param date 日期
  * @param type 文章的请求链接是 archives，随笔的请求链接是 archive
  */
-export async function getWritingArchive(date: string, type: "article" | "essay") {
+export async function getWorksArchive(date: string, type: "article" | "essay") {
   const split = date.split("-");
   const { data } = await sendAwaitGet(`/${type == "article" ? "archives" : "archive"}/${split[0]}/${split[1]}.html}`);
-  return Parser.parseWritingsFull(data);
+  return Parser.parseWorksFull(data);
 }
 
 /**
  * 通过标签获取随笔列表
- *
- * @param tag 标签
  */
-export async function getWritingMark(tag: string) {
-  const { data } = await sendAwaitGet(`/tag/${tag}`);
-  return Parser.parseWritingsSlice(data);
+export async function getWorksMark(tag: string, page?: string | number) {
+  const { data } = await sendAwaitGet(`/tag/${tag}/default.html?page=${page ?? 1}`);
+  return Parser.parseWorksSlice(data);
 }
 
 /**
  * 检测是否解锁博文
  *
  * @param pwd 博文阅读密码
- * @param id 博文 ID
  * @returns 输入密码正确时返回 true
  */
 export async function getIsUnlock(pwd: string, id: string) {
@@ -162,14 +159,13 @@ export async function getIsUnlock(pwd: string, id: string) {
  * 获取上锁的博文内容，普通的 API 无法获取
  *
  * @param pwd 博文阅读密码
- * @param id 博文 ID
  * @returns 输入密码正确时返回这个博文内容
  */
-export async function getLockedWriting(pwd: string, id: string) {
+export async function getLockedWorks(pwd: string, id: string) {
   const formData = new FormData();
   formData.append("Password", pwd);
   const { data } = await sendAwaitPost(`/protected/p/${id}.html`, formData);
-  return Parser.parseWriting(id, data);
+  return Parser.parseWorks(id, data);
 }
 
 // ------------end------------------随笔--------------end----------------
@@ -180,7 +176,6 @@ export async function getLockedWriting(pwd: string, id: string) {
  * 发送随笔的评论
  *
  * @param comment 评论实体
- * @return 获取响应的消息，返回一个 axios 中 data 部分消息
  */
 export async function setComment(comment: BlogType.IComment): Promise<BlogType.AjaxType> {
   const { data } = await sendAwaitPost(`/ajax/PostComment/Add.aspx`, comment);
@@ -268,9 +263,9 @@ export async function getCommentList(postId: string, page: number, anchorId?: nu
 /**
  * 获取侧边栏随笔分类、随笔档案、文章分类、文章档案、最新评论等数据
  */
-export async function getCabinetColumn() {
+export async function getMenuColumn() {
   const { data } = await sendAwaitGet(`/ajax/sidecolumn.aspx`);
-  return Parser.parseCabinetColumn(data);
+  return Parser.parseMenuColumn(data);
 }
 
 /**
@@ -293,9 +288,9 @@ export async function getMasterData() {
 /**
  * 获取侧边栏阅读排行榜、评论排行榜、推荐排行榜列表
  */
-export async function getCabinetTopList() {
+export async function getTopList() {
   const { data } = await sendAwaitGet(`/ajax/TopLists.aspx`);
-  return Parser.parseCabinetTopList(data);
+  return Parser.parseTopList(data);
 }
 
 /**
@@ -363,5 +358,5 @@ export async function getCalendar(date: string) {
  */
 export async function getDayArchive(date: string) {
   const { data } = await sendAwaitGet(`/archive/${date}.html`);
-  return Parser.parseWritingList(data);
+  return Parser.parseWorksList(data);
 }

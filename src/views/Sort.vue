@@ -1,43 +1,31 @@
 <script setup lang="ts">
-import { getWritingSort, getWritingSortChild } from "@/apis/remote-api";
+import { getWorksSort, getWorksSortChild } from "@/apis/remote-api";
 
 const route = useRoute();
 const router = useRouter();
-let id = route.params.id;
-let mode = route.params.mode;
-const child = shallowRef();
-const sort = shallowRef();
+let sortId = route.params.id;
+let sortMode = route.params.mode;
+const sortChild = shallowRef();
+const worksSort = shallowRef();
 
-async function fetchData(index?: number) {
+async function fetchData(page?: any) {
   EcyUtils.startLoading();
-  sort.value = await getWritingSort(`${id}`, index || 1);
-  if (mode === "a") {
-    child.value = await getWritingSortChild(`${id}`, "2");
-  } else if (mode === "p") {
-    child.value = await getWritingSortChild(`${id}`);
+  worksSort.value = await getWorksSort(`${sortId}`, page?.currentIndex || 1);
+  if (sortMode === "a") {
+    sortChild.value = await getWorksSortChild(`${sortId}`, "2");
+  } else if (sortMode === "p") {
+    sortChild.value = await getWorksSortChild(`${sortId}`);
   }
-  EcyUtils.setTitle(sort.value.hint);
+  EcyUtils.setTitle(worksSort.value.hint);
   EcyUtils.endLoading();
 }
 
 await fetchData();
 
-async function nexpr(e: any) {
-  await fetchData(e.currentIndex);
-}
-
-async function next(e: any) {
-  await fetchData(e.currentIndex);
-}
-
-async function prev(e: any) {
-  await fetchData(e.currentIndex);
-}
-
 watch(route, async () => {
   if (route.name === "Sort") {
-    id = route.params.id;
-    mode = route.params.mode;
+    sortId = route.params.id;
+    sortMode = route.params.mode;
     await fetchData();
   }
 });
@@ -46,7 +34,7 @@ watch(route, async () => {
 <template>
   <div id="l-sort" class="min-height page">
     <div class="content">
-      <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="sort.page">
+      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="worksSort.page">
         <template #content>
           <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
             <template #title>
@@ -55,17 +43,17 @@ watch(route, async () => {
               </div>
             </template>
             <template #content>
-              <div class="l-sec-size mb-5 mt-4">{{ sort.hint }}</div>
+              <div class="l-sec-size mb-5 mt-4">{{ worksSort.hint }}</div>
             </template>
           </el-page-header>
-          <div class="l-sort__desc mb-4 l-for-size l-sec-color" v-html="sort.desc2 || sort.desc"></div>
-          <div class="l-sort__child l-fiv-size" v-if="child.length > 0">
-            <div class="hover f-c-s" v-for="(item, index) in child" :class="{ 'mb-4': index != child.length - 1 }">
+          <div class="l-sort__desc mb-4 l-for-size l-sec-color" v-html="worksSort.desc2 || worksSort.desc"></div>
+          <div class="l-sort__child l-fiv-size" v-if="sortChild.length > 0">
+            <div class="hover f-c-s" v-for="(item, index) in sortChild" :class="{ 'mb-4': index != sortChild.length - 1 }">
               <span class="mr-2">-</span>
               <router-link :to="'/sort/p/' + item.id">{{ item.text }}</router-link>
             </div>
           </div>
-          <WorksItem :data="sort.data" />
+          <WorksItem :data="worksSort.data" />
         </template>
       </Pagination>
     </div>

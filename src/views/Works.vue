@@ -1,28 +1,20 @@
 <script setup lang="ts">
-import {
-  getLockedWriting,
-  getIsUnlock,
-  getWriting,
-  getWritingProps,
-  getWritingPrevNext,
-  getWritingViewPoint,
-  voteWriting
-} from "@/apis/remote-api";
+import { getLockedWorks, getIsUnlock, getWorks, getWorksProps, getWorksPrevNext, getWorksViewPoint, voteWorks } from "@/apis/remote-api";
 
 EcyUtils.startLoading();
 
 const route = useRoute();
 const router = useRouter();
 let postId = `${route.params.id}`;
-const writing = shallowRef(await getWriting(postId));
-const prevNext = shallowRef(await getWritingPrevNext(postId));
-const writingProps = shallowRef(await getWritingProps(postId));
-const viewPoint = shallowRef(await getWritingViewPoint(postId));
+const works = shallowRef(await getWorks(postId));
+const worksPrevNext = shallowRef(await getWorksPrevNext(postId));
+const worksProps = shallowRef(await getWorksProps(postId));
+const worksViewPoint = shallowRef(await getWorksViewPoint(postId));
 const isLock = ref(false);
 const pwd = ref("");
 
-if (!(writing.value.content && writing.value.text)) isLock.value = true;
-EcyUtils.setTitle(writing.value.text);
+if (!(works.value.content && works.value.text)) isLock.value = true;
+EcyUtils.setTitle(works.value.text);
 
 onMounted(() => {
   const anchor = route.hash.match(/#.+/g);
@@ -38,18 +30,18 @@ onMounted(() => {
 async function submit() {
   const data = await getIsUnlock(pwd.value, postId + "");
   if (data) {
-    writing.value = await getLockedWriting(pwd.value, postId);
+    works.value = await getLockedWorks(pwd.value, postId);
     isLock.value = false;
   }
   ElMessage({ message: data ? "密码输入正确！" : "密码错误！", grouping: true, type: data ? "success" : "error" });
 }
 
 async function vote(voteType: BlogType.VoteType) {
-  const data = await voteWriting({ postId: postId, isAbandoned: false, voteType });
+  const data = await voteWorks({ postId: postId, isAbandoned: false, voteType });
   if (data) {
     if (data.isSuccess)
-      if (voteType == "Bury") viewPoint.value.buryCount = viewPoint.value.buryCount + 1;
-      else viewPoint.value.diggCount = viewPoint.value.diggCount + 1;
+      if (voteType == "Bury") worksViewPoint.value.buryCount = worksViewPoint.value.buryCount + 1;
+      else worksViewPoint.value.diggCount = worksViewPoint.value.diggCount + 1;
     ElMessage({ message: data.message, grouping: true, type: data.isSuccess ? "success" : "error" });
   }
 }
@@ -65,14 +57,14 @@ watch(route, async () => {
     EcyUtils.startLoading();
 
     postId = `${route.params.id}`;
-    writing.value = await getWriting(postId);
-    writingProps.value = await getWritingProps(postId);
-    prevNext.value = await getWritingPrevNext(postId);
-    viewPoint.value = await getWritingViewPoint(postId);
+    works.value = await getWorks(postId);
+    worksProps.value = await getWorksProps(postId);
+    worksPrevNext.value = await getWorksPrevNext(postId);
+    worksViewPoint.value = await getWorksViewPoint(postId);
     isLock.value = false;
 
-    if (!(writing.value.content && writing.value.text)) isLock.value = true;
-    document.querySelector("title").innerText = `${writing.value.text} - ${EcyConfig.blogApp} - 博客园`;
+    if (!(works.value.content && works.value.text)) isLock.value = true;
+    EcyUtils.setTitle(works.value.text);
     EcyUtils.endLoading();
   }
 });
@@ -84,19 +76,19 @@ watch(route, async () => {
       <img class="h-100% w-100% rd-0" :src="randomSurface()" />
     </div>
     <div class="z-999 absolute left-0 top-0 pt-5rem pl-10rem w-100%">
-      <div class="size-2.2rem font-bold text-ellipsis line-clamp-2 w-50%">{{ writing.text }}</div>
+      <div class="size-2.2rem font-bold text-ellipsis line-clamp-2 w-50%">{{ works.text }}</div>
       <div class="f-c-s mt-6 l-for-size">
         <div class="f-c-c mr-4">
           <i-ep-clock class="mr-1" />
-          <span>{{ writing.date }}</span>
+          <span>{{ works.date }}</span>
         </div>
         <div class="f-c-c mr-4">
           <i-ep-view class="mr-1" />
-          <span>{{ writing.view }}次阅读</span>
+          <span>{{ works.view }}次阅读</span>
         </div>
         <div class="f-c-c mr-4">
           <i-ep-chat-line-square class="mr-1" />
-          <span>{{ writing.comm }}条评论</span>
+          <span>{{ works.comm }}条评论</span>
         </div>
         <div
           v-if="EcyConfig.isOwner"
@@ -107,23 +99,23 @@ watch(route, async () => {
         </div>
       </div>
       <div class="mt-6">
-        <div class="mb-4 flex-wrap l-fiv-size f-c-s" v-if="writingProps.sorts.length > 0">
+        <div class="mb-4 flex-wrap l-fiv-size f-c-s" v-if="worksProps.sorts.length > 0">
           <div class="f-c-c">
             <i-ep-folder-opened class="mr-1" />
             <span>分类：</span>
           </div>
-          <div v-for="(item, index) in writingProps.sorts" :class="{ 'mr-2': index !== writingProps.sorts.length - 1 }">
+          <div v-for="(item, index) in worksProps.sorts" :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
             <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/sort/p/' + item.href, router })">
               {{ item.text }}
             </LTag>
           </div>
         </div>
-        <div class="f-c-s flex-wrap l-fiv-size" v-if="writingProps.tags.length > 0">
+        <div class="f-c-s flex-wrap l-fiv-size" v-if="worksProps.tags.length > 0">
           <div class="f-c-c">
             <i-ep-price-tag class="mr-1" />
             <span>标签：</span>
           </div>
-          <div v-for="(item, index) in writingProps.tags" :class="{ 'mr-2': index !== writingProps.tags.length - 1 }">
+          <div v-for="(item, index) in worksProps.tags" :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
             <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/mark/' + item.text, router })">
               {{ item.text }}
             </LTag>
@@ -139,38 +131,38 @@ watch(route, async () => {
   <div id="l-works" class="page">
     <div class="content">
       <div v-show="!isLock">
-        <div class="l-thr-size" v-html="writing.content" v-hljs v-catalog v-mathjax></div>
+        <div class="l-thr-size" v-html="works.content" v-hljs v-catalog v-mathjax></div>
         <Highslide />
         <Catalog />
         <div class="divider flex-col"></div>
         <div class="l-sec-color f-c-e l-fiv-size">
           <div class="f-c-c mr-4">
             <i-ep-clock class="mr-1" />
-            <span>{{ writing.date }}</span>
+            <span>{{ works.date }}</span>
           </div>
           <div class="f-c-c mr-4">
             <i-ep-view class="mr-1" />
-            <span>{{ writing.view }}次阅读</span>
+            <span>{{ works.view }}次阅读</span>
           </div>
           <div class="f-c-c">
             <i-ep-chat-line-square class="mr-1" />
-            <span>{{ writing.comm }}条评论</span>
+            <span>{{ works.comm }}条评论</span>
           </div>
         </div>
         <div class="prev-next mt-10 l-fiv-size">
-          <div class="hover f-c-s mb-2" v-if="prevNext.prev.href">
+          <div class="hover f-c-s mb-2" v-if="worksPrevNext.prev.href">
             <i-ep-d-arrow-left />
-            <a class="hover l-pri-color" :href="prevNext.prev.href"> 上一篇：{{ prevNext.prev.text }} </a>
+            <a class="hover l-pri-color" :href="worksPrevNext.prev.href"> 上一篇：{{ worksPrevNext.prev.text }} </a>
           </div>
-          <div class="hover f-c-s" v-if="prevNext.next.href">
+          <div class="hover f-c-s" v-if="worksPrevNext.next.href">
             <i-ep-d-arrow-right />
-            <a class="hover l-pri-color" :href="prevNext.next.href"> 下一篇：{{ prevNext.next.text }} </a>
+            <a class="hover l-pri-color" :href="worksPrevNext.next.href"> 下一篇：{{ worksPrevNext.next.text }} </a>
           </div>
         </div>
         <div class="viewpoint my-10 f-c-e">
           <div class="mr-5">
             <el-button plain @click="vote('Digg')">
-              点赞 {{ viewPoint.diggCount }}
+              点赞 {{ worksViewPoint.diggCount }}
               <template #icon>
                 <i-ep-caret-top />
               </template>
@@ -178,7 +170,7 @@ watch(route, async () => {
           </div>
           <div>
             <el-button plain @click="vote('Bury')">
-              反对 {{ viewPoint.buryCount }}
+              反对 {{ worksViewPoint.buryCount }}
               <template #icon>
                 <i-ep-caret-bottom />
               </template>

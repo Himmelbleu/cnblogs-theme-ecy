@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { follow, unfollow, getCabinetColumn, getCabinetTopList, getAuthorData, getMasterData } from "@/apis/remote-api";
+import { follow, unfollow, getMenuColumn, getTopList, getAuthorData, getMasterData } from "@/apis/remote-api";
 
 const props = defineProps({
   disabled: {
@@ -24,11 +24,11 @@ getAuthorData().then(author => {
   });
 });
 
-getCabinetColumn().then(res => {
+getMenuColumn().then(res => {
   columnData.value = res;
 });
 
-getCabinetTopList().then(res => {
+getTopList().then(res => {
   topListData.value = res;
 });
 
