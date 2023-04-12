@@ -54,10 +54,7 @@ async function vote(voteType: BlogType.VoteType) {
   }
 }
 
-const imgs = EcyConfig.__ECY_CONFIG__.covers.works || [
-  "https://ts1.cn.mm.bing.net/th/id/R-C.4badb6d27851e519a24790386aef6461?rik=uUXkfL%2fVF6UAGg&riu=http%3a%2f%2fimg.mm4000.com%2ffile%2f4%2f31%2f603a19da02.jpg&ehk=Bxq7oNn5fHirjNU9QApEzGfPFIS7%2fchUXN1hFaEhvY0%3d&risl=&pid=ImgRaw&r=0",
-  "https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"
-];
+const imgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 
 function randomSurface() {
   return imgs[Math.floor(Math.random() * imgs.length)];

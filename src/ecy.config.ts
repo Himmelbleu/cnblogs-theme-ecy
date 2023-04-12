@@ -71,19 +71,15 @@ export namespace EcyConfig {
         },
         covers: {
           works: [
-            // 间谍
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg",
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptjk8obj32y31wwnlv.jpg",
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptwnz55j337f1yib2e.jpg",
-            //
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h4smbf7pn8j31cw0qcn76.jpg"
           ],
           index: [
-            // 间谍
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg",
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptjk8obj32y31wwnlv.jpg",
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptwnz55j337f1yib2e.jpg",
-            //
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h4smbf7pn8j31cw0qcn76.jpg"
           ]
         },

@@ -6,10 +6,7 @@ defineProps({
   }
 });
 
-const imgs = EcyConfig.__ECY_CONFIG__.covers.index || [
-  "https://ts1.cn.mm.bing.net/th/id/R-C.4badb6d27851e519a24790386aef6461?rik=uUXkfL%2fVF6UAGg&riu=http%3a%2f%2fimg.mm4000.com%2ffile%2f4%2f31%2f603a19da02.jpg&ehk=Bxq7oNn5fHirjNU9QApEzGfPFIS7%2fchUXN1hFaEhvY0%3d&risl=&pid=ImgRaw&r=0",
-  "https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"
-];
+const imgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 
 function randomSurface() {
   return imgs[Math.floor(Math.random() * imgs.length)];
@@ -20,7 +17,11 @@ const router = useRouter();
 
 <template>
   <div class="f-c-b item h-20rem rd-2" v-for="(item, index) in data">
-    <img v-if="index % 2 !== 0" class="w-45% h-100%" :src="item.surface || randomSurface()" />
+    <div v-if="index % 2 !== 0" class="w-45% h-100% relative">
+      <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
+      <img class="w-100% h-100%" :src="item.surface || randomSurface()" />
+      <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
+    </div>
     <div class="w-52%" :class="{ 'pl-4': index % 2 === 0, 'pr-4': index % 2 !== 0 }">
       <div class="hover text-ellipsis line-clamp-2 f-c-s mb-6 l-pri-size" @click="EcyUtils.Router.go({ path: '/p/' + item.id, router })">
         {{ item.text }}
@@ -58,7 +59,11 @@ const router = useRouter();
         <LTag round plain v-else-if="item.isLocked" class="mr-2">密码锁定</LTag>
       </div>
     </div>
-    <img v-if="index % 2 === 0" class="w-45% h-100%" :src="item.surface || randomSurface()" />
+    <div v-if="index % 2 === 0" class="w-45% h-100% relative">
+      <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
+      <img class="w-100% h-100%" :src="item.surface || randomSurface()" />
+      <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
+    </div>
   </div>
 </template>
 
@@ -69,7 +74,16 @@ const router = useRouter();
     top: 1.5rem;
     bottom: 3rem;
   }
-  box-shadow: 0 1px 20px -6px rgba(85, 85, 85, 0.5);
+}
+
+.mask::after {
+  --uno: rd-2;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  backdrop-filter: blur(6px);
 }
 
 .item:hover {

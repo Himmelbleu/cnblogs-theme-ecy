@@ -21,7 +21,7 @@ function changeFolder() {
 </script>
 
 <template>
-  <div id="l-toolkits" class="fixed z-99 right-20 top-65vh l-thr-size">
+  <div id="l-toolkits" class="fixed z-99 right-18 top-70vh l-thr-size">
     <div class="relative">
       <div
         :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"

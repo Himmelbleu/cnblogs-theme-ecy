@@ -241,7 +241,6 @@ declare namespace CustType {
     };
     other: {
       catalog: { level: boolean };
-      github: string;
     };
   }>;
 
