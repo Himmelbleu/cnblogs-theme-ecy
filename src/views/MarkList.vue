@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { getMarkList } from "@/apis/remote-api";
 
+EcyUtils.setTitle("标签");
 EcyUtils.startLoading();
 
 const markList = await getMarkList();
-
-document.querySelector("title").innerText = `标签 - ${EcyConfig.blogApp} - 博客园`;
 
 onMounted(() => {
   EcyUtils.endLoading();
@@ -23,10 +22,16 @@ onMounted(() => {
     </div>
   </div>
 </template>
+0
 
 <style scoped lang="scss">
 #l-tags {
-  @include flex($justify: space-between, $items: stretch, $content: stretch);
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  align-content: stretch;
+  flex-wrap: wrap;
+  flex-direction: row;
 
   @include pc() {
     .item {

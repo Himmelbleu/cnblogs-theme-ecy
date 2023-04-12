@@ -54,11 +54,6 @@ function useHighslide(ele: JQuery<HTMLElement>) {
   eleParent.append(`<div class="l-sec-color l-fiv-size mt-2">${ele.attr("alt")}</div>`);
 }
 
-/**
- * 注册自定义指令
- *
- * @param Vue 传入 Vue 对象
- */
 export function useDirective(Vue: any) {
   /**
    * 对 pre code 代码进行格式化

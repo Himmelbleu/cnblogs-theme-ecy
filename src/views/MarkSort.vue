@@ -6,14 +6,13 @@ EcyUtils.startLoading();
 const route = useRoute();
 const router = useRouter();
 const listing = shallowRef(await getWritingMark(`${route.params.tag}`));
-
-document.querySelector("title").innerText = `${listing.value.hint} - ${EcyConfig.blogApp} - 博客园`;
+EcyUtils.setTitle(listing.value.hint);
 
 watch(route, async () => {
   if (route.name === "MarkSort") {
     EcyUtils.startLoading();
     listing.value = await getWritingMark(`${route.params.tag}`);
-    document.querySelector("title").innerText = `${listing.value.hint} - ${EcyConfig.blogApp} - 博客园`;
+    EcyUtils.setTitle(listing.value.hint);
     EcyUtils.endLoading();
   }
 });

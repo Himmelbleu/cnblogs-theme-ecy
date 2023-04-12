@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const setting = EcyUtils.getSetting();
+const setting = EcyUtils.getLocalSetting();
 const router = useRouter();
 
 function moveToTopNail() {

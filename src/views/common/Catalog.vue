@@ -38,7 +38,7 @@ watch(route, async () => {
 <style scoped lang="scss">
 @include pc() {
   #l-catalog {
-    left: calc(var(--content-width) * 1.45);
+    left: calc(55vw * 1.45);
   }
 }
 

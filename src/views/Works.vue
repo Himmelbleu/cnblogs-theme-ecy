@@ -22,7 +22,7 @@ const isLock = ref(false);
 const pwd = ref("");
 
 if (!(writing.value.content && writing.value.text)) isLock.value = true;
-document.querySelector("title").innerText = `${writing.value.text} - ${EcyConfig.blogApp} - 博客园`;
+EcyUtils.setTitle(writing.value.text);
 
 onMounted(() => {
   const anchor = route.hash.match(/#.+/g);

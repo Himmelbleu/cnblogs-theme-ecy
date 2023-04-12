@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { getAlbumn } from "@/apis/remote-api";
 
+EcyUtils.setTitle("相册");
 EcyUtils.startLoading();
 
 const route = useRoute();
 const router = useRouter();
 const albumn = shallowRef(await getAlbumn(`${route.params.id}`));
 const srcList = shallowRef(albumn.value.data.map(i => i.src));
-
-document.querySelector("title").innerText = `相册 - ${EcyConfig.blogApp} - 博客园`;
 
 watch(route, async () => {
   if (route.name === "Albumn") {

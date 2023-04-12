@@ -58,6 +58,11 @@ body {
   font-size: var(--font-size);
   font-weight: 400;
 
+  & {
+    scrollbar-color: initial;
+    scrollbar-width: none;
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }

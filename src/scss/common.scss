@@ -17,6 +17,11 @@
 }
 
 .noscroll {
+  & {
+    scrollbar-color: initial;
+    scrollbar-width: none;
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -85,7 +90,7 @@
     z-index: 2;
 
     & > .content {
-      width: var(--content-width);
+      width: 55vw;
     }
   }
 }

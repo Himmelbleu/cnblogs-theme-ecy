@@ -32,18 +32,11 @@ export namespace EcyConfig {
     return $("#p_b_follow > a")?.text() === "-取消关注" ?? false;
   }
 
-  /**
-   * 初始化自定义博客设置
-   */
-  function initSetting() {
-    const setting = EcyUtils.getSetting().value;
-    localStorage.setItem(`l-${blogApp}-setting`, JSON.stringify(EcyUtils.reloadObjProps(setting, EcyUtils.getSettingTemp())));
-
+  function initLocalSetting() {
+    const setting = EcyUtils.getLocalSetting().value;
+    const strings = JSON.stringify(EcyUtils.reloadObjProps(setting, EcyUtils.getLocalSettingTemp()));
+    localStorage.setItem(`l-${blogApp}-setting`, strings);
     $("html").attr("class", setting.theme.mode);
-    $("html").css({
-      "--cabinet-width": `${setting.cabinet.width}rem`,
-      "--content-width": `${setting.content.width}vw`
-    });
   }
 
   /**
@@ -54,7 +47,6 @@ export namespace EcyConfig {
   export function useLite(dev: Function, pro: Function) {
     $("body").append(`<div id="app"></div>`);
     $("head").append(`<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css" />`);
-    $("head").append(` <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/amutham"  />`);
 
     if (import.meta.env.PROD) {
       blogId = currentBlogId;
@@ -66,7 +58,7 @@ export namespace EcyConfig {
       isFollow = getIsFollow();
       // @ts-ignore
       __ECY_CONFIG__ = window["__ECY_CONFIG__"];
-      initSetting();
+      initLocalSetting();
       pro();
     } else if (import.meta.env.DEV) {
       blogId = import.meta.env.VITE_BLOG_ID;
@@ -78,14 +70,6 @@ export namespace EcyConfig {
           signature: "Time tick away, dream faded away!"
         },
         covers: {
-          app: [
-            // 间谍
-            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg",
-            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptjk8obj32y31wwnlv.jpg",
-            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8aptwnz55j337f1yib2e.jpg",
-            //
-            "https://gzw.sinaimg.cn/large/0073YlnVgy1h4smbf7pn8j31cw0qcn76.jpg"
-          ],
           works: [
             // 间谍
             "https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg",
@@ -140,7 +124,7 @@ export namespace EcyConfig {
           }
         }
       };
-      initSetting();
+      initLocalSetting();
       dev();
     }
 

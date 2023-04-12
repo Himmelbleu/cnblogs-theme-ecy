@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getAuthorData, getMasterData } from "@/apis/remote-api";
 
+EcyUtils.setTitle("铭牌");
 EcyUtils.startLoading();
 
 const router = useRouter();

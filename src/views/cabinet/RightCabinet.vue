@@ -18,8 +18,7 @@ const hidden = computed(() => {
 <template>
   <div
     id="l-rcabinet"
-    style="width: var(--cabinet-width)"
-    class="noscroll l-fiv-size h-100vh ofw-auto fixed top-0 right-0 bg-#191919 p-3"
+    class="noscroll l-fiv-size h-100vh ofw-auto fixed top-0 right-0 bg-#191919 p-3 17.5rem"
     :class="{ 'show-rcabinet z-99': block, 'hidden-rcabinet': hidden }">
     <ExpandableBox text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.cabinet.links && EcyConfig.__ECY_CONFIG__.cabinet.links.length">
       <template #icon>
@@ -59,32 +58,28 @@ $quota: 10;
   transition: var(--l-transition);
 }
 
-.fixed-rcabinet {
-  left: calc(calc(var(--content-width) / 2) + var(--content-width) + 2rem) !important;
-}
-
 .show-rcabinet {
-  animation: showrcabinet 0.2s ease-in;
+  animation: showrcabinet 0.3s linear;
   transform: translateX(0);
 }
 
 @keyframes showrcabinet {
   @for $i from 0 to $quota {
     #{$i * 10%} {
-      transform: translateX(calc(var(--cabinet-width) + calc($i * calc(calc(-1 * var(--cabinet-width)) / 10))));
+      transform: translateX(calc(17.5rem + $i * -1.75rem));
     }
   }
 }
 
 .hidden-rcabinet {
-  animation: hiddenrcabinet 0.2s ease-out;
-  transform: translateX(var(--cabinet-width));
+  animation: hiddenrcabinet 0.3s linear;
+  transform: translateX(17.5rem);
 }
 
 @keyframes hiddenrcabinet {
   @for $i from 0 to $quota {
     #{$i * 10%} {
-      transform: translateX(calc($i * calc(var(--cabinet-width) / 10)));
+      transform: translateX($i * 1.75rem);
     }
   }
 }

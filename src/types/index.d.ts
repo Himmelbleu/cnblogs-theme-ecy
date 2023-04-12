@@ -8,9 +8,7 @@ declare namespace BlogType {
    * 博客园评论和随笔的基础字段，一般是调用接口之后返回过来的字段
    */
   interface IBlog {
-    // 随笔 ID
     postId?: string;
-    // 投票类型，反对或赞成
     voteType?: VoteType;
     isAbandoned?: boolean;
   }
@@ -40,14 +38,10 @@ declare namespace BlogType {
    * 随笔投票，博客园接口需要的正确字段
    */
   interface IEssayViewPoint {
-    // 反对数量
     buryCount: number;
-    // 点赞数量
     diggCount: number;
     feedbackCount: number;
-    // 随笔 ID
     postId: string;
-    // 阅读数量
     viewCount: number;
   }
 
@@ -70,23 +64,15 @@ declare namespace CustType {
    * 随笔/文章
    */
   type IWriting = Partial<{
-    // 随笔 ID
     id: string;
     // 随笔标题
     text: string;
-    // 随笔内容
     content: string;
-    // 随笔摘要
     desc: string;
-    // 随笔发表日期
     date: string;
-    // 随笔阅读数量
     view: string;
-    // 随笔评论数量
     comm: string;
-    // 随笔点赞数量
     digg: string;
-    // 随笔封面
     surface: string;
     // 文章是否被密码锁定
     isLocked: boolean;
@@ -110,19 +96,12 @@ declare namespace CustType {
     space: string;
     // 楼层
     layer: string;
-    // 发表日期
     date: string;
-    // 发表人
     author: string;
-    // 点赞数量
     digg: string;
-    // 反对数量
     bury: string;
-    // 头像地址
     avatar: string;
-    // 随笔 ID
     postId: string;
-    // 评论内容
     content: string;
     // 回复评论 ID
     parentCommentId: number;
@@ -143,11 +122,8 @@ declare namespace CustType {
    * 随笔列表
    */
   type IWritingList = Partial<{
-    // 页数
     page: number;
-    // 提示
     hint: string;
-    // 数据
     data: IWriting[];
   }>;
 
@@ -155,7 +131,6 @@ declare namespace CustType {
    * 随笔列表，用于分类或标签区分的随笔列表
    */
   interface IWritingList2 extends IWritingList {
-    // 分类描述
     desc?: string;
     // 子分类描述
     desc2?: string;
@@ -203,13 +178,10 @@ declare namespace CustType {
    * 随笔上一篇或下一篇随笔数据类型
    */
   type ICabinetItemData = Partial<{
-    // id
     id: string;
     // 文本描述
     text: string;
-    // 数量
     digg: string;
-    // 链接
     href: string;
   }>;
 
@@ -239,20 +211,13 @@ declare namespace CustType {
    * 博客配置项
    */
   type IEcy = Partial<{
-    // 网站 icon
     icon: string;
-    // 陈列柜
     cabinet: Partial<{
-      // 头像
       avatar: string;
-      // 个性签名
       signature: string;
-      // 推荐链接
       links: { href: string; text: string }[];
-      // 推荐书籍
       books: { href?: string; text: string; img: string; author: string; rate: number }[];
     }>;
-    // 铭牌
     nameplate: {
       tags: string[];
       connection: { name: string; text: string; svg?: string; img?: string }[];
@@ -265,9 +230,7 @@ declare namespace CustType {
     covers: {
       index: string[];
       works: string[];
-      app: string[];
     };
-    // 技能雷达
     graph: {
       alpha: number;
       sides: number;
@@ -277,9 +240,7 @@ declare namespace CustType {
       data: { title: string; star: number }[];
     };
     other: {
-      // 目录配置项
       catalog: { level: boolean };
-      // github
       github: string;
     };
   }>;
@@ -295,16 +256,10 @@ declare namespace CustType {
    * Ecy 主题设置数据类型
    */
   type ISetting = Partial<{
-    // 主题
-    theme: { color: string; mode: string };
-    // 工具箱
+    theme: { mode: string };
     toolkits: { pin: boolean };
-    // 中间内容
-    content: { width: number; padding: IBox; margin: IBox };
-    // 陈列柜
     cabinet: {
       toggles: Record<string, { open: boolean; show: boolean }>;
-      width: number;
     };
   }>;
 }
@@ -313,12 +268,13 @@ declare namespace CustType {
  * Ecy 工具
  */
 declare namespace EcyUtils {
-  function getSetting(): RemovableRef<CustType.ISetting>;
+  function getLocalSetting(): RemovableRef<CustType.ISetting>;
+  function getLocalSettingTemp(): CustType.ISetting;
   function endLoading(): void;
   function startLoading(): void;
   function openImageUploadWindow(el: string, onUploaded: (img: string) => void): void;
-  function getSettingTemp(): CustType.ISetting;
   function reloadObjProps(source: CustType.ISetting, template: CustType.ISetting): CustType.ISetting;
+  function setTitle(title?: string);
 
   namespace Log {
     function primary(title: string, msg: string): void;
@@ -361,19 +317,10 @@ declare namespace EcyConfig {
   let isFollow: boolean;
   let pcDevice: boolean;
 
-  /**
-   * 定义 Ecy
-   *
-   * @param dev 开发模式
-   * @param pro 生产模式
-   */
   function useLite(dev: Function, pro: Function);
 }
 
 declare const isLogined: boolean;
 declare const isBlogOwner: boolean;
 declare const currentBlogId: number;
-/**
- * 博客域名
- */
 declare const currentBlogApp: string;

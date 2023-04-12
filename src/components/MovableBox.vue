@@ -17,13 +17,11 @@ defineExpose({
 
 <template>
   <div :style="{ left: x ? x + 'px' : '', top: y + 'px' }" :class="{ hidden: disabled }" class="l-movbox z-9999 fixed">
-    <Card>
-      <div ref="head" class="mb-2 p-2 cursor-move">
-        <slot name="head" />
-      </div>
-      <div class="pb-2 px-2">
-        <slot />
-      </div>
-    </Card>
+    <div ref="head" class="mb-2 p-2 cursor-move">
+      <slot name="head" />
+    </div>
+    <div class="pb-2 px-2">
+      <slot />
+    </div>
   </div>
 </template>

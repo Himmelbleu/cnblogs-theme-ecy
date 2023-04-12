@@ -18,7 +18,7 @@ async function fetchData() {
   } else if (mode === "d") {
     archive.value = await getDayArchive(`${String(date).replaceAll("-", "/")}`);
   }
-  document.querySelector("title").innerText = `${archive.value.hint} - ${EcyConfig.blogApp} - 博客园`;
+  EcyUtils.setTitle(archive.value.hint);
   EcyUtils.endLoading();
 }
 
@@ -50,18 +50,16 @@ watch(route, async () => {
     <div class="content">
       <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="archive.page">
         <template #content>
-          <Card>
-            <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
-              <template #title>
-                <div class="f-c-c">
-                  <i-ep-back />
-                </div>
-              </template>
-              <template #content>
-                <div class="l-sec-size mb-5 mt-4">{{ archive.hint }}</div>
-              </template>
-            </el-page-header>
-          </Card>
+          <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+            <template #title>
+              <div class="f-c-c">
+                <i-ep-back />
+              </div>
+            </template>
+            <template #content>
+              <div class="l-sec-size mb-5 mt-4">{{ archive.hint }}</div>
+            </template>
+          </el-page-header>
           <WorksItem v-if="archive.data.length > 0" :data="archive.data" />
         </template>
       </Pagination>

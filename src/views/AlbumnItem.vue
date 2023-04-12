@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { getAlbumnItem } from "@/apis/remote-api";
 
+EcyUtils.setTitle("相册图片");
 EcyUtils.startLoading();
 
 const route = useRoute();
 const router = useRouter();
 const imgUrl = shallowRef(await getAlbumnItem(`${route.params.id}`));
-
-document.querySelector("title").innerText = `相册照片 - ${EcyConfig.blogApp} - 博客园`;
 
 onMounted(() => {
   EcyUtils.endLoading();

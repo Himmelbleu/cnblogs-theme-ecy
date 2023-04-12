@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getCalendar } from "@/apis/remote-api";
 
+EcyUtils.setTitle("日历");
 EcyUtils.startLoading();
 
 const router = useRouter();

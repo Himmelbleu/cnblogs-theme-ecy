@@ -9,8 +9,6 @@ import $ from "jquery";
 
 /**
  * 把字符串转换为 DOM
- *
- * @param dom 字符串
  */
 export function parseDOM(dom: any) {
   return new DOMParser().parseFromString(dom, "text/html");
@@ -415,8 +413,6 @@ export function parseAuthorData(dom: string): CustType.ICabinetItemData[] {
 
 /**
  * 解析博主主人的随笔、文章、评论、阅读等数据
- *
- * @param dom 真实 DOM
  */
 export function parseMasterData(dom: string): Array<CustType.ICabinetItemData> {
   const data: CustType.ICabinetItemData[] = [];
@@ -436,8 +432,6 @@ export function parseMasterData(dom: string): Array<CustType.ICabinetItemData> {
 
 /**
  * 解析侧边栏博客排行信息。
- *
- * @param dom 真实 DOM
  */
 export function parseCabinetRankList(dom: string): CustType.ICabinetItemData[] {
   const data: CustType.ICabinetItemData[] = [];
@@ -454,8 +448,6 @@ export function parseCabinetRankList(dom: string): CustType.ICabinetItemData[] {
 
 /**
  * 解析博客阅读排行榜
- *
- * @param dom 真实 DOM
  */
 export function parseCabinetTopList(dom: string): CustType.ICabinetTopList {
   const data: CustType.ICabinetTopList = {

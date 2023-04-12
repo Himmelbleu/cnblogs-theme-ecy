@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import $ from "jquery";
 
-const setting = EcyUtils.getSetting();
+const setting = EcyUtils.getLocalSetting();
 const props = defineProps({
   text: {
     type: String,

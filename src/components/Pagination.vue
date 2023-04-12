@@ -64,11 +64,11 @@ function nexprChange(elIndex: number) {
   }
 
   .sorter.left {
-    left: calc(calc(calc(100vw - var(--content-width)) / 2) - 4rem);
+    left: calc(calc(45vw / 2) - 4rem);
   }
 
   .sorter.right {
-    right: calc(calc(calc(100vw - var(--content-width)) / 2) - 4rem);
+    right: calc(calc(45vw / 2) - 4rem);
   }
 }
 </style>

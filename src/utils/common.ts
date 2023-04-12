@@ -8,25 +8,14 @@
 import $ from "jquery";
 
 export namespace EcyUtils {
-  /**
-   * 获取本地博客设置数据
-   */
-  export function getSetting() {
-    return useStorage<CustType.ISetting>(`l-${EcyConfig.blogApp}-setting`, getSettingTemp());
+  export function getLocalSetting() {
+    return useStorage<CustType.ISetting>(`l-${EcyConfig.blogApp}-setting`, getLocalSettingTemp());
   }
 
-  /**
-   * Ecy 主题设置模板对象
-   */
-  export function getSettingTemp(): CustType.ISetting {
+  export function getLocalSettingTemp(): CustType.ISetting {
     return {
-      theme: { mode: "dark", color: "#409eff" },
+      theme: { mode: "dark" },
       toolkits: { pin: true },
-      content: {
-        width: 55,
-        padding: { left: 0, right: 0, top: 0, bottom: 0 },
-        margin: { left: 0, right: 0, top: 0, bottom: 0 }
-      },
       cabinet: {
         toggles: {
           我的技术栈: { open: true, show: true },
@@ -34,8 +23,7 @@ export namespace EcyUtils {
           常用链接: { open: true, show: true },
           博客数据: { open: true, show: true },
           推荐书籍: { open: true, show: true }
-        },
-        width: 17.5
+        }
       }
     };
   }
@@ -83,9 +71,6 @@ export namespace EcyUtils {
     return source;
   }
 
-  /**
-   * 关闭 loading 屏
-   */
   export function endLoading() {
     $(".light-loading, .dark-loading").fadeOut();
     $("#l-content").addClass("l-transition");
@@ -93,9 +78,6 @@ export namespace EcyUtils {
     $("#l-progress > .l-pro__track > .l-pro__bar").removeClass("bar-active").addClass("bar-static");
   }
 
-  /**
-   * 开启 loading 屏
-   */
   export function startLoading() {
     $("#l-content").removeClass("l-transition");
     $("#l-progress > .l-pro__track").removeClass("track-static").addClass("track-active");
@@ -136,13 +118,12 @@ export namespace EcyUtils {
     }
   }
 
+  export function setTitle(title?: string) {
+    const prefix = title ? title + " - " : "";
+    document.querySelector("title").innerText = `${prefix}${EcyConfig.blogApp} - 博客园`;
+  }
+
   export namespace Log {
-    /**
-     * 打印普通消息 log
-     *
-     * @param title 标题
-     * @param msg 信息
-     */
     export function primary(title: string, msg: string) {
       console.log(
         `%c${title}%c${msg}`,
@@ -151,12 +132,6 @@ export namespace EcyUtils {
       );
     }
 
-    /**
-     * 打印警告 log
-     *
-     * @param title 标题
-     * @param msg 信息
-     */
     export function warning(title: string, msg: string) {
       console.log(
         `%c${title}%c${msg}`,
@@ -206,10 +181,6 @@ export namespace EcyUtils {
   }
 
   export namespace Router {
-    /**
-     * 导航，传入 path 导航 Vue Router 路由组件；传入普通链接进行跳转；传入 back 对上级进行回跳。
-     * @param params path：路径、router：导航路由组件时传递
-     */
     export function go(params: { path: string; router?: Router }) {
       if (params.path === "back") {
         params.router.go(-1);

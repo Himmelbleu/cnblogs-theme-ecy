@@ -16,7 +16,7 @@ async function fetchData(index?: number) {
   } else if (mode === "p") {
     child.value = await getWritingSortChild(`${id}`);
   }
-  document.querySelector("title").innerText = `${sort.value.hint} - ${EcyConfig.blogApp} - 博客园`;
+  EcyUtils.setTitle(sort.value.hint);
   EcyUtils.endLoading();
 }
 
@@ -48,25 +48,23 @@ watch(route, async () => {
     <div class="content">
       <Pagination @nexpr="nexpr" @next="next" @prev="prev" :count="sort.page">
         <template #content>
-          <Card :padding="{ left: 1, right: 1, bottom: 1 }" :margin="{ bottom: 1 }">
-            <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
-              <template #title>
-                <div class="f-c-c">
-                  <i-ep-back />
-                </div>
-              </template>
-              <template #content>
-                <div class="l-sec-size mb-5 mt-4">{{ sort.hint }}</div>
-              </template>
-            </el-page-header>
-            <div class="l-sort__desc mb-4 l-for-size l-sec-color" v-html="sort.desc2 || sort.desc"></div>
-            <div class="l-sort__child l-fiv-size" v-if="child.length > 0">
-              <div class="hover f-c-s" v-for="(item, index) in child" :class="{ 'mb-4': index != child.length - 1 }">
-                <span class="mr-2">-</span>
-                <router-link :to="'/sort/p/' + item.id">{{ item.text }}</router-link>
+          <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+            <template #title>
+              <div class="f-c-c">
+                <i-ep-back />
               </div>
+            </template>
+            <template #content>
+              <div class="l-sec-size mb-5 mt-4">{{ sort.hint }}</div>
+            </template>
+          </el-page-header>
+          <div class="l-sort__desc mb-4 l-for-size l-sec-color" v-html="sort.desc2 || sort.desc"></div>
+          <div class="l-sort__child l-fiv-size" v-if="child.length > 0">
+            <div class="hover f-c-s" v-for="(item, index) in child" :class="{ 'mb-4': index != child.length - 1 }">
+              <span class="mr-2">-</span>
+              <router-link :to="'/sort/p/' + item.id">{{ item.text }}</router-link>
             </div>
-          </Card>
+          </div>
           <WorksItem :data="sort.data" />
         </template>
       </Pagination>

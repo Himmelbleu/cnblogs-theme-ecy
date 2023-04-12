@@ -2,7 +2,7 @@
 import { useSkillGraph } from "./index";
 
 const graph = ref<HTMLCanvasElement>();
-const setting = EcyUtils.getSetting();
+const setting = EcyUtils.getLocalSetting();
 
 watch(setting, (val, old) => {
   if (val.theme.color != old.theme.color) {
