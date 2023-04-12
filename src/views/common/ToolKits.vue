@@ -2,53 +2,53 @@
 const setting = EcyUtils.getLocalSetting();
 const router = useRouter();
 
-function moveToTopNail() {
-  document.querySelector("#l-top-nail").scrollIntoView();
+const isTop = ref(false);
+const isClosed = ref(false);
+
+function moveToNavil() {
+  if (isTop.value) {
+    document.querySelector("#l-top-nail").scrollIntoView();
+  } else {
+    document.querySelector("#l-bottom-nail").scrollIntoView();
+  }
+  isTop.value = !isTop.value;
 }
 
-function moveToBottomNail() {
-  document.querySelector("#l-bottom-nail").scrollIntoView();
+function changeFolder() {
+  setting.value.toolkits.pin = !setting.value.toolkits.pin;
+  isClosed.value = !isClosed.value;
 }
 </script>
 
 <template>
-  <div id="l-toolkits" class="fixed z-99 right-15 top-65vh l-thr-size">
+  <div id="l-toolkits" class="fixed z-99 right-20 top-65vh l-thr-size">
     <div class="relative">
       <div
         :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
-        class="back-home absolute hover left-0 rd-2"
-        @click="EcyUtils.Router.go({ path: '/', router })">
+        class="absolute hover left-0 rd-2"
+        @click="EcyUtils.Router.go({ path: 'back', router })">
         <div class="f-c-c w-8 h-8">
-          <i-ep-house />
+          <i-ep-arrow-left />
         </div>
       </div>
       <div
         :class="{ 'show-1': setting.toolkits.pin, 'close-1': !setting.toolkits.pin }"
-        class="back-top absolute hover left-0 rd-2"
-        @click="moveToTopNail">
+        class="absolute hover left-0 rd-2"
+        @click="moveToNavil">
         <div class="f-c-c w-8 h-8">
-          <i-ep-top />
+          <i-ep-top v-show="isTop" />
+          <i-ep-bottom v-show="!isTop" />
         </div>
       </div>
-      <div
-        :class="{ 'show-2': setting.toolkits.pin, 'close-2': !setting.toolkits.pin }"
-        class="back-top absolute hover left-0 rd-2"
-        @click="moveToBottomNail">
-        <div class="f-c-c w-8 h-8">
-          <i-ep-bottom />
-        </div>
-      </div>
-      <div :class="{ 'show-3': setting.toolkits.pin, 'close-3': !setting.toolkits.pin }" class="setting absolute hover left-0 rd-2">
+      <div :class="{ 'show-2': setting.toolkits.pin, 'close-2': !setting.toolkits.pin }" class="setting absolute hover left-0 rd-2">
         <div class="f-c-c w-8 h-8">
           <i-ep-setting class="rotate-setting" />
         </div>
       </div>
-      <div
-        @click="setting.toolkits.pin = !setting.toolkits.pin"
-        :class="{ 'show-toolkits': setting.toolkits.pin, 'close-toolkits': !setting.toolkits.pin }"
-        class="kits-box absolute hover top-40 left-0 rd-2 bg-#191919">
+      <div @click="changeFolder" class="kits-box absolute hover top-30 left-0 rd-2 bg-#191919">
         <div class="f-c-c w-8 h-8">
-          <i-ep-arrow-right />
+          <i-ep-folder-opened v-show="!isClosed" />
+          <i-ep-folder v-show="isClosed" />
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@ function moveToBottomNail() {
 
 <style scoped lang="scss">
 $show-top: 0;
-$close-end: 10rem;
+$close-end: 7.5rem;
 
 @for $index from 0 to 5 {
   @if $index != 0 {
@@ -100,31 +100,31 @@ $close-end: 10rem;
   }
 }
 
-.show-toolkits {
-  animation: show-toolkits-animation 0.3s ease-in;
-  transform: rotate(0);
-}
+// .show-toolkits {
+//   animation: show-toolkits-animation 0.3s ease-in;
+//   transform: rotate(0);
+// }
 
-.close-toolkits {
-  animation: close-toolkits-animation 0.3s ease-in;
-  transform: rotate(180deg);
-}
+// .close-toolkits {
+//   animation: close-toolkits-animation 0.3s ease-in;
+//   transform: rotate(180deg);
+// }
 
-@keyframes show-toolkits-animation {
-  @for $index from 0 to 10 {
-    #{$index * 10%} {
-      transform: rotate(180deg - $index * 18deg);
-    }
-  }
-}
+// @keyframes show-toolkits-animation {
+//   @for $index from 0 to 10 {
+//     #{$index * 10%} {
+//       transform: rotate(180deg - $index * 18deg);
+//     }
+//   }
+// }
 
-@keyframes close-toolkits-animation {
-  @for $index from 0 to 10 {
-    #{$index * 10%} {
-      transform: rotate($index * 18deg);
-    }
-  }
-}
+// @keyframes close-toolkits-animation {
+//   @for $index from 0 to 10 {
+//     #{$index * 10%} {
+//       transform: rotate($index * 18deg);
+//     }
+//   }
+// }
 
 .rotate-setting:hover {
   animation: 1.5s infinite rotate-setting-animation;

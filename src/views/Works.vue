@@ -86,11 +86,8 @@ watch(route, async () => {
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
       <img class="h-100% w-100% rd-0" :src="randomSurface()" />
     </div>
-    <div class="z-999 absolute bottom-15vh left-10vw w-100%">
-      <div class="f-c-s mb-4 size-1.5rem hover" @click="EcyUtils.Router.go({ path: 'back', router })">
-        <i-ep-back />
-      </div>
-      <div class="size-2.3rem font-bold">{{ writing.text }}</div>
+    <div class="z-999 absolute left-0 top-0 pt-5rem pl-10rem w-100%">
+      <div class="size-2.2rem font-bold text-ellipsis line-clamp-2 w-50%">{{ writing.text }}</div>
       <div class="f-c-s mt-6 l-for-size">
         <div class="f-c-c mr-4">
           <i-ep-clock class="mr-1" />
@@ -137,7 +134,7 @@ watch(route, async () => {
         </div>
       </div>
     </div>
-    <div class="z-999 absolute bottom-0 left-0 h-75px w-100%">
+    <div class="z-999 absolute bottom-0 left-0 h-75px w-100% ofw-hidden">
       <div class="wave-1 absolute h-100% w-200%"></div>
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>

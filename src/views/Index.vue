@@ -60,7 +60,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="z-999 absolute bottom-0 left-0 h-75px w-100%">
+    <div class="z-999 absolute bottom-0 left-0 h-75px w-100% ofw-hidden">
       <div class="wave-1 absolute h-100% w-200%"></div>
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>
