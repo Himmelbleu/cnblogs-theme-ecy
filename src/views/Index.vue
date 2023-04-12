@@ -47,15 +47,12 @@ onMounted(() => {
         <i-ep-arrow-down-bold class="arrow color-#ededed size-1.5rem hover" />
       </div>
     </div>
-    <div class="z-999 color-#ededed absolute top-30vh left-0 f-c-c w-100vw">
+    <div class="z-999 color-#ededed absolute top-40vh left-0 f-c-c w-100vw">
       <div>
-        <div class="f-c-c mb-10">
+        <div class="mb-10 text-center size-3rem hover">
           <router-link to="/profile">
-            <img class="h-30 w-30 cursor-pointer rd-50" :src="cabinet?.avatar" />
+            <div>{{ EcyConfig.blogApp }}</div>
           </router-link>
-        </div>
-        <div class="mb-10 text-center size-3rem">
-          <div>{{ EcyConfig.blogApp }}</div>
         </div>
         <div class="text-center size-2rem">
           <div v-if="cabinet?.signature" v-html="cabinet.signature" />
