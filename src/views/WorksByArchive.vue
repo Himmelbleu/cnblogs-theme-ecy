@@ -1,31 +1,30 @@
 <script setup lang="ts">
-import { getWorksArchive, getDayArchive } from "@/apis";
+import { WorksApi } from "@/apis";
 
 EcyUtils.startLoading();
 
 const route = useRoute();
-const router = useRouter();
 let archiveDate = route.params.date;
 let archiveMode = route.params.mode;
-const worksArchive = shallowRef();
+const archiveWorks = shallowRef();
 
 async function fetchData() {
   EcyUtils.startLoading();
   if (archiveMode === "a") {
-    worksArchive.value = await getWorksArchive(`${archiveDate}`, "article");
+    archiveWorks.value = await WorksApi.getListByArchive(`${archiveDate}`, "article");
   } else if (archiveMode === "p") {
-    worksArchive.value = await getWorksArchive(`${archiveDate}`, "works");
+    archiveWorks.value = await WorksApi.getListByArchive(`${archiveDate}`, "works");
   } else if (archiveMode === "d") {
-    worksArchive.value = await getDayArchive(`${String(archiveDate).replaceAll("-", "/")}`);
+    archiveWorks.value = await WorksApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
   }
-  EcyUtils.setTitle(worksArchive.value.hint);
+  EcyUtils.setTitle(archiveWorks.value.hint);
   EcyUtils.endLoading();
 }
 
 await fetchData();
 
 watch(route, async () => {
-  if (route.name === "Archive") {
+  if (route.name === RouterName.WorksByArchive) {
     archiveMode = route.params.mode;
     archiveDate = route.params.date;
     await fetchData();
@@ -36,19 +35,19 @@ watch(route, async () => {
 <template>
   <div id="l-archive" class="min-height page">
     <div class="content">
-      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="worksArchive.page">
+      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveWorks.page">
         <template #content>
-          <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+          <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
             <template #title>
               <div class="f-c-c">
                 <i-ep-back />
               </div>
             </template>
             <template #content>
-              <div class="l-sec-size mb-5 mt-4">{{ worksArchive.hint }}</div>
+              <div class="l-sec-size mb-5 mt-4">{{ archiveWorks.hint }}</div>
             </template>
           </el-page-header>
-          <WorksItem v-if="worksArchive.data.length > 0" :data="worksArchive.data" />
+          <WorksItem v-if="archiveWorks.data.length > 0" :data="archiveWorks.data" />
         </template>
       </Pagination>
     </div>

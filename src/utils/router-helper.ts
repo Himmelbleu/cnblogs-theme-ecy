@@ -7,33 +7,135 @@
 
 import { useAnchorStore } from "@/store";
 
-export enum name {
+export enum RouterName {
   // 首页
   Index = "Index",
   // 铭牌
   Profile = "Profile",
   // 文章或随笔
   Works = "Works",
-  // 分类
-  Sort = "Sort",
-  // 档案
-  Archive = "Archive",
-  // 标签随笔列表
-  MarkSort = "MarkSort",
+  // 一级和二级随笔或文章分类
+  WorksBySort = "WorksBySort",
+  // 随笔或文章档案
+  WorksByArchive = "WorksByArchive",
+  // 随笔或文章的标签
+  WorksByMark = "WorksByMark",
+  // 随笔或文章的日历
+  WorksByCalendar = "WorksByCalendar",
   // 标签列表
   MarkList = "MarkList",
   // 相册
   Albumn = "Albumn",
-  // 相册项
-  AlbumnItem = "AlbunItem",
-  // 博客日历
-  Calendar = "Calendar"
+  // 照片
+  AlbumnItem = "AlbunItem"
+}
+
+export namespace RouterPath {
+  /**
+   * @returns "/"
+   */
+  export function index() {
+    return "/";
+  }
+
+  /**
+   * @returns "/profile"
+   */
+  export function profile() {
+    return "/profile";
+  }
+
+  /**
+   * @param id 随笔或文章 ID
+   * @returns "/p/:id"
+   */
+  export function works(id?: string | number) {
+    if (id) {
+      return `/p/${id}`;
+    } else return "/p/:id";
+  }
+
+  /**
+   * @param tag 标签
+   * @returns "/mark/:tag"
+   */
+  export function worksByMark(tag?: string) {
+    if (tag) {
+      return `/mark/${tag}`;
+    } else return "/mark/:tag";
+  }
+
+  /**
+   * @param mode a -> 文章分类；p -> 随笔分类
+   * @param id 文章或随笔 ID
+   * @returns "/sort/:mode/:id"
+   */
+  export function worksBySort(mode?: "a" | "p", id?: string | number) {
+    if (mode && id) {
+      return `/sort/${mode}/${id}`;
+    } else return "/sort/:mode/:id";
+  }
+
+  type ArchiveParam<T> = Extract<"a" | "p" | "d", T> extends "d"
+    ? {
+        mode?: "d";
+        date: string;
+      }
+    : {
+        mode?: "a" | "p";
+      };
+
+  /**
+   *
+   * @param mode a -> 文章；p -> 随笔；d -> 从日历点击过来的
+   * @param date 日期
+   * @returns "/archive/:mode/:date"
+   */
+  export function worksByArchive(mode?: "a" | "p" | "d", date?: string) {
+    if (mode && date) {
+      return `/archive/${mode}/${date}`;
+    } else return "/archive/:mode/:date";
+  }
+
+  /**
+   * @returns "/calendar"
+   */
+  export function worksByCalendar() {
+    return "/calendar";
+  }
+
+  /**
+   * @returns "/marks"
+   */
+  export function markList() {
+    return "/marks";
+  }
+
+  /**
+   * @param id 相册 ID
+   * @returns "/albumn/:id"
+   */
+  export function albumn(id?: string | number) {
+    if (id) {
+      return `/albumn/${id}`;
+    } else return "/albumn/:id";
+  }
+
+  /**
+   * @param id 照片 ID
+   * @returns "/albumn/item/:id"
+   */
+  export function albumnItem(id?: string | number) {
+    if (id) {
+      return `/albumn/item/${id}`;
+    } else return "/album/item/:id";
+  }
 }
 
 const regexp = {
-  WorksList: /\/p\/\d+.html/g,
-  WorksSort: /\/category\/\d+/g,
-  WorksMark: /\/tag\/[\w\s\u4e00-\u9fa5\n.\-|_]+/g,
+  Works: /\/p\/\d+.html/g,
+  WorksBySort: /\/category\/\d+/g,
+  WorksByMark: /\/tag\/[\w\s\u4e00-\u9fa5\n.\-|_]+/g,
   AlbumnItem: /\/gallery\/image\/\d+/g
 };
 
@@ -65,29 +167,29 @@ export function redirect(next: any): () => void {
   let nextParam: any;
   const URL = window.location.href;
 
-  if (regexp.WorksList.test(URL)) {
-    const postId = URL.match(regexp.WorksList)[0].split("/")[2].split(".")[0];
+  if (regexp.Works.test(URL)) {
+    const postId = URL.match(regexp.Works)[0].split("/")[2].split(".")[0];
     setCommentAnchor(URL);
     nextParam = {
-      name: name.Works,
+      name: RouterName.Works,
       params: { id: postId }
     };
-  } else if (regexp.WorksSort.test(URL)) {
-    const sortId = URL.match(regexp.WorksSort)[0].split("/")[2].split(",")[0];
+  } else if (regexp.WorksBySort.test(URL)) {
+    const sortId = URL.match(regexp.WorksBySort)[0].split("/")[2].split(",")[0];
     nextParam = {
-      name: name.Sort,
+      name: RouterName.WorksBySort,
       params: { id: sortId }
     };
-  } else if (regexp.WorksMark.test(URL)) {
-    const tag = decodeURI(URL).match(regexp.WorksMark)[0].split("/")[2];
+  } else if (regexp.WorksByMark.test(URL)) {
+    const tag = decodeURI(URL).match(regexp.WorksByMark)[0].split("/")[2];
     nextParam = {
-      name: name.MarkSort,
+      name: RouterName.WorksByMark,
       params: { tag }
     };
   } else if (regexp.AlbumnItem.test(URL)) {
     const id = URL.match(regexp.AlbumnItem)[0].split("/")[3];
     nextParam = {
-      name: name.AlbumnItem,
+      name: RouterName.AlbumnItem,
       params: { id }
     };
   }

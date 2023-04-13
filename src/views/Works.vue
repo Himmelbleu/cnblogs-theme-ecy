@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { getLockedWorks, getIsUnlock, getWorks, getWorksProps, getWorksPrevNext, getWorksViewPoint, voteWorks } from "@/apis";
+import { WorksApi } from "@/apis";
 
 EcyUtils.startLoading();
 
 const route = useRoute();
-const router = useRouter();
 let postId = `${route.params.id}`;
-const works = shallowRef(await getWorks(postId));
-const worksPrevNext = shallowRef(await getWorksPrevNext(postId));
-const worksProps = shallowRef(await getWorksProps(postId));
-const worksViewPoint = shallowRef(await getWorksViewPoint(postId));
-const isLock = ref(false);
+const works = shallowRef(await WorksApi.get(postId));
+const worksPrevNext = shallowRef(await WorksApi.getPrevNext(postId));
+const worksProps = shallowRef(await WorksApi.getProps(postId));
+const viewPoint = shallowRef(await WorksApi.getViewPoint(postId));
+const isUnlock = ref(false);
 const pwd = ref("");
 
-if (!(works.value.content && works.value.text)) isLock.value = true;
+if (!(works.value.content && works.value.text)) isUnlock.value = true;
 EcyUtils.setTitle(works.value.text);
 
 onMounted(() => {
@@ -28,21 +27,21 @@ onMounted(() => {
 });
 
 async function submit() {
-  const data = await getIsUnlock(pwd.value, postId + "");
-  if (data) {
-    works.value = await getLockedWorks(pwd.value, postId);
-    isLock.value = false;
+  const _islock = await WorksApi.isUnlock(pwd.value, postId + "");
+  if (_islock) {
+    works.value = await WorksApi.getLocked(pwd.value, postId);
+    isUnlock.value = false;
   }
-  ElMessage({ message: data ? "密码输入正确！" : "密码错误！", grouping: true, type: data ? "success" : "error" });
+  ElMessage({ message: _islock ? "密码输入正确！" : "密码错误！", grouping: true, type: _islock ? "success" : "error" });
 }
 
-async function vote(voteType: BlogType.VoteType) {
-  const data = await voteWorks({ postId: postId, isAbandoned: false, voteType });
-  if (data) {
-    if (data.isSuccess)
-      if (voteType == "Bury") worksViewPoint.value.buryCount = worksViewPoint.value.buryCount + 1;
-      else worksViewPoint.value.diggCount = worksViewPoint.value.diggCount + 1;
-    ElMessage({ message: data.message, grouping: true, type: data.isSuccess ? "success" : "error" });
+async function vote(type: BlogType.VoteType) {
+  const res = await WorksApi.vote({ postId: postId, isAbandoned: false, voteType: type });
+  if (res) {
+    if (res.isSuccess)
+      if (type == "Bury") viewPoint.value.buryCount = viewPoint.value.buryCount + 1;
+      else viewPoint.value.diggCount = viewPoint.value.diggCount + 1;
+    ElMessage({ message: res.message, grouping: true, type: res.isSuccess ? "success" : "error" });
   }
 }
 
@@ -53,17 +52,17 @@ function randomSurface() {
 }
 
 watch(route, async () => {
-  if (route.name === "Writing") {
+  if (route.name === RouterName.Works) {
     EcyUtils.startLoading();
 
     postId = `${route.params.id}`;
-    works.value = await getWorks(postId);
-    worksProps.value = await getWorksProps(postId);
-    worksPrevNext.value = await getWorksPrevNext(postId);
-    worksViewPoint.value = await getWorksViewPoint(postId);
-    isLock.value = false;
+    works.value = await WorksApi.get(postId);
+    worksProps.value = await WorksApi.getProps(postId);
+    worksPrevNext.value = await WorksApi.getPrevNext(postId);
+    viewPoint.value = await WorksApi.getViewPoint(postId);
+    isUnlock.value = false;
 
-    if (!(works.value.content && works.value.text)) isLock.value = true;
+    if (!(works.value.content && works.value.text)) isUnlock.value = true;
     EcyUtils.setTitle(works.value.text);
     EcyUtils.endLoading();
   }
@@ -71,7 +70,7 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div v-if="!isLock" class="welcome relative h-50vh w-100vw">
+  <div v-if="!isUnlock" class="welcome relative h-50vh w-100vw">
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
       <img class="h-100% w-100% rd-0" :src="randomSurface()" />
     </div>
@@ -106,7 +105,11 @@ watch(route, async () => {
               <span>分类：</span>
             </div>
             <div v-for="(item, index) in worksProps.sorts" :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
-              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/sort/p/' + item.href, router })">
+              <LTag
+                line="dotted"
+                hover
+                round
+                @click="EcyUtils.Router.go({ path: RouterPath.worksBySort('p', item.href), router: $router })">
                 {{ item.text }}
               </LTag>
             </div>
@@ -117,7 +120,7 @@ watch(route, async () => {
               <span>标签：</span>
             </div>
             <div v-for="(item, index) in worksProps.tags" :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
-              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: '/mark/' + item.text, router })">
+              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: RouterPath.worksByMark(item.text), router: $router })">
                 {{ item.text }}
               </LTag>
             </div>
@@ -132,7 +135,7 @@ watch(route, async () => {
   </div>
   <div id="l-works" class="page">
     <div class="content">
-      <div v-show="!isLock">
+      <div v-show="!isUnlock">
         <div class="l-thr-size" v-html="works.content" v-hljs v-catalog v-mathjax></div>
         <Highslide />
         <Catalog />
@@ -164,7 +167,7 @@ watch(route, async () => {
         <div class="viewpoint my-10 f-c-e">
           <div class="mr-5">
             <el-button plain @click="vote('Digg')">
-              点赞 {{ worksViewPoint.diggCount }}
+              点赞 {{ viewPoint.diggCount }}
               <template #icon>
                 <i-ep-caret-top />
               </template>
@@ -172,7 +175,7 @@ watch(route, async () => {
           </div>
           <div>
             <el-button plain @click="vote('Bury')">
-              反对 {{ worksViewPoint.buryCount }}
+              反对 {{ viewPoint.buryCount }}
               <template #icon>
                 <i-ep-caret-bottom />
               </template>
@@ -181,7 +184,7 @@ watch(route, async () => {
         </div>
         <Comment :post-id="postId" />
       </div>
-      <div v-if="isLock">
+      <div v-if="isUnlock">
         <div class="modal fixed w-100vw h-100vh top-0 left-0 l-box-bg f-c-c z-999999">
           <el-form>
             <el-form-item label="密码：">
@@ -338,56 +341,8 @@ pre {
 
 <style scoped lang="scss">
 .welcome {
-  * {
-    color: #ededed !important;
-  }
-
-  .wave-1 {
-    top: 0;
-    left: -100%;
-    opacity: 0.5;
-    animation: move-wave-to-right 20s infinite linear;
-    background: url(https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2281365/o_230410092356_wave-1.png) repeat-x;
-  }
-
-  .wave-2 {
-    top: 0;
-    left: 0%;
-    opacity: 0.6;
-    animation: move-wave-to-left 30s infinite linear;
-    background: url(https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2281365/o_230410092402_wave-2.png) repeat-x;
-  }
-
-  @keyframes move-wave-to-right {
-    0% {
-      transform: translateX(0%) scaleY(1);
-    }
-    50% {
-      transform: translateX(25%) scaleY(0.85);
-    }
-    100% {
-      transform: translateX(50%) scaleY(1);
-    }
-  }
-
-  @keyframes move-wave-to-left {
-    from {
-      transform: translateX(0%);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
   .cover::after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(20px);
   }
 }
 </style>

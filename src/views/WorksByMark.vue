@@ -1,22 +1,21 @@
 <script setup lang="ts">
-import { getWorksMark } from "@/apis";
+import { WorksApi } from "@/apis";
 
 EcyUtils.startLoading();
 
 const route = useRoute();
-const router = useRouter();
-const worksMark = shallowRef(await getWorksMark(`${route.params.tag}`));
-EcyUtils.setTitle(worksMark.value.hint);
+const markWorks = shallowRef(await WorksApi.getListByMark(`${route.params.tag}`));
+EcyUtils.setTitle(markWorks.value.hint);
 
 async function fetchData(index?: any) {
   EcyUtils.startLoading();
-  worksMark.value = await getWorksMark(`${route.params.tag}`, index);
-  EcyUtils.setTitle(worksMark.value.hint);
+  markWorks.value = await WorksApi.getListByMark(`${route.params.tag}`, index);
+  EcyUtils.setTitle(markWorks.value.hint);
   EcyUtils.endLoading();
 }
 
 watch(route, async () => {
-  if (route.name === "MarkSort") await fetchData();
+  if (route.name === RouterName.WorksByMark) await fetchData();
 });
 
 onMounted(() => {
@@ -27,19 +26,19 @@ onMounted(() => {
 <template>
   <div id="l-tagcoll" class="min-height page">
     <div class="content">
-      <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+      <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />
           </div>
         </template>
         <template #content>
-          <div class="l-sec-size mb-5 mt-4">{{ worksMark.hint }}</div>
+          <div class="l-sec-size mb-5 mt-4">{{ markWorks.hint }}</div>
         </template>
       </el-page-header>
-      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="worksMark.page">
+      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="markWorks.page">
         <template #content>
-          <div class="relative mb-10" v-for="item of worksMark.data">
+          <div class="relative mb-10" v-for="item of markWorks.data">
             <div class="l-sec-size">
               <router-link class="hover" :to="'/p/' + item.id">
                 {{ item.text }}

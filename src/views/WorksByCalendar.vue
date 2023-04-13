@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { getCalendar } from "@/apis";
+import { WorksApi } from "@/apis";
 
 EcyUtils.setTitle("日历");
 EcyUtils.startLoading();
 
-const router = useRouter();
 const date = new Date();
-const calendar = shallowRef(await getCalendar(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`));
+const calendar = shallowRef(await WorksApi.getCalendar(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`));
 const dateModel = ref(date);
 let currMonth = dateModel.value.getMonth();
 
@@ -19,7 +18,9 @@ const findDate = (data: any) =>
 watch(dateModel, async () => {
   if (dateModel.value.getMonth() != currMonth) {
     currMonth = dateModel.value.getMonth();
-    calendar.value = await getCalendar(`${dateModel.value.getFullYear()}/${dateModel.value.getMonth() + 1}/${dateModel.value.getDate()}`);
+    calendar.value = await WorksApi.getCalendar(
+      `${dateModel.value.getFullYear()}/${dateModel.value.getMonth() + 1}/${dateModel.value.getDate()}`
+    );
   }
 });
 
@@ -31,7 +32,7 @@ onMounted(() => {
 <template>
   <div class="l-calendar min-height page">
     <div class="content">
-      <el-page-header class="mt-4 mb-6" :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+      <el-page-header class="mt-4 mb-6" :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />
@@ -43,7 +44,15 @@ onMounted(() => {
       </el-page-header>
       <el-calendar v-model="dateModel">
         <template #date-cell="{ data }">
-          <div class="w-100% h-100%" @click="EcyUtils.Router.go({ path: '/archive/d/' + data.day, router })" v-if="findDate(data).value">
+          <div
+            class="w-100% h-100%"
+            @click="
+              EcyUtils.Router.go({
+                path: RouterPath.worksByArchive('d', data.day),
+                router: $router
+              })
+            "
+            v-if="findDate(data).value">
             <u>
               {{ data.day.split("-")[2] }}
             </u>

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { getHomeWorksList, getMasterData, getAuthorData } from "@/apis";
+import { WorksApi, MenuApi } from "@/apis";
 
 EcyUtils.startLoading();
 
 const cabinet = EcyConfig.__ECY_CONFIG__.cabinet;
-const worksList = shallowRef(await getHomeWorksList(1));
-const authorData = shallowRef();
-const masterData = shallowRef();
+const worksList = shallowRef(await WorksApi.getList(1));
+const news = shallowRef();
+const stats = shallowRef();
 const imgs = EcyConfig.__ECY_CONFIG__.covers.index || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 
 async function fetchData(index: any) {
   EcyUtils.startLoading();
-  getHomeWorksList(index).then(newWorksList => {
+  WorksApi.getList(index).then(newWorksList => {
     worksList.value = newWorksList;
     EcyUtils.endLoading();
   });
@@ -26,10 +26,10 @@ function randomSurface() {
 }
 
 onMounted(() => {
-  getAuthorData().then(newAuthorData => {
-    getMasterData().then(newMasterData => {
-      authorData.value = newAuthorData;
-      masterData.value = newMasterData;
+  MenuApi.getNews().then(newNews => {
+    MenuApi.getStats().then(newStats => {
+      news.value = newNews;
+      stats.value = newStats;
       EcyUtils.endLoading();
     });
   });
@@ -83,51 +83,7 @@ onMounted(() => {
   }
 
   .cover::after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     backdrop-filter: blur(5px);
-  }
-
-  .wave-1 {
-    top: 0;
-    left: -100%;
-    opacity: 0.5;
-    animation: move-wave-to-right 20s infinite linear;
-    background: url(https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2281365/o_230410092356_wave-1.png) repeat-x;
-  }
-
-  .wave-2 {
-    top: 0;
-    left: 0%;
-    opacity: 0.6;
-    animation: move-wave-to-left 30s infinite linear;
-    background: url(https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2281365/o_230410092402_wave-2.png) repeat-x;
-  }
-
-  @keyframes move-wave-to-right {
-    0% {
-      transform: translateX(0%) scaleY(1);
-    }
-    50% {
-      transform: translateX(25%) scaleY(0.85);
-    }
-    100% {
-      transform: translateX(50%) scaleY(1);
-    }
-  }
-
-  @keyframes move-wave-to-left {
-    from {
-      transform: translateX(0%);
-    }
-    to {
-      transform: translateX(-50%);
-    }
   }
 
   .arrow {

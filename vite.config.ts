@@ -45,6 +45,9 @@ export default defineConfig(({ command, mode }) => {
             "@/ecy.config": ["EcyConfig"]
           },
           {
+            "@/utils/router-helper": ["RouterName", "RouterPath"]
+          },
+          {
             from: "vue-router",
             imports: ["Router"],
             type: true

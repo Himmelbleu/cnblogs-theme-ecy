@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const setting = EcyUtils.getLocalSetting();
-const router = useRouter();
 const isTop = ref(false);
 
 function moveToNavil() {
@@ -19,7 +18,7 @@ function moveToNavil() {
       <div
         :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
         class="absolute hover left-0 rd-2"
-        @click="EcyUtils.Router.go({ path: '/', router })">
+        @click="EcyUtils.Router.go({ path: RouterPath.index(), router: $router })">
         <div class="f-c-c w-8 h-8">
           <i-ep-house />
         </div>
@@ -27,7 +26,7 @@ function moveToNavil() {
       <div
         :class="{ 'show-1': setting.toolkits.pin, 'close-1': !setting.toolkits.pin }"
         class="absolute hover left-0 rd-2"
-        @click="EcyUtils.Router.go({ path: 'back', router })">
+        @click="EcyUtils.Router.go({ path: 'back', router: $router })">
         <div class="f-c-c w-8 h-8">
           <i-ep-arrow-left />
         </div>

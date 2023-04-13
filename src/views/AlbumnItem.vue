@@ -5,7 +5,6 @@ EcyUtils.setTitle("相册图片");
 EcyUtils.startLoading();
 
 const route = useRoute();
-const router = useRouter();
 const imgUrl = shallowRef(await getAlbumnItem(`${route.params.id}`));
 
 onMounted(() => {
@@ -16,7 +15,7 @@ onMounted(() => {
 <template>
   <div id="l-albumn-item" class="min-height page">
     <div class="content">
-      <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
+      <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />
@@ -30,7 +29,7 @@ onMounted(() => {
         <el-image class="albumn-item" :src="imgUrl" :preview-src-list="[imgUrl]" />
         <el-result v-if="!imgUrl" icon="error" title="图片加载失败" sub-title="图片可能从相册移除">
           <template #extra>
-            <el-button @click="router.push('/')" type="primary">返回首页</el-button>
+            <el-button @click="$router.push('/')" type="primary">返回首页</el-button>
           </template>
         </el-result>
       </div>

@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { getAuthorData, getMasterData } from "@/apis";
+import { MenuApi } from "@/apis";
 
 EcyUtils.setTitle("铭牌");
 EcyUtils.startLoading();
 
-const router = useRouter();
-const authorData = shallowRef();
-const masterData = shallowRef();
+const news = shallowRef();
+const stats = shallowRef();
 
-getAuthorData().then(newAuthorData => {
-  getMasterData().then(newMasterData => {
-    authorData.value = newAuthorData;
-    masterData.value = newMasterData;
+MenuApi.getNews().then(newNews => {
+  MenuApi.getStats().then(newStats => {
+    news.value = newNews;
+    stats.value = newStats;
   });
 });
 
@@ -33,14 +32,14 @@ onMounted(() => {
                 class="w-25 h-25 rd-50"
                 :src="EcyConfig.__ECY_CONFIG__.cabinet.avatar" />
               <div>
-                <template v-if="authorData">
-                  <div class="mb-1 hover">圆龄：{{ authorData[1]?.text || "" }}</div>
-                  <div class="mb-1 hover">粉丝：{{ authorData[2]?.text || "" }}</div>
-                  <div class="mb-1 hover">关注：{{ authorData[3]?.text || "" }}</div>
+                <template v-if="news">
+                  <div class="mb-1 hover">圆龄：{{ news[1]?.text || "" }}</div>
+                  <div class="mb-1 hover">粉丝：{{ news[2]?.text || "" }}</div>
+                  <div class="mb-1 hover">关注：{{ news[3]?.text || "" }}</div>
                 </template>
-                <template v-if="masterData">
-                  <div class="mb-1 hover">随笔：{{ masterData[0]?.digg || "" }}</div>
-                  <div class="mb-1 hover">阅读：{{ masterData[3]?.digg || "" }}</div>
+                <template v-if="stats">
+                  <div class="mb-1 hover">随笔：{{ stats[0]?.digg || "" }}</div>
+                  <div class="mb-1 hover">阅读：{{ stats[3]?.digg || "" }}</div>
                 </template>
               </div>
             </div>
@@ -111,7 +110,7 @@ onMounted(() => {
             </div>
           </div>
           <div v-if="!EcyConfig.__ECY_CONFIG__.nameplate.photo.disabled">
-            <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Go Index</el-button>
+            <el-button type="primary" @click="EcyUtils.Router.go({ router: $router, path: RouterPath.index() })">Go Index</el-button>
             <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts/edit' })">新建随笔</el-button>
             <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts' })">管理博客</el-button>
           </div>
@@ -141,7 +140,7 @@ onMounted(() => {
             </div>
           </div>
           <div v-else>
-            <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Go Index</el-button>
+            <el-button type="primary" @click="EcyUtils.Router.go({ router: $router, path: RouterPath.index() })">Go Index</el-button>
             <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts/edit' })">新建随笔</el-button>
             <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts' })">管理博客</el-button>
           </div>
@@ -162,7 +161,7 @@ onMounted(() => {
           </div>
         </div>
         <div class="mb-6">
-          <el-button type="primary" @click="EcyUtils.Router.go({ router, path: '/' })">Go Index</el-button>
+          <el-button type="primary" @click="EcyUtils.Router.go({ router: $router, path: RouterPath.index() })">Go Index</el-button>
           <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts/edit' })">新建随笔</el-button>
           <el-button text type="primary" @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts' })">管理博客</el-button>
         </div>

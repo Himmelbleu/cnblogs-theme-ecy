@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { follow, unfollow, getMenuColumn, getTopList, getAuthorData, getMasterData } from "@/apis";
+import { MenuApi } from "@/apis";
 
 const props = defineProps({
   disabled: {
@@ -12,24 +12,24 @@ const searchVal = ref("");
 const tabActive = ref("first");
 const commonCollActive = ref("1");
 const topListCollActive = ref("1");
-const authorData = shallowRef();
-const masterData = shallowRef();
-const columnData = shallowRef();
-const topListData = shallowRef();
+const news = shallowRef();
+const stats = shallowRef();
+const columnList = shallowRef();
+const topList = shallowRef();
 
-getAuthorData().then(author => {
-  getMasterData().then(master => {
-    authorData.value = author;
-    masterData.value = master;
+MenuApi.getNews().then(newNews => {
+  MenuApi.getStats().then(newStats => {
+    news.value = newNews;
+    stats.value = newStats;
   });
 });
 
-getMenuColumn().then(res => {
-  columnData.value = res;
+MenuApi.getColumn().then(res => {
+  columnList.value = res;
 });
 
-getTopList().then(res => {
-  topListData.value = res;
+MenuApi.getTopList().then(res => {
+  topList.value = res;
 });
 
 function search() {
@@ -37,12 +37,12 @@ function search() {
 }
 
 async function subscribe() {
-  const data = await follow();
+  const data = await MenuApi.follow();
   if (data) ElMessage({ message: "已经关注博主！", type: "success", grouping: true });
 }
 
 async function unsubscribe() {
-  const data = await unfollow();
+  const data = await MenuApi.unfollow();
   if (data) ElMessage({ message: "取消关注博主！", type: "success", grouping: true });
 }
 
@@ -72,7 +72,7 @@ const hidden = computed(() => {
         </el-popconfirm>
         <el-button @click="subscribe" v-if="!EcyConfig.isFollow" type="primary" text bg> +关注博主 </el-button>
       </div>
-      <div class="hover mb-4" v-if="authorData" v-for="(item, index) in authorData" @click="EcyUtils.Router.go({ path: item.href })">
+      <div class="hover mb-4" v-if="news" v-for="(item, index) in news" @click="EcyUtils.Router.go({ path: item.href })">
         <div class="f-c-s" v-if="index === 0">
           <i-ep-user-filled class="mr-2" />
           昵称：{{ item.text }}
@@ -91,7 +91,7 @@ const hidden = computed(() => {
         </div>
       </div>
       <div class="mb-4">
-        <span class="mr-3" v-if="masterData" v-for="item in masterData"> {{ item.text }} - {{ item.digg }} </span>
+        <span class="mr-3" v-if="stats" v-for="item in stats"> {{ item.text }} - {{ item.digg }} </span>
       </div>
       <el-input clearable @keyup.enter="search" v-model="searchVal">
         <template #prefix>
@@ -105,107 +105,107 @@ const hidden = computed(() => {
       </template>
       <el-tabs v-model="tabActive" stretch>
         <el-tab-pane label="博客常用项" name="first">
-          <template v-if="columnData">
-            <div class="mb-2" v-for="item in columnData.rankings">{{ item.text }}</div>
-            <router-link to="/calendar">
+          <template v-if="columnList">
+            <div class="mb-2" v-for="item in columnList.rankings">{{ item.text }}</div>
+            <router-link :to="RouterPath.worksByCalendar()">
               <div class="my-4 f-c-s hover l-pri-color">
                 <i-ep-calendar class="mr-2" />
                 博客日历
               </div>
             </router-link>
             <el-collapse v-model="commonCollActive" accordion>
-              <el-collapse-item v-if="columnData.essaySort.length">
+              <el-collapse-item v-if="columnList.essaySort.length">
                 <template #title>
                   <i-ep-files class="mr-2" />
                   随笔分类
                 </template>
                 <div
                   class="hover"
-                  :class="{ 'mb-1': index != columnData.essaySort.length - 1 }"
-                  v-for="(item, index) in columnData.essaySort">
-                  <router-link :to="'/sort/p/' + item.id">
+                  :class="{ 'mb-1': index != columnList.essaySort.length - 1 }"
+                  v-for="(item, index) in columnList.essaySort">
+                  <router-link :to="RouterPath.worksBySort('p', item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
               </el-collapse-item>
-              <el-collapse-item v-if="columnData.essayArchive.length">
+              <el-collapse-item v-if="columnList.essayArchive.length">
                 <template #title>
                   <i-ep-collection class="mr-2" />
                   随笔档案
                 </template>
                 <div
                   class="hover"
-                  :class="{ 'mb-1': index != columnData.essayArchive.length - 1 }"
-                  v-for="(item, index) in columnData.essayArchive">
-                  <router-link :to="'/archive/p/' + item.id">
+                  :class="{ 'mb-1': index != columnList.essayArchive.length - 1 }"
+                  v-for="(item, index) in columnList.essayArchive">
+                  <router-link :to="RouterPath.worksByArchive('p', item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
               </el-collapse-item>
-              <el-collapse-item v-if="columnData.articleSort.length">
+              <el-collapse-item v-if="columnList.articleSort.length">
                 <template #title>
                   <i-ep-folder-opened class="mr-2" />
                   文章分类
                 </template>
                 <div
                   class="hover"
-                  :class="{ 'mb-1': index != columnData.articleSort.length - 1 }"
-                  v-for="(item, index) in columnData.articleSort">
-                  <router-link :to="'/sort/a/' + item.id">
+                  :class="{ 'mb-1': index != columnList.articleSort.length - 1 }"
+                  v-for="(item, index) in columnList.articleSort">
+                  <router-link :to="RouterPath.worksBySort('a', item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="文章档案" v-if="columnData.articleArchive.length">
+              <el-collapse-item title="文章档案" v-if="columnList.articleArchive.length">
                 <template #title>
                   <i-ep-management class="mr-2" />
                   文章档案
                 </template>
                 <div
                   class="hover"
-                  :class="{ 'mb-1': index != columnData.articleArchive.length - 1 }"
-                  v-for="(item, index) in columnData.articleArchive">
-                  <router-link :to="'/archive/a/' + item.id">
+                  :class="{ 'mb-1': index != columnList.articleArchive.length - 1 }"
+                  v-for="(item, index) in columnList.articleArchive">
+                  <router-link :to="RouterPath.worksByArchive('a', item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="标签分类" v-if="columnData.tagList.length">
+              <el-collapse-item title="标签分类" v-if="columnList.tagList.length">
                 <template #title>
                   <i-ep-price-tag class="mr-2" />
                   标签分类
                 </template>
-                <div class="hover" :class="{ 'mb-1': index != columnData.tagList.length - 1 }" v-for="(item, index) in columnData.tagList">
-                  <router-link :to="'/mark/' + item.id">
+                <div class="hover" :class="{ 'mb-1': index != columnList.tagList.length - 1 }" v-for="(item, index) in columnList.tagList">
+                  <router-link :to="RouterPath.worksByMark(item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
                 <div>
-                  <router-link to="/marks">更多...</router-link>
+                  <router-link :to="RouterPath.markList()">更多...</router-link>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="最新随笔" v-if="columnData.latestEssayList.length">
+              <el-collapse-item title="最新随笔" v-if="columnList.latestEssayList.length">
                 <template #title>
                   <i-ep-document-remove class="mr-2" />
                   最新随笔
                 </template>
                 <div
                   class="hover"
-                  :class="{ 'mb-4': index != columnData.latestEssayList.length - 1 }"
-                  v-for="(item, index) in columnData.latestEssayList">
-                  <router-link :to="'/p/' + item.id">
+                  :class="{ 'mb-4': index != columnList.latestEssayList.length - 1 }"
+                  v-for="(item, index) in columnList.latestEssayList">
+                  <router-link :to="RouterPath.works(item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="最新评论" v-if="columnData.latestComments.length">
+              <el-collapse-item title="最新评论" v-if="columnList.latestComments.length">
                 <template #title>
                   <i-ep-comment class="mr-2" />
                   最新评论
                 </template>
-                <div :class="{ 'mb-4': index != columnData.latestComments.length - 1 }" v-for="(item, index) in columnData.latestComments">
+                <div :class="{ 'mb-4': index != columnList.latestComments.length - 1 }" v-for="(item, index) in columnList.latestComments">
                   <div class="hover">
-                    <router-link :to="'/p/' + item.id">
+                    <router-link :to="RouterPath.works(item.id)">
                       {{ item.title }}
                     </router-link>
                   </div>
@@ -220,7 +220,7 @@ const hidden = computed(() => {
                   <i-ep-picture class="mr-2" />
                   我的相册
                 </template>
-                <div :class="{ 'mb-2': index != columnData.albumn.length - 1 }" v-for="(item, index) in columnData.albumn" :key="index">
+                <div :class="{ 'mb-2': index != columnList.albumn.length - 1 }" v-for="(item, index) in columnList.albumn" :key="index">
                   <router-link class="hover" :to="'/albumn/' + item.id">{{ item.text }}</router-link>
                 </div>
               </el-collapse-item>
@@ -228,15 +228,15 @@ const hidden = computed(() => {
           </template>
         </el-tab-pane>
         <el-tab-pane label="排行榜数据" name="second">
-          <template v-if="topListData">
+          <template v-if="topList">
             <el-collapse v-model="topListCollActive" accordion>
               <el-collapse-item title="评论排行榜">
                 <template #title>
                   <i-ep-chat-square class="mr-2" />
                   评论排行榜
                 </template>
-                <div class="mb-2 hover" v-for="item in topListData.topComments">
-                  <router-link :to="'/p/' + item.id">
+                <div class="mb-2 hover" v-for="item in topList.topComments">
+                  <router-link :to="RouterPath.works(item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
@@ -246,8 +246,8 @@ const hidden = computed(() => {
                   <i-ep-pointer class="mr-2" />
                   点赞排行榜
                 </template>
-                <div class="mb-2 hover" v-for="item in topListData.topDigg">
-                  <router-link :to="'/p/' + item.id">
+                <div class="mb-2 hover" v-for="item in topList.topDigg">
+                  <router-link :to="RouterPath.works(item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
@@ -257,8 +257,8 @@ const hidden = computed(() => {
                   <i-ep-view class="mr-2" />
                   阅读排行榜
                 </template>
-                <div class="mb-2 hover" v-for="item in topListData.topView">
-                  <router-link :to="'/p/' + item.id">
+                <div class="mb-2 hover" v-for="item in topList.topView">
+                  <router-link :to="RouterPath.works(item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>

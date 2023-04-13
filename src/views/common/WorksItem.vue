@@ -6,7 +6,6 @@ defineProps({
   }
 });
 
-const router = useRouter();
 const imgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 
 function randomSurface() {
@@ -22,7 +21,9 @@ function randomSurface() {
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
     </div>
     <div class="w-52%" :class="{ 'pl-4': index % 2 === 0, 'pr-4': index % 2 !== 0 }">
-      <div class="hover text-ellipsis line-clamp-2 f-c-s mb-6 l-pri-size" @click="EcyUtils.Router.go({ path: '/p/' + item.id, router })">
+      <div
+        class="hover text-ellipsis line-clamp-2 f-c-s mb-6 l-pri-size"
+        @click="EcyUtils.Router.go({ path: RouterPath.works(item.id), router: $router })">
         {{ item.text }}
       </div>
       <div class="f-c-s mb-4 l-fiv-size l-sec-color">
