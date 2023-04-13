@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getHomeWorksList, getMasterData, getAuthorData } from "@/apis/remote-api";
+import { getHomeWorksList, getMasterData, getAuthorData } from "@/apis";
 
 EcyUtils.startLoading();
 
@@ -9,9 +9,9 @@ const authorData = shallowRef();
 const masterData = shallowRef();
 const imgs = EcyConfig.__ECY_CONFIG__.covers.index || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 
-async function fetchData(e: any) {
+async function fetchData(index: any) {
   EcyUtils.startLoading();
-  getHomeWorksList(e.currentIndex).then(newWorksList => {
+  getHomeWorksList(index).then(newWorksList => {
     worksList.value = newWorksList;
     EcyUtils.endLoading();
   });

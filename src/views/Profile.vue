@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getAuthorData, getMasterData } from "@/apis/remote-api";
+import { getAuthorData, getMasterData } from "@/apis";
 
 EcyUtils.setTitle("铭牌");
 EcyUtils.startLoading();

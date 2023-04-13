@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAnchorStore } from "@/store";
-import { getCommentCount, getCommentList } from "@/apis/remote-api";
+import { getCommentCount, getCommentList } from "@/apis";
 
 const props = defineProps({
   postId: { type: String, required: true }

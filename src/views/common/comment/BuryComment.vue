@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { voteComment } from "@/apis/remote-api";
+import { voteComment } from "@/apis";
 
 const props = defineProps({
   comment: {

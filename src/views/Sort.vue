@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getWorksSort, getWorksSortChild } from "@/apis/remote-api";
+import { getWorksSort, getWorksSortChild } from "@/apis";
 
 const route = useRoute();
 const router = useRouter();
@@ -8,14 +8,16 @@ let sortMode = route.params.mode;
 const sortChild = shallowRef();
 const worksSort = shallowRef();
 
-async function fetchData(page?: any) {
+async function fetchData(index?: any) {
   EcyUtils.startLoading();
-  worksSort.value = await getWorksSort(`${sortId}`, page?.currentIndex || 1);
+  worksSort.value = await getWorksSort(`${sortId}`, index);
+
   if (sortMode === "a") {
-    sortChild.value = await getWorksSortChild(`${sortId}`, "2");
+    sortChild.value = await getWorksSortChild(`${sortId}`, "article");
   } else if (sortMode === "p") {
     sortChild.value = await getWorksSortChild(`${sortId}`);
   }
+
   EcyUtils.setTitle(worksSort.value.hint);
   EcyUtils.endLoading();
 }
@@ -34,7 +36,7 @@ watch(route, async () => {
 <template>
   <div id="l-sort" class="min-height page">
     <div class="content">
-      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="worksSort.page">
+      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="worksSort.page" :disabled="!worksSort.data.length">
         <template #content>
           <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router })">
             <template #title>
@@ -48,14 +50,17 @@ watch(route, async () => {
           </el-page-header>
           <div class="l-sort__desc mb-4 l-for-size l-sec-color" v-html="worksSort.desc2 || worksSort.desc"></div>
           <div class="l-sort__child l-fiv-size" v-if="sortChild.length > 0">
-            <div class="hover f-c-s" v-for="(item, index) in sortChild" :class="{ 'mb-4': index != sortChild.length - 1 }">
-              <span class="mr-2">-</span>
+            <div class="hover f-c-s" v-for="(item, index) in sortChild" :class="{ 'mb-3': index != sortChild.length - 1 }">
+              <span class="mr-2">📁</span>
               <router-link :to="'/sort/p/' + item.id">{{ item.text }}</router-link>
             </div>
           </div>
           <WorksItem :data="worksSort.data" />
         </template>
       </Pagination>
+      <div class="mt-35" v-if="!worksSort.data.length">
+        <el-result title="没有随笔" sub-title="该分类没有随笔，请点击查看子分类"> </el-result>
+      </div>
     </div>
   </div>
 </template>

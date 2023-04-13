@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCalendar } from "@/apis/remote-api";
+import { getCalendar } from "@/apis";
 
 EcyUtils.setTitle("日历");
 EcyUtils.startLoading();

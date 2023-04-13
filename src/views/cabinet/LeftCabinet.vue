@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { follow, unfollow, getMenuColumn, getTopList, getAuthorData, getMasterData } from "@/apis/remote-api";
+import { follow, unfollow, getMenuColumn, getTopList, getAuthorData, getMasterData } from "@/apis";
 
 const props = defineProps({
   disabled: {

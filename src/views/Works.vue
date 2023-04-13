@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getLockedWorks, getIsUnlock, getWorks, getWorksProps, getWorksPrevNext, getWorksViewPoint, voteWorks } from "@/apis/remote-api";
+import { getLockedWorks, getIsUnlock, getWorks, getWorksProps, getWorksPrevNext, getWorksViewPoint, voteWorks } from "@/apis";
 
 EcyUtils.startLoading();
 

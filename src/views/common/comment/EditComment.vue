@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { updateComment, getComment, getCommentCount, getCommentList } from "@/apis/remote-api";
+import { updateComment, getComment, getCommentCount, getCommentList } from "@/apis";
 
 const props = defineProps({
   comment: {

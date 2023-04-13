@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { setComment, getCommentCount, getCommentList } from "@/apis/remote-api";
+import { setComment, getCommentCount, getCommentList } from "@/apis";
 
 const props = defineProps({
   postId: { type: String, required: true }

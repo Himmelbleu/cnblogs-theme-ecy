@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getWorksMark } from "@/apis/remote-api";
+import { getWorksMark } from "@/apis";
 
 EcyUtils.startLoading();
 
@@ -8,9 +8,9 @@ const router = useRouter();
 const worksMark = shallowRef(await getWorksMark(`${route.params.tag}`));
 EcyUtils.setTitle(worksMark.value.hint);
 
-async function fetchData(page?: any) {
+async function fetchData(index?: any) {
   EcyUtils.startLoading();
-  worksMark.value = await getWorksMark(`${route.params.tag}`, page?.currentIndex);
+  worksMark.value = await getWorksMark(`${route.params.tag}`, index);
   EcyUtils.setTitle(worksMark.value.hint);
   EcyUtils.endLoading();
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getWorksArchive, getDayArchive } from "@/apis/remote-api";
+import { getWorksArchive, getDayArchive } from "@/apis";
 
 EcyUtils.startLoading();
 
@@ -14,7 +14,7 @@ async function fetchData() {
   if (archiveMode === "a") {
     worksArchive.value = await getWorksArchive(`${archiveDate}`, "article");
   } else if (archiveMode === "p") {
-    worksArchive.value = await getWorksArchive(`${archiveDate}`, "essay");
+    worksArchive.value = await getWorksArchive(`${archiveDate}`, "works");
   } else if (archiveMode === "d") {
     worksArchive.value = await getDayArchive(`${String(archiveDate).replaceAll("-", "/")}`);
   }

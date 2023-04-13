@@ -52,8 +52,8 @@ async function sendAwaitPost(url: string, data: any): Promise<any> {
  *
  * @param page 页数，可以是 0，也可以是 1，都代表第一页
  */
-export async function getHomeWorksList(page: number) {
-  const { data } = await sendAwaitGet(`/default.html?page=${page}`);
+export async function getHomeWorksList(page?: number | string) {
+  const { data } = await sendAwaitGet(`/default.html?page=${page || 1}`);
   return Parser.parseWorksList(data);
 }
 
@@ -107,8 +107,8 @@ export async function getWorksViewPoint(id: string): Promise<BlogType.IWorksView
  * @param id 分类 id
  * @param page 页数
  */
-export async function getWorksSort(id: string, page: any) {
-  const { data } = await sendAwaitGet(`/category/${id}.html?page=${page}`);
+export async function getWorksSort(id: string, page?: number | string) {
+  const { data } = await sendAwaitGet(`/category/${id}.html?page=${page || 1}`);
   return Parser.parseWorksFull(data);
 }
 
@@ -117,8 +117,9 @@ export async function getWorksSort(id: string, page: any) {
  * @param id 分类 ID
  * @param type 分类类型，随笔的类型是1，文章的类型是2
  */
-export async function getWorksSortChild(id: string, type?: string) {
-  const { data } = await sendAwaitGet(`/ajax/TreeCategoryList.aspx?parentId=${id}&categoryType=${type || "1"}`);
+export async function getWorksSortChild(id: string, type?: "works" | "article") {
+  const _type = type === "works" || !type ? 1 : 2;
+  const { data } = await sendAwaitGet(`/ajax/TreeCategoryList.aspx?parentId=${id}&categoryType=${_type}`);
   return Parser.parseWorksSortChild(data);
 }
 
@@ -128,9 +129,9 @@ export async function getWorksSortChild(id: string, type?: string) {
  * @param date 日期
  * @param type 文章的请求链接是 archives，随笔的请求链接是 archive
  */
-export async function getWorksArchive(date: string, type: "article" | "essay") {
+export async function getWorksArchive(date: string, type: "article" | "works") {
   const split = date.split("-");
-  const { data } = await sendAwaitGet(`/${type == "article" ? "archives" : "archive"}/${split[0]}/${split[1]}.html}`);
+  const { data } = await sendAwaitGet(`/${type === "article" ? "archives" : "archive"}/${split[0]}/${split[1]}.html}`);
   return Parser.parseWorksFull(data);
 }
 

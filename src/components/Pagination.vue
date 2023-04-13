@@ -3,6 +3,10 @@ const props = defineProps({
   count: {
     type: Number,
     required: true
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -12,35 +16,35 @@ const index = ref(1);
 function nextChange() {
   if (index.value < props.count) {
     index.value++;
-    emits("next", { elIndex: index.value, pageCount: props.count, currentIndex: index.value });
+    emits("next", index.value);
   }
 }
 
 function prevChange() {
   if (index.value > 1) {
     index.value--;
-    emits("prev", { elIndex: index.value, pageCount: props.count, currentIndex: index.value });
+    emits("prev", index.value);
   }
 }
 
 function nexprChange(elIndex: number) {
   index.value = elIndex;
-  emits("nexpr", { elIndex: index.value, pageCount: props.count, currentIndex: index.value });
+  emits("nexpr", index.value);
 }
 </script>
 
 <template>
   <div class="pagination relative">
-    <div class="sorter hover left f-c-c rd-l-4" @click="prevChange" v-show="index !== 1 && count">
+    <div v-if="!disabled" class="sorter hover left f-c-c rd-l-4" @click="prevChange" v-show="index !== 1 && count">
       <i-ep-arrow-left-bold />
     </div>
     <div class="content">
       <slot name="content" />
     </div>
-    <div class="sorter hover right f-c-c rd-l-4" @click="nextChange" v-show="index !== count && count">
+    <div v-if="!disabled" class="sorter hover right f-c-c rd-l-4" @click="nextChange" v-show="index !== count && count">
       <i-ep-arrow-right-bold />
     </div>
-    <div v-if="count" class="bottom f-c-e my-4">
+    <div v-if="count && !disabled" class="bottom f-c-e my-4">
       <el-pagination layout="pager, next" :page-count="count" v-model:current-page="index" @current-change="nexprChange" />
     </div>
   </div>

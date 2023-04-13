@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { deleteComment } from "@/apis/remote-api";
+import { deleteComment } from "@/apis";
 
 const props = defineProps({
   comment: {

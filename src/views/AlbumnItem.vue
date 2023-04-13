@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getAlbumnItem } from "@/apis/remote-api";
+import { getAlbumnItem } from "@/apis";
 
 EcyUtils.setTitle("相册图片");
 EcyUtils.startLoading();
