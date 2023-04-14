@@ -6,6 +6,8 @@ let sortId = route.params.id as string;
 let sortMode = route.params.mode as "a" | "p";
 const typeL2Works = shallowRef();
 const typeL1Works = shallowRef();
+const imgs = EcyConfig.__ECY_CONFIG__.covers.index || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
+const covers = EcyUtils.Random.get(imgs, 0, 10);
 
 async function fetchData(index?: any) {
   EcyUtils.startLoading();
@@ -54,7 +56,12 @@ watch(route, async () => {
               <router-link :to="RouterPath.worksBySort(sortMode, item.id)">{{ item.text }}</router-link>
             </div>
           </div>
-          <WorksItem :data="typeL1Works.data" />
+          <WorksItem
+            v-if="typeL1Works.data.length > 0"
+            v-for="(item, index) in typeL1Works.data"
+            :item="item"
+            :index="index"
+            :cover="imgs[covers[index]]" />
         </template>
       </Pagination>
       <div class="mt-35" v-if="!typeL1Works.data.length">

@@ -12,9 +12,7 @@ store.$onAction(({ args }) => {
 }, true);
 
 watch(route, async () => {
-  if (route.name !== "Writing") {
-    anchors.value = [];
-  }
+  if (route.name !== RouterName.Works) anchors.value = [];
 });
 </script>
 

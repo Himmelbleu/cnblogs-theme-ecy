@@ -13,45 +13,54 @@ function moveToNavil() {
 </script>
 
 <template>
-  <div id="l-toolkits" class="fixed z-99 right-18 top-70vh l-thr-size">
-    <div class="relative">
-      <div
-        :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
-        class="absolute hover left-0 rd-2"
-        @click="EcyUtils.Router.go({ path: RouterPath.index(), router: $router })">
-        <div class="f-c-c w-8 h-8">
-          <i-ep-house />
-        </div>
+  <div id="l-toolkits" class="fixed z-99 right-18 top-65vh l-thr-size">
+    <div
+      :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
+      class="absolute hover left-0 rd-2 bg-#191919"
+      @click="EcyUtils.Router.go({ path: RouterPath.index(), router: $router })">
+      <div class="f-c-c w-8 h-8">
+        <i-ep-reading />
       </div>
-      <div
-        :class="{ 'show-1': setting.toolkits.pin, 'close-1': !setting.toolkits.pin }"
-        class="absolute hover left-0 rd-2"
-        @click="EcyUtils.Router.go({ path: 'back', router: $router })">
-        <div class="f-c-c w-8 h-8">
-          <i-ep-arrow-left />
-        </div>
+    </div>
+    <div
+      :class="{ 'show-1': setting.toolkits.pin, 'close-1': !setting.toolkits.pin }"
+      class="absolute hover left-0 rd-2 bg-#191919"
+      @click="EcyUtils.Router.go({ path: 'back', router: $router })">
+      <div class="f-c-c w-8 h-8">
+        <i-ep-guide />
       </div>
-      <div
-        :class="{ 'show-2': setting.toolkits.pin, 'close-2': !setting.toolkits.pin }"
-        class="absolute hover left-0 rd-2"
-        @click="moveToNavil">
-        <div class="f-c-c w-8 h-8">
-          <i-ep-top v-show="isTop" />
-          <i-ep-bottom v-show="!isTop" />
-        </div>
+    </div>
+    <div
+      :class="{ 'show-2': setting.toolkits.pin, 'close-2': !setting.toolkits.pin }"
+      class="absolute hover left-0 rd-2 bg-#191919"
+      @click="moveToNavil">
+      <div class="f-c-c w-8 h-8">
+        <i-ep-add-location v-show="isTop" />
+        <i-ep-delete-location v-show="!isTop" />
       </div>
-      <div :class="{ 'show-3': setting.toolkits.pin, 'close-3': !setting.toolkits.pin }" class="setting absolute hover left-0 rd-2">
-        <div class="f-c-c w-8 h-8">
-          <i-ep-setting class="rotate-setting" />
-        </div>
+    </div>
+    <div
+      :class="{ 'show-3': setting.toolkits.pin, 'close-3': !setting.toolkits.pin }"
+      class="absolute hover left-0 rd-2 bg-#191919"
+      @click="EcyUtils.Router.go({ path: RouterPath.profile(), router: $router })">
+      <div class="f-c-c w-8 h-8">
+        <i-ep-warning />
       </div>
-      <div
-        @click="setting.toolkits.pin = !setting.toolkits.pin"
-        :class="{ 'show-toolkits': setting.toolkits.pin, 'close-toolkits': !setting.toolkits.pin }"
-        class="kits-box absolute hover top-40 left-0 rd-2 bg-#191919">
-        <div class="f-c-c w-8 h-8">
-          <i-ep-more />
-        </div>
+    </div>
+    <div
+      :class="{ 'show-4': setting.toolkits.pin, 'close-4': !setting.toolkits.pin }"
+      class="setting absolute hover left-0 rd-2 bg-#191919"
+      @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/posts' })">
+      <div class="f-c-c w-8 h-8">
+        <i-ep-setting class="rotate-setting" />
+      </div>
+    </div>
+    <div
+      @click="setting.toolkits.pin = !setting.toolkits.pin"
+      :class="{ 'show-toolkits': setting.toolkits.pin, 'close-toolkits': !setting.toolkits.pin }"
+      class="kits-box absolute hover top-50 left-0 rd-2 bg-#191919">
+      <div class="f-c-c w-8 h-8">
+        <i-ep-more />
       </div>
     </div>
   </div>
@@ -59,7 +68,7 @@ function moveToNavil() {
 
 <style scoped lang="scss">
 $show-top: 0;
-$close-end: 10rem;
+$close-end: 12.5rem;
 
 @for $index from 0 to 5 {
   @if $index != 0 {

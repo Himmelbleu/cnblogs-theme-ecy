@@ -17,11 +17,12 @@ const stats = shallowRef();
 const columnList = shallowRef();
 const topList = shallowRef();
 
-MenuApi.getNews().then(newNews => {
-  MenuApi.getStats().then(newStats => {
-    news.value = newNews;
-    stats.value = newStats;
-  });
+MenuApi.getNews().then(res => {
+  news.value = res;
+});
+
+MenuApi.getStats().then(res => {
+  stats.value = res;
 });
 
 MenuApi.getColumn().then(res => {
@@ -57,7 +58,7 @@ const hidden = computed(() => {
 
 <template>
   <div
-    id="l-lcabinet"
+    id="l-lmenu"
     class="l-fiv-size fixed top-0 left-0 noscroll ofw-auto h-100vh bg-#191919 p-3 w-17.5rem"
     :class="{ 'show-lcabinet z-99': block, 'hidden-lcabinet': hidden }">
     <ExpandableBox text="博客信息" disabled>
@@ -274,7 +275,7 @@ const hidden = computed(() => {
 <style scoped lang="scss">
 $quota: 10;
 
-#l-lcabinet {
+#l-lmenu {
   transition: var(--l-transition);
 }
 

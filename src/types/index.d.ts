@@ -275,6 +275,10 @@ declare namespace EcyUtils {
   function reloadObjProps(source: CustType.ILocalSetting, template: CustType.ILocalSetting): CustType.ILocalSetting;
   function setTitle(title?: string);
 
+  namespace Random {
+    function get(src: string[], min?: number, max?: number): number[];
+  }
+
   namespace Log {
     function primary(title: string, msg: string): void;
     function warning(title: string, msg: string): void;

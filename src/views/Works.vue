@@ -4,14 +4,23 @@ import { WorksApi } from "@/apis";
 EcyUtils.startLoading();
 
 const route = useRoute();
-let postId = `${route.params.id}`;
-const works = shallowRef(await WorksApi.get(postId));
-const worksPrevNext = shallowRef(await WorksApi.getPrevNext(postId));
-const worksProps = shallowRef(await WorksApi.getProps(postId));
-const viewPoint = shallowRef(await WorksApi.getViewPoint(postId));
+const works = shallowRef();
+const props = shallowRef();
+const prevNext = shallowRef();
+const viewPoint = shallowRef();
 const isUnlock = ref(false);
 const pwd = ref("");
+const imgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
+let postId = route.params.id as string;
 
+async function fetchData() {
+  works.value = await WorksApi.get(postId);
+  props.value = await WorksApi.getProps(postId);
+  prevNext.value = await WorksApi.getPrevNext(postId);
+  viewPoint.value = await WorksApi.getViewPoint(postId);
+}
+
+await fetchData();
 if (!(works.value.content && works.value.text)) isUnlock.value = true;
 EcyUtils.setTitle(works.value.text);
 
@@ -27,7 +36,7 @@ onMounted(() => {
 });
 
 async function submit() {
-  const _islock = await WorksApi.isUnlock(pwd.value, postId + "");
+  const _islock = await WorksApi.isUnlock(pwd.value, postId);
   if (_islock) {
     works.value = await WorksApi.getLocked(pwd.value, postId);
     isUnlock.value = false;
@@ -36,7 +45,7 @@ async function submit() {
 }
 
 async function vote(type: BlogType.VoteType) {
-  const res = await WorksApi.vote({ postId: postId, isAbandoned: false, voteType: type });
+  const res = await WorksApi.vote({ postId, isAbandoned: false, voteType: type });
   if (res) {
     if (res.isSuccess)
       if (type == "Bury") viewPoint.value.buryCount = viewPoint.value.buryCount + 1;
@@ -45,23 +54,12 @@ async function vote(type: BlogType.VoteType) {
   }
 }
 
-const imgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
-
-function randomSurface() {
-  return imgs[Math.floor(Math.random() * imgs.length)];
-}
-
 watch(route, async () => {
   if (route.name === RouterName.Works) {
     EcyUtils.startLoading();
-
-    postId = `${route.params.id}`;
-    works.value = await WorksApi.get(postId);
-    worksProps.value = await WorksApi.getProps(postId);
-    worksPrevNext.value = await WorksApi.getPrevNext(postId);
-    viewPoint.value = await WorksApi.getViewPoint(postId);
+    postId = route.params.id as string;
+    await fetchData();
     isUnlock.value = false;
-
     if (!(works.value.content && works.value.text)) isUnlock.value = true;
     EcyUtils.setTitle(works.value.text);
     EcyUtils.endLoading();
@@ -72,12 +70,12 @@ watch(route, async () => {
 <template>
   <div v-if="!isUnlock" class="welcome relative h-50vh w-100vw">
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
-      <img class="h-100% w-100% rd-0" :src="randomSurface()" />
+      <img class="h-100% w-100% rd-0" :src="imgs[Math.floor(Math.random() * imgs.length)]" />
     </div>
     <div class="z-999 f-c-c absolute left-0 top-10vh w-100%">
       <div class="w-55vw">
-        <div class="size-2.2rem font-bold text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
-        <div class="f-c-s mt-6 l-for-size">
+        <div class="size-2rem text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
+        <div class="f-c-s mt-6 l-fiv-size">
           <div class="f-c-c mr-4">
             <i-ep-clock class="mr-1" />
             <span>{{ works.date }}</span>
@@ -99,12 +97,12 @@ watch(route, async () => {
           </div>
         </div>
         <div class="mt-6">
-          <div class="mb-4 flex-wrap l-fiv-size f-c-s" v-if="worksProps.sorts.length > 0">
+          <div class="mb-4 flex-wrap l-fiv-size f-c-s" v-if="props.sorts.length > 0">
             <div class="f-c-c">
               <i-ep-folder-opened class="mr-1" />
               <span>分类：</span>
             </div>
-            <div v-for="(item, index) in worksProps.sorts" :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
+            <div v-for="(item, index) in props.sorts" :class="{ 'mr-2': index !== props.sorts.length - 1 }">
               <LTag
                 line="dotted"
                 hover
@@ -114,12 +112,12 @@ watch(route, async () => {
               </LTag>
             </div>
           </div>
-          <div class="f-c-s flex-wrap l-fiv-size" v-if="worksProps.tags.length > 0">
+          <div class="f-c-s flex-wrap l-fiv-size" v-if="props.tags.length > 0">
             <div class="f-c-c">
               <i-ep-price-tag class="mr-1" />
               <span>标签：</span>
             </div>
-            <div v-for="(item, index) in worksProps.tags" :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
+            <div v-for="(item, index) in props.tags" :class="{ 'mr-2': index !== props.tags.length - 1 }">
               <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: RouterPath.worksByMark(item.text), router: $router })">
                 {{ item.text }}
               </LTag>
@@ -155,13 +153,13 @@ watch(route, async () => {
           </div>
         </div>
         <div class="prev-next mt-10 l-fiv-size">
-          <div class="hover f-c-s mb-2" v-if="worksPrevNext.prev.href">
+          <div class="hover f-c-s mb-2" v-if="prevNext.prev.href">
             <i-ep-d-arrow-left />
-            <a class="hover l-pri-color" :href="worksPrevNext.prev.href"> 上一篇：{{ worksPrevNext.prev.text }} </a>
+            <a class="hover l-pri-color" :href="prevNext.prev.href"> 上一篇：{{ prevNext.prev.text }} </a>
           </div>
-          <div class="hover f-c-s" v-if="worksPrevNext.next.href">
+          <div class="hover f-c-s" v-if="prevNext.next.href">
             <i-ep-d-arrow-right />
-            <a class="hover l-pri-color" :href="worksPrevNext.next.href"> 下一篇：{{ worksPrevNext.next.text }} </a>
+            <a class="hover l-pri-color" :href="prevNext.next.href"> 下一篇：{{ prevNext.next.text }} </a>
           </div>
         </div>
         <div class="viewpoint my-10 f-c-e">

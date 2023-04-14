@@ -1,23 +1,25 @@
 <script setup lang="ts">
 defineProps({
-  data: {
-    type: Array as PropType<CustType.IWorks[]>,
+  item: {
+    type: Object as PropType<CustType.IWorks & { id: string }>,
+    require: true
+  },
+  cover: {
+    type: String,
+    require: false
+  },
+  index: {
+    type: Number,
     required: true
   }
 });
-
-const imgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
-
-function randomSurface() {
-  return imgs[Math.floor(Math.random() * imgs.length)];
-}
 </script>
 
 <template>
-  <div class="f-c-b item h-20rem rd-2" v-for="(item, index) in data">
+  <div class="f-c-b item h-20rem rd-2">
     <div v-if="index % 2 !== 0" class="w-45% h-100% relative">
       <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
-      <img class="w-100% h-100%" :src="item.surface || randomSurface()" />
+      <img class="w-100% h-100%" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
     </div>
     <div class="w-52%" :class="{ 'pl-4': index % 2 === 0, 'pr-4': index % 2 !== 0 }">
@@ -61,7 +63,7 @@ function randomSurface() {
     </div>
     <div v-if="index % 2 === 0" class="w-45% h-100% relative">
       <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
-      <img class="w-100% h-100%" :src="item.surface || randomSurface()" />
+      <img class="w-100% h-100%" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
     </div>
   </div>

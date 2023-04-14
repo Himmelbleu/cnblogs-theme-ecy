@@ -47,9 +47,7 @@ watch(route, async () => {
     </div>
     <div id="l-matte" class="fixed top-0 left-0 l-matee-bg z-99" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
     <div id="l-lstrip" class="z-9 fixed left-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
-    <Suspense>
-      <LeftMenu :disabled="ldisabled" />
-    </Suspense>
+    <LeftMenu :disabled="ldisabled" />
     <div id="l-rstrip" class="z-9 fixed right-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
     <RightMenu :disabled="rdisabled" />
     <ToolKits />

@@ -136,6 +136,7 @@ const regexp = {
   Works: /\/p\/\d+.html/g,
   WorksBySort: /\/category\/\d+/g,
   WorksByMark: /\/tag\/[\w\s\u4e00-\u9fa5\n.\-|_]+/g,
+  Article: /\/articles\/\d+.html/g,
   AlbumnItem: /\/gallery\/image\/\d+/g
 };
 
@@ -190,6 +191,13 @@ export function redirect(next: any): () => void {
     const id = URL.match(regexp.AlbumnItem)[0].split("/")[3];
     nextParam = {
       name: RouterName.AlbumnItem,
+      params: { id }
+    };
+  } else if (regexp.Article.test(URL)) {
+    const id = URL.match(regexp.Article)[0].split("/")[2].split(".")[0];
+    console.log("article", id);
+    nextParam = {
+      name: RouterName.Works,
       params: { id }
     };
   }

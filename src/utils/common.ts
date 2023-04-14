@@ -123,6 +123,34 @@ export namespace EcyUtils {
     document.querySelector("title").innerText = `${prefix}${EcyConfig.blogApp} - 博客园`;
   }
 
+  export namespace Random {
+    function select(min: number, max: number) {
+      let sum = max - min + 1;
+      return Math.floor(Math.random() * sum + min);
+    }
+
+    export function get(src: string[], min = 0, max = src.length) {
+      let a = [];
+      if (src.length < max) {
+        for (let i = 0; i < max; i++) {
+          let d = Math.floor(Math.random() * src.length);
+          a[i] = d;
+        }
+      } else {
+        for (let i = 0; i < max; i++) {
+          a[i] = select(min, max);
+          for (let z = 0; z < i; z++) {
+            if (a[i] == a[z]) {
+              i--;
+              break;
+            }
+          }
+        }
+      }
+      return a;
+    }
+  }
+
   export namespace Log {
     export function primary(title: string, msg: string) {
       console.log(
