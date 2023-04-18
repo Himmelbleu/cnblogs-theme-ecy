@@ -68,7 +68,9 @@ function moveToNavil() {
 
 <style scoped lang="scss">
 $show-top: 0;
-$close-end: 12.5rem;
+$show-anitime: 0.2s;
+$close-top: 12.5rem;
+$close-anitime: 0.6s;
 
 @for $index from 0 to 5 {
   @if $index != 0 {
@@ -76,28 +78,25 @@ $close-end: 12.5rem;
   }
 
   .show-#{$index} {
-    animation: show-#{$index}-animation math.div($index, 10) + 0.2s ease-in;
+    $show-anitime: $show-anitime + math.div($index, 10);
+    animation: show-#{$index}-animation $show-anitime ease-in;
     top: $show-top;
   }
 
   .close-#{$index} {
-    animation: close-#{$index}-animation math.div($index, 10) + 0.2s ease-in;
-    top: $close-end;
+    $close-anitime: $close-anitime - math.div($index, 10);
+    animation: close-#{$index}-animation $close-anitime ease-in;
+    top: $close-top;
     z-index: -1;
   }
 
   @keyframes show-#{$index}-animation {
-    $show-anime-top: 0;
+    $step: $close-top;
 
     @for $i from 0 to 11 {
-      @if $index == 0 {
-        $show-anime-top: $close-end - $i * 1rem;
-      } @else {
-        $show-anime-top: $i * math.div($show-top, 10);
-      }
-
       #{$i * 10%} {
-        top: $show-anime-top;
+        top: $step;
+        $step: $step - math.div((12.5rem - $index * 2.5rem), 10);
       }
     }
   }
@@ -105,7 +104,7 @@ $close-end: 12.5rem;
   @keyframes close-#{$index}-animation {
     @for $i from 0 to 11 {
       #{ $i * 10%} {
-        top: $show-top + $i * math.div(($close-end - $show-top), 10);
+        top: $show-top + $i * math.div(($close-top - $show-top), 10);
       }
     }
   }
