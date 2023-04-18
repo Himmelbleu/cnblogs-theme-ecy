@@ -30,7 +30,7 @@ watch(route, async () => {
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
-        <KeepAlive :include="['Home', 'MarkList', 'Index', 'Calendar']">
+        <KeepAlive :include="[RouterName.Index, RouterName.MarkList, RouterName.Profile, RouterName.WorksByCalendar]">
           <Suspense>
             <component :is="Component" />
           </Suspense>

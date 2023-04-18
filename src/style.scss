@@ -7,28 +7,21 @@
  * @author Himmelbleu
  * @date 2023 年 2 月 14 日
  */
-html {
-  // 模态框背景颜色
-  --l-matee-bg: #0d0d0d8f;
+html[class="dark"] {
+  // 盒子背景颜色
+  --l-box-bg: #191919;
   // 条背景颜色
   --l-strip-bg: #7f7f7f;
+  // 分界线颜色
+  --l-divider-bg: #464646;
   // 代码块颜色
   --l-code-bg: #222222;
   // 隐藏代码块颜色
   --l-code-hidden-bg: #2e2e2e;
-  // 主题颜色
-  --l-theme-color: #409eff;
   // 级别颜色
   --l-pri-color: #a7a7a7;
   --l-sec-color: #8d9095;
   --l-thr-color: #878787;
-  // 级别字体
-  --l-pri-size: 1.3rem;
-  --l-sec-size: 1.2rem;
-  --l-thr-size: 1.1rem;
-  --l-for-size: 1rem;
-  --l-fiv-size: 0.9rem;
-  --l-six-size: 0.8rem;
   // highlight
   --hljs-color: #abb2bf;
   --hljs-bg: #282c34;
@@ -42,7 +35,46 @@ html {
   --hljs-built: #e6c07b;
 }
 
+html[class="light"] {
+  // 盒子背景颜色
+  --l-box-bg: #f9f9f9;
+  // 分界线背景颜色
+  --l-divider-bg: #e3e3e3;
+  // 条背景颜色
+  --l-strip-bg: #d5d5d5;
+  // 隐藏代码块 modal
+  --l-code-hidden: #e0e0e0;
+  // 代码块颜色
+  --l-code-bg: #bdbdbd;
+  // 级别颜色
+  --l-pri-color: #393939;
+  --l-sec-color: #4e4e4e;
+  --l-thr-color: #707070;
+  // highlight
+  --hljs-color: #383a42;
+  --hljs-bg: #fafafa;
+  --hljs-comment-color: #a0a1a7;
+  --hljs-keyword: #a626a4;
+  --hljs-section: #e45649;
+  --hljs-literal: #0184bb;
+  --hljs-addition: #50a14f;
+  --hljs-attr: #986801;
+  --hljs-bullet: #986801;
+  --hljs-built: #986801;
+}
+
 html {
+  // 级别字体
+  --l-pri-size: 1.3rem;
+  --l-sec-size: 1.2rem;
+  --l-thr-size: 1.1rem;
+  --l-for-size: 1rem;
+  --l-fiv-size: 0.9rem;
+  --l-six-size: 0.8rem;
+  // 主题颜色
+  --l-theme-color: #409eff;
+  // 模态框背景颜色
+  --l-matee-bg: #0d0d0d8f;
   --font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   --l-transition: all 0.4s ease-in-out;
 }
@@ -58,7 +90,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100% !important;
-  background-color: #191919;
+  background-color: var(--l-box-bg);
   color: var(--l-pri-color);
   font-size: var(--font-size);
   font-weight: 400;

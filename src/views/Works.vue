@@ -200,7 +200,7 @@ watch(route, async () => {
 <style lang="scss">
 code {
   --uno: rd-2;
-  background: #22222299;
+  background: var(--l-code-bg);
   color: var(--el-color-danger-light-3);
   padding: 0.15rem 0.4rem;
   margin: 0;
