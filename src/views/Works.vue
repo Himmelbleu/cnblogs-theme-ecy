@@ -21,7 +21,6 @@ async function fetchData() {
 
   isLocked.value = works.value.isLocked;
   EcyUtils.setTitle(works.value.text);
-  console.log(works.value);
 }
 
 await fetchData();
@@ -134,9 +133,9 @@ watch(route, async () => {
   <div id="l-works" class="page">
     <div class="content">
       <div v-show="!isLocked">
-        <div class="l-thr-size" v-html="works.content" v-hljs v-catalog v-mathjax></div>
+        <div class="l-thr-size" v-html="works.content" v-hljs v-highslide v-catalog v-mathjax></div>
         <Highslide />
-        <Catalog />
+        <Catalog v-if="EcyConfig.pcDevice" />
         <div class="divider flex-col"></div>
         <div class="l-sec-color f-c-e l-fiv-size">
           <div class="f-c-c mr-4">
@@ -272,11 +271,6 @@ pre {
       background-color: var(--l-code-bg);
       color: var(--l-sec-color);
       margin: 0;
-      padding: {
-        left: 0.5rem;
-        top: 0.1rem;
-        bottom: 0.1rem;
-      }
       border: {
         radius: 0.25rem;
         left: {
@@ -284,6 +278,15 @@ pre {
           color: var(--l-theme-color);
           style: solid;
         }
+      }
+      padding: {
+        top: 0.8rem;
+        bottom: 0.8rem;
+      }
+
+      p {
+        margin: 0 !important;
+        padding-left: 0.5rem;
       }
     }
 
@@ -299,7 +302,6 @@ pre {
 
     p {
       line-height: 1.7;
-      margin: 1.5rem 0 !important;
     }
 
     img {
