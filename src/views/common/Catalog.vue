@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useCatalogStore } from "@/store";
+const props = defineProps({
+  anchors: {
+    type: Array as PropType<any>,
+    required: true
+  }
+});
+const emits = defineEmits(["update:anchors"]);
 
 const route = useRoute();
-const store = useCatalogStore();
-const anchors = shallowRef();
 const translate = ref("");
 let observer: IntersectionObserver;
-
-store.$onAction(({ args }) => {
-  anchors.value = args[0];
-}, true);
 
 onMounted(() => {
   observer = new IntersectionObserver(
@@ -17,8 +17,8 @@ onMounted(() => {
       // @ts-ignore
       const offseTop = window.innerHeight * 0.5 + entries[0].target.offsetTop - entries[0].target.clientHeight;
       if (window.scrollY >= offseTop && window.scrollY - 100 <= offseTop) {
-        for (let i = 0; i < anchors.value.length; i++) {
-          document.querySelector(`#catalog-${anchors.value[i].id}`).classList.remove("catalog-active");
+        for (let i = 0; i < props.anchors.length; i++) {
+          document.querySelector(`#catalog-${props.anchors[i].id}`).classList.remove("catalog-active");
         }
         const item = document.querySelector(`#catalog-${entries[0].target.id}`);
         const step = item.getAttribute("data-step");
@@ -30,9 +30,8 @@ onMounted(() => {
       threshold: [0, 1]
     }
   );
-
-  for (let i = 0; i < anchors.value.length; i++) {
-    observer.observe(anchors.value[i].item);
+  for (let i = 0; i < props.anchors.length; i++) {
+    observer.observe(props.anchors[i].item);
   }
 });
 
@@ -42,7 +41,7 @@ onUnmounted(() => {
 
 watch(route, () => {
   if (route.name !== RouterName.Works) {
-    anchors.value = [];
+    emits("update:anchors", []);
     observer.disconnect();
   }
 });

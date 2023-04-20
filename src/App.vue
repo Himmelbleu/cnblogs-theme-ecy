@@ -2,7 +2,6 @@
 const route = useRoute();
 const ldisabled = ref(true);
 const rdisabled = ref(true);
-const indexImgs = EcyConfig.__ECY_CONFIG__.covers.index || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 
 onMounted(() => {
   document.getElementById("l-lstrip").onclick = () => {
@@ -44,11 +43,6 @@ watch(route, async () => {
     <div id="l-progress" class="z-99999 fixed left-0 top-0 w-100vw">
       <div class="track absolute top-0">
         <div class="bar rd-2"></div>
-      </div>
-    </div>
-    <div id="l-backmask" class="fixed left-0 top-0 w-100vw h-100vh">
-      <div class="relative w-100% h-100%">
-        <img class="cover w-100% h-100%" :src="indexImgs[Math.floor(Math.random() * indexImgs.length)]" />
       </div>
     </div>
     <div id="l-matte" class="fixed top-0 left-0 l-matee-bg z-99" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
@@ -101,12 +95,6 @@ watch(route, async () => {
 
   .track.static {
     left: 0;
-  }
-}
-
-#l-backmask {
-  img {
-    opacity: 0.05;
   }
 }
 </style>

@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import { WorksApi } from "@/apis";
 
-EcyUtils.startLoading();
-
 const route = useRoute();
 const works = shallowRef();
 const props = shallowRef();
 const prevNext = shallowRef();
 const viewPoint = shallowRef();
+const anchors = ref([]);
 const isLocked = ref();
 const password = ref("");
-const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 let worksId = route.params.id as string;
 
+const getCoverImg = computed(() => {
+  const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
+  return worksImgs[Math.floor(Math.random() * worksImgs.length)];
+});
+
 async function fetchData() {
+  EcyUtils.startLoading();
+
   works.value = await WorksApi.getWorks(worksId);
   props.value = await WorksApi.getProps(worksId);
   prevNext.value = await WorksApi.getPrevNext(worksId);
@@ -27,6 +32,7 @@ await fetchData();
 
 onMounted(() => {
   const anchor = route.hash.match(/#.+/g);
+
   if (anchor) {
     setTimeout(() => {
       document.querySelector(`#${anchor[0].replace("#", "")}`).scrollIntoView();
@@ -57,10 +63,8 @@ async function vote(type: BlogType.VoteType) {
 
 watch(route, async () => {
   if (route.name === RouterName.Works) {
-    EcyUtils.startLoading();
     worksId = route.params.id as string;
     await fetchData();
-    EcyUtils.setTitle(works.value.text);
     EcyUtils.endLoading();
   }
 });
@@ -69,7 +73,7 @@ watch(route, async () => {
 <template>
   <div v-if="!isLocked" class="welcome relative h-50vh w-100vw">
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
-      <img class="h-100% w-100% rd-0" :src="worksImgs[Math.floor(Math.random() * worksImgs.length)]" />
+      <img class="h-100% w-100% rd-0" :src="getCoverImg" />
     </div>
     <div class="z-999 f-c-c absolute left-0 top-10vh w-100%">
       <div class="w-55vw">
@@ -133,9 +137,15 @@ watch(route, async () => {
   <div id="l-works" class="page">
     <div class="content">
       <div v-show="!isLocked">
-        <div class="l-size-4" v-html="works.content" v-hljs v-highslide v-catalog v-mathjax></div>
+        <div
+          class="l-size-4"
+          v-html="works.content"
+          v-hljs="works.text"
+          v-highslide="works.text"
+          v-catalog="anchors"
+          v-mathjax="works.text"></div>
         <Highslide />
-        <Catalog v-if="EcyConfig.pcDevice" />
+        <Catalog v-if="EcyConfig.pcDevice && anchors.length > 0" v-model:anchors="anchors" />
         <div class="divider flex-col"></div>
         <div class="l-color-2 f-c-e l-size-2">
           <div class="f-c-c mr-4">
