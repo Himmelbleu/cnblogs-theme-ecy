@@ -51,7 +51,7 @@ watch(route, () => {
 <template>
   <div id="l-catalog" class="fixed top-10vh">
     <div class="relative">
-      <div class="l-six-size mb-4 catalog-item h-1.5rem f-c-s" v-for="item in anchors" v-html="item.content" v-catalog-event="item" />
+      <div class="l-size-1 mb-4 h-1.5rem f-c-s" v-for="item in anchors" v-html="item.content" v-catalog-event="item" />
       <div class="absolute slider-track"></div>
       <div class="absolute slider" :style="{ transform: 'translate(0, ' + translate + 'rem)' }"></div>
     </div>
@@ -60,13 +60,13 @@ watch(route, () => {
 
 <style lang="scss">
 .catalog-active {
-  color: white;
+  color: var(--l-hight-1);
 }
 </style>
 
 <style scoped lang="scss">
 .slider {
-  transition: var(--l-transition);
+  transition: var(--l-animation-effect);
   width: 0.25rem;
   height: 1.5rem;
   border-radius: 0.25rem;
@@ -79,7 +79,7 @@ watch(route, () => {
   width: 0.25rem;
   height: 100%;
   border-radius: 0.25rem;
-  background-color: var(--l-pri-color);
+  background-color: var(--l-color-1);
   opacity: 0.1;
   top: 0;
   left: -2rem;

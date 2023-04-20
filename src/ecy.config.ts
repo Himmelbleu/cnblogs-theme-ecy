@@ -132,6 +132,6 @@ export namespace EcyConfig {
 
     $("head").append(`<link rel="shortcut icon" href="${__ECY_CONFIG__.icon}">`);
     EcyUtils.Log.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
-    EcyUtils.Log.primary("v1.0.0", "Powered By Himmelbleu using Vue3 & Vite.");
+    EcyUtils.Log.primary("v1.1.0", "Powered By Himmelbleu using Vue3 & Vite.");
   }
 }
