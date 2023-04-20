@@ -197,6 +197,25 @@ window.__ECY_CONFIG__ = {
 };
 ```
 
+## 背景图片
+
+为首页顶部和随笔顶部提供封面。
+
+```js
+window.__ECY_CONFIG__ = {
+  covers: {
+    index: [
+      "https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2302503/o_230420153800_95785723_p0.png",
+      "https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2302503/o_230420154313_86093780_p0.jpg"
+    ],
+    works: [
+      "https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2302503/o_230420154313_86093780_p0.jpg",
+      "https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2302503/o_230420154438_77055913_p0.jpg"
+    ]
+  }
+};
+```
+
 ## GitHub
 
 ```js
