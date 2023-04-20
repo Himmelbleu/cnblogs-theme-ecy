@@ -1,38 +1,28 @@
 <script setup lang="ts">
-const props = defineProps({
-  anchors: {
-    type: Array as PropType<any>,
-    required: true
-  }
-});
-const emits = defineEmits(["update:anchors"]);
+import { useCatalogStore } from "@/store";
 
 const route = useRoute();
-const translate = ref("");
+const translate = shallowRef("");
+const anchors = shallowRef([]);
+const store = useCatalogStore();
 let observer: IntersectionObserver;
 
-onMounted(() => {
-  observer = new IntersectionObserver(
-    entries => {
-      // @ts-ignore
-      const offseTop = window.innerHeight * 0.5 + entries[0].target.offsetTop - entries[0].target.clientHeight;
-      if (window.scrollY >= offseTop && window.scrollY - 100 <= offseTop) {
-        for (let i = 0; i < props.anchors.length; i++) {
-          document.querySelector(`#catalog-${props.anchors[i].id}`).classList.remove("catalog-active");
-        }
-        const item = document.querySelector(`#catalog-${entries[0].target.id}`);
-        const step = item.getAttribute("data-step");
-        translate.value = step;
-        item.classList.add("catalog-active");
-      }
-    },
-    {
-      threshold: [0, 1]
+function useObserver(entries: any) {
+  // @ts-ignore
+  const offseTop = window.innerHeight * 0.5 + entries[0].target.offsetTop - entries[0].target.clientHeight;
+  if (window.scrollY >= offseTop && window.scrollY - 100 <= offseTop) {
+    for (let i = 0; i < anchors.value.length; i++) {
+      document.querySelector(`#catalog-${anchors.value[i].id}`).classList.remove("catalog-active");
     }
-  );
-  for (let i = 0; i < props.anchors.length; i++) {
-    observer.observe(props.anchors[i].item);
+    const item = document.querySelector(`#catalog-${entries[0].target.id}`);
+    const step = item.getAttribute("data-step");
+    translate.value = step;
+    item.classList.add("catalog-active");
   }
+}
+
+observer = new IntersectionObserver(useObserver, {
+  threshold: [0, 1]
 });
 
 onUnmounted(() => {
@@ -41,16 +31,26 @@ onUnmounted(() => {
 
 watch(route, () => {
   if (route.name !== RouterName.Works) {
-    emits("update:anchors", []);
+    anchors.value = [];
     observer.disconnect();
   }
 });
+
+store.$onAction(({ args }) => {
+  observer.disconnect();
+  anchors.value = args[0];
+  for (let i = 0; i < anchors.value.length; i++) {
+    observer.observe(anchors.value[i].item);
+  }
+}, true);
 </script>
 
 <template>
-  <div id="l-catalog" class="fixed top-10vh">
+  <div id="l-catalog" class="fixed top-5vh h-90vh noscroll flow-auto" v-show="anchors && anchors.length">
     <div class="relative">
-      <div class="l-size-1 mb-4 h-1.5rem f-c-s" v-for="item in anchors" v-html="item.content" v-catalog-event="item" />
+      <div class="ml-6">
+        <div class="l-size-1 mb-4 h-1.5rem f-c-s" v-for="item in anchors" v-html="item.content" v-catalog-event="item" />
+      </div>
       <div class="absolute slider-track"></div>
       <div class="absolute slider" :style="{ transform: 'translate(0, ' + translate + 'rem)' }"></div>
     </div>
@@ -71,7 +71,7 @@ watch(route, () => {
   border-radius: 0.25rem;
   background-color: var(--el-color-primary);
   top: 0;
-  left: -2rem;
+  left: 0;
 }
 
 .slider-track {
@@ -81,12 +81,12 @@ watch(route, () => {
   background-color: var(--l-color-1);
   opacity: 0.1;
   top: 0;
-  left: -2rem;
+  left: 0;
 }
 
 @include pc() {
   #l-catalog {
-    left: calc(55vw * 1.5);
+    left: calc(55vw * 1.48);
   }
 }
 

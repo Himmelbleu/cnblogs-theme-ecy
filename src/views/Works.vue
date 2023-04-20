@@ -6,7 +6,6 @@ const works = shallowRef();
 const props = shallowRef();
 const prevNext = shallowRef();
 const viewPoint = shallowRef();
-const anchors = ref([]);
 const isLocked = ref();
 const password = ref("");
 let worksId = route.params.id as string;
@@ -29,18 +28,6 @@ async function fetchData() {
 }
 
 await fetchData();
-
-onMounted(() => {
-  const anchor = route.hash.match(/#.+/g);
-
-  if (anchor) {
-    setTimeout(() => {
-      document.querySelector(`#${anchor[0].replace("#", "")}`).scrollIntoView();
-    }, 500);
-  }
-
-  EcyUtils.endLoading();
-});
 
 async function submit() {
   const passed = await WorksApi.isPassed(password.value, worksId);
@@ -67,6 +54,18 @@ watch(route, async () => {
     await fetchData();
     EcyUtils.endLoading();
   }
+});
+
+onMounted(() => {
+  const anchor = route.hash.match(/#.+/g);
+
+  if (anchor) {
+    setTimeout(() => {
+      document.querySelector(`#${anchor[0].replace("#", "")}`).scrollIntoView();
+    }, 500);
+  }
+
+  EcyUtils.endLoading();
 });
 </script>
 
@@ -129,7 +128,7 @@ watch(route, async () => {
         </div>
       </div>
     </div>
-    <div class="z-999 absolute bottom-0 left-0 h-75px w-100% ofw-hidden">
+    <div class="z-999 absolute bottom-0 left-0 h-75px w-100% flow-hidden">
       <div class="wave-1 absolute h-100% w-200%"></div>
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>
@@ -137,15 +136,9 @@ watch(route, async () => {
   <div id="l-works" class="page">
     <div class="content">
       <div v-show="!isLocked">
-        <div
-          class="l-size-4"
-          v-html="works.content"
-          v-hljs="works.text"
-          v-highslide="works.text"
-          v-catalog="anchors"
-          v-mathjax="works.text"></div>
+        <div class="l-size-4" v-html="works.content" v-hljs="works.text" v-highslide="works.text" v-catalog v-mathjax="works.text"></div>
         <Highslide />
-        <Catalog v-if="EcyConfig.pcDevice && anchors.length > 0" v-model:anchors="anchors" />
+        <Catalog v-if="EcyConfig.pcDevice" />
         <div class="divider flex-col"></div>
         <div class="l-color-2 f-c-e l-size-2">
           <div class="f-c-c mr-4">
@@ -213,6 +206,13 @@ code {
   color: var(--el-color-danger-light-3);
   padding: 0.15rem 0.4rem;
   margin: 0;
+  letter-spacing: 2.2px;
+
+  span {
+    --uno: l-size-3;
+    line-height: 1.6;
+    font-family: #{"Hack", var(--l-font-family)};
+  }
 }
 
 pre {

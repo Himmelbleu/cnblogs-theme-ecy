@@ -195,7 +195,7 @@ onMounted(() => {
         </div>
         <div class="mb-6" v-if="!EcyConfig.__ECY_CONFIG__.nameplate.photo.disabled">
           <div class="mb-4 font-bold title">精选图片</div>
-          <div class="f-s-b flex-wrap noscroll ofw-auto">
+          <div class="f-s-b flex-wrap noscroll flow-auto">
             <div v-for="(item, i) in EcyConfig.__ECY_CONFIG__.nameplate.photo.src" :class="{ ' h-28': i < 3 }" style="width: 32%">
               <el-image
                 v-if="i < 3"

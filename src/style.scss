@@ -159,13 +159,6 @@ html {
   &:hover::-webkit-scrollbar-thumb {
     background-color: var(--l-strip-bg);
   }
-
-  span {
-    --uno: l-size-3;
-    line-height: 1.6;
-    letter-spacing: 1.2px;
-    font-family: #{"Hack", var(--l-font-family)};
-  }
 }
 
 .hljs-comment,

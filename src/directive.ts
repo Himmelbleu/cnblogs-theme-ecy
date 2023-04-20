@@ -1,5 +1,6 @@
 import $ from "jquery";
 import hljs from "highlight.js";
+import { useCatalogStore } from "@/store";
 
 function createCodeModal(ele: JQuery<HTMLElement>) {
   const height = ele.height();
@@ -82,6 +83,7 @@ function useVMathjax() {
  * 构造目录
  */
 function useVCatalog(el: any, binding: any) {
+  const catalog: any[] = [];
   let step = 0;
 
   $(el)
@@ -99,9 +101,11 @@ function useVCatalog(el: any, binding: any) {
         content = `<div id="catalog-${id}" class="hover" data-step="${step}" style="margin-left: 20px">${$(item).text()}</div>`;
       }
 
-      binding.value.push({ id, content, item });
+      catalog.push({ id, content, item });
       step += 2.5;
     });
+
+  useCatalogStore().setCatalog(catalog);
 }
 
 /**
@@ -190,9 +194,7 @@ export function useDirective(Vue: any) {
       useVCatalog(el, binding);
     },
     updated(el: any, binding: any) {
-      if (binding.value[0] != binding.oldValue[0]) {
-        useVCatalog(el, binding);
-      }
+      useVCatalog(el, binding);
     }
   });
 
@@ -201,6 +203,9 @@ export function useDirective(Vue: any) {
    */
   Vue.directive("catalog-event", {
     mounted(el: any, binding: any) {
+      useCatalogEvents(binding);
+    },
+    updated(el: any, binding: any) {
       useCatalogEvents(binding);
     }
   });
