@@ -59,8 +59,8 @@ const hidden = computed(() => {
 <template>
   <div
     id="l-lmenu"
-    class="l-size-2 fixed top-0 left-0 noscroll flow-auto h-100vh l-back-bg p-3 w-17.5rem"
-    :class="{ 'show-lcabinet z-99': block, 'hidden-lcabinet': hidden }">
+    class="l-size-2 z-9999 fixed top-0 left-0 noscroll flow-auto h-100vh l-back-bg p-3 w-17.5rem"
+    :class="{ 'show-lcabinet': block, 'hidden-lcabinet': hidden }">
     <ExpandableBox text="博客信息" disabled>
       <template #icon>
         <i-ep-house />

@@ -228,6 +228,10 @@ declare namespace CustType {
       photo: { disabled: boolean; src?: string[] };
     };
     covers: {
+      filter: {
+        index: string;
+        works: string;
+      };
       index: string[];
       works: string[];
     };

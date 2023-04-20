@@ -3,20 +3,8 @@ const route = useRoute();
 const ldisabled = ref(true);
 const rdisabled = ref(true);
 
-onMounted(() => {
-  document.getElementById("l-lstrip").onclick = () => {
-    ldisabled.value = !ldisabled.value;
-  };
-
-  document.getElementById("l-rstrip").onclick = () => {
-    rdisabled.value = !rdisabled.value;
-  };
-
-  document.getElementById("l-matte").onclick = () => {
-    if (!ldisabled.value) ldisabled.value = true;
-    else if (!rdisabled.value) rdisabled.value = true;
-  };
-});
+provide("ldisabled", ldisabled);
+provide("rdisabled", rdisabled);
 
 watch(route, async () => {
   if (route.name === RouterName.Index) {
@@ -40,15 +28,13 @@ watch(route, async () => {
     <div id="l-bottom-nail"></div>
   </div>
   <div class="l-tools">
-    <div id="l-progress" class="z-99999 fixed left-0 top-0 w-100vw">
+    <div id="l-progress" class="z-9999 fixed left-0 top-0 w-100vw">
       <div class="track absolute top-0">
         <div class="bar rd-2"></div>
       </div>
     </div>
-    <div id="l-matte" class="fixed top-0 left-0 l-matee-bg z-99" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
-    <div id="l-lstrip" class="z-9 fixed left-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
+    <div id="l-matte" class="fixed top-0 left-0 l-matee-bg z-9999" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
     <LeftMenu :disabled="ldisabled" />
-    <div id="l-rstrip" class="z-9 fixed right-0 top-47.5vh w-5px h-5vh rd-2 cursor-pointer opacity-70 l-strip-bg"></div>
     <RightMenu :disabled="rdisabled" />
     <ToolKits />
   </div>

@@ -204,10 +204,17 @@ window.__ECY_CONFIG__ = {
 ```js
 window.__ECY_CONFIG__ = {
   covers: {
+    // 模糊度
+    filter: {
+      index: "2px",
+      works: "20px"
+    },
+    // 封面
     index: [
       "https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2302503/o_230420153800_95785723_p0.png",
       "https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2302503/o_230420154313_86093780_p0.jpg"
     ],
+    // 封面
     works: [
       "https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2302503/o_230420154313_86093780_p0.jpg",
       "https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2302503/o_230420154438_77055913_p0.jpg"

@@ -9,6 +9,7 @@ const viewPoint = shallowRef();
 const isLocked = ref();
 const password = ref("");
 let worksId = route.params.id as string;
+const filter = EcyConfig.__ECY_CONFIG__.covers.filter.works;
 
 const getCoverImg = computed(() => {
   const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
@@ -361,7 +362,7 @@ a > code {
 <style scoped lang="scss">
 .welcome {
   .cover::after {
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(v-bind(filter));
   }
 }
 </style>
