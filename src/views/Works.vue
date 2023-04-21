@@ -208,16 +208,15 @@ onMounted(() => {
 
 <style lang="scss">
 code {
-  --uno: rd-2;
-  color: var(--el-color-danger-light-3);
-  padding: 0.15rem 0.4rem;
   margin: 0;
+  --uno: rd-2 l-size-3;
   letter-spacing: 2.2px;
+  color: var(--el-color-danger-light-3);
+  font-family: #{"Space Mono", "Hack", var(--l-font-family)};
 
   span {
-    --uno: l-size-3;
     line-height: 1.6;
-    font-family: #{"Hack", "Space Mono", var(--l-font-family)};
+    font-family: #{"Space Mono", "Hack", var(--l-font-family)};
   }
 }
 
@@ -242,12 +241,6 @@ pre {
     bottom: 0;
     left: 0;
     background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, var(--l-code-modal-bg) 100%);
-  }
-}
-
-p {
-  code {
-    background: var(--l-inline-code-bg);
   }
 }
 
@@ -293,8 +286,9 @@ a > code {
     }
 
     blockquote {
+      --uno: l-size-3;
       background-color: var(--l-blockquote-bg);
-      color: var(--l-color-2);
+      color: var(--l-color-3);
       margin: 0;
       border: {
         radius: 0.25rem;

@@ -65,6 +65,11 @@ const hidden = computed(() => {
       <template #icon>
         <i-ep-house />
       </template>
+      <div class="f-c-c mb-4">
+        <router-link :to="RouterPath.profile()">
+          <img class="h-25 w-25 cursor-pointer rd-50" :src="EcyConfig.__ECY_CONFIG__.avatar" />
+        </router-link>
+      </div>
       <div class="f-c-c mb-4" v-if="!EcyConfig.isOwner">
         <el-popconfirm @confirm="unsubscribe" confirm-button-text="确定" cancel-button-text="取消" title="确定取消关注？">
           <template #reference>

@@ -66,9 +66,8 @@ export namespace EcyConfig {
       EcyConfig.blogApp = import.meta.env.VITE_BLOG_APP;
       baseAPI = "/api";
       __ECY_CONFIG__ = {
-        cabinet: {
-          signature: "Time tick away, dream faded away!"
-        },
+        cabinet: {},
+        avatar: "",
         covers: {
           matte: {
             index: 0.1,
@@ -101,6 +100,7 @@ export namespace EcyConfig {
         },
         nameplate: {
           tags: ["Web 前端", "二次元", "简约", "拖延症", "吸猫"],
+          signature: "Time tick away, dream faded away!",
           connection: [
             {
               name: "Email",
