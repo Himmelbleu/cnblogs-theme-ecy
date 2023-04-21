@@ -70,6 +70,10 @@ export namespace EcyConfig {
           signature: "Time tick away, dream faded away!"
         },
         covers: {
+          matte: {
+            index: 0.1,
+            works: 0.1
+          },
           filter: {
             index: "10px",
             works: "20px"

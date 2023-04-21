@@ -100,7 +100,8 @@
     color: #ededed !important;
   }
 
-  .cover::after {
+  .cover::after,
+  .cover::before {
     content: "";
     display: block;
     position: absolute;

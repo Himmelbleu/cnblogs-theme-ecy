@@ -9,7 +9,8 @@ const viewPoint = shallowRef();
 const isLocked = ref();
 const password = ref("");
 let worksId = route.params.id as string;
-const filter = EcyConfig.__ECY_CONFIG__.covers.filter.works;
+const coverFilter = EcyConfig.__ECY_CONFIG__.covers.filter.works;
+const coverMatte = EcyConfig.__ECY_CONFIG__.covers.matte.works;
 
 const getCoverImg = computed(() => {
   const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
@@ -106,13 +107,13 @@ onMounted(() => {
               <span>分类：</span>
             </div>
             <div v-for="(item, index) in props.sorts" :class="{ 'mr-2': index !== props.sorts.length - 1 }">
-              <LTag
+              <HollowedBox
                 line="dotted"
                 hover
                 round
                 @click="EcyUtils.Router.go({ path: RouterPath.worksBySort('p', item.href), router: $router })">
                 {{ item.text }}
-              </LTag>
+              </HollowedBox>
             </div>
           </div>
           <div class="f-c-s flex-wrap l-size-2" v-if="props.tags.length > 0">
@@ -121,9 +122,13 @@ onMounted(() => {
               <span>标签：</span>
             </div>
             <div v-for="(item, index) in props.tags" :class="{ 'mr-2': index !== props.tags.length - 1 }">
-              <LTag line="dotted" hover round @click="EcyUtils.Router.go({ path: RouterPath.worksByMark(item.text), router: $router })">
+              <HollowedBox
+                line="dotted"
+                hover
+                round
+                @click="EcyUtils.Router.go({ path: RouterPath.worksByMark(item.text), router: $router })">
                 {{ item.text }}
-              </LTag>
+              </HollowedBox>
             </div>
           </div>
         </div>
@@ -212,7 +217,7 @@ code {
   span {
     --uno: l-size-3;
     line-height: 1.6;
-    font-family: #{"Hack", var(--l-font-family)};
+    font-family: #{"Hack", "Space Mono", var(--l-font-family)};
   }
 }
 
@@ -361,8 +366,14 @@ a > code {
 
 <style scoped lang="scss">
 .welcome {
+  .cover::before {
+    backdrop-filter: blur(v-bind(coverFilter));
+    z-index: 1;
+  }
+
   .cover::after {
-    backdrop-filter: blur(v-bind(filter));
+    background-color: black;
+    opacity: v-bind(coverMatte);
   }
 }
 </style>

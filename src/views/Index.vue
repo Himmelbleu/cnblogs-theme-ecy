@@ -8,8 +8,9 @@ const rdisabled = inject<Ref>("rdisabled");
 const worksList = shallowRef(await WorksApi.getList(1));
 const indexImgs = EcyConfig.__ECY_CONFIG__.covers.index || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
 const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
-const filter = EcyConfig.__ECY_CONFIG__.covers.filter.index;
 const imgsIndex = shallowRef(EcyUtils.Random.get(worksImgs, worksList.value.data.length));
+const coverFilter = EcyConfig.__ECY_CONFIG__.covers.filter.index;
+const coverMatte = EcyConfig.__ECY_CONFIG__.covers.matte.index;
 
 async function fetchData(index: any) {
   EcyUtils.startLoading();
@@ -55,16 +56,16 @@ onMounted(() => {
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>
     <div class="z-999 absolute top-1vh left-0.5vw">
-      <div class="menu f-c-c rd-2 l-size-1 cursor-pointer">
+      <HollowedBox hover class="f-c-c rd-2 l-size-1 cursor-pointer" @click="openLMenu">
         <i-ep-menu class="mr-2" />
-        <div @click="openLMenu">左菜单</div>
-      </div>
+        <div>左菜单</div>
+      </HollowedBox>
     </div>
     <div class="z-999 absolute top-1vh right-0.5vw">
-      <div class="menu f-c-c rd-2 l-size-1 cursor-pointer">
+      <HollowedBox plain hover class="f-c-c rd-2 l-size-1 cursor-pointer" @click="openRMenu">
         <i-ep-menu class="mr-2" />
-        <div @click="openRMenu">右菜单</div>
-      </div>
+        <div>右菜单</div>
+      </HollowedBox>
     </div>
     <div class="z-990 cover absolute left-0 top-0 h-100% w-100%">
       <img class="relative h-100% w-100% rd-0" :src="indexImgs[Math.floor(Math.random() * indexImgs.length)]" />
@@ -90,21 +91,14 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .welcome {
-  .menu {
-    border: {
-      style: solid;
-      width: 1px;
-    }
-    padding: {
-      top: 0.3rem;
-      bottom: 0.3rem;
-      left: 0.4rem;
-      right: 0.4rem;
-    }
+  .cover::before {
+    backdrop-filter: blur(v-bind(coverFilter));
+    z-index: 1;
   }
 
   .cover::after {
-    backdrop-filter: blur(v-bind(filter));
+    background-color: black;
+    opacity: v-bind(coverMatte);
   }
 
   .arrow {

@@ -228,10 +228,8 @@ declare namespace CustType {
       photo: { disabled: boolean; src?: string[] };
     };
     covers: {
-      filter: {
-        index: string;
-        works: string;
-      };
+      matte: { index: number; works: number };
+      filter: { index: string; works: string };
       index: string[];
       works: string[];
     };
@@ -244,13 +242,6 @@ declare namespace CustType {
       data: { title: string; star: number }[];
     };
     other: {};
-  }>;
-
-  type IBox = Partial<{
-    left: number;
-    right: number;
-    top: number;
-    bottom: number;
   }>;
 
   /**

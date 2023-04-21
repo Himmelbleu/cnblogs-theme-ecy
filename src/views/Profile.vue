@@ -58,7 +58,7 @@ onMounted(() => {
       <div class="mb-6">
         <div class="mb-4 font-bold title">个人标签</div>
         <div class="hobbies f-c-s flex-wrap">
-          <LTag class="mr-2 mb-4" hover round v-for="item in EcyConfig.__ECY_CONFIG__.nameplate.tags">{{ item }}</LTag>
+          <HollowedBox class="mr-2 mb-4" hover round v-for="item in EcyConfig.__ECY_CONFIG__.nameplate.tags">{{ item }}</HollowedBox>
         </div>
       </div>
       <div v-if="EcyConfig.pcDevice" class="f-s-b mb-6">

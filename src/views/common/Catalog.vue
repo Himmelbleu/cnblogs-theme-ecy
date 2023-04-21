@@ -48,7 +48,7 @@ store.$onAction(({ args }) => {
 <template>
   <div id="l-catalog" class="fixed top-5vh h-90vh noscroll flow-auto" v-show="anchors && anchors.length">
     <div class="relative">
-      <div class="ml-6">
+      <div class="ml-6 l-color-2">
         <div class="l-size-1 mb-4 h-1.5rem f-c-s" v-for="item in anchors" v-html="item.content" v-catalog-event="item" />
       </div>
       <div class="absolute slider-track"></div>
@@ -59,7 +59,7 @@ store.$onAction(({ args }) => {
 
 <style lang="scss">
 .catalog-active {
-  color: var(--l-hight-1);
+  color: var(--l-hight-color-1);
 }
 </style>
 
