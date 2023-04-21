@@ -17,7 +17,7 @@ defineProps({
 
 <template>
   <div v-if="EcyConfig.pcDevice" class="f-c-b item h-20rem rd-2">
-    <div v-if="index % 2 !== 0" class="w-45% h-100% relative">
+    <div v-if="index % 2 !== 0" class="w-45% h-100% flow-hidden relative">
       <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
       <img class="w-100% h-100%" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
@@ -55,13 +55,13 @@ defineProps({
           {{ item.date }}
         </div>
       </div>
-      <div :class="{ 'mt-4': item.isTop || item.isOnlyMe || item.isLocked }">
+      <div v-show="item.isTop || item.isOnlyMe || item.isLocked" class="mt-4">
         <HollowedBox round plain v-if="item.isTop" class="mr-2">置顶随笔</HollowedBox>
         <HollowedBox round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</HollowedBox>
         <HollowedBox round plain v-else-if="item.isLocked" class="mr-2">密码锁定</HollowedBox>
       </div>
     </div>
-    <div v-if="index % 2 === 0" class="w-45% h-100% relative">
+    <div v-if="index % 2 === 0" class="w-45% h-100% flow-hidden relative">
       <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
       <img class="w-100% h-100%" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
@@ -76,7 +76,7 @@ defineProps({
     <div class="f-c-b mb-4">
       <div v-if="index % 2 !== 0" class="w-45% h-100% relative">
         <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
-        <img class="w-100% h-100%" :src="item.surface || cover" />
+        <img class="w-100% h-8rem" :src="item.surface || cover" />
         <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
       </div>
       <div class="w-52% l-color-3 text-ellipsis line-clamp-5">
@@ -84,7 +84,7 @@ defineProps({
       </div>
       <div v-if="index % 2 === 0" class="w-45% h-100% relative">
         <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
-        <img class="w-100% h-100%" :src="item.surface || cover" />
+        <img class="w-100% h-8rem" :src="item.surface || cover" />
         <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
       </div>
     </div>
@@ -102,6 +102,11 @@ defineProps({
         {{ item.digg }}
       </div>
     </div>
+    <div v-show="item.isTop || item.isOnlyMe || item.isLocked" class="mt-4">
+      <HollowedBox round plain v-if="item.isTop" class="mr-2">置顶随笔</HollowedBox>
+      <HollowedBox round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</HollowedBox>
+      <HollowedBox round plain v-else-if="item.isLocked" class="mr-2">密码锁定</HollowedBox>
+    </div>
     <div class="hover f-c-b mt-6 l-size-2">
       <div class="f-c-c">
         <i-ep-caret-right />
@@ -118,14 +123,6 @@ defineProps({
 </template>
 
 <style scoped lang="scss">
-.item {
-  transition: var(--l-animation-effect);
-  margin: {
-    top: 1.5rem;
-    bottom: 3rem;
-  }
-}
-
 .mask::after {
   --uno: rd-2;
   content: "";
@@ -139,13 +136,21 @@ defineProps({
 @include pc() {
   .item:hover {
     box-shadow: 0 1px 20px -6px rgba(193, 193, 193, 0.5);
+
+    img {
+      transition: var(--l-animation-effect);
+      transform: scale(1.1, 1.1);
+    }
   }
 
   .item {
-    transition: var(--l-animation-effect);
     margin: {
       top: 1.5rem;
       bottom: 3rem;
+    }
+
+    img {
+      transition: var(--l-animation-effect);
     }
   }
 }
