@@ -18,7 +18,7 @@ defineProps({
 <template>
   <div v-if="EcyConfig.pcDevice" class="f-c-b item h-20rem rd-2">
     <div v-if="index % 2 !== 0" class="w-45% h-100% flow-hidden relative">
-      <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
+      <div class="mask absolute top-0 left-0 w-100% h-15% z-1"></div>
       <img class="w-100% h-100%" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
     </div>
@@ -62,7 +62,7 @@ defineProps({
       </div>
     </div>
     <div v-if="index % 2 === 0" class="w-45% h-100% flow-hidden relative">
-      <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
+      <div class="mask absolute top-0 left-0 w-100% h-15% z-1"></div>
       <img class="w-100% h-100%" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
     </div>
