@@ -67,14 +67,13 @@ export namespace EcyConfig {
       baseAPI = "/api";
       __ECY_CONFIG__ = {
         cabinet: {},
-        avatar: "",
         covers: {
           matte: {
-            index: 0.1,
+            index: 0.15,
             works: 0.1
           },
           filter: {
-            index: "10px",
+            index: "1.5px",
             works: "20px"
           },
           works: ["https://img1.baidu.com/it/u=726526983,4132763702&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500"],
@@ -116,6 +115,9 @@ export namespace EcyConfig {
             disabled: true,
             src: ["https://img2.baidu.com/it/u=803568479,1965819057&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"]
           }
+        },
+        font: {
+          family: `"Space Mono", Hack`
         }
       };
       initLocalSetting();
@@ -124,6 +126,6 @@ export namespace EcyConfig {
 
     $("head").append(`<link rel="shortcut icon" href="${__ECY_CONFIG__.icon}">`);
     EcyUtils.Log.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
-    EcyUtils.Log.primary("v1.1.0", "Powered By Himmelbleu using Vue3 & Vite.");
+    EcyUtils.Log.primary("v1.2.0", "Powered By Himmelbleu using Vue3 & Vite.");
   }
 }

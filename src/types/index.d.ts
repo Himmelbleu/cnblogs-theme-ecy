@@ -241,6 +241,9 @@ declare namespace CustType {
       textSize: number;
       data: { title: string; star: number }[];
     };
+    font: {
+      family: string;
+    };
   }>;
 
   /**

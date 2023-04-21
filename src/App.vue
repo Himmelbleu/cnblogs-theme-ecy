@@ -2,9 +2,11 @@
 const route = useRoute();
 const ldisabled = ref(true);
 const rdisabled = ref(true);
+const catalogDisabled = ref(!EcyConfig.pcDevice);
 
 provide("ldisabled", ldisabled);
 provide("rdisabled", rdisabled);
+provide("catalogDisabled", catalogDisabled);
 
 watch(route, async () => {
   if (route.name === RouterName.Index) {
@@ -51,20 +53,11 @@ watch(route, async () => {
   }
 
   .bar.bar-active {
-    animation: active-animation 3s infinite ease-in-out;
     width: 3rem;
   }
 
   .track.track-active {
     animation: track-active-animation 4s infinite ease-in;
-  }
-
-  @keyframes active-animation {
-    @for $index from 0 to 10 {
-      #{$index * 10%} {
-        width: 3rem + $index * 0.2rem;
-      }
-    }
   }
 
   @keyframes track-active-animation {
@@ -76,7 +69,7 @@ watch(route, async () => {
   }
 
   .bar.static {
-    width: 0vw;
+    width: 0;
   }
 
   .track.static {

@@ -55,13 +55,13 @@ onMounted(() => {
       <div class="wave-1 absolute h-100% w-200%"></div>
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>
-    <div class="z-999 absolute top-1vh left-0.5vw">
+    <div class="z-999 absolute top-2 left-2">
       <HollowedBox hover class="f-c-c rd-2 l-size-1 cursor-pointer" @click="openLMenu">
         <i-ep-menu class="mr-2" />
         <div>左菜单</div>
       </HollowedBox>
     </div>
-    <div class="z-999 absolute top-1vh right-0.5vw">
+    <div class="z-999 absolute top-2 right-2">
       <HollowedBox plain hover class="f-c-c rd-2 l-size-1 cursor-pointer" @click="openRMenu">
         <i-ep-menu class="mr-2" />
         <div>右菜单</div>

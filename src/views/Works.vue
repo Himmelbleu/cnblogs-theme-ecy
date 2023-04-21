@@ -6,11 +6,12 @@ const works = shallowRef();
 const props = shallowRef();
 const prevNext = shallowRef();
 const viewPoint = shallowRef();
-const isLocked = ref();
+const isLocked = ref(false);
 const password = ref("");
 let worksId = route.params.id as string;
 const coverFilter = EcyConfig.__ECY_CONFIG__.covers.filter.works;
 const coverMatte = EcyConfig.__ECY_CONFIG__.covers.matte.works;
+const fontFamily = EcyConfig.__ECY_CONFIG__.font.family || "Hack";
 
 const getCoverImg = computed(() => {
   const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
@@ -37,7 +38,7 @@ async function submit() {
     works.value = await WorksApi.getLockedWorks(password.value, worksId);
     isLocked.value = false;
   }
-  ElMessage({ message: passed ? "密码输入正确！" : "密码错误！", grouping: true, type: passed ? "success" : "error" });
+  ElMessage({ message: passed ? "密码正确！" : "密码错误！", grouping: true, type: passed ? "success" : "error" });
 }
 
 async function vote(type: BlogType.VoteType) {
@@ -72,12 +73,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="!isLocked" class="welcome relative h-50vh w-100vw">
+  <div v-show="!isLocked" class="welcome l-works-welcome relative h-50vh w-100vw">
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
       <img class="h-100% w-100% rd-0" :src="getCoverImg" />
     </div>
-    <div class="z-999 f-c-c absolute left-0 top-10vh w-100%">
-      <div class="w-55vw">
+    <div class="content z-999 absolute left-0 top-10vh w-100%">
+      <div>
         <div class="size-2rem text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
         <div class="f-c-s mt-6 l-size-2">
           <div class="f-c-c mr-4">
@@ -144,7 +145,7 @@ onMounted(() => {
       <div v-show="!isLocked">
         <div class="l-size-4" v-html="works.content" v-hljs="works.text" v-highslide="works.text" v-catalog v-mathjax="works.text"></div>
         <Highslide />
-        <Catalog v-if="EcyConfig.pcDevice" />
+        <Catalog />
         <div class="divider flex-col"></div>
         <div class="l-color-2 f-c-e l-size-2">
           <div class="f-c-c mr-4">
@@ -210,13 +211,13 @@ onMounted(() => {
 code {
   margin: 0;
   --uno: rd-2 l-size-3;
-  letter-spacing: 2.2px;
+  letter-spacing: 1.2px;
   color: var(--el-color-danger-light-3);
-  font-family: #{"Space Mono", "Hack", var(--l-font-family)};
+  font-family: #{v-bind(fontFamily), var(--l-font-family)};
 
   span {
     line-height: 1.6;
-    font-family: #{"Space Mono", "Hack", var(--l-font-family)};
+    font-family: #{v-bind(fontFamily), var(--l-font-family)};
   }
 }
 
@@ -288,7 +289,7 @@ a > code {
     blockquote {
       --uno: l-size-3;
       background-color: var(--l-blockquote-bg);
-      color: var(--l-color-3);
+      color: var(--l-color-2);
       margin: 0;
       border: {
         radius: 0.25rem;
