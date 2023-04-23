@@ -84,16 +84,4 @@ watch(route, async () => {
     display: none;
   }
 }
-
-.fade-in-out {
-  animation: transition-animation 0.5s ease-in;
-
-  @keyframes transition-animation {
-    @for $index from 0 to 10 {
-      #{$index * 10%} {
-        opacity: math.div($index, 10);
-      }
-    }
-  }
-}
 </style>

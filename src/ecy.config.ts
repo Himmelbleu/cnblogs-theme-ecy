@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 export namespace EcyConfig {
   export let __ECY_CONFIG__: CustType.IEcy;
   export let blogId = 0;
@@ -22,21 +20,46 @@ export namespace EcyConfig {
    * 初始化博客重要变量，这些变量不能通过 head script 获取，在一些元素属性上。
    */
   function getUserGuid() {
-    return $("#p_b_follow > a")?.attr("onclick")?.split("(")[1]?.split(")")[0]?.replaceAll("'", "") ?? "";
+    const eleA = document.querySelector("#p_b_follow > a");
+    if (eleA) {
+      const attr = eleA.getAttribute("onclick");
+      return attr?.split("(")[1]?.split(")")[0]?.replaceAll("'", "") ?? "";
+    } else return "";
   }
 
   /**
    * 初始化博客重要变量，这些变量不能通过 head script 获取，在一些元素属性上。
    */
   function getIsFollow() {
-    return $("#p_b_follow > a")?.text() === "-取消关注" ?? false;
+    const eleText = document.querySelector<HTMLElement>("#p_b_follow > a");
+    if (eleText) {
+      return eleText.innerText === "-取消关注" || false;
+    } else return false;
   }
 
   function initLocalSetting() {
     const setting = EcyUtils.getLocalSetting().value;
     const strings = JSON.stringify(EcyUtils.reloadObjProps(setting, EcyUtils.getLocalSettingTemp()));
     localStorage.setItem(`l-${blogApp}-setting`, strings);
-    $("html").attr("class", setting.theme.mode);
+    document.documentElement.setAttribute("class", setting.theme.mode);
+  }
+
+  function beforeUseLiteInsertElement() {
+    const eleApp = document.createElement("div");
+    eleApp.setAttribute("id", "app");
+    document.body.append(eleApp);
+
+    const eleHackLink = document.createElement("link");
+    eleHackLink.rel = "stylesheet";
+    eleHackLink.href = "//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css";
+    document.head.append(eleHackLink);
+  }
+
+  function afterUseLiteInsertElement() {
+    const eleIconLink = document.createElement("link");
+    eleIconLink.rel = "shortcut icon";
+    eleIconLink.href = __ECY_CONFIG__.icon;
+    document.head.append(eleIconLink);
   }
 
   /**
@@ -45,8 +68,7 @@ export namespace EcyConfig {
    * @param pro 生产模式下，打包部署之后，给 window 注册一个函数，等待博客园资源加载完成之后再挂载 app。
    */
   export function useLite(dev: Function, pro: Function) {
-    $("body").append(`<div id="app"></div>`);
-    $("head").append(`<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css" />`);
+    beforeUseLiteInsertElement();
 
     if (import.meta.env.PROD) {
       blogId = currentBlogId;
@@ -130,7 +152,7 @@ export namespace EcyConfig {
       dev();
     }
 
-    $("head").append(`<link rel="shortcut icon" href="${__ECY_CONFIG__.icon}">`);
+    afterUseLiteInsertElement();
     EcyUtils.Log.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
     EcyUtils.Log.primary("v1.2.0", "Powered By Himmelbleu using Vue3 & Vite.");
   }

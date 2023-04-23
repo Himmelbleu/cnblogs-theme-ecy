@@ -82,8 +82,6 @@ declare module '@vue/runtime-core' {
     IEpPictureRounded: typeof import('~icons/ep/picture-rounded')['default']
     IEpPointer: typeof import('~icons/ep/pointer')['default']
     IEpPriceTag: typeof import('~icons/ep/price-tag')['default']
-    IEpRefreshLeft: typeof import('~icons/ep/refresh-left')['default']
-    IEpRefreshRight: typeof import('~icons/ep/refresh-right')['default']
     IEpSearch: typeof import('~icons/ep/search')['default']
     IEpSetting: typeof import('~icons/ep/setting')['default']
     IEpStar: typeof import('~icons/ep/star')['default']

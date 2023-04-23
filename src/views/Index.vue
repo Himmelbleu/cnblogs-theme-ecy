@@ -37,10 +37,10 @@ function openRMenu() {
 onMounted(() => {
   EcyUtils.endLoading();
 
-  document.getElementById("l-matte").onclick = () => {
+  document.getElementById("l-matte").addEventListener("click", () => {
     if (!ldisabled.value) ldisabled.value = true;
     else if (!rdisabled.value) rdisabled.value = true;
-  };
+  });
 });
 </script>
 

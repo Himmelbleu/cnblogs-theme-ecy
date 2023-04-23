@@ -5,7 +5,6 @@
  * @date 2022 年 12 月 1 日
  */
 
-import $ from "jquery";
 import axios from "axios";
 import * as Parser from "@/services/parse-html";
 
@@ -34,10 +33,13 @@ async function sendAwaitGet(url: string): Promise<any> {
  */
 async function sendAwaitPost(url: string, data: any): Promise<any> {
   let awt;
+  let token = "";
+  const eleToken = document.getElementById("#antiforgery_token");
+  if (!!eleToken) token = eleToken.getAttribute("value");
   try {
     awt = await axios.post(`${EcyConfig.baseAPI}${url}`, data, {
       timeout: 5000,
-      headers: { RequestVerificationToken: $("#antiforgery_token").attr("value") }
+      headers: { RequestVerificationToken: token || "" }
     });
   } catch (e) {
     console.error(e);
@@ -345,7 +347,7 @@ export async function getMarkList() {
  */
 export async function getAlbumnItem(id: string) {
   const { data } = await sendAwaitGet(`/gallery/image/${id}.html`);
-  return $(data).find("#ViewPicture1_OriginalImage").attr("href");
+  return (data as HTMLElement).querySelector("#ViewPicture1_OriginalImage").getAttribute("href");
 }
 
 /**

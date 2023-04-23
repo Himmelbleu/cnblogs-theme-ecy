@@ -1,69 +1,69 @@
-import $ from "jquery";
 import hljs from "highlight.js";
 import { useCatalogStore } from "@/store";
 
-function createCodeModal(ele: JQuery<HTMLElement>) {
-  const height = ele.height();
+function createCodeModal(ele: HTMLElement) {
+  const height = parseInt(ele.style.height);
 
   if (height >= 380) {
-    ele.height(380);
-    const $click = $(`<div class="l-size-2 l-color-3 hover">展开</div>`);
-    const $modal = $(`<div class="modal f-c-c rd-2"></div>`);
-    $modal.prepend($click);
+    const eleModal = document.createElement("div");
+    eleModal.setAttribute("class", "modal f-c-c rd-2");
 
-    $click.on("click", () => {
-      ele.height(height);
-      ele.removeClass("modal");
-      $modal.css({ display: "none" });
+    const eleClick = document.createElement("div");
+    eleClick.setAttribute("class", "l-size-2 l-color-3 hover");
+    eleClick.innerText = "展开";
+    ele.style.height = "380px";
+
+    eleClick.addEventListener("click", () => {
+      ele.style.height = `${height}px`;
+      ele.classList.remove("modal");
+      eleModal.style.display = "none";
     });
 
-    ele.parent().prepend($modal);
+    eleModal.insertAdjacentElement("beforebegin", eleClick);
   }
 }
 
-function createCodeTools(ele: JQuery<HTMLElement>) {
-  const lang = ele
-    .attr("class")
-    ?.match(/(language-\w*){0,1}/g)[0]
-    .split(",")[0]
-    .split("-")[1]
-    .toUpperCase();
+function createCodeTools(ele: HTMLElement) {
+  const lang = (
+    ele
+      .getAttribute("class")
+      ?.match(/(language-\w*){0,1}/g)?.[0]
+      ?.split("-")[1] || ""
+  ).toUpperCase();
 
-  const tools = $(`
-    <div class="code-tools f-c-e l-size-1 l-color-3 w-100%">
-      <div class="clipboard hover mr-2">复制</div>
-      <div>${lang}</div>
-    </div>
-  `);
+  const eleClipboard = document.createElement("div");
+  eleClipboard.setAttribute("class", "clipboard hover mr-2");
+  eleClipboard.innerText = "复制";
 
-  tools.find(".clipboard").on("click", () => {
-    navigator.clipboard.writeText(ele.text()).then(
-      () => {
-        ElMessage({ message: "复制成功！", type: "success", grouping: true });
-      },
-      () => {
-        ElMessage({ message: "没有权限！", type: "error", grouping: true });
-      }
+  const eleLang = document.createElement("div");
+  eleLang.setAttribute("class", "code-language");
+  eleLang.innerText = lang;
+
+  const eleTools = document.createElement("div");
+  eleTools.setAttribute("class", "code-tools f-c-e l-size-1 l-color-3 w-100%");
+  eleTools.append(eleClipboard, eleLang);
+
+  eleClipboard.addEventListener("click", () => {
+    navigator.clipboard.writeText(ele.innerText).then(
+      () => ElMessage({ message: "复制成功！", type: "success", grouping: true }),
+      () => ElMessage({ message: "没有权限！", type: "error", grouping: true })
     );
   });
 
-  ele.parent().prepend(tools);
+  ele.insertAdjacentElement("afterend", eleTools);
 }
 
 /**
  * 构造代码高亮
  */
-function useVHljs(el: any) {
-  $(el)
-    .find("pre code")
-    .each((index, ele) => {
-      const $ele = $(ele);
+function useVHljs() {
+  const eleCodes = document.querySelectorAll<HTMLElement>("pre code");
+  eleCodes.forEach(eleCode => {
+    hljs.highlightElement(eleCode);
 
-      hljs.highlightElement(ele);
-
-      createCodeTools($ele);
-      createCodeModal($ele);
-    });
+    createCodeTools(eleCode);
+    createCodeModal(eleCode);
+  });
 }
 
 /**
@@ -75,35 +75,41 @@ function useVMathjax() {
   const nodes = document.querySelectorAll(".math");
 
   if (MathJax && nodes.length > 0) {
-    MathJax.startup.promise = MathJax.startup.promise.then(() => MathJax.typesetPromise(nodes)).catch((err: any) => console.error(err));
+    MathJax.startup.promise = MathJax.startup.promise
+      .then(() => {
+        MathJax.typesetPromise(nodes);
+      })
+      .catch(console.error);
   }
 }
 
 /**
  * 构造目录
  */
-function useVCatalog(el: any, binding: any) {
+function useVCatalog(el: HTMLElement) {
   const catalog: any[] = [];
   let step = 0;
 
-  $(el)
-    .children("h1, h2, h3")
-    .each((i, item) => {
-      const id = $(item).attr("id");
-      const type = $(item)[0].localName;
-      let content = ``;
+  Array.from(el.querySelectorAll("h1, h2, h3")).forEach((item: any) => {
+    const id = item.getAttribute("id");
+    const type = item.localName;
+    let marginLeft = "";
 
-      if (type === "h1") {
-        content = `<div id="catalog-${id}" class="hover" data-step="${step}">${$(item).text()}</div>`;
-      } else if (type === "h2") {
-        content = `<div id="catalog-${id}" class="hover" data-step="${step}" style="margin-left: 10px">${$(item).text()}</div>`;
-      } else if (type === "h3") {
-        content = `<div id="catalog-${id}" class="hover" data-step="${step}" style="margin-left: 20px">${$(item).text()}</div>`;
-      }
+    if (type === "h2") {
+      marginLeft = "10px";
+    } else if (type === "h3") {
+      marginLeft = "20px";
+    }
 
-      catalog.push({ id, content, item });
-      step += 2.5;
-    });
+    const content = `
+      <div id="catalog-${id}" class="hover" data-step="${step}" style="margin-left: ${marginLeft}">
+        ${item.textContent}
+      </div>
+    `;
+
+    catalog.push({ id, content, item });
+    step += 2.5;
+  });
 
   useCatalogStore().setCatalog(catalog);
 }
@@ -112,35 +118,39 @@ function useVCatalog(el: any, binding: any) {
  * 构造目录点击事件
  */
 function useCatalogEvents(binding: any) {
-  $(`#catalog-${binding.value.id}`).on("click", () => {
-    document.querySelector(`#${binding.value.id}`).scrollIntoView();
+  document.getElementById(`catalog-${binding.value.id}`).addEventListener("click", () => {
+    document.getElementById(binding.value.id).scrollIntoView();
   });
-}
-
-function createHighslide(ele: JQuery<HTMLElement>) {
-  const image = $(".l-highslide .l-highslide__img");
-
-  ele.on("click", () => {
-    $(".l-highslide").removeClass("noactive").addClass("active");
-    $("body").css({ overflow: "hidden" });
-    image.attr("src", ele.attr("src"));
-    image.css({ width: ele.width(), height: ele.height() });
-  });
-
-  const text = ele.parent("p");
-  text.addClass("f-c-c flex-col");
-  text.append(`<div class="l-color-2 l-size-2 mt-2">${ele.attr("alt")}</div>`);
 }
 
 /**
  * 构造图片放大器
  */
-function useVHighslide(el: any) {
-  $(el)
-    .find("img")
-    .each((index, ele) => {
-      createHighslide($(ele));
-    });
+function useVHighslide(el: HTMLElement) {
+  function onClickImage(eleImage: HTMLImageElement, eleHighslide: HTMLElement, eleHighslideImage: HTMLImageElement) {
+    eleHighslide.classList.toggle("noactive");
+    eleHighslide.classList.toggle("active");
+    eleHighslideImage.src = eleImage.getAttribute("src");
+    eleHighslideImage.style.width = `${eleImage.width}px`;
+    eleHighslideImage.style.height = `${eleImage.height}px`;
+
+    document.documentElement.style.overflow = "hidden";
+  }
+
+  const images = el.querySelectorAll<HTMLImageElement>("img");
+
+  for (let i = 0; i < images.length; i++) {
+    const eleTip = document.createElement("div");
+    eleTip.setAttribute("class", "l-color-2 l-size-2 mt-2");
+    eleTip.innerText = images[i].alt;
+
+    images[i].parentElement.classList.add("f-c-c", "flex-col");
+    images[i].parentElement.insertAdjacentElement("beforeend", eleTip);
+
+    const eleHighslide = document.querySelector<HTMLElement>(".l-highslide");
+    const eleHighslideImage = eleHighslide.querySelector<HTMLImageElement>(".l-highslide__img");
+    images[i].addEventListener("click", () => onClickImage(images[i], eleHighslide, eleHighslideImage));
+  }
 }
 
 export function useDirective(Vue: any) {
@@ -148,12 +158,12 @@ export function useDirective(Vue: any) {
    * 对 pre code 代码进行格式化
    */
   Vue.directive("hljs", {
-    mounted(el: any) {
-      useVHljs(el);
+    mounted() {
+      useVHljs();
     },
-    updated(el: any, binding: any) {
+    updated(el: HTMLElement, binding: any) {
       if (binding.value != binding.oldValue) {
-        useVHljs(el);
+        useVHljs();
       }
     }
   });
@@ -165,7 +175,7 @@ export function useDirective(Vue: any) {
     mounted() {
       useVMathjax();
     },
-    updated(el: any, binding: any) {
+    updated(el: HTMLElement, binding: any) {
       if (binding.value != binding.oldValue) {
         useVMathjax();
       }
@@ -176,10 +186,10 @@ export function useDirective(Vue: any) {
    * 制作图片放大器
    */
   Vue.directive("highslide", {
-    mounted(el: any) {
+    mounted(el: HTMLElement) {
       useVHighslide(el);
     },
-    updated(el: any, binding: any) {
+    updated(el: HTMLElement, binding: any) {
       if (binding.value != binding.oldValue) {
         useVHighslide(el);
       }
@@ -190,11 +200,11 @@ export function useDirective(Vue: any) {
    * 制作目录锚点
    */
   Vue.directive("catalog", {
-    mounted(el: any, binding: any) {
-      useVCatalog(el, binding);
+    mounted(el: HTMLElement) {
+      useVCatalog(el);
     },
-    updated(el: any, binding: any) {
-      useVCatalog(el, binding);
+    updated(el: HTMLElement) {
+      useVCatalog(el);
     }
   });
 
@@ -202,10 +212,10 @@ export function useDirective(Vue: any) {
    * 制作目录锚点的点击事件
    */
   Vue.directive("catalog-event", {
-    mounted(el: any, binding: any) {
+    mounted(el: HTMLElement, binding: any) {
       useCatalogEvents(binding);
     },
-    updated(el: any, binding: any) {
+    updated(el: HTMLElement, binding: any) {
       useCatalogEvents(binding);
     }
   });

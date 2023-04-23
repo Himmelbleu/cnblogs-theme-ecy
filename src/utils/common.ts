@@ -5,8 +5,6 @@
  * @date 2022 年 12 月 1 日
  */
 
-import $ from "jquery";
-
 export namespace EcyUtils {
   export function getLocalSetting() {
     return useStorage<CustType.ILocalSetting>(`l-${EcyConfig.blogApp}-setting`, getLocalSettingTemp());
@@ -72,16 +70,37 @@ export namespace EcyUtils {
   }
 
   export function endLoading() {
-    $(".light-loading, .dark-loading").fadeOut();
-    $("#l-content").addClass("fade-in-out");
-    $("#l-progress > .track").removeClass("track-active").addClass("track-static");
-    $("#l-progress > .track > .bar").removeClass("bar-active").addClass("bar-static");
+    const lightLoding = document.querySelector<HTMLElement>(".light-loading");
+    const darkLoding = document.querySelector<HTMLElement>(".dark-loading");
+    if (lightLoding) {
+      lightLoding.classList.add("fade-in-out");
+      lightLoding.style.display = "none";
+    } else {
+      darkLoding.classList.add("fade-in-out");
+      darkLoding.style.display = "none";
+    }
+
+    document.getElementById("l-content").classList.add("fade-in-out");
+
+    const eleTrack = document.querySelector("#l-progress > .track");
+    eleTrack.classList.remove("track-active");
+    eleTrack.classList.add("track-static");
+
+    const eleBar = document.querySelector("#l-progress > .track > .bar");
+    eleBar.classList.remove("bar-active");
+    eleBar.classList.add("bar-static");
   }
 
   export function startLoading() {
-    $("#l-content").removeClass("fade-in-out");
-    $("#l-progress > .track").removeClass("track-static").addClass("track-active");
-    $("#l-progress > .track > .bar").removeClass("bar-static").addClass("bar-active");
+    document.getElementById("l-content").classList.remove("fade-in-out");
+
+    const eleTrack = document.querySelector("#l-progress > .track");
+    eleTrack.classList.remove("track-static");
+    eleTrack.classList.add("track-active");
+
+    const eleBar = document.querySelector("#l-progress > .track > .bar");
+    eleBar.classList.remove("bar-static");
+    eleBar.classList.add("bar-active");
   }
 
   /**
@@ -102,12 +121,13 @@ export namespace EcyUtils {
    */
   export function openImageUploadWindow(el: string, onUploaded: (img: string) => void) {
     try {
-      const elem = $(`#${el}`);
-      elem.focus(() => {
-        const imgUrl = elem.val() + "";
+      const elem = document.querySelector<HTMLElement>(`#${el}`);
+      elem.addEventListener("focus", () => {
+        const imgUrl = elem.getAttribute("value") + "";
         onUploaded ? onUploaded(imgUrl.replace("[img]", "![](").replace("[/img]", ")")) : "";
-        elem.val("");
+        elem.setAttribute("value", "");
       });
+      elem.focus();
       const w = `${location.protocol}//upload.cnblogs${location.hostname.substring(
         location.hostname.lastIndexOf(".")
       )}/imageuploader/upload?host=www.cnblogs.com&editor=0#${el}`;
