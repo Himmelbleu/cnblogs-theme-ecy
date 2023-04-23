@@ -60,7 +60,6 @@ function useVHljs() {
   const eleCodes = document.querySelectorAll<HTMLElement>("pre code");
   eleCodes.forEach(eleCode => {
     hljs.highlightElement(eleCode);
-
     createCodeTools(eleCode);
     createCodeModal(eleCode);
   });

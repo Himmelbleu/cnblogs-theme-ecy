@@ -53,7 +53,7 @@ export namespace WorksApi {
    */
   export async function getWorks(id: string) {
     const { data } = await sendAwaitGet(`/p/${id}.html`);
-    return Parser.parseWorks(id, data);
+    return Parser.parseWorks(id, Parser.parseDOM(data));
   }
 
   /**
@@ -84,7 +84,7 @@ export namespace WorksApi {
    */
   export async function getByTypeL1(id: string, page?: number | string) {
     const { data } = await sendAwaitGet(`/category/${id}.html?page=${page || 1}`);
-    return Parser.parseWorksFull(data);
+    return Parser.parseWorksFull(Parser.parseDOM(data));
   }
 
   /**
@@ -95,7 +95,7 @@ export namespace WorksApi {
   export async function getByTypeL2(id: string, type?: "works" | "article") {
     const _type = type === "works" || !type ? 1 : 2;
     const { data } = await sendAwaitGet(`/ajax/TreeCategoryList.aspx?parentId=${id}&categoryType=${_type}`);
-    return Parser.parseWorksSortChild(data);
+    return Parser.parseWorksSortChild(Parser.parseDOM(data));
   }
 
   /**
@@ -103,7 +103,7 @@ export namespace WorksApi {
    */
   export async function getProps(id: string) {
     const { data } = await sendAwaitGet(`/ajax/CategoriesTags.aspx?blogId=${EcyConfig.blogId}&postId=${id}`);
-    return Parser.parseWorksProps(data);
+    return Parser.parseWorksProps(Parser.parseDOM(data));
   }
 
   /**
@@ -111,7 +111,7 @@ export namespace WorksApi {
    */
   export async function getPrevNext(id: string) {
     const { data } = await sendAwaitGet(`/ajax/post/prevnext?postId=${id}`);
-    return Parser.parseWorksPrevNext(data);
+    return Parser.parseWorksPrevNext(Parser.parseDOM(data));
   }
 
   /**
@@ -121,7 +121,7 @@ export namespace WorksApi {
    */
   export async function getList(page?: number | string) {
     const { data } = await sendAwaitGet(`/default.html?page=${page || 1}`);
-    return Parser.parseWorksList(data);
+    return Parser.parseWorksList(Parser.parseDOM(data));
   }
 
   /**
@@ -133,7 +133,7 @@ export namespace WorksApi {
   export async function getListByArchive(date: string, type: "article" | "works") {
     const split = date.split("-");
     const { data } = await sendAwaitGet(`/${type === "article" ? "archives" : "archive"}/${split[0]}/${split[1]}.html}`);
-    return Parser.parseWorksFull(data);
+    return Parser.parseWorksFull(Parser.parseDOM(data));
   }
 
   /**
@@ -141,7 +141,7 @@ export namespace WorksApi {
    */
   export async function getListByMark(tag: string, page?: string | number) {
     const { data } = await sendAwaitGet(`/tag/${tag}/default.html?page=${page ?? 1}`);
-    return Parser.parseWorksSlice(data);
+    return Parser.parseWorksSlice(Parser.parseDOM(data));
   }
 
   /**
@@ -154,7 +154,7 @@ export namespace WorksApi {
     const formData = new FormData();
     formData.append("Password", pwd);
     const { data } = await sendAwaitPost(`/protected/p/${id}.html`, formData);
-    return Parser.parseIsUnLock(data);
+    return Parser.parseIsUnLock(Parser.parseDOM(data));
   }
 
   /**
@@ -167,7 +167,7 @@ export namespace WorksApi {
     const formData = new FormData();
     formData.append("Password", pwd);
     const { data } = await sendAwaitPost(`/protected/p/${id}.html`, formData);
-    return Parser.parseWorks(id, data);
+    return Parser.parseWorks(id, Parser.parseDOM(data));
   }
 
   /**
@@ -177,7 +177,7 @@ export namespace WorksApi {
    */
   export async function getListByDay(date: string) {
     const { data } = await sendAwaitGet(`/archive/${date}.html`);
-    return Parser.parseWorksList(data);
+    return Parser.parseWorksList(Parser.parseDOM(data));
   }
 
   /**
@@ -187,7 +187,7 @@ export namespace WorksApi {
    */
   export async function getCalendar(date: string) {
     const { data } = await sendAwaitGet(`/ajax/calendar.aspx?dateStr=${date}`);
-    return Parser.parseCalendar(data);
+    return Parser.parseCalendar(Parser.parseDOM(data));
   }
 }
 
@@ -239,7 +239,7 @@ export namespace CommentApi {
    */
   export async function getCount(id: number | string) {
     const { data } = await sendAwaitGet(`/ajax/GetCommentCount.aspx?postId=${id}`);
-    return Parser.parseCommentPages(data);
+    return Parser.parseCommentPages(Parser.parseDOM(data));
   }
 
   /**
@@ -273,7 +273,7 @@ export namespace CommentApi {
     let url = `/ajax/GetComments.aspx?postId=${postId}&pageIndex=${page}`;
     if (anchorId) url += `&anchorCommentId=${anchorId}&isDesc=false`;
     const { data } = await sendAwaitGet(url);
-    return Parser.parseCommentList(data);
+    return Parser.parseCommentList(Parser.parseDOM(data));
   }
 }
 
@@ -283,7 +283,7 @@ export namespace MenuApi {
    */
   export async function getColumn() {
     const { data } = await sendAwaitGet(`/ajax/sidecolumn.aspx`);
-    return Parser.parseMenuColumn(data);
+    return Parser.parseMenuColumn(Parser.parseDOM(data));
   }
 
   /**
@@ -292,7 +292,7 @@ export namespace MenuApi {
    */
   export async function getNews() {
     const { data } = await sendAwaitGet(`/ajax/news.aspx`);
-    return Parser.parseAuthorData(data);
+    return Parser.parseAuthorData(Parser.parseDOM(data));
   }
 
   /**
@@ -300,7 +300,7 @@ export namespace MenuApi {
    */
   export async function getStats() {
     const { data } = await sendAwaitGet(`/ajax/blogStats`);
-    return Parser.parseMasterData(data);
+    return Parser.parseMasterData(Parser.parseDOM(data));
   }
 
   /**
@@ -308,7 +308,7 @@ export namespace MenuApi {
    */
   export async function getTopList() {
     const { data } = await sendAwaitGet(`/ajax/TopLists.aspx`);
-    return Parser.parseTopList(data);
+    return Parser.parseTopList(Parser.parseDOM(data));
   }
 
   /**
@@ -337,7 +337,7 @@ export namespace MenuApi {
  */
 export async function getMarkList() {
   const { data } = await sendAwaitGet(`/tag`);
-  return Parser.parseMarkList(data);
+  return Parser.parseMarkList(Parser.parseDOM(data));
 }
 
 /**
@@ -347,7 +347,7 @@ export async function getMarkList() {
  */
 export async function getAlbumnItem(id: string) {
   const { data } = await sendAwaitGet(`/gallery/image/${id}.html`);
-  return (data as HTMLElement).querySelector("#ViewPicture1_OriginalImage").getAttribute("href");
+  return (data as HTMLElement).querySelector("#ViewPicture1_OriginalImage")?.getAttribute("href");
 }
 
 /**
@@ -355,5 +355,5 @@ export async function getAlbumnItem(id: string) {
  */
 export async function getAlbumn(id: string) {
   const { data } = await sendAwaitGet(`/gallery/${id}.html`);
-  return Parser.parseAlbumn(data);
+  return Parser.parseAlbumn(Parser.parseDOM(data));
 }

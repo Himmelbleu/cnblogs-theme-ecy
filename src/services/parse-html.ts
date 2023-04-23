@@ -15,7 +15,7 @@ export function parseDOM(dom: string) {
 /**
  * 获取页数
  */
-function getMaxPage(dom: HTMLElement): number {
+function getPage(dom: HTMLElement) {
   if (dom) {
     const pages = dom.innerText.match(/[1-9]+/g);
     if (pages) return pages.map(i => parseInt(i)).pop();
@@ -28,12 +28,11 @@ function getMaxPage(dom: HTMLElement): number {
 /**
  * 只适用于获取首页随笔列表；日历随笔、文章列表。列表项包含描述、评论、点赞的随笔列表。
  */
-export function parseWorksList(dom: string): CustType.IWorksList {
-  const _dom = parseDOM(dom);
-  const id = _dom.querySelectorAll<HTMLElement>(".postTitle2");
-  const head = _dom.querySelectorAll<HTMLElement>(".postTitle");
-  const desc = _dom.querySelectorAll<HTMLElement>(".c_b_p_desc");
-  const notes = _dom.querySelectorAll<HTMLElement>(".postDesc");
+export function parseWorksList(dom: Document): CustType.IWorksList {
+  const id = dom.querySelectorAll<HTMLElement>(".postTitle2");
+  const head = dom.querySelectorAll<HTMLElement>(".postTitle");
+  const desc = dom.querySelectorAll<HTMLElement>(".c_b_p_desc");
+  const notes = dom.querySelectorAll<HTMLElement>(".postDesc");
   const data: CustType.IWorks[] = [];
 
   desc.forEach((ele, index) => {
@@ -66,26 +65,25 @@ export function parseWorksList(dom: string): CustType.IWorksList {
 
   return {
     data,
-    page: getMaxPage(_dom.querySelector("#homepage_top_pager > .pager")),
-    hint: _dom.querySelector<HTMLElement>(".dayTitle").innerText + " 档案" ?? ""
+    page: getPage(dom.querySelector("#homepage_top_pager > .pager")),
+    hint: dom.querySelector<HTMLElement>(".dayTitle").innerText + " 档案" ?? ""
   };
 }
 
 /**
  * 解析随笔详细页面
  */
-export function parseWorks(id: string, dom: string): CustType.IWorks {
-  const _dom = parseDOM(dom);
-  const text = _dom.querySelector<HTMLElement>(".postTitle > a > span").innerText;
-  const content = _dom.querySelector("#cnblogs_post_body").innerHTML;
+export function parseWorks(id: string, dom: Document): CustType.IWorks {
+  const text = dom.querySelector<HTMLElement>(".postTitle > a > span").innerText;
+  const content = dom.querySelector("#cnblogs_post_body").innerHTML;
 
   return {
     id,
     text,
     content,
-    date: _dom.querySelector<HTMLElement>("#post-date").innerText,
-    view: _dom.querySelector<HTMLElement>("#post_view_count").innerText,
-    comm: _dom.querySelector<HTMLElement>("#post_comment_count").innerText,
+    date: dom.querySelector<HTMLElement>("#post-date").innerText,
+    view: dom.querySelector<HTMLElement>("#post_view_count").innerText,
+    comm: dom.querySelector<HTMLElement>("#post_comment_count").innerText,
     isLocked: !text && !content
   };
 }
@@ -93,11 +91,10 @@ export function parseWorks(id: string, dom: string): CustType.IWorks {
 /**
  * 解析随笔详细页面的评论列表
  */
-export function parseCommentList(dom: string): CustType.IComment[] {
-  const _dom = parseDOM(dom);
+export function parseCommentList(dom: Document): CustType.IComment[] {
   const data: CustType.IComment[] = [];
 
-  _dom.querySelectorAll(".feedbackItem").forEach((ele, index) => {
+  dom.querySelectorAll(".feedbackItem").forEach((ele, index) => {
     const anchorId = ele.querySelector(".layer").getAttribute("href").split("#")[1];
     data.push({
       isEditing: false,
@@ -132,11 +129,10 @@ export function parseCommentPages(data: any): number {
 /**
  * 解析随笔详细页面中的属性：标签、分类
  */
-export function parseWorksProps(dom: string): CustType.IWorksProps {
+export function parseWorksProps(dom: Document): CustType.IWorksProps {
   const data = <CustType.IWorksProps>{ tags: [], sorts: [] };
-  const _dom = parseDOM(dom);
 
-  _dom.querySelectorAll<HTMLElement>("#BlogPostCategory > a").forEach(ele => {
+  dom.querySelectorAll<HTMLElement>("#BlogPostCategory > a").forEach(ele => {
     data.sorts.push({
       href: ele
         .getAttribute("href")
@@ -147,7 +143,7 @@ export function parseWorksProps(dom: string): CustType.IWorksProps {
     });
   });
 
-  _dom.querySelectorAll<HTMLElement>("#EntryTag > a").forEach(ele => {
+  dom.querySelectorAll<HTMLElement>("#EntryTag > a").forEach(ele => {
     data.tags.push({
       text: ele.innerText
     });
@@ -159,11 +155,10 @@ export function parseWorksProps(dom: string): CustType.IWorksProps {
 /**
  * 解析上下篇随笔
  */
-export function parseWorksPrevNext(dom: string): CustType.IPrevNext {
-  const _dom = parseDOM(dom);
+export function parseWorksPrevNext(dom: Document): CustType.IPrevNext {
   const data: CustType.IPrevNext = { prev: {}, next: {} };
 
-  _dom.querySelectorAll<HTMLElement>("a").forEach(ele => {
+  dom.querySelectorAll<HTMLElement>("a").forEach(ele => {
     const prefix = ele.innerText.trim();
     const nextElement = ele.nextElementSibling as HTMLElement;
     if (prefix == "«") {
@@ -187,8 +182,7 @@ export function parseWorksPrevNext(dom: string): CustType.IPrevNext {
  *
  * 只适用于获取分类、档案的随笔、文章列表。
  */
-export function parseWorksFull(dom: string): CustType.IWorksList2 {
-  const _dom = parseDOM(dom);
+export function parseWorksFull(dom: Document): CustType.IWorksList2 {
   const data: CustType.IWorks[] = [];
 
   const dateReg = /[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g;
@@ -196,7 +190,7 @@ export function parseWorksFull(dom: string): CustType.IWorksList2 {
   const commReg = /评论\([0-9]+\)/g;
   const diggReg = /推荐\([0-9]+\)/g;
 
-  _dom.querySelectorAll<HTMLElement>(".entrylistItem").forEach((ele, index) => {
+  dom.querySelectorAll<HTMLElement>(".entrylistItem").forEach(ele => {
     const item = ele.querySelector<HTMLElement>(".entrylistItemPostDesc").innerText;
     const eleDescImg = ele.querySelector(".c_b_p_desc > .desc_img");
     const surface = eleDescImg ? eleDescImg.getAttribute("src") : "";
@@ -216,11 +210,18 @@ export function parseWorksFull(dom: string): CustType.IWorksList2 {
     });
   });
 
+  const eleDesc = dom.querySelector(".entrylistTitle .category-crumb-item");
+  const desc = eleDesc ? eleDesc.getAttribute("title") : "";
+  const eleDesc2 = dom.querySelector<HTMLElement>(".entrylistDescription");
+  const desc2 = eleDesc2 ? eleDesc2.innerText : "";
+  const eleHint = dom.querySelector<HTMLElement>(".entrylistTitle");
+  const hint = eleHint ? eleHint.innerText : "";
+
   return {
-    desc: _dom.querySelector(".entrylistTitle .category-crumb-item").getAttribute("title"),
-    desc2: _dom.querySelector<HTMLElement>(".entrylistDescription")?.innerText ?? "",
-    page: getMaxPage(_dom.querySelectorAll<HTMLElement>("#mainContent .pager")[0]),
-    hint: _dom.querySelector<HTMLElement>(".entrylistTitle").innerText ?? "",
+    desc,
+    desc2,
+    page: getPage(dom.querySelectorAll<HTMLElement>("#mainContent .pager")[0]),
+    hint,
     data
   };
 }
@@ -230,11 +231,10 @@ export function parseWorksFull(dom: string): CustType.IWorksList2 {
  *
  * 只适用于获取以标签区别的随笔、文章列表。
  */
-export function parseWorksSlice(dom: string): CustType.IWorksList2 {
-  const _dom = parseDOM(dom);
-  const head = _dom.querySelectorAll<HTMLElement>(".PostList > .postTitl2 > a");
-  const desc = _dom.querySelectorAll<HTMLElement>(".PostList > .postDesc2");
-  const hint = _dom.querySelector<HTMLElement>(".PostListTitle").innerText.trim();
+export function parseWorksSlice(dom: Document): CustType.IWorksList2 {
+  const head = dom.querySelectorAll<HTMLElement>(".PostList > .postTitl2 > a");
+  const desc = dom.querySelectorAll<HTMLElement>(".PostList > .postDesc2");
+  const hint = dom.querySelector<HTMLElement>(".PostListTitle").innerText.trim();
   const data: CustType.IWorks[] = [];
 
   head.forEach((ele, index) => {
@@ -248,7 +248,7 @@ export function parseWorksSlice(dom: string): CustType.IWorksList2 {
     });
   });
 
-  return { data, hint, page: getMaxPage(_dom.querySelectorAll<HTMLElement>(".Pager")[0]) };
+  return { data, hint, page: getPage(dom.querySelectorAll<HTMLElement>(".Pager")[0]) };
 }
 
 function loadColumn(dom: Document, selector: string, success: (e: HTMLElement, matched?: any) => void, regexp?: RegExp) {
@@ -263,9 +263,7 @@ function loadColumn(dom: Document, selector: string, success: (e: HTMLElement, m
 /**
  * 解析侧边栏分类列表、标签列表，... 列表
  */
-export function parseMenuColumn(dom: string): CustType.IMenuColumn {
-  const _dom = parseDOM(dom);
-
+export function parseMenuColumn(dom: Document): CustType.IMenuColumn {
   const data: CustType.IMenuColumn = {
     essaySort: [],
     essayArchive: [],
@@ -279,7 +277,7 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
   };
 
   loadColumn(
-    _dom,
+    dom,
     "#sidebar_recentposts ul li > a",
     (e, matched) => {
       data.latestEssayList.push({
@@ -291,7 +289,7 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
   );
 
   loadColumn(
-    _dom,
+    dom,
     "#sidebar_toptags ul li > a",
     (e, matched) => {
       data.tagList.push({
@@ -302,14 +300,14 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
     /tag\/(.[^\/]+)/
   );
 
-  loadColumn(_dom, "#sidebar_scorerank ul li", e => {
+  loadColumn(dom, "#sidebar_scorerank ul li", e => {
     data.rankings.push({
       text: e.innerText
     });
   });
 
   loadColumn(
-    _dom,
+    dom,
     "#sidebar_postcategory ul li > a",
     (e, matched) => {
       data.essaySort.push({
@@ -321,7 +319,7 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
   );
 
   loadColumn(
-    _dom,
+    dom,
     "#sidebar_postarchive ul li > a",
     (e, matched) => {
       const date = matched[1].split("/");
@@ -334,7 +332,7 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
   );
 
   loadColumn(
-    _dom,
+    dom,
     "#sidebar_imagecategory ul li > a",
     (e, matched) => {
       data.albumn.push({
@@ -346,7 +344,7 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
   );
 
   loadColumn(
-    _dom,
+    dom,
     "#sidebar_articlecategory ul li > a",
     (e, matched) => {
       data.articleSort.push({
@@ -358,7 +356,7 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
   );
 
   loadColumn(
-    _dom,
+    dom,
     "#sidebar_articlearchive ul li > a",
     (e, matched) => {
       const date = matched[1].split("/");
@@ -374,7 +372,7 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
   let bounds = false;
   let comment = { id: "", title: "", content: "", author: "" };
 
-  _dom.querySelectorAll<HTMLElement>("#sidebar_recentcomments ul li").forEach(ele => {
+  dom.querySelectorAll<HTMLElement>("#sidebar_recentcomments ul li").forEach(ele => {
     if (bounds) bounds = false;
 
     if (!bounds) {
@@ -406,17 +404,17 @@ export function parseMenuColumn(dom: string): CustType.IMenuColumn {
 /**
  * 解析侧边栏博主主人基本的昵称、粉丝数、园龄等数据
  */
-export function parseAuthorData(dom: string): CustType.IMenuItemData[] {
-  const nodeList = parseDOM(dom).querySelectorAll<HTMLElement>("#profile_block > a");
+export function parseAuthorData(dom: Document): CustType.IMenuItemData[] {
+  const nodeList = dom.querySelectorAll<HTMLElement>("#profile_block > a");
   return Array.from(nodeList).map(ele => ({ text: ele.innerText.trim(), href: ele.getAttribute("href") }));
 }
 
 /**
  * 解析博主主人的随笔、文章、评论、阅读等数据
  */
-export function parseMasterData(dom: string): CustType.IMenuItemData[] {
+export function parseMasterData(dom: Document): CustType.IMenuItemData[] {
   const data: CustType.IMenuItemData[] = [];
-  const eles = parseDOM(dom).querySelectorAll<HTMLElement>("span");
+  const eles = dom.querySelectorAll<HTMLElement>("span");
   eles.forEach((ele, index) => {
     if (ele.getAttribute("id")) {
       const t = ele.innerText;
@@ -447,15 +445,14 @@ export function parseCabinetRankList(dom: string): CustType.IMenuItemData[] {
 /**
  * 解析博客阅读排行榜
  */
-export function parseTopList(dom: string): CustType.ITopList {
+export function parseTopList(dom: Document): CustType.ITopList {
   const data: CustType.ITopList = {
     topView: [],
     topComments: [],
     topDigg: []
   };
-  const _dom = parseDOM(dom);
 
-  _dom.querySelectorAll<HTMLElement>("#TopFeedbackPostsBlock ul > li > a").forEach((ele, index) => {
+  dom.querySelectorAll<HTMLElement>("#TopFeedbackPostsBlock ul > li > a").forEach((ele, index) => {
     data.topComments.push({
       id: ele
         .getAttribute("href")
@@ -465,7 +462,7 @@ export function parseTopList(dom: string): CustType.ITopList {
     });
   });
 
-  _dom.querySelectorAll<HTMLElement>("#TopViewPostsBlock ul > li > a").forEach((ele, index) => {
+  dom.querySelectorAll<HTMLElement>("#TopViewPostsBlock ul > li > a").forEach((ele, index) => {
     data.topView.push({
       id: ele
         .getAttribute("href")
@@ -475,7 +472,7 @@ export function parseTopList(dom: string): CustType.ITopList {
     });
   });
 
-  data.topDigg = Array.from(_dom.querySelectorAll<HTMLElement>("#TopViewPostsBlock ul > li > a")).map(ele => ({
+  data.topDigg = Array.from(dom.querySelectorAll<HTMLElement>("#TopViewPostsBlock ul > li > a")).map(ele => ({
     id: ele
       .getAttribute("href")
       ?.match(/\/p\/\d+/g)[0]
@@ -486,9 +483,9 @@ export function parseTopList(dom: string): CustType.ITopList {
   return data;
 }
 
-export function parseMarkList(dom: string): CustType.IMark[] {
+export function parseMarkList(dom: Document): CustType.IMark[] {
   const data: CustType.IMark[] = [];
-  parseDOM(dom)
+  dom
     .querySelector("#MyTag1_dtTagList")
     .querySelectorAll<HTMLElement>("td")
     .forEach(ele => {
@@ -503,8 +500,8 @@ export function parseMarkList(dom: string): CustType.IMark[] {
  *
  * @returns 输入密码正确返回 true
  */
-export function parseIsUnLock(dom: string): boolean {
-  const isError = parseDOM(dom).querySelector<HTMLElement>(".field-validation-error")?.innerText;
+export function parseIsUnLock(dom: Document): boolean {
+  const isError = dom.querySelector<HTMLElement>(".field-validation-error")?.innerText;
   if (isError && isError === "密码错误") {
     return false;
   } else if (!isError) {
@@ -512,19 +509,18 @@ export function parseIsUnLock(dom: string): boolean {
   }
 }
 
-export function parseWorksSortChild(dom: string): CustType.IWorksSortChild[] {
-  const nodeList = parseDOM(dom).querySelectorAll<HTMLElement>("li");
+export function parseWorksSortChild(dom: Document): CustType.IWorksSortChild[] {
+  const nodeList = dom.querySelectorAll<HTMLElement>("li");
   return Array.from(nodeList).map(ele => ({
     id: ele.getAttribute("data-category-id"),
     text: ele.querySelector<HTMLElement>(".tree-categories-item-title-right").innerText
   }));
 }
 
-export function parseAlbumn(dom: string) {
+export function parseAlbumn(dom: Document) {
   const data: CustType.AlbumnItem[] = [];
-  const _dom = parseDOM(dom);
 
-  _dom.querySelectorAll(".divPhoto").forEach(ele => {
+  dom.querySelectorAll(".divPhoto").forEach(ele => {
     data.push({
       id: ele
         .querySelector("a")
@@ -536,19 +532,17 @@ export function parseAlbumn(dom: string) {
   });
 
   return {
-    title: _dom.querySelector<HTMLElement>(".thumbTitle").innerText,
-    desc: _dom.querySelector<HTMLElement>(".thumbDescription").innerText,
+    title: dom.querySelector<HTMLElement>(".thumbTitle").innerText,
+    desc: dom.querySelector<HTMLElement>(".thumbDescription").innerText,
     data
   };
 }
 
-export function parseCalendar(dom: any): string[] {
+export function parseCalendar(dom: Document): string[] {
   const dates: string[] = [];
-  parseDOM(dom)
-    .querySelectorAll("a[href^='https']")
-    .forEach(ele => {
-      const date = ele.getAttribute("href").match(/\d+\/\d+\/\d+/g)[0];
-      dates.push(date);
-    });
+  dom.querySelectorAll("a[href^='https']").forEach(ele => {
+    const date = ele.getAttribute("href").match(/\d+\/\d+\/\d+/g)[0];
+    dates.push(date);
+  });
   return dates;
 }

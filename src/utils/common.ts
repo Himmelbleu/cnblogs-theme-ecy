@@ -83,24 +83,24 @@ export namespace EcyUtils {
     document.getElementById("l-content").classList.toggle("fade-in-out");
 
     const eleTrack = document.querySelector("#l-progress > .track");
-    eleTrack.classList.toggle("track-active");
-    eleTrack.classList.toggle("track-static");
+    eleTrack.classList.remove("track-active");
+    eleTrack.classList.add("track-static");
 
     const eleBar = document.querySelector("#l-progress > .track > .bar");
-    eleBar.classList.toggle("bar-active");
-    eleBar.classList.toggle("bar-static");
+    eleBar.classList.remove("bar-active");
+    eleBar.classList.add("bar-static");
   }
 
   export function startLoading() {
     document.getElementById("l-content").classList.toggle("fade-in-out");
 
     const eleTrack = document.querySelector("#l-progress > .track");
-    eleTrack.classList.toggle("track-static");
-    eleTrack.classList.toggle("track-active");
+    eleTrack.classList.remove("track-static");
+    eleTrack.classList.add("track-active");
 
     const eleBar = document.querySelector("#l-progress > .track > .bar");
-    eleBar.classList.toggle("bar-static");
-    eleBar.classList.toggle("bar-active");
+    eleBar.classList.remove("bar-static");
+    eleBar.classList.add("bar-active");
   }
 
   /**
@@ -121,13 +121,16 @@ export namespace EcyUtils {
    */
   export function openImageUploadWindow(el: string, onUploaded: (img: string) => void) {
     try {
-      const elem = document.querySelector<HTMLElement>(`#${el}`);
-      elem.addEventListener("focus", () => {
-        const imgUrl = elem.getAttribute("value") + "";
-        onUploaded ? onUploaded(imgUrl.replace("[img]", "![](").replace("[/img]", ")")) : "";
-        elem.setAttribute("value", "");
-      });
-      elem.focus();
+      const ele = document.querySelector<HTMLElement>(`#${el}`);
+      console.log(ele);
+      ele.onfocus = () => {
+        const imgUrl = ele.getAttribute("value");
+        console.log("imgUrl", imgUrl);
+
+        onUploaded && onUploaded(imgUrl.replace("[img]", "![](").replace("[/img]", ")"));
+        ele.setAttribute("value", "");
+      };
+      ele.focus();
       const w = `${location.protocol}//upload.cnblogs${location.hostname.substring(
         location.hostname.lastIndexOf(".")
       )}/imageuploader/upload?host=www.cnblogs.com&editor=0#${el}`;
