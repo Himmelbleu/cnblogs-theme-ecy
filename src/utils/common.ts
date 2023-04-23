@@ -73,34 +73,34 @@ export namespace EcyUtils {
     const lightLoding = document.querySelector<HTMLElement>(".light-loading");
     const darkLoding = document.querySelector<HTMLElement>(".dark-loading");
     if (lightLoding) {
-      lightLoding.classList.add("fade-in-out");
+      lightLoding.classList.toggle("fade-in-out");
       lightLoding.style.display = "none";
     } else {
-      darkLoding.classList.add("fade-in-out");
+      darkLoding.classList.toggle("fade-in-out");
       darkLoding.style.display = "none";
     }
 
-    document.getElementById("l-content").classList.add("fade-in-out");
+    document.getElementById("l-content").classList.toggle("fade-in-out");
 
     const eleTrack = document.querySelector("#l-progress > .track");
-    eleTrack.classList.remove("track-active");
-    eleTrack.classList.add("track-static");
+    eleTrack.classList.toggle("track-active");
+    eleTrack.classList.toggle("track-static");
 
     const eleBar = document.querySelector("#l-progress > .track > .bar");
-    eleBar.classList.remove("bar-active");
-    eleBar.classList.add("bar-static");
+    eleBar.classList.toggle("bar-active");
+    eleBar.classList.toggle("bar-static");
   }
 
   export function startLoading() {
-    document.getElementById("l-content").classList.remove("fade-in-out");
+    document.getElementById("l-content").classList.toggle("fade-in-out");
 
     const eleTrack = document.querySelector("#l-progress > .track");
-    eleTrack.classList.remove("track-static");
-    eleTrack.classList.add("track-active");
+    eleTrack.classList.toggle("track-static");
+    eleTrack.classList.toggle("track-active");
 
     const eleBar = document.querySelector("#l-progress > .track > .bar");
-    eleBar.classList.remove("bar-static");
-    eleBar.classList.add("bar-active");
+    eleBar.classList.toggle("bar-static");
+    eleBar.classList.toggle("bar-active");
   }
 
   /**

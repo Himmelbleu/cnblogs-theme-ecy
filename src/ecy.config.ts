@@ -37,22 +37,20 @@ export namespace EcyConfig {
     } else return false;
   }
 
-  function initLocalSetting() {
+  function initSetting() {
     const setting = EcyUtils.getLocalSetting().value;
     const strings = JSON.stringify(EcyUtils.reloadObjProps(setting, EcyUtils.getLocalSettingTemp()));
     localStorage.setItem(`l-${blogApp}-setting`, strings);
     document.documentElement.setAttribute("class", setting.theme.mode);
+
+    const fontFamily = EcyConfig.__ECY_CONFIG__.font.main || `var(--el-font-family)`;
+    document.querySelector("html").style.setProperty("--l-font-family", fontFamily);
   }
 
   function beforeUseLiteInsertElement() {
     const eleApp = document.createElement("div");
     eleApp.setAttribute("id", "app");
     document.body.append(eleApp);
-
-    const eleHackLink = document.createElement("link");
-    eleHackLink.rel = "stylesheet";
-    eleHackLink.href = "//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css";
-    document.head.append(eleHackLink);
   }
 
   function afterUseLiteInsertElement() {
@@ -80,7 +78,7 @@ export namespace EcyConfig {
       isFollow = getIsFollow();
       // @ts-ignore
       __ECY_CONFIG__ = window["__ECY_CONFIG__"];
-      initLocalSetting();
+      initSetting();
       pro();
     } else if (import.meta.env.DEV) {
       blogId = import.meta.env.VITE_BLOG_ID;
@@ -98,14 +96,8 @@ export namespace EcyConfig {
             index: "1.5px",
             works: "20px"
           },
-          works: [
-            "https://img1.baidu.com/it/u=726526983,4132763702&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500",
-            "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F3660fb05-8f3a-4c20-a290-bb9a7af75cb1%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1684687574&t=fa60842f83e2cf0842f13a22c38b7173"
-          ],
-          index: [
-            "https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg",
-            "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F3660fb05-8f3a-4c20-a290-bb9a7af75cb1%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1684687574&t=fa60842f83e2cf0842f13a22c38b7173"
-          ]
+          works: ["https://img1.baidu.com/it/u=726526983,4132763702&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500"],
+          index: ["https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg"]
         },
         graph: {
           alpha: 0.85,
@@ -145,10 +137,11 @@ export namespace EcyConfig {
           }
         },
         font: {
-          family: `"Space Mono", Hack`
+          code: "Hack",
+          main: ""
         }
       };
-      initLocalSetting();
+      initSetting();
       dev();
     }
 

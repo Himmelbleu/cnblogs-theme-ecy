@@ -242,7 +242,8 @@ declare namespace CustType {
       data: { title: string; star: number }[];
     };
     font: {
-      family: string;
+      main: string;
+      code: string;
     };
   }>;
 

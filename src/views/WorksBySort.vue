@@ -6,7 +6,7 @@ let sortId = route.params.id as string;
 let sortMode = route.params.mode as "a" | "p";
 const typeL2Works = shallowRef();
 const typeL1Works = shallowRef();
-const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
+const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works;
 const imgsIndex = shallowRef();
 
 async function fetchData(index?: any) {

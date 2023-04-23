@@ -11,7 +11,7 @@ const password = ref("");
 let worksId = route.params.id as string;
 const coverFilter = EcyConfig.__ECY_CONFIG__.covers.filter.works;
 const coverMatte = EcyConfig.__ECY_CONFIG__.covers.matte.works;
-const fontFamily = EcyConfig.__ECY_CONFIG__.font.family || "Hack";
+const fontFamily = EcyConfig.__ECY_CONFIG__.font.code || `var(--el-font-family)`;
 
 const getCoverImg = computed(() => {
   const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
@@ -213,11 +213,11 @@ code {
   --uno: rd-2 l-size-3;
   letter-spacing: 1.2px;
   color: var(--el-color-danger-light-3);
-  font-family: #{v-bind(fontFamily), var(--l-font-family)};
+  font-family: v-bind(fontFamily);
 
   span {
     line-height: 1.6;
-    font-family: #{v-bind(fontFamily), var(--l-font-family)};
+    font-family: v-bind(fontFamily);
   }
 }
 

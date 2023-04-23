@@ -3,6 +3,7 @@ const route = useRoute();
 const ldisabled = ref(true);
 const rdisabled = ref(true);
 const catalogDisabled = ref(!EcyConfig.pcDevice);
+const include = [RouterName.Index, RouterName.MarkList, RouterName.Profile, RouterName.WorksByCalendar];
 
 provide("ldisabled", ldisabled);
 provide("rdisabled", rdisabled);
@@ -16,11 +17,17 @@ watch(route, async () => {
 </script>
 
 <template>
+  <div id="l-progress" class="z-9999 fixed left-0 top-0 w-100vw">
+    <div class="track absolute top-0">
+      <div class="bar rd-2"></div>
+    </div>
+  </div>
+  <div id="l-matte" class="fixed top-0 left-0 l-matee-bg z-9999" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
   <div id="l-content" class="fade-in-out relative">
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
-        <KeepAlive :include="[RouterName.Index, RouterName.MarkList, RouterName.Profile, RouterName.WorksByCalendar]">
+        <KeepAlive :include="include">
           <Suspense>
             <component :is="Component" />
           </Suspense>
@@ -29,17 +36,9 @@ watch(route, async () => {
     </RouterView>
     <div id="l-bottom-nail"></div>
   </div>
-  <div class="l-tools">
-    <div id="l-progress" class="z-9999 fixed left-0 top-0 w-100vw">
-      <div class="track absolute top-0">
-        <div class="bar rd-2"></div>
-      </div>
-    </div>
-    <div id="l-matte" class="fixed top-0 left-0 l-matee-bg z-9999" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
-    <LeftMenu :disabled="ldisabled" />
-    <RightMenu :disabled="rdisabled" />
-    <ToolKits />
-  </div>
+  <ToolKits />
+  <LeftMenu :disabled="ldisabled" />
+  <RightMenu :disabled="rdisabled" />
 </template>
 
 <style lang="scss">
