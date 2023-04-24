@@ -15,8 +15,8 @@ const props = defineProps({
 async function buryComment() {
   const data = await CommentApi.vote({
     isAbandoned: false,
-    commentId: props.comment.commentId,
-    postId: props.postId,
+    commentId: parseInt(props.comment.commentId),
+    postId: parseInt(props.postId),
     voteType: "Bury"
   });
   if (data.isSuccess) {

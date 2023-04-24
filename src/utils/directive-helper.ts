@@ -1,6 +1,10 @@
 import hljs from "highlight.js";
 import { useCatalogStore } from "@/store";
 
+hljs.configure({
+  ignoreUnescapedHTML: true
+});
+
 function createCodeModal(ele: HTMLElement) {
   const height = parseInt(ele.style.height);
 
@@ -71,7 +75,7 @@ function useVHljs() {
 function useVMathjax() {
   // @ts-ignore
   const MathJax = window.MathJax;
-  const nodes = document.querySelectorAll(".math");
+  const nodes = document.getElementsByClassName("math");
 
   if (MathJax && nodes.length > 0) {
     MathJax.startup.promise = MathJax.startup.promise
@@ -126,7 +130,7 @@ function useCatalogEvents(binding: any) {
  * 构造图片放大器
  */
 function useVHighslide(el: HTMLElement) {
-  function onClickImage(eleImage: HTMLImageElement, eleHighslide: HTMLElement, eleHighslideImage: HTMLImageElement) {
+  function onClickImage(eleImage: HTMLImageElement, eleHighslide: Element, eleHighslideImage: HTMLImageElement) {
     eleHighslide.classList.toggle("noactive");
     eleHighslide.classList.toggle("active");
     eleHighslideImage.src = eleImage.getAttribute("src");
@@ -146,7 +150,7 @@ function useVHighslide(el: HTMLElement) {
     images[i].parentElement.classList.add("f-c-c", "flex-col");
     images[i].parentElement.insertAdjacentElement("beforeend", eleTip);
 
-    const eleHighslide = document.querySelector<HTMLElement>(".l-highslide");
+    const eleHighslide = document.getElementsByClassName("l-highslide")[0];
     const eleHighslideImage = eleHighslide.querySelector<HTMLImageElement>(".l-highslide__img");
     images[i].addEventListener("click", () => onClickImage(images[i], eleHighslide, eleHighslideImage));
   }

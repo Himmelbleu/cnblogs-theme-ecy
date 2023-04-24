@@ -23,7 +23,7 @@ const props = defineProps({
 async function confirmDeleteComment() {
   const data = await CommentApi.del({
     commentId: props.comment.commentId,
-    parentId: props.postId
+    parentId: parseInt(props.postId)
   });
   if (data) {
     props.comments?.splice(props.itemIndex, 1);

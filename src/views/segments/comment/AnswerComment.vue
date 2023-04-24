@@ -37,8 +37,8 @@ function before() {
 async function finish() {
   const response = await CommentApi.answer({
     body: `回复 ${props.comment.layer} [@${props.comment.author}](${props.comment.space})\n\n` + content.value,
-    postId: props.postId,
-    parentCommentId: props.comment.commentId
+    postId: parseInt(props.postId),
+    parentCommentId: parseInt(props.comment.commentId)
   });
 
   if (response.isSuccess) {

@@ -9,15 +9,15 @@ const props = defineProps({
 const level = ref();
 const { anchor } = storeToRefs(useAnchorStore());
 const pageCount = ref(await CommentApi.getCount(props.postId));
-const currPageIndex = ref(1);
-const comments = ref(await CommentApi.getList(props.postId, currPageIndex.value, anchor.value));
+const currIndex = ref(1);
+const comments = ref(await CommentApi.getList(props.postId, 0, anchor.value));
 
 watch(level, () => {
   document.querySelector(`#level-${anchor.value}`).scrollIntoView();
 });
 
 async function paginationChange() {
-  comments.value = await CommentApi.getList(props.postId, currPageIndex.value);
+  comments.value = await CommentApi.getList(props.postId, currIndex.value);
 }
 
 function onPost(response: any) {
@@ -57,7 +57,7 @@ function onEdFinish(response: any) {
         </div>
         <div class="l-comment__middle mt-4 relative" style="margin-left: 4.5rem">
           <textarea class="z--1 opacity-0 absolute top-0 left-0" :id="'upload-img-' + index" />
-          <div class="l-comment__content" v-html="item.content" v-hljs />
+          <div class="l-comment__content" v-html="item.content" v-hljs="item.layer" v-highslide="item.layer" v-mathjax="item.layer"></div>
         </div>
         <div class="l-comment__more float-right f-c-e" v-show="!item.isEditing && !item.isAnsling">
           <el-dropdown>
@@ -79,14 +79,14 @@ function onEdFinish(response: any) {
             </template>
           </el-dropdown>
         </div>
-        <EditComment @on-finish="onEdFinish" :post-id="postId" :curr-page-index="currPageIndex" :comment="item" />
-        <AnswerComment @on-finish="onReFinish" :post-id="postId" :curr-page-index="currPageIndex" :comment="item" />
+        <EditComment @on-finish="onEdFinish" :post-id="postId" :curr-page-index="currIndex" :comment="item" />
+        <AnswerComment @on-finish="onReFinish" :post-id="postId" :curr-page-index="currIndex" :comment="item" />
       </div>
       <div class="mt-10 f-c-e" v-if="comments.length && pageCount > 1">
         <el-pagination
           @current-change="paginationChange"
           layout="prev, pager, next"
-          v-model:current-page="currPageIndex"
+          v-model:current-page="currIndex"
           :page-count="pageCount" />
       </div>
     </div>

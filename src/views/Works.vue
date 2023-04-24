@@ -42,7 +42,7 @@ async function submit() {
 }
 
 async function vote(type: BlogType.VoteType) {
-  const res = await WorksApi.vote({ postId: worksId, isAbandoned: false, voteType: type });
+  const res = await WorksApi.vote({ postId: parseInt(worksId), isAbandoned: false, voteType: type });
   if (res) {
     if (res.isSuccess)
       if (type == "Bury") viewPoint.value.buryCount = viewPoint.value.buryCount + 1;
@@ -143,7 +143,7 @@ onMounted(() => {
   <div id="l-works" class="page">
     <div class="content">
       <div v-show="!isLocked">
-        <div class="l-size-4" v-html="works.content" v-hljs="works.text" v-highslide="works.text" v-catalog v-mathjax="works.text"></div>
+        <div class="l-size-4" v-html="works.content" v-hljs="works.text" v-highslide="works.text" v-mathjax="works.text" v-catalog></div>
         <Highslide />
         <Catalog />
         <div class="divider flex-col"></div>

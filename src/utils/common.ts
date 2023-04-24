@@ -103,14 +103,11 @@ export namespace EcyUtils {
     eleBar.classList.add("bar-active");
   }
 
-  /**
-   * 打开博客园上传图片的窗口
-   */
   function openWindow(w: string, t: number, i: number, r: number) {
     const left = (screen.width - t) / 2 - r;
     const top = (screen.height - i) / 2 - r;
     const hatch = window.open(w, "_blank", `width=${t},height=${i},toolbars=0,resizable=1,left=${left},top=${top}`);
-    hatch!.focus();
+    hatch.focus();
   }
 
   /**
@@ -121,20 +118,21 @@ export namespace EcyUtils {
    */
   export function openImageUploadWindow(el: string, onUploaded: (img: string) => void) {
     try {
-      const ele = document.querySelector<HTMLElement>(`#${el}`);
-      console.log(ele);
-      ele.onfocus = () => {
-        const imgUrl = ele.getAttribute("value");
-        console.log("imgUrl", imgUrl);
+      // @ts-ignore
+      const elem = $(`#${el}`);
 
-        onUploaded && onUploaded(imgUrl.replace("[img]", "![](").replace("[/img]", ")"));
-        ele.setAttribute("value", "");
-      };
-      ele.focus();
+      elem.focus(() => {
+        const imgUrl = elem.val() + "";
+        onUploaded ? onUploaded(imgUrl.replace("[img]", "![](").replace("[/img]", ")")) : "";
+        elem.val("");
+      });
+
       const w = `${location.protocol}//upload.cnblogs${location.hostname.substring(
         location.hostname.lastIndexOf(".")
       )}/imageuploader/upload?host=www.cnblogs.com&editor=0#${el}`;
+
       document.domain = `cnblogs.${location.hostname.substring(location.hostname.lastIndexOf(".") + 1, location.hostname.length)}`;
+
       openWindow(w, 450, 120, 200);
     } catch (e) {
       console.error(e);
@@ -143,7 +141,7 @@ export namespace EcyUtils {
 
   export function setTitle(title?: string) {
     const prefix = title ? title + " - " : "";
-    document.querySelector("title").innerText = `${prefix}${EcyConfig.blogApp} - 博客园`;
+    document.getElementsByTagName("title")[0].innerText = `${prefix}${EcyConfig.blogApp} - 博客园`;
   }
 
   export namespace Random {
@@ -201,11 +199,11 @@ export namespace EcyUtils {
      * @param num 被格式化的数字
      */
     export function unit(num: string): string {
-      num = num.trim();
-      if (num.length < 5) {
-        return (Number(num) / 1000).toFixed(2);
-      } else if (num.length >= 5 && num.length <= 7) {
-        return (Number(num) / 10000).toFixed(2) + "万";
+      const trimedNum = num.trim();
+      if (trimedNum.length < 5) {
+        return (Number(trimedNum) / 1000).toFixed(2);
+      } else if (trimedNum.length >= 5 && trimedNum.length <= 7) {
+        return (Number(trimedNum) / 10000).toFixed(2) + "万";
       }
     }
   }
@@ -278,7 +276,7 @@ export namespace EcyConfig {
    * 初始化博客重要变量，这些变量不能通过 head script 获取，在一些元素属性上。
    */
   function getIsFollow() {
-    const eleText = document.querySelector<HTMLElement>("#p_b_follow > a");
+    const eleText = document.querySelector("#p_b_follow > a");
     if (eleText) {
       return eleText.innerText === "-取消关注" || false;
     } else return false;
@@ -394,6 +392,6 @@ export namespace EcyConfig {
 
     afterUseLiteInsertElement();
     EcyUtils.Log.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
-    EcyUtils.Log.primary("v1.2.0", "Powered By Himmelbleu using Vue3 & Vite.");
+    EcyUtils.Log.primary("v1.3.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
   }
 }

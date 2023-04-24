@@ -52,9 +52,9 @@ watch(route, async () => {
     <div id="l-bottom-nail"></div>
   </div>
   <ToolKits />
-  <div id="l-ldisabled" class="z-99 h-100vw w-4 fixed left-0 top-0"></div>
+  <div id="l-ldisabled" class="z-99 h-30vh w-4 fixed left-0 top-30vh"></div>
   <LeftMenu :disabled="ldisabled" />
-  <div id="l-rdisabled" class="z-99 h-100vw w-4 fixed right-0 top-0"></div>
+  <div id="l-rdisabled" class="z-99 h-30vh w-4 fixed right-0 top-30vh"></div>
   <RightMenu :disabled="rdisabled" />
 </template>
 

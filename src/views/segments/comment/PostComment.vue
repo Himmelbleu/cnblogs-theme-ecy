@@ -8,8 +8,8 @@ const props = defineProps({
 const emits = defineEmits(["onPost"]);
 
 const comment = ref<BlogType.IComment>({
-  postId: props.postId,
-  parentCommentId: "0",
+  postId: parseInt(props.postId),
+  parentCommentId: 0,
   body: ""
 });
 

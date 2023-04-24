@@ -15,7 +15,7 @@ export function parseDOM(dom: string) {
 /**
  * 获取页数
  */
-function getPage(dom: HTMLElement) {
+function getPage(dom: Element) {
   if (dom) {
     const pages = dom.innerText.match(/[1-9]+/g);
     if (pages) return pages.map(i => parseInt(i)).pop();
@@ -29,23 +29,24 @@ function getPage(dom: HTMLElement) {
  * 只适用于获取首页随笔列表；日历随笔、文章列表。列表项包含描述、评论、点赞的随笔列表。
  */
 export function parseWorksList(dom: Document): CustType.IWorksList {
-  const id = dom.querySelectorAll<HTMLElement>(".postTitle2");
-  const head = dom.querySelectorAll<HTMLElement>(".postTitle");
-  const desc = dom.querySelectorAll<HTMLElement>(".c_b_p_desc");
-  const notes = dom.querySelectorAll<HTMLElement>(".postDesc");
+  const id = dom.getElementsByClassName("postTitle2");
+  const head = dom.getElementsByClassName("postTitle");
+  const desc = dom.getElementsByClassName("c_b_p_desc");
+  const notes = dom.getElementsByClassName("postDesc");
+  const hint = dom.getElementsByClassName("dayTitle");
   const data: CustType.IWorks[] = [];
 
-  desc.forEach((ele, index) => {
-    const eleDescImg = ele.querySelector(".desc_img");
+  for (let index = 0; index < desc.length; index++) {
+    const eleDescImg = desc[index].getElementsByClassName("desc_img")[0];
     const surface = eleDescImg ? eleDescImg.getAttribute("src") : "";
 
-    const eleLock = id[index].querySelector<HTMLElement>(`img[title="密码保护"]`);
+    const eleLock = id[index].querySelector(`img[title="密码保护"]`);
     const isLocked = !!eleLock;
 
-    const eleOnlyMe = id[index].querySelector<HTMLElement>(`img[title="仅自己可见"]`);
+    const eleOnlyMe = id[index].querySelector(`img[title="仅自己可见"]`);
     const isOnlyMe = !!eleOnlyMe;
 
-    const eleTop = head[index].querySelector<HTMLElement>(".pinned-post-mark");
+    const eleTop = head[index].getElementsByClassName("pinned-post-mark")[0];
     const isTop = eleTop && eleTop.innerText === "[置顶]";
 
     data.push({
@@ -61,12 +62,12 @@ export function parseWorksList(dom: Document): CustType.IWorksList {
       isOnlyMe,
       isTop
     });
-  });
+  }
 
   return {
     data,
     page: getPage(dom.querySelector("#homepage_top_pager > .pager")),
-    hint: dom.querySelector<HTMLElement>(".dayTitle").innerText + " 档案" ?? ""
+    hint: hint[0].innerText + " 档案" ?? ""
   };
 }
 
@@ -74,16 +75,16 @@ export function parseWorksList(dom: Document): CustType.IWorksList {
  * 解析随笔详细页面
  */
 export function parseWorks(id: string, dom: Document): CustType.IWorks {
-  const text = dom.querySelector<HTMLElement>(".postTitle > a > span").innerText;
-  const content = dom.querySelector("#cnblogs_post_body").innerHTML;
+  const text = dom.querySelector(".postTitle > a > span").innerText;
+  const content = dom.getElementById("cnblogs_post_body").innerHTML;
 
   return {
     id,
     text,
     content,
-    date: dom.querySelector<HTMLElement>("#post-date").innerText,
-    view: dom.querySelector<HTMLElement>("#post_view_count").innerText,
-    comm: dom.querySelector<HTMLElement>("#post_comment_count").innerText,
+    date: dom.getElementById("post-date").innerText,
+    view: dom.getElementById("post_view_count").innerText,
+    comm: dom.getElementById("post_comment_count").innerText,
     isLocked: !text && !content
   };
 }
@@ -93,26 +94,28 @@ export function parseWorks(id: string, dom: Document): CustType.IWorks {
  */
 export function parseCommentList(dom: Document): CustType.IComment[] {
   const data: CustType.IComment[] = [];
+  const eles = dom.getElementsByClassName("feedbackItem");
 
-  dom.querySelectorAll(".feedbackItem").forEach(ele => {
-    const anchorId = ele.querySelector(".layer").getAttribute("href").split("#")[1];
-    const eleAvatar = ele.querySelector<HTMLElement>(`#comment_${anchorId}_avatar`);
+  for (let i = 0; i < eles.length; i++) {
+    const layer = eles[i].getElementsByClassName("layer")[0];
+    const anchorId = layer.getAttribute("href").split("#")[1];
+    const eleAvatar = eles[i].querySelector(`#comment_${anchorId}_avatar`);
     const avatar = eleAvatar ? eleAvatar.innerText.trim() : "";
 
     data.push({
       isEditing: false,
       isAnsling: false,
       commentId: anchorId,
-      space: ele.querySelector(`#a_comment_author_${anchorId}`).getAttribute("href"),
-      author: ele.querySelector<HTMLElement>(`#a_comment_author_${anchorId}`).innerText,
-      layer: ele.querySelector<HTMLElement>(".layer").innerText,
-      date: ele.querySelector<HTMLElement>(".comment_date").innerText,
-      content: ele.querySelector(`#comment_body_${anchorId}`).innerHTML,
-      digg: ele.querySelector<HTMLElement>(".comment_digg").innerText.trim(),
-      bury: ele.querySelector<HTMLElement>(".comment_burry").innerText.trim(),
+      space: eles[i].querySelector(`#a_comment_author_${anchorId}`).getAttribute("href"),
+      author: eles[i].querySelector(`#a_comment_author_${anchorId}`).innerText,
+      layer: layer.innerText,
+      date: eles[i].getElementsByClassName("comment_date")[0].innerText,
+      content: eles[i].querySelector(`#comment_body_${anchorId}`).innerHTML,
+      digg: eles[i].getElementsByClassName("comment_digg")[0].innerText.trim(),
+      bury: eles[i].getElementsByClassName("comment_burry")[0].innerText.trim(),
       avatar
     });
-  });
+  }
 
   return data;
 }
@@ -125,7 +128,7 @@ export function parseCommentList(dom: Document): CustType.IComment[] {
  * @param data 评论数量计数
  * @returns 返回一共有多少个 pageIndex
  */
-export function parseCommentPages(data: any): number {
+export function parseCommentPages(data: string): number {
   return Math.ceil(parseInt(data) / 50);
 }
 
@@ -135,22 +138,26 @@ export function parseCommentPages(data: any): number {
 export function parseWorksProps(dom: Document): CustType.IWorksProps {
   const data = <CustType.IWorksProps>{ tags: [], sorts: [] };
 
-  dom.querySelectorAll<HTMLElement>("#BlogPostCategory > a").forEach(ele => {
+  const eleCates = dom.querySelectorAll("#BlogPostCategory > a");
+
+  for (let i = 0; i < eleCates.length; i++) {
     data.sorts.push({
-      href: ele
+      href: eleCates[i]
         .getAttribute("href")
         .match(/\/category\/\d+/g)[0]
         .split("/")[2]
         .split(",")[0],
-      text: ele.innerText
+      text: eleCates[i].innerText
     });
-  });
+  }
 
-  dom.querySelectorAll<HTMLElement>("#EntryTag > a").forEach(ele => {
+  const eleTags = dom.querySelectorAll("#EntryTag > a");
+
+  for (let i = 0; i < eleTags.length; i++) {
     data.tags.push({
-      text: ele.innerText
+      text: eleTags[i].innerText
     });
-  });
+  }
 
   return data;
 }
@@ -160,10 +167,11 @@ export function parseWorksProps(dom: Document): CustType.IWorksProps {
  */
 export function parseWorksPrevNext(dom: Document): CustType.IPrevNext {
   const data: CustType.IPrevNext = { prev: {}, next: {} };
+  const eleAs = dom.getElementsByTagName("a");
 
-  dom.querySelectorAll<HTMLElement>("a").forEach(ele => {
-    const prefix = ele.innerText.trim();
-    const nextElement = ele.nextElementSibling as HTMLElement;
+  for (let i = 0; i < eleAs.length; i++) {
+    const prefix = eleAs[i].innerText.trim();
+    const nextElement = eleAs[i].nextElementSibling;
     if (prefix == "«") {
       data["prev"] = {
         text: nextElement.innerText.trim(),
@@ -175,7 +183,7 @@ export function parseWorksPrevNext(dom: Document): CustType.IPrevNext {
         href: nextElement.getAttribute("href")
       };
     }
-  });
+  }
 
   return data;
 }
@@ -193,37 +201,39 @@ export function parseWorksFull(dom: Document): CustType.IWorksList2 {
   const commReg = /评论\([0-9]+\)/g;
   const diggReg = /推荐\([0-9]+\)/g;
 
-  dom.querySelectorAll<HTMLElement>(".entrylistItem").forEach(ele => {
-    const item = ele.querySelector<HTMLElement>(".entrylistItemPostDesc").innerText;
-    const eleDescImg = ele.querySelector(".c_b_p_desc > .desc_img");
+  const eleList = dom.getElementsByClassName("entrylistItem");
+
+  for (let i = 0; i < eleList.length; i++) {
+    const item = eleList[i].getElementsByClassName("entrylistItemPostDesc")[0].innerText;
+    const eleDescImg = eleList[i].querySelector(".c_b_p_desc > .desc_img");
     const surface = eleDescImg ? eleDescImg.getAttribute("src") : "";
 
     data.push({
-      id: ele
-        .querySelector(".entrylistItemTitle")
+      id: eleList[i]
+        .getElementsByClassName("entrylistItemTitle")[0]
         .getAttribute("href")
         .match(/[0-9]+/g)[0],
-      text: ele.querySelector<HTMLElement>(".entrylistItemTitle > span").innerText,
-      desc: ele.querySelector<HTMLElement>(".c_b_p_desc").innerText,
+      text: eleList[i].querySelector(".entrylistItemTitle > span").innerText,
+      desc: eleList[i].getElementsByClassName("c_b_p_desc")[0].innerText,
       date: item.match(dateReg)[0],
       view: item.match(viewReg)[0],
       comm: item.match(commReg)[0],
       digg: item.match(diggReg)[0],
       surface
     });
-  });
+  }
 
   const eleDesc = dom.querySelector(".entrylistTitle .category-crumb-item");
   const desc = eleDesc ? eleDesc.getAttribute("title") : "";
-  const eleDesc2 = dom.querySelector<HTMLElement>(".entrylistDescription");
+  const eleDesc2 = dom.getElementsByClassName("entrylistDescription")[0];
   const desc2 = eleDesc2 ? eleDesc2.innerText : "";
-  const eleHint = dom.querySelector<HTMLElement>(".entrylistTitle");
+  const eleHint = dom.getElementsByClassName("entrylistTitle")[0];
   const hint = eleHint ? eleHint.innerText : "";
 
   return {
     desc,
     desc2,
-    page: getPage(dom.querySelectorAll<HTMLElement>("#mainContent .pager")[0]),
+    page: getPage(dom.querySelectorAll("#mainContent .pager")[0]),
     hint,
     data
   };
@@ -235,9 +245,9 @@ export function parseWorksFull(dom: Document): CustType.IWorksList2 {
  * 只适用于获取以标签区别的随笔、文章列表。
  */
 export function parseWorksSlice(dom: Document): CustType.IWorksList2 {
-  const head = dom.querySelectorAll<HTMLElement>(".PostList > .postTitl2 > a");
-  const desc = dom.querySelectorAll<HTMLElement>(".PostList > .postDesc2");
-  const hint = dom.querySelector<HTMLElement>(".PostListTitle").innerText.trim();
+  const head = dom.querySelectorAll(".PostList > .postTitl2 > a");
+  const desc = dom.querySelectorAll(".PostList > .postDesc2");
+  const hint = dom.getElementsByClassName("PostListTitle")[0].innerText.trim();
   const data: CustType.IWorks[] = [];
 
   head.forEach((ele, index) => {
@@ -245,17 +255,17 @@ export function parseWorksSlice(dom: Document): CustType.IWorksList2 {
       id: ele.getAttribute("href").match(/[0-9]+/g)[0],
       text: ele.innerText.trim(),
       date: desc[index].innerText.match(/[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g)[0],
-      view: desc[index].querySelector<HTMLElement>(".post-view-count").innerText.split(":")[1],
-      comm: desc[index].querySelector<HTMLElement>(".post-comment-count").innerText.split(":")[1],
-      digg: desc[index].querySelector<HTMLElement>(".post-digg-count").innerText.split(":")[1]
+      view: desc[index].getElementsByClassName("post-view-count")[0].innerText.split(":")[1],
+      comm: desc[index].getElementsByClassName("post-comment-count")[0].innerText.split(":")[1],
+      digg: desc[index].getElementsByClassName("post-digg-count")[0].innerText.split(":")[1]
     });
   });
 
-  return { data, hint, page: getPage(dom.querySelectorAll<HTMLElement>(".Pager")[0]) };
+  return { data, hint, page: getPage(dom.getElementsByClassName("Pager")[0]) };
 }
 
-function loadColumn(dom: Document, selector: string, success: (e: HTMLElement, matched?: any) => void, regexp?: RegExp) {
-  dom.querySelectorAll<HTMLElement>(selector).forEach(ele => {
+function loadColumn(dom: Document, selector: string, success: (e: Element, matched?: any) => void, regexp?: RegExp) {
+  dom.querySelectorAll(selector).forEach(ele => {
     if (regexp) {
       const matched = ele.getAttribute("href")?.match(regexp);
       if (matched) success(ele, matched);
@@ -375,21 +385,21 @@ export function parseMenuColumn(dom: Document): CustType.IMenuColumn {
   let bounds = false;
   let comment = { id: "", title: "", content: "", author: "" };
 
-  dom.querySelectorAll<HTMLElement>("#sidebar_recentcomments ul li").forEach(ele => {
+  const elesLi = dom.querySelectorAll("#sidebar_recentcomments ul li");
+
+  for (let i = 0; i < elesLi.length; i++) {
     if (bounds) bounds = false;
 
     if (!bounds) {
-      const attr = ele.getAttribute("class");
+      const attr = elesLi[i].getAttribute("class");
       if (attr === "recent_comment_title") {
-        comment.title = ele.querySelector("a").innerText;
-        comment.id = ele
-          .querySelector("a")
-          .getAttribute("href")
-          .match(/[0-9]+/g)[0];
+        const eleA = elesLi[i].getElementsByTagName("a")[0];
+        comment.title = eleA.innerText;
+        comment.id = eleA.getAttribute("href").match(/[0-9]+/g)[0];
       } else if (attr === "recent_comment_body") {
-        comment.content = ele.innerText;
+        comment.content = elesLi[i].innerText;
       } else if (attr === "recent_comment_author") {
-        comment.author = EcyUtils.Text.replace(ele.innerText, [/--/g]);
+        comment.author = EcyUtils.Text.replace(elesLi[i].innerText, [/--/g]);
       }
     }
 
@@ -399,7 +409,7 @@ export function parseMenuColumn(dom: Document): CustType.IMenuColumn {
       comment = { id: "", title: "", content: "", author: "" };
     }
     count++;
-  });
+  }
 
   return data;
 }
@@ -408,7 +418,7 @@ export function parseMenuColumn(dom: Document): CustType.IMenuColumn {
  * 解析侧边栏博主主人基本的昵称、粉丝数、园龄等数据
  */
 export function parseAuthorData(dom: Document): CustType.IMenuItemData[] {
-  const nodeList = dom.querySelectorAll<HTMLElement>("#profile_block > a");
+  const nodeList = dom.querySelectorAll("#profile_block > a");
   return Array.from(nodeList).map(ele => ({ text: ele.innerText.trim(), href: ele.getAttribute("href") }));
 }
 
@@ -417,16 +427,18 @@ export function parseAuthorData(dom: Document): CustType.IMenuItemData[] {
  */
 export function parseMasterData(dom: Document): CustType.IMenuItemData[] {
   const data: CustType.IMenuItemData[] = [];
-  const eles = dom.querySelectorAll<HTMLElement>("span");
-  eles.forEach((ele, index) => {
-    if (ele.getAttribute("id")) {
-      const t = ele.innerText;
+  const eles = dom.getElementsByTagName("span");
+
+  for (let index = 0; index < eles.length; index++) {
+    if (eles[index].getAttribute("id")) {
+      const t = eles[index].innerText;
       const text = t.match(/^[\u4e00-\u9fa5]*/g)[0];
       let digg = t.match(/\d+/g)[0];
       if (index === 3) digg = EcyUtils.Parser.unit(digg);
       data.push({ text, digg });
     }
-  });
+  }
+
   return data;
 }
 
@@ -435,13 +447,15 @@ export function parseMasterData(dom: Document): CustType.IMenuItemData[] {
  */
 export function parseCabinetRankList(dom: string): CustType.IMenuItemData[] {
   const data: CustType.IMenuItemData[] = [];
-  const eles = parseDOM(dom).querySelectorAll<HTMLElement>("li");
-  eles.forEach((ele, index) => {
-    const t = ele.innerText.trim();
+  const eles = parseDOM(dom).querySelectorAll("li");
+
+  for (let i = 0; i < eles.length; i++) {
+    const t = eles[i].innerText.trim();
     const text = t.match(/^[\u4e00-\u9fa5]*/g)[0];
     const digg = t.match(/\d+/g)[0];
     data.push({ text, digg });
-  });
+  }
+
   return data;
 }
 
@@ -455,27 +469,31 @@ export function parseTopList(dom: Document): CustType.ITopList {
     topDigg: []
   };
 
-  dom.querySelectorAll<HTMLElement>("#TopFeedbackPostsBlock ul > li > a").forEach((ele, index) => {
+  const elesTopComms = dom.querySelectorAll("#TopFeedbackPostsBlock ul > li > a");
+
+  for (let index = 0; index < elesTopComms.length; index++) {
     data.topComments.push({
-      id: ele
+      id: elesTopComms[index]
         .getAttribute("href")
         ?.match(/\/p\/\d+/g)[0]
         .split("/")[2],
-      text: ele.innerText
+      text: elesTopComms[index].innerText
     });
-  });
+  }
 
-  dom.querySelectorAll<HTMLElement>("#TopViewPostsBlock ul > li > a").forEach((ele, index) => {
+  const elesTopWors = dom.querySelectorAll("#TopViewPostsBlock ul > li > a");
+
+  for (let index = 0; index < elesTopWors.length; index++) {
     data.topView.push({
-      id: ele
+      id: elesTopWors[index]
         .getAttribute("href")
         ?.match(/\/p\/\d+/g)[0]
         .split("/")[2],
-      text: ele.innerText
+      text: elesTopWors[index].innerText
     });
-  });
+  }
 
-  data.topDigg = Array.from(dom.querySelectorAll<HTMLElement>("#TopViewPostsBlock ul > li > a")).map(ele => ({
+  data.topDigg = Array.from(dom.querySelectorAll("#TopViewPostsBlock ul > li > a")).map(ele => ({
     id: ele
       .getAttribute("href")
       ?.match(/\/p\/\d+/g)[0]
@@ -488,13 +506,13 @@ export function parseTopList(dom: Document): CustType.ITopList {
 
 export function parseMarkList(dom: Document): CustType.IMark[] {
   const data: CustType.IMark[] = [];
-  dom
-    .querySelector("#MyTag1_dtTagList")
-    .querySelectorAll<HTMLElement>("td")
-    .forEach(ele => {
-      const eleA = ele.querySelector("a");
-      data.push({ count: parseInt(ele.getAttribute("data-use-count")), href: eleA.getAttribute("href"), text: eleA.innerText });
-    });
+  const eles = dom.getElementById("MyTag1_dtTagList").getElementsByTagName("td");
+
+  for (let i = 0; i < eles.length; i++) {
+    const eleA = eles[i].getElementsByTagName("a")[0];
+    data.push({ count: parseInt(eles[i].getAttribute("data-use-count")), href: eleA.getAttribute("href"), text: eleA.innerText });
+  }
+
   return data;
 }
 
@@ -504,7 +522,7 @@ export function parseMarkList(dom: Document): CustType.IMark[] {
  * @returns 输入密码正确返回 true
  */
 export function parseIsUnLock(dom: Document): boolean {
-  const isError = dom.querySelector<HTMLElement>(".field-validation-error")?.innerText;
+  const isError = dom.getElementsByClassName("field-validation-error")[0]?.innerText;
   if (isError && isError === "密码错误") {
     return false;
   } else if (!isError) {
@@ -513,36 +531,37 @@ export function parseIsUnLock(dom: Document): boolean {
 }
 
 export function parseWorksSortChild(dom: Document): CustType.IWorksSortChild[] {
-  const nodeList = dom.querySelectorAll<HTMLElement>("li");
+  const nodeList = dom.getElementsByTagName("li");
   return Array.from(nodeList).map(ele => ({
     id: ele.getAttribute("data-category-id"),
-    text: ele.querySelector<HTMLElement>(".tree-categories-item-title-right").innerText
+    text: ele.getElementsByClassName("tree-categories-item-title-right")[0].innerText
   }));
 }
 
 export function parseAlbumn(dom: Document) {
   const data: CustType.AlbumnItem[] = [];
+  const eles = dom.getElementsByClassName("divPhoto");
 
-  dom.querySelectorAll(".divPhoto").forEach(ele => {
+  for (let i = 0; i < eles.length; i++) {
     data.push({
-      id: ele
-        .querySelector("a")
+      id: eles[i]
+        .getElementsByTagName("a")[0]
         .getAttribute("href")
         .match(/\/gallery\/image\/\d+/g)[0]
         .split("/")[3],
-      src: ele.querySelector("img").getAttribute("src")
+      src: eles[i].getElementsByTagName("img")[0].getAttribute("src")
     });
-  });
+  }
 
   return {
-    title: dom.querySelector<HTMLElement>(".thumbTitle").innerText,
-    desc: dom.querySelector<HTMLElement>(".thumbDescription").innerText,
+    title: dom.getElementsByClassName("thumbTitle")[0].innerText,
+    desc: dom.getElementsByClassName("thumbDescription")[0].innerText,
     data
   };
 }
 
 export function parseAlbumnItem(dom: Document) {
-  return dom.querySelector("#ViewPicture1_GalleryImage").getAttribute("src");
+  return dom.getElementById("ViewPicture1_GalleryImage").getAttribute("src");
 }
 
 export function parseCalendar(dom: Document): string[] {

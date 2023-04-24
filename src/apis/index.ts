@@ -19,7 +19,7 @@ async function sendAwaitGet(url: string): Promise<any> {
   try {
     awt = await axios.get(`${EcyConfig.baseAPI}${url}`, { timeout: 5000 });
   } catch (e) {
-    console.error(e);
+    ElMessage.error(e);
   }
   return awt;
 }
@@ -34,15 +34,16 @@ async function sendAwaitGet(url: string): Promise<any> {
 async function sendAwaitPost(url: string, data: any): Promise<any> {
   let awt;
   let token = "";
-  const eleToken = document.getElementById("#antiforgery_token");
+  const eleToken = document.getElementById("antiforgery_token");
   if (!!eleToken) token = eleToken.getAttribute("value");
+  else ElMessage.error("未获取到你的 Token！");
   try {
     awt = await axios.post(`${EcyConfig.baseAPI}${url}`, data, {
       timeout: 5000,
       headers: { RequestVerificationToken: token || "" }
     });
   } catch (e) {
-    console.error(e);
+    ElMessage.error(e);
   }
   return awt;
 }
@@ -239,7 +240,7 @@ export namespace CommentApi {
    */
   export async function getCount(id: number | string) {
     const { data } = await sendAwaitGet(`/ajax/GetCommentCount.aspx?postId=${id}`);
-    return Parser.parseCommentPages(Parser.parseDOM(data));
+    return Parser.parseCommentPages(data);
   }
 
   /**
