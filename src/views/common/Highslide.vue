@@ -14,6 +14,8 @@ useDraggable(eleImage, {
     positionY.value = position.y;
   },
   onStart() {
+    imgWidth.value = parseInt(eleImage.value.style.width);
+    imgHeight.value = parseInt(eleImage.value.style.height);
     animationOpened.value = false;
   }
 });
@@ -120,9 +122,9 @@ onMounted(() => {
   transition: all 0.3s ease-in-out;
 }
 
-.highslide__img {
-  max-height: 100%;
-  max-width: 100%;
+.l-highslide__img {
+  max-width: initial !important;
+  max-height: initial !important;
 }
 
 .l-highslide__close {

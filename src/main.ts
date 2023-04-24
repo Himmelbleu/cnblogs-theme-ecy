@@ -18,8 +18,5 @@ app.use(createPinia());
 useDirective(app);
 EcyConfig.useLite(
   () => app.mount("#app"),
-  () => {
-    // initLiteVars();
-    app.mount("#app");
-  }
+  () => app.mount("#app")
 );
