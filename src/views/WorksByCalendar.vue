@@ -47,7 +47,7 @@ onMounted(() => {
             class="w-100% h-100%"
             @click="
               EcyUtils.Router.go({
-                path: RouterPath.worksByArchive('d', data.day),
+                path: RouterPath.WORKS_BY_ARCHIVE('d', data.day),
                 router: $router
               })
             "

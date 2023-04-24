@@ -94,8 +94,11 @@ export function parseWorks(id: string, dom: Document): CustType.IWorks {
 export function parseCommentList(dom: Document): CustType.IComment[] {
   const data: CustType.IComment[] = [];
 
-  dom.querySelectorAll(".feedbackItem").forEach((ele, index) => {
+  dom.querySelectorAll(".feedbackItem").forEach(ele => {
     const anchorId = ele.querySelector(".layer").getAttribute("href").split("#")[1];
+    const eleAvatar = ele.querySelector<HTMLElement>(`#comment_${anchorId}_avatar`);
+    const avatar = eleAvatar ? eleAvatar.innerText.trim() : "";
+
     data.push({
       isEditing: false,
       isAnsling: false,
@@ -107,7 +110,7 @@ export function parseCommentList(dom: Document): CustType.IComment[] {
       content: ele.querySelector(`#comment_body_${anchorId}`).innerHTML,
       digg: ele.querySelector<HTMLElement>(".comment_digg").innerText.trim(),
       bury: ele.querySelector<HTMLElement>(".comment_burry").innerText.trim(),
-      avatar: ele.querySelector<HTMLElement>(`#comment_${anchorId}_avatar`).innerText.trim()
+      avatar
     });
   });
 
@@ -536,6 +539,10 @@ export function parseAlbumn(dom: Document) {
     desc: dom.querySelector<HTMLElement>(".thumbDescription").innerText,
     data
   };
+}
+
+export function parseAlbumnItem(dom: Document) {
+  return dom.querySelector("#ViewPicture1_GalleryImage").getAttribute("src");
 }
 
 export function parseCalendar(dom: Document): string[] {

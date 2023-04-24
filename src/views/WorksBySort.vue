@@ -28,7 +28,7 @@ async function fetchData(index?: any) {
 await fetchData();
 
 watch(route, async () => {
-  if (route.name === RouterName.WorksBySort) {
+  if (route.name === RouterName.WORKS_BY_SORT) {
     sortId = route.params.id as string;
     sortMode = route.params.mode as "a" | "p";
     await fetchData();
@@ -55,7 +55,7 @@ watch(route, async () => {
           <div class="l-sort__child l-size-2" v-if="typeL2Works.length > 0">
             <div class="hover f-c-s" v-for="(item, index) in typeL2Works" :class="{ 'mb-3': index != typeL2Works.length - 1 }">
               <span class="mr-2">📁</span>
-              <router-link :to="RouterPath.worksBySort(sortMode, item.id)">{{ item.text }}</router-link>
+              <router-link :to="RouterPath.WORKS_BY_SORT(sortMode, item.id)">{{ item.text }}</router-link>
             </div>
           </div>
           <WorksItem

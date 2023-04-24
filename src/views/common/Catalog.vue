@@ -5,7 +5,7 @@ const route = useRoute();
 const translate = shallowRef("");
 const anchors = shallowRef([]);
 const store = useCatalogStore();
-const catalogDisabled = inject<boolean>("catalogDisabled");
+const catalogDisabled = inject<boolean>(ProvideKey.CATALOG_DISABLED);
 let observer: IntersectionObserver;
 
 function moveSlider(entries: any) {
@@ -45,7 +45,7 @@ onUnmounted(() => {
 });
 
 watch(route, () => {
-  if (route.name !== RouterName.Works) {
+  if (route.name !== RouterName.WORKS) {
     anchors.value = [];
     observer.disconnect();
   }

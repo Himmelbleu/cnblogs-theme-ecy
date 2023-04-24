@@ -347,7 +347,7 @@ export async function getMarkList() {
  */
 export async function getAlbumnItem(id: string) {
   const { data } = await sendAwaitGet(`/gallery/image/${id}.html`);
-  return (data as HTMLElement).querySelector("#ViewPicture1_OriginalImage")?.getAttribute("href");
+  return Parser.parseAlbumnItem(Parser.parseDOM(data));
 }
 
 /**

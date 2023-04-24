@@ -52,7 +52,7 @@ async function vote(type: BlogType.VoteType) {
 }
 
 watch(route, async () => {
-  if (route.name === RouterName.Works) {
+  if (route.name === RouterName.WORKS) {
     worksId = route.params.id as string;
     await fetchData();
     EcyUtils.endLoading();
@@ -79,7 +79,7 @@ onMounted(() => {
     </div>
     <div class="content z-999 absolute left-0 top-10vh w-100%">
       <div>
-        <div class="size-2rem text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
+        <div class="l-size-13 text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
         <div class="f-c-s mt-6 l-size-2">
           <div class="f-c-c mr-4">
             <i-ep-clock class="mr-1" />
@@ -112,7 +112,7 @@ onMounted(() => {
                 line="dotted"
                 hover
                 round
-                @click="EcyUtils.Router.go({ path: RouterPath.worksBySort('p', item.href), router: $router })">
+                @click="EcyUtils.Router.go({ path: RouterPath.WORKS_BY_SORT('p', item.href), router: $router })">
                 {{ item.text }}
               </HollowedBox>
             </div>
@@ -127,7 +127,7 @@ onMounted(() => {
                 line="dotted"
                 hover
                 round
-                @click="EcyUtils.Router.go({ path: RouterPath.worksByMark(item.text), router: $router })">
+                @click="EcyUtils.Router.go({ path: RouterPath.WORKS_BY_MARK(item.text), router: $router })">
                 {{ item.text }}
               </HollowedBox>
             </div>

@@ -29,7 +29,7 @@ async function fetchData() {
 await fetchData();
 
 watch(route, async () => {
-  if (route.name === RouterName.WorksByArchive) {
+  if (route.name === RouterName.WORKS_BY_ARCHIVE) {
     archiveMode = route.params.mode;
     archiveDate = route.params.date;
     await fetchData();

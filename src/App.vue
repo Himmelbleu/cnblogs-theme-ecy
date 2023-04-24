@@ -3,14 +3,13 @@ const route = useRoute();
 const ldisabled = ref(true);
 const rdisabled = ref(true);
 const catalogDisabled = ref(!EcyConfig.pcDevice);
-const include = [RouterName.Index, RouterName.MarkList, RouterName.Profile, RouterName.WorksByCalendar];
 
-provide("ldisabled", ldisabled);
-provide("rdisabled", rdisabled);
-provide("catalogDisabled", catalogDisabled);
+provide(ProvideKey.L_DISABLED, ldisabled);
+provide(ProvideKey.R_DISABLED, rdisabled);
+provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
 
 watch(route, async () => {
-  if (route.name === RouterName.Index) {
+  if (route.name === RouterName.INDEX) {
     EcyUtils.setTitle();
   }
 });
@@ -27,7 +26,7 @@ watch(route, async () => {
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
-        <KeepAlive :include="include">
+        <KeepAlive :include="[RouterName.INDEX, RouterName.MARK_LIST, RouterName.PROFILE, RouterName.WORKS_BY_CALENDAR]">
           <Suspense>
             <component :is="Component" />
           </Suspense>

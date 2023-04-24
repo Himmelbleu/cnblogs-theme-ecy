@@ -3,8 +3,8 @@ import { WorksApi } from "@/apis";
 
 EcyUtils.startLoading();
 
-const ldisabled = inject<Ref>("ldisabled");
-const rdisabled = inject<Ref>("rdisabled");
+const ldisabled = inject<Ref>(ProvideKey.L_DISABLED);
+const rdisabled = inject<Ref>(ProvideKey.R_DISABLED);
 const worksList = shallowRef(await WorksApi.getList(1));
 const indexImgs = EcyConfig.__ECY_CONFIG__.covers.index;
 const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works;
@@ -48,7 +48,7 @@ onMounted(() => {
   <div class="welcome relative h-100vh w-100vw">
     <div class="z-999 absolute bottom-15vh left-0 f-c-c w-100vw">
       <div class="w-10 h-10 hover" @click="toStartNail">
-        <i-ep-arrow-down-bold class="arrow size-1.5rem hover" />
+        <i-ep-arrow-down-bold class="arrow hover" />
       </div>
     </div>
     <div class="z-999 absolute bottom-0 left-0 h-75px w-100% flow-hidden">
@@ -100,6 +100,7 @@ onMounted(() => {
   }
 
   .arrow {
+    font-size: 1.5rem;
     animation: move-arrow 1s infinite linear alternate;
   }
 
