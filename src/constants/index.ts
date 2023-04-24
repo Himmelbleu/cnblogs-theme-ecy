@@ -1,6 +1,4 @@
 export enum ProvideKey {
-  L_DISABLED = "ldisabled",
-  R_DISABLED = "rdisabled",
   CATALOG_DISABLED = "catalogDisabled"
 }
 

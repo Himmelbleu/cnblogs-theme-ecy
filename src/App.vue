@@ -4,9 +4,25 @@ const ldisabled = ref(true);
 const rdisabled = ref(true);
 const catalogDisabled = ref(!EcyConfig.pcDevice);
 
-provide(ProvideKey.L_DISABLED, ldisabled);
-provide(ProvideKey.R_DISABLED, rdisabled);
 provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
+
+onMounted(() => {
+  const eleL = document.getElementById("l-ldisabled");
+  const eleR = document.getElementById("l-rdisabled");
+
+  eleL.addEventListener("mouseover", () => {
+    ldisabled.value = !ldisabled.value;
+  });
+
+  eleR.addEventListener("mouseover", () => {
+    rdisabled.value = !rdisabled.value;
+  });
+
+  document.getElementById("l-matte").addEventListener("click", () => {
+    if (!ldisabled.value) ldisabled.value = true;
+    else if (!rdisabled.value) rdisabled.value = true;
+  });
+});
 
 watch(route, async () => {
   if (route.name === RouterName.INDEX) {
@@ -36,7 +52,9 @@ watch(route, async () => {
     <div id="l-bottom-nail"></div>
   </div>
   <ToolKits />
+  <div id="l-ldisabled" class="z-99 h-100vw w-4 fixed left-0 top-0"></div>
   <LeftMenu :disabled="ldisabled" />
+  <div id="l-rdisabled" class="z-99 h-100vw w-4 fixed right-0 top-0"></div>
   <RightMenu :disabled="rdisabled" />
 </template>
 
