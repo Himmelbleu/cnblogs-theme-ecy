@@ -11,19 +11,32 @@ const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works;
 const imgsIndex = shallowRef();
 
 async function fetchData() {
+  let fetchDataPromise;
   EcyUtils.startLoading();
 
-  if (archiveMode === "a") {
-    archiveWorks.value = await WorksApi.getListByArchive(`${archiveDate}`, "article");
-  } else if (archiveMode === "p") {
-    archiveWorks.value = await WorksApi.getListByArchive(`${archiveDate}`, "works");
-  } else if (archiveMode === "d") {
-    archiveWorks.value = await WorksApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
+  switch (archiveMode) {
+    case "a":
+      fetchDataPromise = WorksApi.getListByArchive(`${archiveDate}`, "article");
+      break;
+    case "p":
+      fetchDataPromise = WorksApi.getListByArchive(`${archiveDate}`, "works");
+      break;
+    case "d":
+      fetchDataPromise = WorksApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
+      break;
+    default:
+      fetchDataPromise = Promise.reject(new Error("Invalid archive mode provided."));
   }
 
-  imgsIndex.value = EcyUtils.Random.get(worksImgs, archiveWorks.value.data.length);
-  EcyUtils.setTitle(archiveWorks.value.hint);
-  EcyUtils.endLoading();
+  try {
+    archiveWorks.value = await fetchDataPromise;
+    imgsIndex.value = EcyUtils.Random.get(worksImgs, archiveWorks.value.data.length);
+    EcyUtils.setTitle(archiveWorks.value.hint);
+  } catch (error) {
+    ElMessage.error(error);
+  } finally {
+    EcyUtils.endLoading();
+  }
 }
 
 await fetchData();

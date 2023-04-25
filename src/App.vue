@@ -9,6 +9,7 @@ provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
 onMounted(() => {
   const eleL = document.getElementById("l-ldisabled");
   const eleR = document.getElementById("l-rdisabled");
+  const eleMatte = document.getElementById("l-matte");
 
   eleL.addEventListener("mouseover", () => {
     ldisabled.value = !ldisabled.value;
@@ -18,9 +19,12 @@ onMounted(() => {
     rdisabled.value = !rdisabled.value;
   });
 
-  document.getElementById("l-matte").addEventListener("click", () => {
-    if (!ldisabled.value) ldisabled.value = true;
-    else if (!rdisabled.value) rdisabled.value = true;
+  eleMatte.addEventListener("click", () => {
+    if (!ldisabled.value) {
+      ldisabled.value = true;
+    } else if (!rdisabled.value) {
+      rdisabled.value = true;
+    }
   });
 });
 
