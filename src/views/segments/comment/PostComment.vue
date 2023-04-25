@@ -22,8 +22,8 @@ function uploadImage(el: string) {
 }
 
 async function AddComment() {
+  loading.value = true;
   if (comment.value.body) {
-    loading.value = true;
     const data = await CommentApi.insert(comment.value);
     if (data.isSuccess) {
       const count = await CommentApi.getCount(props.postId);
@@ -34,8 +34,8 @@ async function AddComment() {
     } else {
       ElMessage({ message: "发送评论失败！", grouping: true, type: "error" });
     }
-    loading.value = false;
   } else ElMessage({ message: "评论字数不够！", grouping: true, type: "error" });
+  loading.value = false;
 }
 </script>
 

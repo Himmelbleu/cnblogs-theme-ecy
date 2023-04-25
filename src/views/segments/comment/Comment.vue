@@ -8,17 +8,15 @@ const props = defineProps({
 
 const level = ref();
 const { anchor } = storeToRefs(useAnchorStore());
+const comments = shallowRef();
 const pageCount = ref(await CommentApi.getCount(props.postId));
 const currIndex = ref(1);
-const comments = ref(await CommentApi.getList(props.postId, 0, anchor.value));
 
-watch(level, () => {
-  document.querySelector(`#level-${anchor.value}`).scrollIntoView();
-});
-
-async function paginationChange() {
-  comments.value = await CommentApi.getList(props.postId, currIndex.value);
+async function fetchData() {
+  comments.value = await CommentApi.getList(props.postId, currIndex.value, anchor.value);
 }
+
+await fetchData();
 
 function onPost(response: any) {
   comments.value = response.comments;
@@ -34,6 +32,14 @@ function onEdFinish(response: any) {
   comments.value = response.comments;
   pageCount.value = response.count;
 }
+
+watch(level, () => {
+  document.querySelector(`#level-${anchor.value}`).scrollIntoView();
+});
+
+defineExpose({
+  fetchData
+});
 </script>
 
 <template>
@@ -82,16 +88,12 @@ function onEdFinish(response: any) {
         <EditComment @on-finish="onEdFinish" :post-id="postId" :curr-page-index="currIndex" :comment="item" />
         <AnswerComment @on-finish="onReFinish" :post-id="postId" :curr-page-index="currIndex" :comment="item" />
       </div>
-      <div class="mt-10 f-c-e" v-if="comments.length && pageCount > 1">
-        <el-pagination
-          @current-change="paginationChange"
-          layout="prev, pager, next"
-          v-model:current-page="currIndex"
-          :page-count="pageCount" />
+      <div class="mt-10 f-c-e" v-if="pageCount > 1">
+        <el-pagination @current-change="fetchData" layout="prev, pager, next" v-model:current-page="currIndex" :page-count="pageCount" />
       </div>
     </div>
     <el-empty v-else-if="EcyConfig.isLogin && !comments?.length" description="来一条友善的评论吧~" />
-    <el-empty v-else-if="!EcyConfig.isLogin" description="你没有登录或没有申请博客权限~" />
+    <el-empty v-else description="你没有登录或没有申请博客权限~" />
   </div>
 </template>
 

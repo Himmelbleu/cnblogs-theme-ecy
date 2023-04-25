@@ -12,9 +12,10 @@ let worksId = route.params.id as string;
 const coverFilter = EcyConfig.__ECY_CONFIG__.covers.filter.works;
 const coverMatte = EcyConfig.__ECY_CONFIG__.covers.matte.works;
 const fontFamily = EcyConfig.__ECY_CONFIG__.font.code || `var(--el-font-family)`;
+const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works;
+const eleComments = ref();
 
 const getCoverImg = computed(() => {
-  const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works || ["https://img.tt98.com/d/file/tt98/201909171800581/001.jpg"];
   return worksImgs[Math.floor(Math.random() * worksImgs.length)];
 });
 
@@ -25,8 +26,8 @@ async function fetchData() {
   props.value = await WorksApi.getProps(worksId);
   prevNext.value = await WorksApi.getPrevNext(worksId);
   viewPoint.value = await WorksApi.getViewPoint(worksId);
-
   isLocked.value = works.value.isLocked;
+
   EcyUtils.setTitle(works.value.text);
 }
 
@@ -55,6 +56,7 @@ watch(route, async () => {
   if (route.name === RouterName.WORKS) {
     worksId = route.params.id as string;
     await fetchData();
+    await eleComments.value.fetchData();
     EcyUtils.endLoading();
   }
 });
@@ -64,7 +66,7 @@ onMounted(() => {
 
   if (anchor) {
     setTimeout(() => {
-      document.querySelector(`#${anchor[0].replace("#", "")}`).scrollIntoView();
+      document.getElementById(`#${anchor[0].replace("#", "")}`).scrollIntoView();
     }, 500);
   }
 
@@ -189,7 +191,7 @@ onMounted(() => {
             </el-button>
           </div>
         </div>
-        <Comment :post-id="worksId" />
+        <Comment :post-id="worksId" ref="eleComments" />
       </div>
       <div v-if="isLocked">
         <div class="modal fixed w-100vw h-100vh top-0 left-0 l-back-bg f-c-c z-999999">
