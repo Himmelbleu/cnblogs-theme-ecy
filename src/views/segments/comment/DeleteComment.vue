@@ -7,7 +7,7 @@ const props = defineProps({
     required: true
   },
   comments: {
-    type: Object as PropType<any>,
+    type: Array as PropType<CustType.IComment[]>,
     required: true
   },
   itemIndex: {
@@ -26,7 +26,7 @@ async function confirmDeleteComment() {
     parentId: parseInt(props.postId)
   });
   if (data) {
-    props.comments?.splice(props.itemIndex, 1);
+    props.comments.splice(props.itemIndex, 1);
     ElMessage({ message: "删除评论成功！", grouping: true, type: "success" });
   } else {
     ElMessage({ message: "这不是你的评论，没有权限删除！", grouping: true, type: "error" });

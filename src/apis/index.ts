@@ -208,7 +208,7 @@ export namespace CommentApi {
    *
    * @param comment 评论实体
    */
-  export async function del(comment: BlogType.IComment) {
+  export async function del(comment: BlogType.IComment): Promise<boolean> {
     const { data } = await sendAwaitPost(`/ajax/comment/DeleteComment.aspx`, comment);
     return data;
   }

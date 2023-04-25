@@ -147,8 +147,10 @@ function useVHighslide(el: HTMLElement) {
     eleTip.setAttribute("class", "l-color-2 l-size-2 mt-2");
     eleTip.innerText = images[i].alt;
 
-    images[i].parentElement.classList.add("f-c-c", "flex-col");
-    images[i].parentElement.insertAdjacentElement("beforeend", eleTip);
+    if (images[i].parentElement.tagName === "P") {
+      images[i].parentElement.setAttribute("class", "f-c-c flex-col");
+      images[i].parentElement.insertAdjacentElement("beforeend", eleTip);
+    }
 
     const eleHighslide = document.getElementsByClassName("l-highslide")[0];
     const eleHighslideImage = eleHighslide.querySelector<HTMLImageElement>(".l-highslide__img");

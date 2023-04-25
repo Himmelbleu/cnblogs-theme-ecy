@@ -8,7 +8,7 @@ const props = defineProps({
 
 const level = ref();
 const { anchor } = storeToRefs(useAnchorStore());
-const comments = shallowRef();
+const comments = ref();
 const pageCount = ref(await CommentApi.getCount(props.postId));
 const currIndex = ref(1);
 
