@@ -197,17 +197,22 @@ export namespace EcyUtils {
   }
 
   export namespace Parser {
+    function fixed(trimed: string, suffix?: string, uint?: number, fix?: number) {
+      const result = (Number(trimed) / uint || 1000).toFixed(fix || 2);
+      return `${result}${suffix || ""}`;
+    }
+
     /**
      * 把一串数字转换为“xx万”的形式
      *
      * @param num 被格式化的数字
      */
     export function unit(num: string): string {
-      const trimedNum = num.trim();
-      if (trimedNum.length < 5) {
-        return (Number(trimedNum) / 1000).toFixed(2);
-      } else if (trimedNum.length >= 5 && trimedNum.length <= 7) {
-        return (Number(trimedNum) / 10000).toFixed(2) + "万";
+      const trimed = num.trim();
+      if (trimed.length < 5) {
+        return fixed(trimed);
+      } else if (trimed.length >= 5 && trimed.length <= 7) {
+        return fixed(trimed, "万", 10000);
       }
     }
   }
@@ -232,6 +237,27 @@ export namespace EcyUtils {
         source = source.replace(regExps[i], substitute);
       }
       return source;
+    }
+
+    /**
+     * 循环分割字符串，得到最后结果
+     *
+     * @param str 源字符串
+     * @param regex 从字符串中匹配想要的再进行切割
+     * @param keys 对每一次 match 得到的子串进行索引，即取值
+     * @param values 每一次 match 得到的子串
+     * @returns 从 str 经过多次 split 得到的子串
+     */
+    export function split(str: string, regex: RegExp, keys: number[], values: string[]) {
+      let matched;
+      if (keys.length !== values.length) return "";
+      if (str.match(regex)) {
+        matched = str.match(regex)[0];
+        for (let i = 0; i < keys.length; i++) {
+          matched = matched.split(values[i])[keys[i]];
+        }
+      }
+      return matched;
     }
   }
 

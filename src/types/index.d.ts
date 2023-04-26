@@ -288,6 +288,7 @@ declare namespace EcyUtils {
 
   namespace Text {
     function replace(source: string, regExps: RegExp[], replacement?: string[]): string;
+    function split(str: string, regex: RegExp, keys: number[], values: string[]): string;
   }
 
   namespace Router {

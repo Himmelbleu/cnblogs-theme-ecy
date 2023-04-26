@@ -61,11 +61,42 @@ export const routes = [
 ];
 
 /**
+ * 针对于博客园的路由匹配规则
+ */
+const blogRoutingRules = [
+  {
+    regex: RouterRegx.WORKS,
+    name: RouterName.WORKS,
+    params: { id: EcyUtils.Text.split(window.location.href, RouterRegx.WORKS, [2, 0], ["/", "."]) },
+    before: addWorksAnchors
+  },
+  {
+    regex: RouterRegx.WORKS_BY_SORT,
+    name: RouterName.WORKS_BY_SORT,
+    params: { id: EcyUtils.Text.split(window.location.href, RouterRegx.WORKS_BY_SORT, [2, 0], ["/", "."]) }
+  },
+  {
+    regex: RouterRegx.WORKS_BY_MARK,
+    name: RouterName.WORKS_BY_MARK,
+    params: { tag: EcyUtils.Text.split(decodeURI(window.location.href), RouterRegx.WORKS_BY_MARK, [2], ["/"]) }
+  },
+  {
+    regex: RouterRegx.ALBUMN_ITEM,
+    name: RouterName.ALBUMN_ITEM,
+    params: { id: EcyUtils.Text.split(window.location.href, RouterRegx.ALBUMN_ITEM, [3], ["/"]) }
+  },
+  {
+    regex: RouterRegx.ARTICLES,
+    name: RouterName.WORKS,
+    params: { id: EcyUtils.Text.split(window.location.href, RouterRegx.ARTICLES, [2, 0], ["/", "."]) }
+  }
+];
+
+/**
  * 从评论链接点击进入时，获取其携带的评论锚点位置
  */
-function addCommentAnchor(URL: string) {
-  const regex = /#\/\d+/g;
-  const result = regex.exec(URL);
+function addWorksAnchors(URL: string) {
+  const result = /#\/\d+/g.exec(URL);
   if (result !== null) {
     const anchor = result[0].split("#/")[1];
     useAnchorStore().setAnchor(anchor);
@@ -76,70 +107,23 @@ function push() {
   window.history.pushState("", "", `${window.location.protocol}//${window.location.host}/${EcyConfig.blogApp}/#/`);
 }
 
-function split(str: string, regex: RegExp, keys: number[], values: string[]) {
-  let matched;
-  if (keys.length !== values.length) return "";
-  if (str.match(regex)) {
-    matched = str.match(regex)[0];
-    for (let i = 0; i < keys.length; i++) {
-      matched = matched.split(values[i])[keys[i]];
-    }
-  }
-  return matched;
-}
-
 /**
  * 对原博客链接进行重写并提取重要信息。
  *
- * 比如文章页，地址是 https://www.cnblogs.com/Himmelbleu/p/11111.html。Vue Router 要的不是这样的 URL，而是 hash URL，
- * 提取该 URL 中重要信息，如随笔的 ID：11111，得到之后创建 guardNext，让 next 函数导入对应的路由组件。
- *
- * 如果进入的就是路由组件的 URL，则不需要进行上诉操作。
+ * 比如，https://www.cnblogs.com/Himmelbleu/p/11111.html。要对该地址进行转换，得到一个 Vue Router 认识的 hash URL，
+ * 需要该地址中 11111，即作品的 ID，通过 blogRoutingRules 博客园路由匹配规则获取。
  *
  * @param next NavigationGuardNext
  */
 export function redirect(next: NavigationGuardNext) {
-  const URL = window.location.href;
-  const routerList = [
-    {
-      regex: RouterRegx.WORKS,
-      name: RouterName.WORKS,
-      params: { id: split(URL, RouterRegx.WORKS, [2, 0], ["/", "."]) },
-      before: addCommentAnchor
-    },
-    {
-      regex: RouterRegx.WORKS_BY_SORT,
-      name: RouterName.WORKS_BY_SORT,
-      params: { id: split(URL, RouterRegx.WORKS_BY_SORT, [2, 0], ["/", "."]) }
-    },
-    {
-      regex: RouterRegx.WORKS_BY_MARK,
-      name: RouterName.WORKS_BY_MARK,
-      params: { tag: split(decodeURI(URL), RouterRegx.WORKS_BY_MARK, [2], ["/"]) }
-    },
-    {
-      regex: RouterRegx.ALBUMN_ITEM,
-      name: RouterName.ALBUMN_ITEM,
-      params: { id: split(URL, RouterRegx.ALBUMN_ITEM, [3], ["/"]) }
-    },
-    {
-      regex: RouterRegx.ARTICLES,
-      name: RouterName.WORKS,
-      params: { id: split(URL, RouterRegx.ARTICLES, [2, 0], ["/", "."]) }
-    }
-  ];
+  const matched = blogRoutingRules.find(router => router.regex.test(window.location.href));
 
-  const matchedRouter = routerList.find(router => {
-    const result = router.regex.test(URL);
-    return result;
-  });
-
-  if (matchedRouter) {
-    matchedRouter.before && matchedRouter.before(URL);
+  if (matched) {
+    matched.before && matched.before(window.location.href);
     push();
     next({
-      name: matchedRouter.name,
-      params: matchedRouter.params
+      name: matched.name,
+      params: matched.params
     });
   } else next();
 }
