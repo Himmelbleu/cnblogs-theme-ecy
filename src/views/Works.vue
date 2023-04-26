@@ -69,7 +69,7 @@ onMounted(() => {
 
   if (anchor) {
     setTimeout(() => {
-      document.getElementById(`#${anchor[0].replace("#", "")}`).scrollIntoView();
+      EcyUtils.scrollIntoView(`#${anchor[0].replace("#", "")}`);
     }, 500);
   }
 
@@ -119,7 +119,7 @@ await fetchData();
                 line="dotted"
                 hover
                 round
-                @click="EcyUtils.Router.go({ path: RouterPath.WORKS_BY_SORT('p', item.href), router: $router })">
+                @click="EcyUtils.Router.go({ path: RouterPath.WORKS_BY_SORT(item.href), router: $router })">
                 {{ item.text }}
               </HollowedBox>
             </div>

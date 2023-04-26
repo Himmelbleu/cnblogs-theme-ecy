@@ -134,6 +134,7 @@ declare namespace CustType {
     desc?: string;
     // 子分类描述
     desc2?: string;
+    isArticle?: boolean;
   }
 
   /**
@@ -145,9 +146,9 @@ declare namespace CustType {
   }
 
   /**
-   * 分类子分类
+   * 二级分类
    */
-  interface IWorksSortChild {
+  interface IWorksL2 {
     id: string;
     text: string;
   }
@@ -270,6 +271,7 @@ declare namespace EcyUtils {
   function openImageUploadWindow(el: string, onUploaded: (img: string) => void): void;
   function reloadObjProps(source: CustType.ILocalSetting, template: CustType.ILocalSetting): CustType.ILocalSetting;
   function setTitle(title?: string);
+  function scrollIntoView(selector: string);
 
   namespace Random {
     function get(src: string[], max?: number): number[];

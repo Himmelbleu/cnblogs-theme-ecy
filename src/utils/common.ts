@@ -144,6 +144,10 @@ export namespace EcyUtils {
     document.getElementsByTagName("title")[0].innerText = `${prefix}${EcyConfig.blogApp} - 博客园`;
   }
 
+  export function scrollIntoView(selector: string) {
+    document.querySelector(selector).scrollIntoView();
+  }
+
   export namespace Random {
     function select(min: number, max: number) {
       let sum = max - min + 1;

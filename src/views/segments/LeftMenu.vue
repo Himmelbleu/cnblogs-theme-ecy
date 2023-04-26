@@ -129,7 +129,7 @@ const hidden = computed(() => {
                   class="hover"
                   :class="{ 'mb-1': index != columnList.essaySort.length - 1 }"
                   v-for="(item, index) in columnList.essaySort">
-                  <router-link :to="RouterPath.WORKS_BY_SORT('p', item.id)">
+                  <router-link :to="RouterPath.WORKS_BY_SORT(item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>
@@ -157,7 +157,7 @@ const hidden = computed(() => {
                   class="hover"
                   :class="{ 'mb-1': index != columnList.articleSort.length - 1 }"
                   v-for="(item, index) in columnList.articleSort">
-                  <router-link :to="RouterPath.WORKS_BY_SORT('a', item.id)">
+                  <router-link :to="RouterPath.WORKS_BY_SORT(item.id)">
                     {{ item.text }}
                   </router-link>
                 </div>

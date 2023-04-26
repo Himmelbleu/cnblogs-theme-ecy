@@ -62,7 +62,6 @@ export const routes = [
 
 /**
  * 从评论链接点击进入时，获取其携带的评论锚点位置
- * @param URL 从评论点击过来的链接
  */
 function addCommentAnchor(URL: string) {
   const regex = /#\/\d+/g;
@@ -77,6 +76,18 @@ function push() {
   window.history.pushState("", "", `${window.location.protocol}//${window.location.host}/${EcyConfig.blogApp}/#/`);
 }
 
+function split(str: string, regex: RegExp, keys: number[], values: string[]) {
+  let matched;
+  if (keys.length !== values.length) return "";
+  if (str.match(regex)) {
+    matched = str.match(regex)[0];
+    for (let i = 0; i < keys.length; i++) {
+      matched = matched.split(values[i])[keys[i]];
+    }
+  }
+  return matched;
+}
+
 /**
  * 对原博客链接进行重写并提取重要信息。
  *
@@ -86,51 +97,49 @@ function push() {
  * 如果进入的就是路由组件的 URL，则不需要进行上诉操作。
  *
  * @param next NavigationGuardNext
- * @returns 返回一个函数，在合适的时候执行，而非调用该函数就执行后续操作
  */
-export function redirect(next: any): () => void {
-  let nextParam: any;
+export function redirect(next: NavigationGuardNext) {
   const URL = window.location.href;
-
-  if (RouterRegx.WORKS.test(URL)) {
-    const postId = URL.match(RouterRegx.WORKS)[0].split("/")[2].split(".")[0];
-    addCommentAnchor(URL);
-    nextParam = {
+  const routerList = [
+    {
+      regex: RouterRegx.WORKS,
       name: RouterName.WORKS,
-      params: { id: postId }
-    };
-  } else if (RouterRegx.WORKS_BY_SORT.test(URL)) {
-    const sortId = URL.match(RouterRegx.WORKS_BY_SORT)[0].split("/")[2].split(",")[0];
-    nextParam = {
+      params: { id: split(URL, RouterRegx.WORKS, [2, 0], ["/", "."]) },
+      before: addCommentAnchor
+    },
+    {
+      regex: RouterRegx.WORKS_BY_SORT,
       name: RouterName.WORKS_BY_SORT,
-      params: { id: sortId }
-    };
-  } else if (RouterRegx.WORKS_BY_MARK.test(URL)) {
-    const tag = decodeURI(URL).match(RouterRegx.WORKS_BY_MARK)[0].split("/")[2];
-    nextParam = {
+      params: { id: split(URL, RouterRegx.WORKS_BY_SORT, [2, 0], ["/", "."]) }
+    },
+    {
+      regex: RouterRegx.WORKS_BY_MARK,
       name: RouterName.WORKS_BY_MARK,
-      params: { tag }
-    };
-  } else if (RouterRegx.ALBUMN_ITEM.test(URL)) {
-    const id = URL.match(RouterRegx.ALBUMN_ITEM)[0].split("/")[3];
-    nextParam = {
+      params: { tag: split(decodeURI(URL), RouterRegx.WORKS_BY_MARK, [2], ["/"]) }
+    },
+    {
+      regex: RouterRegx.ALBUMN_ITEM,
       name: RouterName.ALBUMN_ITEM,
-      params: { id }
-    };
-  } else if (RouterRegx.ARTICLES.test(URL)) {
-    const id = URL.match(RouterRegx.ARTICLES)[0].split("/")[2].split(".")[0];
-    nextParam = {
+      params: { id: split(URL, RouterRegx.ALBUMN_ITEM, [3], ["/"]) }
+    },
+    {
+      regex: RouterRegx.ARTICLES,
       name: RouterName.WORKS,
-      params: { id }
-    };
-  }
-
-  return function () {
-    if (nextParam && Object.keys(nextParam).length > 0) {
-      push();
-      next(nextParam);
-    } else {
-      next();
+      params: { id: split(URL, RouterRegx.ARTICLES, [2, 0], ["/", "."]) }
     }
-  };
+  ];
+
+  const matchedRouter = routerList.find(router => {
+    const result = router.regex.test(URL);
+    return result;
+  });
+
+  if (matchedRouter) {
+    matchedRouter.before && matchedRouter.before(URL);
+    push();
+    next({
+      name: matchedRouter.name,
+      params: matchedRouter.params
+    });
+  } else next();
 }
