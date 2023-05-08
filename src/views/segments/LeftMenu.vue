@@ -227,7 +227,7 @@ const hidden = computed(() => {
                   我的相册
                 </template>
                 <div :class="{ 'mb-2': index != columnList.albumn.length - 1 }" v-for="(item, index) in columnList.albumn" :key="index">
-                  <router-link class="hover" :to="'/albumn/' + item.id">{{ item.text }}</router-link>
+                  <router-link class="hover" :to="RouterPath.ALBUMN(item.id)">{{ item.text }}</router-link>
                 </div>
               </el-collapse-item>
             </el-collapse>

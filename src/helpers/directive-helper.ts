@@ -6,7 +6,7 @@ hljs.configure({
 });
 
 function createCodeModal(ele: HTMLElement) {
-  const height = parseInt(ele.style.height);
+  const height = Number(ele.offsetHeight);
 
   if (height >= 380) {
     const eleModal = document.createElement("div");
@@ -23,7 +23,8 @@ function createCodeModal(ele: HTMLElement) {
       eleModal.style.display = "none";
     });
 
-    eleModal.insertAdjacentElement("beforebegin", eleClick);
+    eleModal.append(eleClick);
+    ele.insertAdjacentElement("beforebegin", eleModal);
   }
 }
 

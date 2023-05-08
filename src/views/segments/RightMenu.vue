@@ -20,7 +20,7 @@ const hidden = computed(() => {
     id="l-rmenu"
     class="noscroll z-9999 l-size-2 h-100vh flow-auto fixed top-0 right-0 l-back-bg p-3 w-17.5rem"
     :class="{ 'show-rcabinet ': block, 'hidden-rcabinet': hidden }">
-    <ExpandableBox text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.cabinet.links && EcyConfig.__ECY_CONFIG__.cabinet.links.length">
+    <ExpandableBox text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.cabinet.links?.length">
       <template #icon>
         <i-ep-link />
       </template>
@@ -28,7 +28,7 @@ const hidden = computed(() => {
         {{ item.text }}
       </a>
     </ExpandableBox>
-    <ExpandableBox text="推荐书籍" v-if="EcyConfig.__ECY_CONFIG__.cabinet.books && EcyConfig.__ECY_CONFIG__.cabinet.books.length">
+    <ExpandableBox text="推荐书籍" v-if="EcyConfig.__ECY_CONFIG__.cabinet.books?.length">
       <template #icon>
         <i-ep-notebook />
       </template>

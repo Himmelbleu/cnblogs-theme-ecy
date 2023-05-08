@@ -312,7 +312,7 @@ export namespace EcyConfig {
     } else return false;
   }
 
-  function initSetting() {
+  function loadedEcy() {
     const setting = EcyUtils.getLocalSetting().value;
     const strings = JSON.stringify(EcyUtils.reloadObjProps(setting, EcyUtils.getLocalSettingTemp()));
     localStorage.setItem(`l-${blogApp}-setting`, strings);
@@ -322,13 +322,13 @@ export namespace EcyConfig {
     document.querySelector("html").style.setProperty("--l-font-family", fontFamily);
   }
 
-  function beforeUseLiteInsertElement() {
+  function beforeUseEcy() {
     const eleApp = document.createElement("div");
     eleApp.setAttribute("id", "app");
     document.body.append(eleApp);
   }
 
-  function afterUseLiteInsertElement() {
+  function afterUseEcy() {
     const eleIconLink = document.createElement("link");
     eleIconLink.rel = "shortcut icon";
     eleIconLink.href = __ECY_CONFIG__.icon;
@@ -341,7 +341,7 @@ export namespace EcyConfig {
    * @param pro 生产模式下，打包部署之后，给 window 注册一个函数，等待博客园资源加载完成之后再挂载 app。
    */
   export function useLite(dev: Function, pro: Function) {
-    beforeUseLiteInsertElement();
+    beforeUseEcy();
 
     if (import.meta.env.PROD) {
       blogId = currentBlogId;
@@ -353,12 +353,11 @@ export namespace EcyConfig {
       isFollow = getIsFollow();
       // @ts-ignore
       __ECY_CONFIG__ = window["__ECY_CONFIG__"];
-      initSetting();
+      loadedEcy();
       pro();
     } else if (import.meta.env.DEV) {
       blogId = import.meta.env.VITE_BLOG_ID;
       blogApp = import.meta.env.VITE_BLOG_APP;
-      EcyConfig.blogApp = import.meta.env.VITE_BLOG_APP;
       baseAPI = "/api";
       __ECY_CONFIG__ = {
         cabinet: {},
@@ -416,11 +415,11 @@ export namespace EcyConfig {
           main: ""
         }
       };
-      initSetting();
+      loadedEcy();
       dev();
     }
 
-    afterUseLiteInsertElement();
+    afterUseEcy();
     EcyUtils.Log.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
     EcyUtils.Log.primary("v1.3.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
   }
