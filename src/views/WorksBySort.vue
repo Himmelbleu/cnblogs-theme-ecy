@@ -28,7 +28,7 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div id="l-sort" class="min-height page">
+  <div id="l-works-by-sort" class="page">
     <div class="content">
       <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="typeL1Works.page" :disabled="!typeL1Works.data.length">
         <template #content>
@@ -42,8 +42,8 @@ watch(route, async () => {
               <div class="l-size-5 mb-5 mt-4">{{ typeL1Works.hint }}</div>
             </template>
           </el-page-header>
-          <div class="l-sort__desc mb-10 l-size-2 l-color-3" v-html="typeL1Works.desc2 || typeL1Works.desc"></div>
-          <div class="l-sort__child l-size-2" v-if="typeL2Works.length > 0">
+          <div class="mb-10 l-size-2 l-color-3" v-html="typeL1Works.desc2 || typeL1Works.desc"></div>
+          <div class="l-size-2" v-if="typeL2Works.length > 0">
             <div class="hover f-c-s" v-for="(item, index) in typeL2Works" :class="{ 'mb-3': index != typeL2Works.length - 1 }">
               <span class="mr-2">📁</span>
               <router-link :to="RouterPath.WORKS_BY_SORT(item.id)">{{ item.text }}</router-link>

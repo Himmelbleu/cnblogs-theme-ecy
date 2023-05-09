@@ -444,7 +444,7 @@ export function parseMasterData(dom: Document): CustType.IMenuItemData[] {
 /**
  * 解析侧边栏博客排行信息。
  */
-export function parseCabinetRankList(dom: string): CustType.IMenuItemData[] {
+export function parseMenuRankList(dom: string): CustType.IMenuItemData[] {
   const data: CustType.IMenuItemData[] = [];
   const eles = parseDOM(dom).querySelectorAll("li");
 

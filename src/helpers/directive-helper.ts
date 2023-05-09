@@ -13,7 +13,7 @@ function createCodeModal(ele: HTMLElement) {
     eleModal.setAttribute("class", "modal f-c-c rd-2");
 
     const eleClick = document.createElement("div");
-    eleClick.setAttribute("class", "l-size-2 l-color-3 hover");
+    eleClick.setAttribute("class", "l-size-2 l-color-2 hover");
     eleClick.innerText = "展开";
     ele.style.height = "380px";
 
@@ -45,7 +45,7 @@ function createCodeTools(ele: HTMLElement) {
   eleLang.innerText = lang;
 
   const eleTools = document.createElement("div");
-  eleTools.setAttribute("class", "code-tools f-c-e l-size-1 l-color-3 w-100%");
+  eleTools.setAttribute("class", "code-tools f-c-e l-size-1 l-color-2 w-100%");
   eleTools.append(eleClipboard, eleLang);
 
   eleClipboard.addEventListener("click", () => {

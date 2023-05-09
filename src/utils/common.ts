@@ -14,7 +14,7 @@ export namespace EcyUtils {
     return {
       theme: { mode: "dark" },
       toolkits: { pin: true },
-      cabinet: {
+      menu: {
         toggles: {
           我的技术栈: { open: true, show: true },
           博客信息: { open: true, show: true },
@@ -318,7 +318,7 @@ export namespace EcyConfig {
     localStorage.setItem(`l-${blogApp}-setting`, strings);
     document.documentElement.setAttribute("class", setting.theme.mode);
 
-    const fontFamily = EcyConfig.__ECY_CONFIG__.font.main || `var(--el-font-family)`;
+    const fontFamily = __ECY_CONFIG__.font.main || `var(--el-font-family)`;
     document.querySelector("html").style.setProperty("--l-font-family", fontFamily);
   }
 
@@ -360,7 +360,7 @@ export namespace EcyConfig {
       blogApp = import.meta.env.VITE_BLOG_APP;
       baseAPI = "/api";
       __ECY_CONFIG__ = {
-        cabinet: {},
+        menu: {},
         covers: {
           matte: {
             index: 0.15,

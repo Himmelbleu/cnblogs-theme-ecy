@@ -214,7 +214,7 @@ declare namespace CustType {
   type IEcy = Partial<{
     icon: string;
     avatar: string;
-    cabinet: Partial<{
+    menu: Partial<{
       links: { href: string; text: string }[];
       books: { href?: string; text: string; img: string; author: string; rate: number }[];
     }>;
@@ -254,7 +254,7 @@ declare namespace CustType {
   type ILocalSetting = Partial<{
     theme: { mode: "dark" | "light" };
     toolkits: { pin: boolean };
-    cabinet: {
+    menu: {
       toggles: Record<string, { open: boolean; show: boolean }>;
     };
   }>;

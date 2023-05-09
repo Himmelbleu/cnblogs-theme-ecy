@@ -12,8 +12,8 @@ const props = defineProps({
 });
 
 const title = `${props.text}`;
-if (!localSetting.value.cabinet.toggles[title]) {
-  localSetting.value.cabinet.toggles[title] = {
+if (!localSetting.value.menu.toggles[title]) {
+  localSetting.value.menu.toggles[title] = {
     open: true,
     show: true
   };
@@ -23,12 +23,12 @@ const content = ref();
 const height = ref();
 
 function toggle() {
-  if (localSetting.value.cabinet.toggles[title]?.open) {
+  if (localSetting.value.menu.toggles[title]?.open) {
     content.value.style.height = `${0}px`;
-    localSetting.value.cabinet.toggles[title].open = !localSetting.value.cabinet.toggles[title].open;
+    localSetting.value.menu.toggles[title].open = !localSetting.value.menu.toggles[title].open;
   } else {
     content.value.style.height = `${height.value}px`;
-    localSetting.value.cabinet.toggles[title].open = !localSetting.value.cabinet.toggles[title].open;
+    localSetting.value.menu.toggles[title].open = !localSetting.value.menu.toggles[title].open;
   }
 }
 
@@ -36,7 +36,7 @@ onMounted(() => {
   height.value = content.value.offsetHeight;
 
   if (!props.disabled) {
-    if (!localSetting.value.cabinet.toggles[title]?.open) {
+    if (!localSetting.value.menu.toggles[title]?.open) {
       content.value.style.height = `${0}px`;
     } else {
       content.value.style.height = `${height.value}px`;
@@ -46,7 +46,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="l-expbox mb-6" v-show="localSetting.cabinet.toggles[title]?.show">
+  <div class="l-expbox mb-6" v-show="localSetting.menu.toggles[title]?.show">
     <div class="title headtip mb-4 f-c-b l-size-5 l-color-1">
       <div class="f-c-s">
         <div class="f-c-c mr-1">
@@ -58,7 +58,7 @@ onMounted(() => {
         v-if="!disabled"
         @click="toggle"
         class="f-c-c opacity-70 hover"
-        :class="{ 'arrow-up': !localSetting.cabinet.toggles[title]?.open, 'arrow-down': localSetting.cabinet.toggles[title]?.open }">
+        :class="{ 'arrow-up': !localSetting.menu.toggles[title]?.open, 'arrow-down': localSetting.menu.toggles[title]?.open }">
         <div class="arrow f-c-c">
           <i-ep-arrow-down />
         </div>
