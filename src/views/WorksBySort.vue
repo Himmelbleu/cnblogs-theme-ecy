@@ -1,28 +1,25 @@
 <script setup lang="ts">
 import { WorksApi } from "@/apis";
+import { useLoading } from "@/hooks/comp-hooks";
 
 const route = useRoute();
-let sortId = route.params.id as string;
 const typeL2Works = shallowRef();
 const typeL1Works = shallowRef();
 const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works;
 const imgsIndex = shallowRef();
 
 async function fetchData(index?: any) {
-  EcyUtils.startLoading();
-  typeL1Works.value = await WorksApi.getByL1(`${sortId}`, index);
-  EcyUtils.endLoading();
-  typeL2Works.value = await WorksApi.getByL2(`${sortId}`, typeL1Works.value.isArticle);
+  typeL1Works.value = await WorksApi.getByL1(`${route.params.id}`, index);
+  typeL2Works.value = await WorksApi.getByL2(`${route.params.id}`, typeL1Works.value.isArticle);
   imgsIndex.value = EcyUtils.Random.get(worksImgs, typeL1Works.value.data.length);
   EcyUtils.setTitle(typeL1Works.value.hint);
 }
 
-await fetchData();
+useLoading(fetchData);
 
-watch(route, async () => {
+watch(route, () => {
   if (route.name === RouterName.WORKS_BY_SORT) {
-    sortId = route.params.id as string;
-    await fetchData();
+    useLoading(fetchData);
   }
 });
 </script>

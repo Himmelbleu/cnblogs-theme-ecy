@@ -15,7 +15,7 @@ const worksCovers = EcyConfig.__ECY_CONFIG__.covers.works;
 const eleComments = ref();
 let worksId = route.params.id as string;
 
-const getWorksCover = computed(() => {
+const calcWorksCover = computed(() => {
   return worksCovers[Math.floor(Math.random() * worksCovers.length)];
 });
 
@@ -82,7 +82,7 @@ await fetchData();
 <template>
   <div v-show="!worksIsLocked" class="reception works-head-panel relative h-50vh w-100vw">
     <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
-      <img class="h-100% w-100% rd-0" :src="getWorksCover" />
+      <img class="h-100% w-100% rd-0" :src="calcWorksCover" />
     </div>
     <div class="content z-999 absolute left-0 top-10vh w-100%">
       <div>

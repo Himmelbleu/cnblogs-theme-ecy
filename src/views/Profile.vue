@@ -1,10 +1,7 @@
 <script setup lang="ts">
-EcyUtils.setTitle("我的铭牌");
-EcyUtils.startLoading();
+import { useLoading } from "@/hooks/comp-hooks";
 
-onMounted(() => {
-  EcyUtils.endLoading();
-});
+useLoading();
 </script>
 
 <template>
