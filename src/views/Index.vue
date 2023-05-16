@@ -35,9 +35,9 @@ useLoading(fetchData);
   <div id="l-start-nail"></div>
   <div id="l-index" class="page">
     <div class="content" v-if="worksList">
-      <Pagination @prev="fetchData" @next="fetchData" @nexpr="fetchData" :count="worksList.page">
+      <pagination @prev="fetchData" @next="fetchData" @nexpr="fetchData" :count="worksList.page">
         <template #content>
-          <WorksItem
+          <works-item
             v-if="worksList.data.length > 0"
             v-for="(item, index) in worksList.data"
             :key="item.id"
@@ -45,7 +45,7 @@ useLoading(fetchData);
             :index="index"
             :cover="allCovers[coversIndex[index]]" />
         </template>
-      </Pagination>
+      </pagination>
     </div>
   </div>
 </template>

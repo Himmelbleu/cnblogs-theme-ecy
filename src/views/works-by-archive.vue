@@ -39,7 +39,7 @@ watch(route, () => {
 <template>
   <div id="l-works-by-archive" class="page">
     <div class="content" v-if="archiveWorks">
-      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveWorks.page">
+      <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveWorks.page">
         <template #content>
           <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
             <template #title>
@@ -59,7 +59,7 @@ watch(route, () => {
             :index="index"
             :cover="worksImgs[imgsIndex[index]]" />
         </template>
-      </Pagination>
+      </pagination>
     </div>
   </div>
 </template>

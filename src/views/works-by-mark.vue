@@ -30,7 +30,7 @@ watch(route, () => {
           <div class="l-size-5 mb-5 mt-4">{{ markWorks.hint }}</div>
         </template>
       </el-page-header>
-      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="markWorks.page">
+      <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="markWorks.page">
         <template #content>
           <div class="relative mb-15" v-for="item of markWorks.data">
             <div class="l-size-5">
@@ -62,7 +62,7 @@ watch(route, () => {
             </div>
           </div>
         </template>
-      </Pagination>
+      </pagination>
     </div>
   </div>
 </template>

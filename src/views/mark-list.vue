@@ -25,11 +25,11 @@ useLoading(fetchData);
         </template>
       </el-page-header>
       <div class="tags">
-        <HollowedBox round hover :padding="false" line="dotted" class="item mb-4" v-for="item of markList">
+        <hollowed-box round hover :padding="false" line="dotted" class="item mb-4" v-for="item of markList">
           <div class="f-c-c w-100% h-100%">
             <router-link :to="RouterPath.WORKS_BY_MARK(item.text)"> {{ item.text }} ({{ item.count }}) </router-link>
           </div>
-        </HollowedBox>
+        </hollowed-box>
       </div>
     </div>
   </div>

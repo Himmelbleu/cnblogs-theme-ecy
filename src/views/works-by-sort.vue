@@ -27,7 +27,7 @@ watch(route, () => {
 <template>
   <div id="l-works-by-sort" class="page">
     <div class="content">
-      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="typeL1Works.page" :disabled="!typeL1Works.data.length">
+      <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="typeL1Works.page" :disabled="!typeL1Works.data.length">
         <template #content>
           <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
             <template #title>
@@ -54,7 +54,7 @@ watch(route, () => {
             :index="index"
             :cover="worksImgs[imgsIndex[index]]" />
         </template>
-      </Pagination>
+      </pagination>
       <div class="mt-35" v-if="!typeL1Works.data.length">
         <el-result title="没有随笔" sub-title="该分类没有随笔，请点击查看子分类"> </el-result>
       </div>

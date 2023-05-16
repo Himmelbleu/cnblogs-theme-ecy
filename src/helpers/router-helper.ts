@@ -12,57 +12,57 @@ export const routes = <RouteRecordRaw[]>[
   {
     name: RouterName.INDEX,
     path: RouterPath.INDEX(),
-    component: () => import("@/views/Index.vue"),
+    component: () => import("@/views/index.vue"),
     meta: { title: "首页" }
   },
   {
     name: RouterName.PROFILE,
     path: RouterPath.PROFILE(),
-    component: () => import("@/views/Profile.vue"),
+    component: () => import("@/views/profile.vue"),
     meta: { title: "我的铭牌" }
   },
   {
     name: RouterName.WORKS,
     path: RouterPath.WORKS(),
-    component: () => import("@/views/Works.vue")
+    component: () => import("@/views/works.vue")
   },
   {
     name: RouterName.WORKS_BY_MARK,
     path: RouterPath.WORKS_BY_MARK(),
-    component: () => import("@/views/WorksByMark.vue")
+    component: () => import("@/views/works-by-mark.vue")
   },
   {
     name: RouterName.WORKS_BY_SORT,
     path: RouterPath.WORKS_BY_SORT(),
-    component: () => import("@/views/WorksBySort.vue")
+    component: () => import("@/views/works-by-sort.vue")
   },
   {
     name: RouterName.WORKS_BY_ARCHIVE,
     path: RouterPath.WORKS_BY_ARCHIVE(),
-    component: () => import("@/views/WorksByArchive.vue")
+    component: () => import("@/views/works-by-archive.vue")
   },
   {
     name: RouterName.WORKS_BY_CALENDAR,
     path: RouterPath.WORKS_BY_CALENDAR(),
-    component: () => import("@/views/WorksByCalendar.vue"),
+    component: () => import("@/views/works-by-calendar.vue"),
     meta: { title: "博客日历" }
   },
   {
     name: RouterName.MARK_LIST,
     path: RouterPath.MARK_LIST(),
-    component: () => import("@/views/MarkList.vue"),
+    component: () => import("@/views/mark-list.vue"),
     meta: { title: "标签集合" }
   },
   {
     name: RouterName.ALBUMN,
     path: RouterPath.ALBUMN(),
-    component: () => import("@/views/Albumn.vue"),
+    component: () => import("@/views/albumn.vue"),
     meta: { title: "相册" }
   },
   {
     name: RouterName.ALBUMN_ITEM,
     path: RouterPath.ALBUMN_ITEM(),
-    component: () => import("@/views/AlbumnItem.vue"),
+    component: () => import("@/views/albumn-item.vue"),
     meta: { title: "相册图片" }
   }
 ];
