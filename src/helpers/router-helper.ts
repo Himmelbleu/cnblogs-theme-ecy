@@ -118,7 +118,7 @@ export function redirect(next: NavigationGuardNext) {
 
   if (matched) {
     if (matched.before) matched.before();
-    window.history.pushState("", "", `${window.location.protocol}//${window.location.host}/${EcyConfig.blogApp}/#/`);
+    window.history.pushState("", "", `${window.location.protocol}//${window.location.host}/${EcyConfig.getBlogApp()}/#/`);
     next({
       name: matched.name,
       params: matched.params

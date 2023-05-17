@@ -27,7 +27,7 @@ function prevChange() {
   }
 }
 
-function nexprChange(elIndex: number) {
+function currentChange(elIndex: number) {
   index.value = elIndex;
   emits("nexpr", index.value);
 }
@@ -45,7 +45,7 @@ function nexprChange(elIndex: number) {
       <i-ep-arrow-right-bold />
     </div>
     <div v-if="count && !disabled" class="bottom f-c-e my-4">
-      <el-pagination layout="pager, next" :page-count="count" v-model:current-page="index" @current-change="nexprChange" />
+      <el-pagination layout="pager, next" :page-count="count" v-model:current-page="index" @current-change="currentChange" />
     </div>
   </div>
 </template>

@@ -34,7 +34,7 @@ MenuApi.getTopList().then(res => {
 });
 
 function search() {
-  window.open(`https://zzk.cnblogs.com/s?w=blog:${EcyConfig.blogApp}%${searchVal.value}`, "__blank");
+  window.open(`https://zzk.cnblogs.com/s?w=blog:${EcyConfig.getBlogApp()}%${searchVal.value}`, "__blank");
 }
 
 async function subscribe() {
@@ -70,7 +70,7 @@ const hidden = computed(() => {
           <img class="h-25 w-25 cursor-pointer rd-50" :src="EcyConfig.__ECY_CONFIG__.avatar" />
         </router-link>
       </div>
-      <div class="f-c-c mb-4" v-if="!EcyConfig.isOwner">
+      <div class="f-c-c mb-4" v-if="!isBlogOwner">
         <el-popconfirm @confirm="unsubscribe" confirm-button-text="确定" cancel-button-text="取消" title="确定取消关注？">
           <template #reference>
             <el-button v-if="EcyConfig.isFollow" type="danger" text bg> -取消关注 </el-button>

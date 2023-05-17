@@ -300,29 +300,33 @@ declare namespace EcyUtils {
  * Ecy 配置
  */
 declare namespace EcyConfig {
-  /**
-   * 博客配置项
-   */
   let __ECY_CONFIG__: CustType.IEcy;
-  let blogId: number;
-  /**
-   * axios API URL 前缀
-   */
-  let baseAPI: string;
-  /**
-   * 博客域名
-   */
-  let blogApp: string;
-  let isLogin: boolean;
-  let isOwner: boolean;
   let userGuid: string;
   let isFollow: boolean;
   let pcDevice: boolean;
 
+  function getBlogApp(): string;
+  function getBlogId(): number;
+  function getBaseURL(): string;
   function useLite(dev: Function, pro: Function);
 }
 
+/**
+ * 是否已登录
+ */
 declare const isLogined: boolean;
+
+/**
+ * 是否为博主
+ */
 declare const isBlogOwner: boolean;
+
+/**
+ * 博客 ID
+ */
 declare const currentBlogId: number;
+
+/**
+ * 博客域名
+ */
 declare const currentBlogApp: string;

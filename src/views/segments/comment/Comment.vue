@@ -8,12 +8,14 @@ const props = defineProps({
 
 const level = ref();
 const { anchor } = storeToRefs(useAnchorStore());
-const comments = ref();
-const pageCount = ref(await CommentApi.getCount(props.postId));
+
+const comments = ref<CustType.IComment[]>();
+const pageCount = ref(0);
 const currIndex = ref(1);
 
 async function fetchData() {
   comments.value = await CommentApi.getList(props.postId, currIndex.value, anchor.value);
+  pageCount.value = await CommentApi.getCount(props.postId);
 }
 
 await fetchData();
@@ -35,6 +37,7 @@ function onEdFinish(response: any) {
 
 watch(level, () => {
   document.querySelector(`#level-${anchor.value}`).scrollIntoView();
+  anchor.value = 0;
 });
 
 defineExpose({
@@ -46,7 +49,7 @@ defineExpose({
   <div class="l-comment">
     <post-comment :post-id="postId" @on-post="onPost" />
     <h3>评论列表</h3>
-    <div class="l-comment__list mt-10" v-if="EcyConfig.isLogin && comments?.length">
+    <div class="l-comment__list mt-10" v-if="isLogined && comments?.length">
       <div class="l-comment__main clearfix mb-12" v-for="(item, index) in comments" :key="item.commentId">
         <div class="l-comment__head f-c-s">
           <el-image class="l-comment__avatar mr-4 rd-50 w-14 h-14" :src="item.avatar" fit="fill" />
@@ -54,10 +57,15 @@ defineExpose({
             <div class="l-comment__author hover cursor-pointer" @click="EcyUtils.Router.go({ path: item.space })">
               {{ item.author }}
             </div>
-            <div class="l-comment__data l-size-2 l-color-2 mt-2 f-c-c">
-              <span :id="'level-' + item.commentId" class="mr-2 ref" v-if="anchor == item.commentId" ref="level">{{ item.layer }} </span>
-              <span :id="'level-' + item.commentId" class="mr-2" v-else>{{ item.layer }}</span>
-              {{ item.date }}
+            <div
+              class="l-comment__data l-size-2 l-color-2 mt-2 f-c-c"
+              :id="'level-' + item.commentId"
+              v-if="anchor == item.commentId"
+              ref="level">
+              {{ item.layer }} {{ item.date }}
+            </div>
+            <div class="l-comment__data l-size-2 l-color-2 mt-2 f-c-c" :id="'level-' + item.commentId" v-else>
+              {{ item.layer }} {{ item.date }}
             </div>
           </div>
         </div>
@@ -92,7 +100,7 @@ defineExpose({
         <el-pagination @current-change="fetchData" layout="prev, pager, next" v-model:current-page="currIndex" :page-count="pageCount" />
       </div>
     </div>
-    <el-empty v-else-if="EcyConfig.isLogin && !comments?.length" description="来一条友善的评论吧~" />
+    <el-empty v-else-if="isLogined && !comments?.length" description="来一条友善的评论吧~" />
     <el-empty v-else description="你没有登录或没有申请博客权限~" />
   </div>
 </template>

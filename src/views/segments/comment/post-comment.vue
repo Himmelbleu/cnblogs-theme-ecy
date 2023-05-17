@@ -56,7 +56,7 @@ async function AddComment() {
       <div class="z--1 opacity-0 absolute top-0 left-0">
         <textarea id="main-upload-img" />
       </div>
-      <el-button plain :disabled="!EcyConfig.isLogin" :loading="loading" @click="AddComment"> 发送评论 </el-button>
+      <el-button plain :disabled="!isLogined" :loading="loading" @click="AddComment"> 发送评论 </el-button>
     </div>
   </div>
 </template>

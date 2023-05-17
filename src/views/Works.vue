@@ -101,7 +101,7 @@ await fetchData();
             <span>{{ works.comm }}条评论</span>
           </div>
           <div
-            v-if="EcyConfig.isOwner"
+            v-if="isBlogOwner"
             class="f-c-c hover"
             @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + worksId })">
             <i-ep-edit-pen class="mr-1" />
@@ -150,7 +150,13 @@ await fetchData();
   <div id="l-works" class="page">
     <div class="content">
       <div v-show="!worksIsLocked">
-        <div class="l-size-4" v-html="works.content" v-hljs="works.text" v-highslide="works.text" v-mathjax="works.text" v-catalog></div>
+        <div
+          class="textual l-size-4"
+          v-html="works.content"
+          v-hljs="works.text"
+          v-highslide="works.text"
+          v-mathjax="works.text"
+          v-catalog></div>
         <highslide />
         <catalog />
         <div class="divider flex-col"></div>
@@ -257,7 +263,7 @@ a > code {
 }
 
 #l-works {
-  .content {
+  .textual {
     z-index: 9;
 
     h1,

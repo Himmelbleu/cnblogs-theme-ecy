@@ -7,7 +7,7 @@
 
 export namespace EcyUtils {
   export function getLocalSetting() {
-    return useStorage<CustType.ILocalSetting>(`l-${EcyConfig.blogApp}-setting`, getLocalSettingTemp());
+    return useStorage(`l-${EcyConfig.getBlogApp()}-setting`, getLocalSettingTemp());
   }
 
   export function getLocalSettingTemp(): CustType.ILocalSetting {
@@ -141,7 +141,7 @@ export namespace EcyUtils {
 
   export function setTitle(title?: string) {
     const prefix = title ? title + " - " : "";
-    document.getElementsByTagName("title")[0].innerText = `${prefix}${EcyConfig.blogApp} - 博客园`;
+    document.getElementsByTagName("title")[0].innerText = `${prefix}${EcyConfig.getBlogApp()} - 博客园`;
   }
 
   export function scrollIntoView(selector: string) {
@@ -275,14 +275,33 @@ export namespace EcyUtils {
 
 export namespace EcyConfig {
   export let __ECY_CONFIG__: CustType.IEcy;
-  export let blogId = 0;
-  export let baseAPI = "";
-  export let blogApp = "";
-  export let isLogin = true;
-  export let isOwner = true;
   export let userGuid = "";
   export let isFollow = false;
   export const pcDevice = isPcDevice();
+
+  export function getBlogApp() {
+    if (import.meta.env.DEV) {
+      return import.meta.env.VITE_BLOG_APP;
+    } else {
+      return currentBlogApp;
+    }
+  }
+
+  export function getBlogId() {
+    if (import.meta.env.DEV) {
+      return import.meta.env.VITE_BLOG_ID;
+    } else {
+      return currentBlogId;
+    }
+  }
+
+  export function getBaseURL() {
+    if (import.meta.env.PROD) {
+      return `https://www.cnblogs.com/${EcyConfig.getBlogApp()}`;
+    } else {
+      return "/api";
+    }
+  }
 
   /**
    * 判断设备是否是 PC 端
@@ -314,8 +333,8 @@ export namespace EcyConfig {
 
   function loadedEcy() {
     const setting = EcyUtils.getLocalSetting().value;
-    const strings = JSON.stringify(EcyUtils.reloadObjProps(setting, EcyUtils.getLocalSettingTemp()));
-    localStorage.setItem(`l-${blogApp}-setting`, strings);
+    const settingStr = JSON.stringify(EcyUtils.reloadObjProps(setting, EcyUtils.getLocalSettingTemp()));
+    localStorage.setItem(`l-${EcyConfig.getBlogApp()}-setting`, settingStr);
     document.documentElement.setAttribute("class", setting.theme.mode);
 
     const fontFamily = __ECY_CONFIG__.font.main || `var(--el-font-family)`;
@@ -323,42 +342,31 @@ export namespace EcyConfig {
   }
 
   function beforeUseEcy() {
-    const eleApp = document.createElement("div");
-    eleApp.setAttribute("id", "app");
-    document.body.append(eleApp);
+    const app = document.createElement("div");
+    app.setAttribute("id", "app");
+    document.body.append(app);
   }
 
   function afterUseEcy() {
-    const eleIconLink = document.createElement("link");
-    eleIconLink.rel = "shortcut icon";
-    eleIconLink.href = __ECY_CONFIG__.icon;
-    document.head.append(eleIconLink);
+    const icon = document.createElement("link");
+    icon.rel = "shortcut icon";
+    icon.href = __ECY_CONFIG__.icon;
+    document.head.append(icon);
+
+    EcyUtils.Log.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
+    EcyUtils.Log.primary("v1.3.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
   }
 
-  /**
-   * 初始化 lite，所有工作准备完成之后，走回调函数，挂载 app。
-   * @param dev 开发模式下直接挂载 app
-   * @param pro 生产模式下，打包部署之后，给 window 注册一个函数，等待博客园资源加载完成之后再挂载 app。
-   */
   export function useLite(dev: Function, pro: Function) {
     beforeUseEcy();
 
     if (import.meta.env.PROD) {
-      blogId = currentBlogId;
-      blogApp = currentBlogApp;
-      isLogin = isLogined;
-      isOwner = isBlogOwner;
-      baseAPI = `https://www.cnblogs.com/${blogApp}`;
       userGuid = getUserGuid();
       isFollow = getIsFollow();
-      // @ts-ignore
       __ECY_CONFIG__ = window["__ECY_CONFIG__"];
       loadedEcy();
       pro();
     } else if (import.meta.env.DEV) {
-      blogId = import.meta.env.VITE_BLOG_ID;
-      blogApp = import.meta.env.VITE_BLOG_APP;
-      baseAPI = "/api";
       __ECY_CONFIG__ = {
         menu: {},
         covers: {
@@ -420,7 +428,5 @@ export namespace EcyConfig {
     }
 
     afterUseEcy();
-    EcyUtils.Log.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
-    EcyUtils.Log.primary("v1.3.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
   }
 }

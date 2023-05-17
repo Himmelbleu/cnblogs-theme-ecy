@@ -12,6 +12,9 @@ const app = createApp(App);
 app.use(router);
 app.use(createPinia());
 
+app.config.globalProperties.isBlogOwner = isBlogOwner;
+app.config.globalProperties.isLogined = isLogined;
+
 useDirective(app);
 
 EcyConfig.useLite(

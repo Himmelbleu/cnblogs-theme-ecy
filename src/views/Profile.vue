@@ -10,7 +10,7 @@ useLoading();
       <div class="mb-6 f-s-c">
         <div class="w-40%">
           <div class="mb-6">
-            <div class="font-bold mb-2 title">{{ EcyConfig.blogApp }} 的博客</div>
+            <div class="font-bold mb-2 title">{{ EcyConfig.getBlogApp() }} 的博客</div>
             <div :class="{ 'f-c-s': EcyConfig.pcDevice, 'text-center': !EcyConfig.pcDevice }">
               <img
                 class="w-25 h-25 rd-50"
