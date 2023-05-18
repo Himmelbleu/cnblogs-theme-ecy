@@ -8,10 +8,10 @@ const worksPrevNext = shallowRef();
 const worksViewPoint = shallowRef();
 const worksIsLocked = ref(false);
 const worksPassword = ref("");
-const coverFilter = EcyConfig.__ECY_CONFIG__.covers.filter.works;
-const coverMatte = EcyConfig.__ECY_CONFIG__.covers.matte.works;
-const codeFontFamily = EcyConfig.__ECY_CONFIG__.font.code || `var(--el-font-family)`;
-const worksCovers = EcyConfig.__ECY_CONFIG__.covers.works;
+const coverFilter = EcyVars.config.covers.filter.works;
+const coverMatte = EcyVars.config.covers.matte.works;
+const codeFontFamily = EcyVars.config.font.code || `var(--el-font-family)`;
+const worksCovers = EcyVars.config.covers.works;
 const eleComments = ref();
 let worksId = route.params.id as string;
 

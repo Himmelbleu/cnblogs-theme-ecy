@@ -18,21 +18,27 @@ const hidden = computed(() => {
 <template>
   <div
     id="l-rmenu"
-    class="noscroll z-9999 l-size-2 h-100vh flow-auto fixed top-0 right-0 l-back-bg p-3 w-17.5rem"
+    class="noscroll z-9999 l-size-2 h-100vh flow-auto fixed top-0 right--70 l-back-bg p-3 w-70"
     :class="{ 'show-rmenu ': block, 'hidden-rmenu': hidden }">
-    <expanded-box text="常用链接" v-if="EcyConfig.__ECY_CONFIG__.menu.links?.length">
+    <expanded-box text="我的技能" v-if="EcyVars.config.graph?.data">
+      <template #icon>
+        <i-ep-aim />
+      </template>
+      <skillgraph />
+    </expanded-box>
+    <expanded-box text="常用链接" v-if="EcyVars.config.menu.links?.length">
       <template #icon>
         <i-ep-link />
       </template>
-      <a class="hover block mb-3" v-for="item in EcyConfig.__ECY_CONFIG__.menu.links" :href="item.href" target="_blank">
+      <a class="hover block mb-3" v-for="item in EcyVars.config.menu.links" :href="item.href" target="_blank">
         {{ item.text }}
       </a>
     </expanded-box>
-    <expanded-box text="推荐书籍" v-if="EcyConfig.__ECY_CONFIG__.menu.books?.length">
+    <expanded-box text="推荐书籍" v-if="EcyVars.config.menu.books?.length">
       <template #icon>
         <i-ep-notebook />
       </template>
-      <div class="mb-3 f-c-b" v-for="item in EcyConfig.__ECY_CONFIG__.menu.books">
+      <div class="mb-3 f-c-b" v-for="item in EcyVars.config.menu.books">
         <img class="h-25 w-20" :src="item.img" alt="FAILED" />
         <div style="width: calc(100% - 6rem)">
           <div class="mb-1" v-if="!item.href">
@@ -52,7 +58,7 @@ const hidden = computed(() => {
 </template>
 
 <style scoped lang="scss">
-$quota: 10;
+$quota: 11;
 
 #l-rmenu {
   transition: var(--l-animation-effect);
@@ -60,26 +66,26 @@ $quota: 10;
 
 .show-rmenu {
   animation: showrmenu 0.3s linear;
-  transform: translateX(0);
+  right: 0;
 }
 
 @keyframes showrmenu {
   @for $i from 0 to $quota {
     #{$i * 10%} {
-      transform: translateX(calc(17.5rem + $i * -1.75rem));
+      right: -(17.5rem + $i * -1.75rem);
     }
   }
 }
 
 .hidden-rmenu {
   animation: hiddenrmenu 0.3s linear;
-  transform: translateX(17.5rem);
+  right: -17.5rem;
 }
 
 @keyframes hiddenrmenu {
   @for $i from 0 to $quota {
     #{$i * 10%} {
-      transform: translateX($i * 1.75rem);
+      right: $i * -1.75rem;
     }
   }
 }

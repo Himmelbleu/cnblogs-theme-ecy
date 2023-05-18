@@ -2,7 +2,7 @@ export namespace RouterPath {
   /**
    * @returns "/"
    */
-  export function INDEX() {
+  export function HOME() {
     return "/";
   }
 

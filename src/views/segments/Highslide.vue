@@ -71,7 +71,7 @@ onMounted(() => {
             draggable="false"
             class="l-highslide__img select-none cursor-move"
             :class="{
-              fixed: positionX && positionY && !!EcyConfig.pcDevice,
+              fixed: positionX && positionY && !!EcyVars.pcDevice,
               transition: animationOpened
             }"
             :style="{

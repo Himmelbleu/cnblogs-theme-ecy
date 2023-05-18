@@ -10,9 +10,9 @@ import type { RouteRecordRaw, NavigationGuardNext } from "vue-router";
 
 export const routes = <RouteRecordRaw[]>[
   {
-    name: RouterName.INDEX,
-    path: RouterPath.INDEX(),
-    component: () => import("@/views/index.vue"),
+    name: RouterName.HOME,
+    path: RouterPath.HOME(),
+    component: () => import("@/views/home.vue"),
     meta: { title: "首页" }
   },
   {
@@ -112,7 +112,7 @@ export function redirect(next: NavigationGuardNext) {
 
   if (matched) {
     if (matched.before) matched.before();
-    window.history.pushState("", "", `${window.location.protocol}//${window.location.host}/${EcyConfig.getBlogApp()}/#/`);
+    window.history.pushState("", "", `${window.location.protocol}//${window.location.host}/${EcyVars.getBlogApp()}/#/`);
     next({
       name: matched.name,
       params: matched.params

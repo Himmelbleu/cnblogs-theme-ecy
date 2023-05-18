@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const ldisabled = ref(true);
 const rdisabled = ref(true);
-const catalogDisabled = ref(!EcyConfig.pcDevice);
+const catalogDisabled = ref(!EcyVars.pcDevice);
 
 provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
 
@@ -39,7 +39,7 @@ onMounted(() => {
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
-        <KeepAlive :include="[RouterName.INDEX, RouterName.MARK_LIST, RouterName.WORKS_BY_CALENDAR]">
+        <KeepAlive :include="[RouterName.HOME, RouterName.MARK_LIST, RouterName.WORKS_BY_CALENDAR]">
           <Suspense>
             <component :is="Component" />
           </Suspense>

@@ -3,10 +3,10 @@ import { useOnWheel, useOnScroll } from "@/hooks/window-events";
 
 const route = useRoute();
 const setting = LocalStorage.getSetting();
-const isToTop = ref(false);
-const isToBottom = ref(true);
+const isInTop = ref(false);
+const isInBottom = ref(true);
 const isShowGuide = ref(false);
-const isHidden = ref(false);
+const isTake = ref(false);
 let html: HTMLElement;
 let topNail: HTMLElement;
 let bottomNail: HTMLElement;
@@ -19,30 +19,30 @@ onMounted(() => {
 
   useOnWheel(
     () => {
-      isHidden.value = true;
+      isTake.value = true;
     },
     () => {
-      isHidden.value = false;
+      isTake.value = false;
     }
   );
 
   useOnScroll(
     0.5,
     () => {
-      isToTop.value = true;
-      isToBottom.value = false;
+      isInTop.value = true;
+      isInBottom.value = false;
     },
     () => {
-      isToBottom.value = true;
-      isToTop.value = false;
+      isInBottom.value = true;
+      isInTop.value = false;
     }
   );
 });
 
 function moveScroll(dom: HTMLElement) {
   dom.scrollIntoView();
-  isToTop.value = !isToTop.value;
-  isToBottom.value = !isToBottom.value;
+  isInTop.value = !isInTop.value;
+  isInBottom.value = !isInBottom.value;
 }
 
 function toggleMode() {
@@ -65,7 +65,7 @@ watch(route, () => {
 </script>
 
 <template>
-  <div id="l-toolkits" :class="{ 'take-toolkits': isHidden, 'intake-toolkits': !isHidden }" class="fixed z-99 right-0 top-55vh l-size-4">
+  <div id="l-toolkits" :class="{ 'take-toolkits': isTake, 'intake-toolkits': !isTake }" class="fixed z-99 right-0 top-55vh l-size-4">
     <div
       v-show="isShowGuide"
       :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
@@ -78,7 +78,7 @@ watch(route, () => {
     <div
       :class="{ 'show-1': setting.toolkits.pin, 'close-1': !setting.toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
-      @click="Navigation.go({ path: RouterPath.INDEX(), router: $router })">
+      @click="Navigation.go({ path: RouterPath.HOME(), router: $router })">
       <div class="f-c-c w-8 h-8">
         <i-ep-house />
       </div>
@@ -94,9 +94,9 @@ watch(route, () => {
     <div
       :class="{ 'show-3': setting.toolkits.pin, 'close-3': !setting.toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
-      @click="isToTop ? moveScroll(topNail) : moveScroll(bottomNail)">
+      @click="isInTop ? moveScroll(topNail) : moveScroll(bottomNail)">
       <div class="f-c-c w-8 h-8">
-        <i-ep-upload :class="{ 'top-nav': isToTop, 'bottom-nav': isToBottom }" />
+        <i-ep-upload :class="{ 'top-nav': isInTop, 'bottom-nav': isInBottom }" />
       </div>
     </div>
     <div

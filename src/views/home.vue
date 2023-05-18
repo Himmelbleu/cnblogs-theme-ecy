@@ -4,10 +4,10 @@ import { useLoading } from "@/hooks/comp-hooks";
 
 const worksList = shallowRef();
 const coversIndex = shallowRef();
-const indexCovers = EcyConfig.__ECY_CONFIG__.covers.index;
-const allCovers = EcyConfig.__ECY_CONFIG__.covers.works;
-const coverFilter = EcyConfig.__ECY_CONFIG__.covers.filter.index;
-const coverMatte = EcyConfig.__ECY_CONFIG__.covers.matte.index;
+const indexCovers = EcyVars.config.covers.index;
+const allCovers = EcyVars.config.covers.works;
+const coverFilter = EcyVars.config.covers.filter.index;
+const coverMatte = EcyVars.config.covers.matte.index;
 
 async function fetchData(index: any) {
   worksList.value = await WorksApi.getList(index || 1);

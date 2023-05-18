@@ -17,7 +17,7 @@ app.config.globalProperties.isLogined = isLogined;
 
 useDirective(app);
 
-EcyConfig.useLite(
+EcyVars.useLite(
   () => app.mount("#app"),
   () => app.mount("#app")
 );

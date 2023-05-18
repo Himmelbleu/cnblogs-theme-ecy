@@ -123,17 +123,19 @@
   .wave-1 {
     top: 0;
     left: -100%;
-    opacity: 0.5;
+    opacity: 0.6;
     animation: move-wave-to-right 20s infinite linear;
     background: url(https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2281365/o_230410092356_wave-1.png) repeat-x;
+    background-size: contain;
   }
 
   .wave-2 {
     top: 0;
     left: 0%;
-    opacity: 0.6;
+    opacity: 0.5;
     animation: move-wave-to-left 30s infinite linear;
     background: url(https://images.cnblogs.com/cnblogs_com/blogs/666252/galleries/2281365/o_230410092402_wave-2.png) repeat-x;
+    background-size: contain;
   }
 
   @keyframes move-wave-to-right {

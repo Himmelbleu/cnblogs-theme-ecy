@@ -34,7 +34,7 @@ MenuApi.getTopList().then(res => {
 });
 
 function search() {
-  window.open(`https://zzk.cnblogs.com/s?w=blog:${EcyConfig.getBlogApp()}%${searchVal.value}`, "__blank");
+  window.open(`https://zzk.cnblogs.com/s?w=blog:${EcyVars.getBlogApp()}%${searchVal.value}`, "__blank");
 }
 
 async function subscribe() {
@@ -59,24 +59,24 @@ const hidden = computed(() => {
 <template>
   <div
     id="l-lmenu"
-    class="l-size-2 z-9999 fixed top-0 left-0 noscroll flow-auto h-100vh l-back-bg p-3 w-17.5rem"
+    class="l-size-2 z-9999 fixed top-0 left--70 noscroll flow-auto h-100vh l-back-bg p-3 w-70"
     :class="{ 'show-lmenu': block, 'hidden-lmenu': hidden }">
     <expanded-Box text="博客信息" disabled>
       <template #icon>
         <i-ep-house />
       </template>
       <div class="f-c-c mb-4">
-        <router-link :to="RouterPath.INDEX()">
-          <img class="h-25 w-25 cursor-pointer rd-50" :src="EcyConfig.__ECY_CONFIG__.avatar" />
+        <router-link :to="RouterPath.HOME()">
+          <img class="h-25 w-25 cursor-pointer rd-50" :src="EcyVars.config.avatar" />
         </router-link>
       </div>
       <div class="f-c-c mb-4" v-if="!isBlogOwner">
         <el-popconfirm @confirm="unsubscribe" confirm-button-text="确定" cancel-button-text="取消" title="确定取消关注？">
           <template #reference>
-            <el-button v-if="EcyConfig.isFollow" type="danger" text bg> -取消关注 </el-button>
+            <el-button v-if="EcyVars.isFollow" type="danger" text bg> -取消关注 </el-button>
           </template>
         </el-popconfirm>
-        <el-button @click="subscribe" v-if="!EcyConfig.isFollow" type="primary" text bg> +关注博主 </el-button>
+        <el-button @click="subscribe" v-if="!EcyVars.isFollow" type="primary" text bg> +关注博主 </el-button>
       </div>
       <div class="hover mb-4" v-if="news" v-for="(item, index) in news" @click="Navigation.go({ path: item.href })">
         <div class="f-c-s" v-if="index === 0">
@@ -278,7 +278,7 @@ const hidden = computed(() => {
 </template>
 
 <style scoped lang="scss">
-$quota: 10;
+$quota: 11;
 
 #l-lmenu {
   transition: var(--l-animation-effect);
@@ -286,26 +286,26 @@ $quota: 10;
 
 .show-lmenu {
   animation: showlmenu 0.3s linear;
-  transform: translateX(0);
+  left: 0;
 }
 
 @keyframes showlmenu {
   @for $i from 0 to $quota {
     #{$i * 10%} {
-      transform: translateX(calc(-17.5rem + $i * 1.75rem));
+      left: -(17.5rem + $i * -1.75rem);
     }
   }
 }
 
 .hidden-lmenu {
   animation: hiddenlmenu 0.3s linear;
-  transform: translateX(-17.5rem);
+  left: -17.5rem;
 }
 
 @keyframes hiddenlmenu {
   @for $i from 0 to $quota {
     #{$i * 10%} {
-      transform: translateX(calc($i * -1.75rem));
+      left: $i * -1.75rem;
     }
   }
 }

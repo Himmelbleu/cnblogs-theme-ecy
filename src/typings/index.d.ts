@@ -1,8 +1,8 @@
 /**
  * Ecy 配置
  */
-declare namespace EcyConfig {
-  let __ECY_CONFIG__: EcyConfiguration;
+declare namespace EcyVars {
+  let config: EcyConfig;
   let userGuid: string;
   let isFollow: boolean;
   let pcDevice: boolean;

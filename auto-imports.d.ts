@@ -5,7 +5,7 @@
 export {}
 declare global {
   const Broswer: typeof import('@/utils/index')['Broswer']
-  const EcyConfig: typeof import('@/constants/index')['EcyConfig']
+  const EcyVars: typeof import('@/constants/index')['EcyVars']
   const EffectScope: typeof import('vue')['EffectScope']
   const ElMessage: typeof import('element-plus/es')['ElMessage']
   const Formatter: typeof import('@/utils/index')['Formatter']
@@ -310,7 +310,7 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly Broswer: UnwrapRef<typeof import('@/utils/index')['Broswer']>
-    readonly EcyConfig: UnwrapRef<typeof import('@/constants/index')['EcyConfig']>
+    readonly EcyVars: UnwrapRef<typeof import('@/constants/index')['EcyVars']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly Formatter: UnwrapRef<typeof import('@/utils/index')['Formatter']>

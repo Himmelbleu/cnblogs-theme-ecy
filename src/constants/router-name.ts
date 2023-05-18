@@ -1,5 +1,5 @@
 export enum RouterName {
-  INDEX = "index",
+  HOME = "home",
   WORKS = "works",
   WORKS_BY_SORT = "works-by-sort",
   WORKS_BY_ARCHIVE = "works-by-archive",

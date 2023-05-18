@@ -3,7 +3,7 @@ export namespace LocalStorage {
    * 获取本地存储中的设置
    */
   export function getSetting(): RemovableRef<EcyLocalSetting> {
-    return useStorage(`l-${EcyConfig.getBlogApp()}-setting`, getSettingTemp());
+    return useStorage(`l-${EcyVars.getBlogApp()}-setting`, getSettingTemp());
   }
 
   /**

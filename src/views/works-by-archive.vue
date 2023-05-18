@@ -6,7 +6,7 @@ const route = useRoute();
 let archiveDate = route.params.date;
 let archiveMode = route.params.mode;
 const archiveWorks = shallowRef();
-const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works;
+const worksImgs = EcyVars.config.covers.works;
 const imgsIndex = shallowRef();
 
 async function fetchData() {

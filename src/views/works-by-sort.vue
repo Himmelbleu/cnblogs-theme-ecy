@@ -5,7 +5,7 @@ import { useLoading } from "@/hooks/comp-hooks";
 const route = useRoute();
 const typeL2Works = shallowRef();
 const typeL1Works = shallowRef();
-const worksImgs = EcyConfig.__ECY_CONFIG__.covers.works;
+const worksImgs = EcyVars.config.covers.works;
 const imgsIndex = shallowRef();
 
 async function fetchData(index?: any) {

@@ -1,5 +1,5 @@
-export namespace EcyConfig {
-  export let __ECY_CONFIG__: EcyConfiguration;
+export namespace EcyVars {
+  export let config: EcyConfig;
   export let userGuid = "";
   export let isFollow = false;
   export const pcDevice = isPcDevice();
@@ -62,7 +62,7 @@ export namespace EcyConfig {
     localStorage.setItem(`l-${getBlogApp()}-setting`, settingStr);
     document.documentElement.setAttribute("class", setting.theme.mode);
 
-    const fontFamily = __ECY_CONFIG__.font.main || `var(--el-font-family)`;
+    const fontFamily = config.font.main || `var(--el-font-family)`;
     document.querySelector("html").style.setProperty("--l-font-family", fontFamily);
   }
 
@@ -75,7 +75,7 @@ export namespace EcyConfig {
   function afterUseEcy() {
     const icon = document.createElement("link");
     icon.rel = "shortcut icon";
-    icon.href = __ECY_CONFIG__.icon;
+    icon.href = config.icon;
     document.head.append(icon);
 
     PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
@@ -88,11 +88,11 @@ export namespace EcyConfig {
     if (import.meta.env.PROD) {
       userGuid = getUserGuid();
       isFollow = getIsFollow();
-      __ECY_CONFIG__ = window["__ECY_CONFIG__"];
+      config = window["__ECY_CONFIG__"];
       loadedEcy();
       pro();
     } else if (import.meta.env.DEV) {
-      __ECY_CONFIG__ = {
+      config = {
         menu: {},
         covers: {
           matte: {

@@ -149,23 +149,13 @@ interface EcyAlbumnItem {
 /**
  * 博客配置项
  */
-type EcyConfiguration = Partial<{
+type EcyConfig = Partial<{
   icon: string;
   avatar: string;
   menu: Partial<{
     links: { href: string; text: string }[];
     books: { href?: string; text: string; img: string; author: string; rate: number }[];
   }>;
-  nameplate: {
-    signature: string;
-    tags: string[];
-    connection: { name: string; text: string; svg?: string; img?: string }[];
-    warehouse: { url: string; text: string }[];
-    experience: { text: string; date: string }[];
-    intro: string;
-    gossip: string;
-    photo: { disabled: boolean; src?: string[] };
-  };
   covers: {
     matte: { index: number; works: number };
     filter: { index: string; works: string };

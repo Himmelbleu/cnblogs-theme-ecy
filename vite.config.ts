@@ -39,7 +39,7 @@ export default defineConfig(({ mode }) => {
           "vue-router",
           "@vueuse/core",
           {
-            "@/constants/index": ["RouterName", "RouterPath", "RouterRegx", "ProvideKey", "EcyConfig"]
+            "@/constants/index": ["RouterName", "RouterPath", "RouterRegx", "ProvideKey", "EcyVars"]
           },
           {
             "@/utils/index": ["Broswer", "Formatter", "Native", "Navigation", "PrettifyLog", "Random", "LocalStorage", "Textual"]
