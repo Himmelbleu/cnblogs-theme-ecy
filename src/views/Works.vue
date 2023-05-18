@@ -20,7 +20,7 @@ const calcWorksCover = computed(() => {
 });
 
 async function fetchData(mouted?: boolean) {
-  EcyUtils.startLoading();
+  Broswer.startLoading();
 
   const [worksVal, worksPropsVal, worksPrevNextVal, worksViewPointVal] = await Promise.all([
     WorksApi.getWorks(worksId),
@@ -35,8 +35,8 @@ async function fetchData(mouted?: boolean) {
   worksViewPoint.value = worksViewPointVal;
   worksIsLocked.value = worksVal.isLocked;
 
-  EcyUtils.setTitle(works.value.text);
-  mouted && EcyUtils.endLoading();
+  Broswer.setTitle(works.value.text);
+  mouted && Broswer.endLoading();
 }
 
 async function submit() {
@@ -48,7 +48,7 @@ async function submit() {
   ElMessage({ message: passed ? "密码正确！" : "密码错误！", grouping: true, type: passed ? "success" : "error" });
 }
 
-async function vote(type: BlogType.VoteType) {
+async function vote(type: VoteType) {
   const res = await WorksApi.vote({ postId: parseInt(worksId), isAbandoned: false, voteType: type });
   if (res && res.isSuccess) {
     type == "Bury" ? worksViewPoint.value.buryCount++ : worksViewPoint.value.diggCount++;
@@ -69,11 +69,11 @@ onMounted(() => {
 
   if (anchor) {
     setTimeout(() => {
-      EcyUtils.scrollIntoView(`#${anchor[0].replace("#", "")}`);
+      Broswer.scrollIntoView(`#${anchor[0].replace("#", "")}`);
     }, 500);
   }
 
-  EcyUtils.endLoading();
+  Broswer.endLoading();
 });
 
 await fetchData();
@@ -103,7 +103,7 @@ await fetchData();
           <div
             v-if="isBlogOwner"
             class="f-c-c hover"
-            @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + worksId })">
+            @click="Navigation.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + worksId })">
             <i-ep-edit-pen class="mr-1" />
             <span>编辑</span>
           </div>
@@ -119,7 +119,7 @@ await fetchData();
                 line="dotted"
                 hover
                 round
-                @click="EcyUtils.Router.go({ path: RouterPath.WORKS_BY_SORT(item.href), router: $router })">
+                @click="Navigation.go({ path: RouterPath.WORKS_BY_SORT(item.href), router: $router })">
                 {{ item.text }}
               </hollowed-box>
             </div>
@@ -134,7 +134,7 @@ await fetchData();
                 line="dotted"
                 hover
                 round
-                @click="EcyUtils.Router.go({ path: RouterPath.WORKS_BY_MARK(item.text), router: $router })">
+                @click="Navigation.go({ path: RouterPath.WORKS_BY_MARK(item.text), router: $router })">
                 {{ item.text }}
               </hollowed-box>
             </div>
@@ -142,7 +142,7 @@ await fetchData();
         </div>
       </div>
     </div>
-    <div class="z-999 absolute bottom-0 left-0 h-75px w-100% flow-hidden">
+    <div class="z-999 absolute bottom-0 left-0 h-20 w-100% flow-hidden">
       <div class="wave-1 absolute h-100% w-200%"></div>
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>

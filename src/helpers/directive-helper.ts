@@ -123,7 +123,7 @@ function useVCatalog(el: HTMLElement) {
  */
 function useCatalogEvents(binding: any) {
   document.getElementById(`catalog-${binding.value.id}`).addEventListener("click", () => {
-    EcyUtils.scrollIntoView(`#${binding.value.id}`);
+    Broswer.scrollIntoView(`#${binding.value.id}`);
   });
 }
 

@@ -15,7 +15,7 @@ useLoading(fetchData);
 <template>
   <div id="l-albumn-item" class="page">
     <div class="content">
-      <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
+      <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useOnWheel, useOnScroll } from "@/hooks/window-events";
+
 const route = useRoute();
-const setting = EcyUtils.getLocalSetting();
+const setting = LocalStorage.getSetting();
 const isToTop = ref(false);
 const isToBottom = ref(true);
 const isShowGuide = ref(false);
+const isHidden = ref(false);
 let html: HTMLElement;
 let topNail: HTMLElement;
 let bottomNail: HTMLElement;
@@ -14,18 +17,25 @@ onMounted(() => {
   topNail = document.querySelector("#l-top-nail");
   bottomNail = document.querySelector("#l-bottom-nail");
 
-  window.addEventListener(
-    "scroll",
-    useThrottleFn(() => {
-      const ratio = window.scrollY / Number(document.body.clientHeight);
-      if (ratio <= 0.5) {
-        isToBottom.value = true;
-        isToTop.value = false;
-      } else if (ratio > 0.5 && ratio <= 1) {
-        isToTop.value = true;
-        isToBottom.value = false;
-      }
-    }, 200)
+  useOnWheel(
+    () => {
+      isHidden.value = true;
+    },
+    () => {
+      isHidden.value = false;
+    }
+  );
+
+  useOnScroll(
+    0.5,
+    () => {
+      isToTop.value = true;
+      isToBottom.value = false;
+    },
+    () => {
+      isToBottom.value = true;
+      isToTop.value = false;
+    }
   );
 });
 
@@ -55,7 +65,7 @@ watch(route, () => {
 </script>
 
 <template>
-  <div id="l-toolkits" class="fixed z-99 right-20 top-55vh l-size-4">
+  <div id="l-toolkits" :class="{ 'take-toolkits': isHidden, 'intake-toolkits': !isHidden }" class="fixed z-99 right-0 top-55vh l-size-4">
     <div
       v-show="isShowGuide"
       :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
@@ -68,7 +78,7 @@ watch(route, () => {
     <div
       :class="{ 'show-1': setting.toolkits.pin, 'close-1': !setting.toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
-      @click="EcyUtils.Router.go({ path: RouterPath.INDEX(), router: $router })">
+      @click="Navigation.go({ path: RouterPath.INDEX(), router: $router })">
       <div class="f-c-c w-8 h-8">
         <i-ep-house />
       </div>
@@ -76,7 +86,7 @@ watch(route, () => {
     <div
       :class="{ 'show-2': setting.toolkits.pin, 'close-2': !setting.toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
-      @click="EcyUtils.Router.go({ path: 'back', router: $router })">
+      @click="Navigation.go({ path: 'back', router: $router })">
       <div class="f-c-c w-8 h-8">
         <i-ep-location />
       </div>
@@ -92,14 +102,6 @@ watch(route, () => {
     <div
       :class="{ 'show-4': setting.toolkits.pin, 'close-4': !setting.toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
-      @click="EcyUtils.Router.go({ path: RouterPath.PROFILE(), router: $router })">
-      <div class="f-c-c w-8 h-8">
-        <i-ep-warning />
-      </div>
-    </div>
-    <div
-      :class="{ 'show-5': setting.toolkits.pin, 'close-5': !setting.toolkits.pin }"
-      class="absolute hover left-0 rd-2 l-back-bg"
       @click="toggleMode">
       <div class="f-c-c w-8 h-8">
         <i-ep-moon v-show="setting.theme.mode === 'dark'" />
@@ -107,17 +109,17 @@ watch(route, () => {
       </div>
     </div>
     <div
-      :class="{ 'show-6': setting.toolkits.pin, 'close-6': !setting.toolkits.pin }"
+      :class="{ 'show-5': setting.toolkits.pin, 'close-5': !setting.toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
-      @click="EcyUtils.Router.go({ path: 'https://i.cnblogs.com' })">
+      @click="Navigation.go({ path: 'https://i.cnblogs.com' })">
       <div class="f-c-c w-8 h-8">
         <i-ep-setting />
       </div>
     </div>
     <div
       @click="setting.toolkits.pin = !setting.toolkits.pin"
-      :class="{ 'show-toolkits': setting.toolkits.pin, 'close-toolkits': !setting.toolkits.pin }"
-      class="kits-box absolute hover top-70 left-0 rd-2 l-back-bg">
+      :class="{ 'take-items': setting.toolkits.pin, 'intake-items': !setting.toolkits.pin }"
+      class="kits-box absolute hover top-60 left-0 rd-2 l-back-bg">
       <div class="f-c-c w-8 h-8">
         <i-ep-more />
       </div>
@@ -128,11 +130,11 @@ watch(route, () => {
 <style scoped lang="scss">
 $show-top: 0;
 $show-anitime: 0.1s;
-$close-top: 17.5rem;
+$close-top: 15rem;
 $close-anitime: 0.7s;
 $move-step: 2.5rem;
 
-@for $index from 0 to 7 {
+@for $index from 0 to 6 {
   @if $index != 0 {
     $show-top: $show-top + $move-step;
   }
@@ -170,12 +172,37 @@ $move-step: 2.5rem;
   }
 }
 
-.show-toolkits {
+.take-toolkits {
+  animation: take-toolkits-animation 0.3s linear;
+  right: 5rem;
+}
+
+@keyframes take-toolkits-animation {
+  @for $i from 0 to 11 {
+    #{$i * 10%} {
+      right: calc($i * 0.5rem);
+    }
+  }
+}
+
+.intake-toolkits {
+  animation: intake-toolkits-animation 0.3s linear;
+}
+
+@keyframes intake-toolkits-animation {
+  @for $i from 0 to 11 {
+    #{$i * 10%} {
+      right: calc(5rem + $i * -0.5rem);
+    }
+  }
+}
+
+.take-items {
   transition: var(--l-animation-effect);
   transform: rotate(0);
 }
 
-.close-toolkits {
+.intake-items {
   transition: var(--l-animation-effect);
   transform: rotate(180deg);
 }

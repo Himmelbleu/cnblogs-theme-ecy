@@ -9,7 +9,7 @@ const props = defineProps({
 const level = ref();
 const { anchor } = storeToRefs(useAnchorStore());
 
-const comments = ref<CustType.IComment[]>();
+const comments = ref<EcyComment[]>();
 const pageCount = ref(0);
 const currIndex = ref(1);
 
@@ -54,7 +54,7 @@ defineExpose({
         <div class="l-comment__head f-c-s">
           <el-image class="l-comment__avatar mr-4 rd-50 w-14 h-14" :src="item.avatar" fit="fill" />
           <div>
-            <div class="l-comment__author hover cursor-pointer" @click="EcyUtils.Router.go({ path: item.space })">
+            <div class="l-comment__author hover cursor-pointer" @click="Navigation.go({ path: item.space })">
               {{ item.author }}
             </div>
             <div

@@ -39,7 +39,7 @@ onMounted(() => {
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
-        <KeepAlive :include="[RouterName.INDEX, RouterName.MARK_LIST, RouterName.PROFILE, RouterName.WORKS_BY_CALENDAR]">
+        <KeepAlive :include="[RouterName.INDEX, RouterName.MARK_LIST, RouterName.WORKS_BY_CALENDAR]">
           <Suspense>
             <component :is="Component" />
           </Suspense>

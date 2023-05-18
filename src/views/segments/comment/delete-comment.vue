@@ -7,7 +7,7 @@ const props = defineProps({
     required: true
   },
   comments: {
-    type: Array as PropType<CustType.IComment[]>,
+    type: Array as PropType<EcyComment[]>,
     required: true
   },
   itemIndex: {

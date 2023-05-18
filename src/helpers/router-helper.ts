@@ -16,12 +16,6 @@ export const routes = <RouteRecordRaw[]>[
     meta: { title: "首页" }
   },
   {
-    name: RouterName.PROFILE,
-    path: RouterPath.PROFILE(),
-    component: () => import("@/views/profile.vue"),
-    meta: { title: "我的铭牌" }
-  },
-  {
     name: RouterName.WORKS,
     path: RouterPath.WORKS(),
     component: () => import("@/views/works.vue")
@@ -67,38 +61,6 @@ export const routes = <RouteRecordRaw[]>[
   }
 ];
 
-/**
- * 针对于博客园的路由匹配规则
- */
-const routeRules = [
-  {
-    regex: RouterRegx.WORKS,
-    name: RouterName.WORKS,
-    params: { id: EcyUtils.Text.split(window.location.href, RouterRegx.WORKS, [2, 0], ["/", "."]) },
-    before: indexesWorksComment
-  },
-  {
-    regex: RouterRegx.WORKS_BY_SORT,
-    name: RouterName.WORKS_BY_SORT,
-    params: { id: EcyUtils.Text.split(window.location.href, RouterRegx.WORKS_BY_SORT, [2, 0], ["/", "."]) }
-  },
-  {
-    regex: RouterRegx.WORKS_BY_MARK,
-    name: RouterName.WORKS_BY_MARK,
-    params: { tag: EcyUtils.Text.split(decodeURI(window.location.href), RouterRegx.WORKS_BY_MARK, [2], ["/"]) }
-  },
-  {
-    regex: RouterRegx.ALBUMN_ITEM,
-    name: RouterName.ALBUMN_ITEM,
-    params: { id: EcyUtils.Text.split(window.location.href, RouterRegx.ALBUMN_ITEM, [3], ["/"]) }
-  },
-  {
-    regex: RouterRegx.ARTICLES,
-    name: RouterName.WORKS,
-    params: { id: EcyUtils.Text.split(window.location.href, RouterRegx.ARTICLES, [2, 0], ["/", "."]) }
-  }
-];
-
 function indexesWorksComment() {
   const result = /#\/\d+/g.exec(window.location.href);
   if (result !== null) {
@@ -108,13 +70,45 @@ function indexesWorksComment() {
 }
 
 /**
+ * 针对于博客园的路由匹配规则
+ */
+const routeRules = [
+  {
+    regex: RouterRegx.WORKS,
+    name: RouterName.WORKS,
+    params: { id: Textual.split(window.location.href, RouterRegx.WORKS, [2, 0], ["/", "."]) },
+    before: indexesWorksComment
+  },
+  {
+    regex: RouterRegx.WORKS_BY_SORT,
+    name: RouterName.WORKS_BY_SORT,
+    params: { id: Textual.split(window.location.href, RouterRegx.WORKS_BY_SORT, [2, 0], ["/", "."]) }
+  },
+  {
+    regex: RouterRegx.WORKS_BY_MARK,
+    name: RouterName.WORKS_BY_MARK,
+    params: { tag: Textual.split(decodeURI(window.location.href), RouterRegx.WORKS_BY_MARK, [2], ["/"]) }
+  },
+  {
+    regex: RouterRegx.ALBUMN_ITEM,
+    name: RouterName.ALBUMN_ITEM,
+    params: { id: Textual.split(window.location.href, RouterRegx.ALBUMN_ITEM, [3], ["/"]) }
+  },
+  {
+    regex: RouterRegx.ARTICLES,
+    name: RouterName.WORKS,
+    params: { id: Textual.split(window.location.href, RouterRegx.ARTICLES, [2, 0], ["/", "."]) }
+  }
+];
+
+/**
  * 对原博客链接进行重写并提取重要信息。
  *
  * 比如，https://www.cnblogs.com/Himmelbleu/p/11111.html。要对该地址进行转换，得到一个 Vue Router 认识的 hash URL，
  * 需要该地址中 11111，即作品的 ID，通过 blogRoutingRules 博客园路由匹配规则获取。
  */
 export function redirect(next: NavigationGuardNext) {
-  const matched = routeRules.find(router => router.regex.test(window.location.href));
+  const matched = routeRules.find(rule => rule.regex.test(window.location.href));
 
   if (matched) {
     if (matched.before) matched.before();

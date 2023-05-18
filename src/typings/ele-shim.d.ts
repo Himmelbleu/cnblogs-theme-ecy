@@ -3,5 +3,5 @@ declare interface Element {
 }
 
 interface Window {
-  __ECY_CONFIG__: CustType.IEcy;
+  __ECY_CONFIG__: EcyConfiguration;
 }

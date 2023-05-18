@@ -22,7 +22,7 @@ let htmlContent = "";
 const content = ref("");
 
 function uploadImage(el: string) {
-  EcyUtils.openImageUploadWindow(el, (imgUrl: any) => {
+  Native.openImageUploadWindow(el, (imgUrl: any) => {
     content.value += `\n${imgUrl}\n`;
   });
 }

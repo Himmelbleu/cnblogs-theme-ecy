@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps({
   item: {
-    type: Object as PropType<CustType.IWorks & { id: string }>,
+    type: Object as PropType<EcyWorks & { id: string }>,
     require: true
   },
   cover: {
@@ -25,7 +25,7 @@ defineProps({
     <div class="w-52%" :class="{ 'pl-4': index % 2 === 0, 'pr-4': index % 2 !== 0 }">
       <div
         class="hover text-ellipsis line-clamp-2 f-c-s mb-6 l-size-6"
-        @click="EcyUtils.Router.go({ path: RouterPath.WORKS(item.id), router: $router })">
+        @click="Navigation.go({ path: RouterPath.WORKS(item.id), router: $router })">
         {{ item.text }}
       </div>
       <div class="f-c-s mb-4 l-size-2 l-color-2">
@@ -70,7 +70,7 @@ defineProps({
   <div v-else class="item h-20rem rd-2">
     <div
       class="hover text-ellipsis line-clamp-2 f-c-s mb-6 l-size-6"
-      @click="EcyUtils.Router.go({ path: RouterPath.WORKS(item.id), router: $router })">
+      @click="Navigation.go({ path: RouterPath.WORKS(item.id), router: $router })">
       {{ item.text }}
     </div>
     <div class="f-c-b mb-4">

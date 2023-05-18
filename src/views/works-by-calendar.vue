@@ -29,7 +29,7 @@ watch(dateModel, (newVal, oldVal) => {
 <template>
   <div class="l-works-by-calendar page">
     <div class="content" v-if="calendar">
-      <el-page-header class="mt-4 mb-6" :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
+      <el-page-header class="mt-4 mb-6" :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />
@@ -44,7 +44,7 @@ watch(dateModel, (newVal, oldVal) => {
           <div
             class="w-100% h-100%"
             @click="
-              EcyUtils.Router.go({
+              Navigation.go({
                 path: RouterPath.WORKS_BY_ARCHIVE('d', data.day),
                 router: $router
               })

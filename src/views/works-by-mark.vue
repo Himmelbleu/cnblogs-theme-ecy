@@ -7,7 +7,7 @@ const markWorks = shallowRef();
 
 async function fetchData(index?: any) {
   markWorks.value = await WorksApi.getListByMark(`${route.params.tag}`, index);
-  EcyUtils.setTitle(markWorks.value.hint);
+  Broswer.setTitle(markWorks.value.hint);
 }
 
 useLoading(fetchData);
@@ -20,7 +20,7 @@ watch(route, () => {
 <template>
   <div id="l-works-by-mark" class="page">
     <div class="content" v-if="markWorks">
-      <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
+      <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />

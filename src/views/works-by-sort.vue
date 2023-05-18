@@ -11,8 +11,8 @@ const imgsIndex = shallowRef();
 async function fetchData(index?: any) {
   typeL1Works.value = await WorksApi.getByL1(`${route.params.id}`, index);
   typeL2Works.value = await WorksApi.getByL2(`${route.params.id}`, typeL1Works.value.isArticle);
-  imgsIndex.value = EcyUtils.Random.get(worksImgs, typeL1Works.value.data.length);
-  EcyUtils.setTitle(typeL1Works.value.hint);
+  imgsIndex.value = Random.get(worksImgs, typeL1Works.value.data.length);
+  Broswer.setTitle(typeL1Works.value.hint);
 }
 
 useLoading(fetchData);
@@ -29,7 +29,7 @@ watch(route, () => {
     <div class="content">
       <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="typeL1Works.page" :disabled="!typeL1Works.data.length">
         <template #content>
-          <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
+          <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
             <template #title>
               <div class="f-c-c">
                 <i-ep-back />

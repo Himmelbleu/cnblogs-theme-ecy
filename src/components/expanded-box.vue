@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const localSetting = EcyUtils.getLocalSetting();
+const localSetting = LocalStorage.getSetting();
 const props = defineProps({
   text: {
     type: String,

@@ -21,8 +21,8 @@ async function fetchData() {
   }
 
   archiveWorks.value = await fetchDataPromise;
-  imgsIndex.value = EcyUtils.Random.get(worksImgs, archiveWorks.value.data.length);
-  EcyUtils.setTitle(archiveWorks.value.hint);
+  imgsIndex.value = Random.get(worksImgs, archiveWorks.value.data.length);
+  Broswer.setTitle(archiveWorks.value.hint);
 }
 
 useLoading(fetchData);
@@ -41,7 +41,7 @@ watch(route, () => {
     <div class="content" v-if="archiveWorks">
       <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveWorks.page">
         <template #content>
-          <el-page-header :icon="null" @back="EcyUtils.Router.go({ path: 'back', router: $router })">
+          <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
             <template #title>
               <div class="f-c-c">
                 <i-ep-back />

@@ -11,7 +11,7 @@ const coverMatte = EcyConfig.__ECY_CONFIG__.covers.matte.index;
 
 async function fetchData(index: any) {
   worksList.value = await WorksApi.getList(index || 1);
-  coversIndex.value = EcyUtils.Random.get(allCovers, worksList.value.data.length);
+  coversIndex.value = Random.get(allCovers, worksList.value.data.length);
 }
 
 useLoading(fetchData);
@@ -20,11 +20,11 @@ useLoading(fetchData);
 <template>
   <div class="reception relative h-100vh w-100vw">
     <div class="z-999 absolute bottom-15vh left-0 f-c-c w-100vw">
-      <div class="w-10 h-10 hover" @click="EcyUtils.scrollIntoView('#l-start-nail')">
+      <div class="w-10 h-10 hover" @click="Broswer.scrollIntoView('#l-start-nail')">
         <i-ep-arrow-down-bold class="arrow hover" />
       </div>
     </div>
-    <div class="z-999 absolute bottom-0 left-0 h-75px w-100% flow-hidden">
+    <div class="z-999 absolute bottom-0 left-0 h-20 w-100% flow-hidden">
       <div class="wave-1 absolute h-100% w-200%"></div>
       <div class="wave-2 absolute h-100% w-200%"></div>
     </div>

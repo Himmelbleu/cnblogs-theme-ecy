@@ -7,7 +7,7 @@ const props = defineProps({
 
 const emits = defineEmits(["onPost"]);
 
-const comment = ref<BlogType.IComment>({
+const comment = ref<BlogComment>({
   postId: parseInt(props.postId),
   parentCommentId: 0,
   body: ""
@@ -16,7 +16,7 @@ const comment = ref<BlogType.IComment>({
 const loading = ref(false);
 
 function uploadImage(el: string) {
-  EcyUtils.openImageUploadWindow(el, (imgUrl: any) => {
+  Native.openImageUploadWindow(el, (imgUrl: any) => {
     comment.value.body += `\n\n${imgUrl}\n\n`;
   });
 }

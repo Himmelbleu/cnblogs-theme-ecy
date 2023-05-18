@@ -1,7 +1,7 @@
 export async function useLoading(loading?: Function) {
-  EcyUtils.startLoading();
+  Broswer.startLoading();
 
   loading && (await loading());
 
-  EcyUtils.endLoading();
+  Broswer.endLoading();
 }

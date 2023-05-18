@@ -66,7 +66,7 @@ const hidden = computed(() => {
         <i-ep-house />
       </template>
       <div class="f-c-c mb-4">
-        <router-link :to="RouterPath.PROFILE()">
+        <router-link :to="RouterPath.INDEX()">
           <img class="h-25 w-25 cursor-pointer rd-50" :src="EcyConfig.__ECY_CONFIG__.avatar" />
         </router-link>
       </div>
@@ -78,7 +78,7 @@ const hidden = computed(() => {
         </el-popconfirm>
         <el-button @click="subscribe" v-if="!EcyConfig.isFollow" type="primary" text bg> +关注博主 </el-button>
       </div>
-      <div class="hover mb-4" v-if="news" v-for="(item, index) in news" @click="EcyUtils.Router.go({ path: item.href })">
+      <div class="hover mb-4" v-if="news" v-for="(item, index) in news" @click="Navigation.go({ path: item.href })">
         <div class="f-c-s" v-if="index === 0">
           <i-ep-user-filled class="mr-2" />
           昵称：{{ item.text }}

@@ -9,10 +9,10 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 // unocss
 import Unocss from "unocss/vite";
 import { presetAttributify, presetUno } from "unocss";
-import { rules, shortcuts } from "./unocss.config";
 import transformerDirectives from "@unocss/transformer-directives";
+import { rules, shortcuts } from "./unocss.config";
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   const { VITE_BLOG_APP } = loadEnv(mode, "./");
   return {
     plugins: [
@@ -39,10 +39,10 @@ export default defineConfig(({ command, mode }) => {
           "vue-router",
           "@vueuse/core",
           {
-            "@/constants/index": ["RouterName", "RouterPath", "RouterRegx", "ProvideKey"]
+            "@/constants/index": ["RouterName", "RouterPath", "RouterRegx", "ProvideKey", "EcyConfig"]
           },
           {
-            "@/utils/common": ["EcyUtils", "EcyConfig"]
+            "@/utils/index": ["Broswer", "Formatter", "Native", "Navigation", "PrettifyLog", "Random", "LocalStorage", "Textual"]
           },
           {
             from: "vue-router",
@@ -52,6 +52,11 @@ export default defineConfig(({ command, mode }) => {
           {
             from: "vue",
             imports: ["PropType"],
+            type: true
+          },
+          {
+            from: "@vueuse/core",
+            imports: ["RemovableRef"],
             type: true
           }
         ],
