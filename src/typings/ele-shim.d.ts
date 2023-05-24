@@ -1,5 +1,7 @@
 declare interface Element {
   innerText?: string;
+  offsetHeight?: number;
+  offsetWidth?: number;
 }
 
 interface Window {

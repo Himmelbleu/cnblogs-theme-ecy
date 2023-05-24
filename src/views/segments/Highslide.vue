@@ -69,7 +69,9 @@ onMounted(() => {
           <img
             ref="eleImage"
             draggable="false"
-            class="l-highslide__img select-none cursor-move"
+            select-none
+            cursor-move
+            class="l-highslide__img"
             :class="{
               fixed: positionX && positionY && !!EcyVars.pcDevice,
               transition: animationOpened

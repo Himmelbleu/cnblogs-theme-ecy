@@ -1,118 +1,98 @@
 <script setup lang="ts">
-const localSetting = LocalStorage.getSetting();
-const props = defineProps({
+const { text, showIcon } = defineProps({
   text: {
     type: String,
     required: true
   },
-  disabled: {
+  showIcon: {
     type: Boolean,
-    required: false
+    default: true
   }
 });
 
-const title = `${props.text}`;
-if (!localSetting.value.menu.toggles[title]) {
-  localSetting.value.menu.toggles[title] = {
-    open: true,
-    show: true
-  };
-}
+const boxInst = ref();
+const boxWrapInst = ref();
+const isDownArrow = ref(true);
+const boxWrapInstHeight = ref(0);
+let lastBoxWrapInstHeight = 0;
 
-const content = ref();
-const height = ref();
+// 开启监听，当异步函数渲染完成之后最后一次高度就是最终的高度
+const observer: ResizeObserver = new ResizeObserver(entries => {
+  entries.forEach(entry => {
+    boxWrapInstHeight.value = entry.target.offsetHeight;
+    // console.log(boxWrapInstHeight.value);
+  });
+});
 
 function toggle() {
-  if (localSetting.value.menu.toggles[title]?.open) {
-    content.value.style.height = `${0}px`;
-    localSetting.value.menu.toggles[title].open = !localSetting.value.menu.toggles[title].open;
+  // 当收起面板时，将 boxWrapInstHeight 设置为0，那么整个面板就没了
+  if (isDownArrow.value) {
+    lastBoxWrapInstHeight = boxWrapInstHeight.value;
+    // observer.unobserve(boxWrapInst.value);
+    boxWrapInstHeight.value = 0;
   } else {
-    content.value.style.height = `${height.value}px`;
-    localSetting.value.menu.toggles[title].open = !localSetting.value.menu.toggles[title].open;
+    // observer.observe(boxWrapInst.value);
+    boxWrapInstHeight.value = lastBoxWrapInstHeight;
   }
+  isDownArrow.value = !isDownArrow.value;
 }
 
 onMounted(() => {
-  height.value = content.value.offsetHeight;
+  observer.observe(boxWrapInst.value);
+});
 
-  if (!props.disabled) {
-    if (!localSetting.value.menu.toggles[title]?.open) {
-      content.value.style.height = `${0}px`;
-    } else {
-      content.value.style.height = `${height.value}px`;
-    }
-  }
+onUnmounted(() => {
+  observer.disconnect();
 });
 </script>
 
 <template>
-  <div class="l-expbox mb-6" v-show="localSetting.menu.toggles[title]?.show">
-    <div class="title headtip mb-4 f-c-b l-size-5 l-color-1">
-      <div class="f-c-s">
-        <div class="f-c-c mr-1">
+  <div class="l-expbox mb-6">
+    <div class="title" select-none mb-4 f-c-b l-size-5 l-color-1>
+      <div f-c-s>
+        <div f-c-c mr-1>
           <slot name="icon"></slot>
         </div>
         {{ text }}
       </div>
-      <div
-        v-if="!disabled"
-        @click="toggle"
-        class="f-c-c opacity-70 hover"
-        :class="{ 'arrow-up': !localSetting.menu.toggles[title]?.open, 'arrow-down': localSetting.menu.toggles[title]?.open }">
-        <div class="arrow f-c-c">
+      <div v-if="showIcon" @click="toggle" class="hover effect f-c-c" :class="{ 'arrow-up': !isDownArrow, 'arrow-down': isDownArrow }">
+        <div class="arrow effect f-c-c">
           <i-ep-arrow-down />
         </div>
       </div>
     </div>
-    <div ref="content" class="content l-color-2">
-      <slot></slot>
+    <div l-color-2 flow-hidden class="effect" ref="boxInst" :style="{ height: boxWrapInstHeight + 'px' }">
+      <div ref="boxWrapInst">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.headtip {
+.title {
   padding-left: 0.4rem;
   border-radius: 0.25rem;
   border-left: 0.25rem solid var(--el-color-primary);
-}
-
-.arrow {
-  transform: scale(0, 0);
 }
 
 .title:hover .arrow {
   transform: scale(1, 1);
 }
 
+.arrow {
+  transform: scale(0, 0);
+}
+
 .arrow-up {
-  animation: arrow-up-animation 0.3s ease-in;
   transform: rotate(180deg);
 }
 
 .arrow-down {
-  animation: arrow-down-animation 0.3s ease-in;
   transform: rotate(0deg);
 }
 
-@keyframes arrow-up-animation {
-  @for $index from 0 to 10 {
-    #{$index * 10%} {
-      transform: rotate($index * 18deg);
-    }
-  }
-}
-
-@keyframes arrow-down-animation {
-  @for $index from 0 to 10 {
-    #{$index * 10%} {
-      transform: rotate(180deg - $index * 18deg);
-    }
-  }
-}
-
-.content {
-  overflow: hidden;
+.effect {
   transition: var(--l-animation-effect);
 }
 </style>

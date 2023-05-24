@@ -1,27 +1,44 @@
-export function useOnWheel(down: Function, up: Function) {
-  function handleMouseWheel(event: WheelEvent) {
-    const delta = Math.max(-1, Math.min(1, event.deltaY));
-
-    if (delta > 0) {
-      down();
-    } else if (delta < 0) {
-      up();
-    }
+export function useWheelRollsUpAndDown(
+  onDown: Function,
+  onUp?: Function,
+  options?: {
+    throttle?: number;
   }
-
-  window.addEventListener("wheel", useThrottleFn(handleMouseWheel, 200));
-}
-
-export function useOnScroll(edge: number, inTop: Function, inBottom: Function) {
+) {
+  const { throttle = 200 } = options || {};
+  let lastScrollY = window.scrollY;
   window.addEventListener(
     "scroll",
     useThrottleFn(e => {
-      const ratio = window.scrollY / Number(document.body.clientHeight);
-      if (ratio <= edge) {
-        inBottom();
-      } else if (ratio > edge && ratio <= 1) {
-        inTop();
+      const isMovedDown = lastScrollY < window.scrollY;
+      if (isMovedDown) {
+        onDown();
+      } else {
+        onUp && onUp();
       }
-    }, 200)
+      lastScrollY = window.scrollY;
+    }, throttle)
+  );
+}
+
+export function useLineBetweenHighAndLow(
+  onTop: Function,
+  onBottom?: Function,
+  options?: {
+    bottomEdge?: number;
+    throttle?: number;
+  }
+) {
+  const { bottomEdge = 0.5, throttle = 200 } = options || {};
+  window.addEventListener(
+    "scroll",
+    useThrottleFn(() => {
+      const leanTowardsBottom = window.scrollY / Number(document.body.clientHeight);
+      if (leanTowardsBottom <= bottomEdge) {
+        onBottom && onBottom();
+      } else if (leanTowardsBottom > bottomEdge && leanTowardsBottom <= 1) {
+        onTop();
+      }
+    }, throttle)
   );
 }

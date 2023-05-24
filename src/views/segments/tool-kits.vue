@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useOnWheel, useOnScroll } from "@/hooks/window-events";
+import { useWheelRollsUpAndDown, useLineBetweenHighAndLow } from "@/hooks/window-events";
 
 const route = useRoute();
-const setting = LocalStorage.getSetting();
+const { toolkits, theme } = LocalStorage.getSetting().value;
 const isInTop = ref(false);
 const isInBottom = ref(true);
 const isShowGuide = ref(false);
@@ -10,14 +10,14 @@ const isTake = ref(false);
 let html: HTMLElement;
 let topNail: HTMLElement;
 let bottomNail: HTMLElement;
-const catalogDisabled = inject<boolean>(ProvideKey.CATALOG_DISABLED);
+const disabled = inject<boolean>(ProvideKey.CATALOG_DISABLED);
 
 onMounted(() => {
   html = document.querySelector("html");
   topNail = document.querySelector("#l-top-nail");
   bottomNail = document.querySelector("#l-bottom-nail");
 
-  useOnWheel(
+  useWheelRollsUpAndDown(
     () => {
       isTake.value = true;
     },
@@ -26,8 +26,7 @@ onMounted(() => {
     }
   );
 
-  useOnScroll(
-    0.5,
+  useLineBetweenHighAndLow(
     () => {
       isInTop.value = true;
       isInBottom.value = false;
@@ -39,19 +38,19 @@ onMounted(() => {
   );
 });
 
-function moveScroll(dom: HTMLElement) {
+function scrollTo(dom: HTMLElement) {
   dom.scrollIntoView();
   isInTop.value = !isInTop.value;
   isInBottom.value = !isInBottom.value;
 }
 
 function toggleMode() {
-  if (setting.value.theme.mode === "dark") {
+  if (theme.mode === "dark") {
     html.className = "light";
-    setting.value.theme.mode = "light";
+    theme.mode = "light";
   } else {
     html.className = "dark";
-    setting.value.theme.mode = "dark";
+    theme.mode = "dark";
   }
 }
 
@@ -68,15 +67,15 @@ watch(route, () => {
   <div id="l-toolkits" :class="{ 'take-toolkits': isTake, 'intake-toolkits': !isTake }" class="fixed z-99 right-0 top-55vh l-size-4">
     <div
       v-show="isShowGuide"
-      :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
+      :class="{ 'show-0': toolkits.pin, 'close-0': !toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
-      @click="catalogDisabled = !catalogDisabled">
+      @click="disabled = !disabled">
       <div class="f-c-c w-8 h-8">
         <i-ep-guide />
       </div>
     </div>
     <div
-      :class="{ 'show-1': setting.toolkits.pin, 'close-1': !setting.toolkits.pin }"
+      :class="{ 'show-1': toolkits.pin, 'close-1': !toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
       @click="Navigation.go({ path: RouterPath.HOME(), router: $router })">
       <div class="f-c-c w-8 h-8">
@@ -84,7 +83,7 @@ watch(route, () => {
       </div>
     </div>
     <div
-      :class="{ 'show-2': setting.toolkits.pin, 'close-2': !setting.toolkits.pin }"
+      :class="{ 'show-2': toolkits.pin, 'close-2': !toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
       @click="Navigation.go({ path: 'back', router: $router })">
       <div class="f-c-c w-8 h-8">
@@ -92,24 +91,21 @@ watch(route, () => {
       </div>
     </div>
     <div
-      :class="{ 'show-3': setting.toolkits.pin, 'close-3': !setting.toolkits.pin }"
+      :class="{ 'show-3': toolkits.pin, 'close-3': !toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
-      @click="isInTop ? moveScroll(topNail) : moveScroll(bottomNail)">
+      @click="isInTop ? scrollTo(topNail) : scrollTo(bottomNail)">
       <div class="f-c-c w-8 h-8">
         <i-ep-upload :class="{ 'top-nav': isInTop, 'bottom-nav': isInBottom }" />
       </div>
     </div>
-    <div
-      :class="{ 'show-4': setting.toolkits.pin, 'close-4': !setting.toolkits.pin }"
-      class="absolute hover left-0 rd-2 l-back-bg"
-      @click="toggleMode">
+    <div :class="{ 'show-4': toolkits.pin, 'close-4': !toolkits.pin }" class="absolute hover left-0 rd-2 l-back-bg" @click="toggleMode">
       <div class="f-c-c w-8 h-8">
-        <i-ep-moon v-show="setting.theme.mode === 'dark'" />
-        <i-ep-sunny v-show="setting.theme.mode === 'light'" />
+        <i-ep-moon v-show="theme.mode === 'dark'" />
+        <i-ep-sunny v-show="theme.mode === 'light'" />
       </div>
     </div>
     <div
-      :class="{ 'show-5': setting.toolkits.pin, 'close-5': !setting.toolkits.pin }"
+      :class="{ 'show-5': toolkits.pin, 'close-5': !toolkits.pin }"
       class="absolute hover left-0 rd-2 l-back-bg"
       @click="Navigation.go({ path: 'https://i.cnblogs.com' })">
       <div class="f-c-c w-8 h-8">
@@ -117,8 +113,8 @@ watch(route, () => {
       </div>
     </div>
     <div
-      @click="setting.toolkits.pin = !setting.toolkits.pin"
-      :class="{ 'take-items': setting.toolkits.pin, 'intake-items': !setting.toolkits.pin }"
+      @click="toolkits.pin = !toolkits.pin"
+      :class="{ 'take-items': toolkits.pin, 'intake-items': !toolkits.pin }"
       class="kits-box absolute hover top-60 left-0 rd-2 l-back-bg">
       <div class="f-c-c w-8 h-8">
         <i-ep-more />

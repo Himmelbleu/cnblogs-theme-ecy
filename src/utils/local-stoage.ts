@@ -15,11 +15,11 @@ export namespace LocalStorage {
       toolkits: { pin: true },
       menu: {
         toggles: {
-          我的技术栈: { open: true, show: true },
-          博客信息: { open: true, show: true },
-          常用链接: { open: true, show: true },
-          博客数据: { open: true, show: true },
-          推荐书籍: { open: true, show: true }
+          我的技能: { arrowDown: true, intake: true },
+          博客信息: { arrowDown: true, intake: true },
+          常用链接: { arrowDown: true, intake: true },
+          博客数据: { arrowDown: true, intake: true },
+          推荐书籍: { arrowDown: true, intake: true }
         }
       }
     };

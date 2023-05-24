@@ -34,17 +34,17 @@ function currentChange(elIndex: number) {
 </script>
 
 <template>
-  <div class="pagination relative">
-    <div v-if="!disabled" class="button hover left f-c-c rd-l-4" @click="prevChange" v-show="index !== 1 && count">
+  <div class="pagination" relative>
+    <div v-if="!disabled" class="button hover left" rd-l-4 f-c-c l-color-3 @click="prevChange" v-show="index !== 1 && count">
       <i-ep-arrow-left-bold />
     </div>
-    <div class="content">
+    <div>
       <slot name="content" />
     </div>
-    <div v-if="!disabled" class="button hover right f-c-c rd-l-4" @click="nextChange" v-show="index !== count && count">
+    <div v-if="!disabled" class="button hover right" rd-l-4 f-c-c l-color-3 @click="nextChange" v-show="index !== count && count">
       <i-ep-arrow-right-bold />
     </div>
-    <div v-if="count && !disabled" class="bottom f-c-e my-4">
+    <div v-if="count && !disabled" f-c-e my-4>
       <el-pagination layout="pager, next" :page-count="count" v-model:current-page="index" @current-change="currentChange" />
     </div>
   </div>
@@ -61,10 +61,13 @@ function currentChange(elIndex: number) {
   .button {
     position: fixed;
     top: 50vh;
-    opacity: 0.7;
-    color: var(--l-color-3);
+    opacity: 0.35;
     width: 2.5rem;
     height: 2.5rem;
+  }
+
+  .button:hover {
+    opacity: 1;
   }
 
   .button.left {
