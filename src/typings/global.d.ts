@@ -177,18 +177,15 @@ type EcyConfig = Partial<{
 }>;
 
 /**
- * Ecy 主题设置数据类型
+ * Ecy 本地设置
  */
 type EcyLocalSetting = Partial<{
   theme: { mode: "dark" | "light" };
   toolkits: { pin: boolean };
-  menu: {
-    toggles: Record<string, { arrowDown: boolean; intake: boolean }>;
-  };
 }>;
 
 /**
- * Ecy 配置
+ * Ecy 配置选项
  */
 declare namespace EcyVars {
   let config: EcyConfig;

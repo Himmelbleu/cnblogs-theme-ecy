@@ -12,16 +12,7 @@ export namespace LocalStorage {
   export function getSettingTemp(): EcyLocalSetting {
     return {
       theme: { mode: "dark" },
-      toolkits: { pin: true },
-      menu: {
-        toggles: {
-          我的技能: { arrowDown: true, intake: true },
-          博客信息: { arrowDown: true, intake: true },
-          常用链接: { arrowDown: true, intake: true },
-          博客数据: { arrowDown: true, intake: true },
-          推荐书籍: { arrowDown: true, intake: true }
-        }
-      }
+      toolkits: { pin: true }
     };
   }
 
