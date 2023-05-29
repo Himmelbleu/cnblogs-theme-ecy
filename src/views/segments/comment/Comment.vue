@@ -8,7 +8,7 @@ const props = defineProps({
 
 const level = ref();
 const { anchor } = storeToRefs(useAnchorStore());
-
+const commentRefs = ref();
 const comments = ref<EcyComment[]>();
 const pageCount = ref(0);
 const currIndex = ref(1);
@@ -17,8 +17,6 @@ async function fetchData() {
   comments.value = await CommentApi.getList(props.postId, currIndex.value, anchor.value);
   pageCount.value = await CommentApi.getCount(props.postId);
 }
-
-await fetchData();
 
 function onPost(response: any) {
   comments.value = response.comments;
@@ -43,6 +41,8 @@ watch(level, () => {
 defineExpose({
   fetchData
 });
+
+await fetchData();
 </script>
 
 <template>
@@ -50,7 +50,7 @@ defineExpose({
     <post-comment :post-id="postId" @on-post="onPost" />
     <h3>评论列表</h3>
     <div class="l-comment__list mt-10" v-if="isLogined && comments?.length">
-      <div class="l-comment__main clearfix mb-12" v-for="(item, index) in comments" :key="item.commentId">
+      <div class="l-comment__main clearfix mb-12" v-for="(item, index) in comments" :key="item.commentId" ref="commentRefs">
         <div class="l-comment__head f-c-s">
           <el-image class="l-comment__avatar mr-4 rd-50 w-14 h-14" :src="item.avatar" fit="fill" />
           <div>
@@ -71,7 +71,7 @@ defineExpose({
         </div>
         <div class="l-comment__middle mt-4 relative" style="margin-left: 4.5rem">
           <textarea class="z--1 opacity-0 absolute top-0 left-0" :id="'upload-img-' + index" />
-          <div class="l-comment__content" v-html="item.content" v-hljs="item.layer" v-highslide="item.layer" v-mathjax="item.layer"></div>
+          <markdown-content class="l-comment__content" :html-str="item.content" />
         </div>
         <div class="l-comment__more float-right f-c-e" v-show="!item.isEditing && !item.isAnsling">
           <el-dropdown>
@@ -96,6 +96,7 @@ defineExpose({
         <edit-comment @on-finish="onEdFinish" :post-id="postId" :curr-page-index="currIndex" :comment="item" />
         <answer-comment @on-finish="onReFinish" :post-id="postId" :curr-page-index="currIndex" :comment="item" />
       </div>
+      <highslide :real-html="commentRefs" />
       <div class="mt-10 f-c-e" v-if="pageCount > 1">
         <el-pagination @current-change="fetchData" layout="prev, pager, next" v-model:current-page="currIndex" :page-count="pageCount" />
       </div>

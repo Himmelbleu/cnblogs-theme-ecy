@@ -5,6 +5,10 @@
  * @date 2023 年 1 月 15 日
  */
 @import "./mixins.scss";
+@import "./cust-markdown.scss";
+@import "./cust-element-plus.scss";
+@import "./cust-highlightjs.scss";
+@import "./cust-res.scss";
 
 .hover {
   cursor: pointer !important;
@@ -67,40 +71,6 @@
     outline: none;
     color: var(--l-color-1);
     resize: none;
-  }
-}
-
-@include pc() {
-  .page {
-    --uno: f-s-c relative;
-    z-index: 2;
-
-    & > .content {
-      width: 55vw;
-    }
-  }
-
-  .works-head-panel {
-    .content {
-      --uno: f-c-c;
-
-      & > div {
-        width: 55vw;
-      }
-    }
-  }
-}
-
-@include mb() {
-  .page {
-    --uno: px-4;
-    width: 100%;
-  }
-
-  .works-head-panel {
-    .content {
-      --uno: px-4;
-    }
   }
 }
 
@@ -168,6 +138,88 @@
       #{$index * 10%} {
         opacity: math.div($index, 10);
       }
+    }
+  }
+}
+
+/**
+ * 设置所有元素共有的样式
+ *
+ * @author Himmelbleu
+ * @date 2023 年 2 月 14 日
+ */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100% !important;
+  background-color: var(--l-back-bg);
+  color: var(--l-color-1);
+  font-size: var(--l-size-root);
+  font-weight: 400;
+
+  & {
+    scrollbar-color: initial;
+    scrollbar-width: none;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+* {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: var(--l-font-family);
+  letter-spacing: 1px;
+  scroll-behavior: smooth;
+  word-break: break-all;
+  line-break: anywhere;
+  box-sizing: border-box;
+}
+
+img {
+  --uno: rd-2;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+@include pc() {
+  .page {
+    --uno: f-s-c relative;
+    z-index: 2;
+
+    & > .content {
+      width: 55vw;
+    }
+  }
+
+  .works-head-panel {
+    .content {
+      --uno: f-c-c;
+
+      & > div {
+        width: 55vw;
+      }
+    }
+  }
+}
+
+@include mb() {
+  .page {
+    --uno: px-4;
+    width: 100%;
+  }
+
+  .works-head-panel {
+    .content {
+      --uno: px-4;
     }
   }
 }

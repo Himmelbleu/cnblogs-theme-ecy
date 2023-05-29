@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { createHigslide } from "./index";
+
+const props = defineProps(["realHtml"]);
+const toRefRealHtml = toRef(props, "realHtml");
+
 const eleHighslide = ref<HTMLElement>();
-const eleImage = ref<HTMLElement>();
+const eleImage = ref<HTMLImageElement>();
 const positionX = ref(0);
 const positionY = ref(0);
 const imgDegree = ref(0);
@@ -47,6 +52,7 @@ function zoomOut() {
 
 onMounted(() => {
   eleImage.value.addEventListener("mousewheel", e => {
+    animationOpened.value = false;
     imgWidth.value = parseInt(eleImage.value.style.width);
     imgHeight.value = parseInt(eleImage.value.style.height);
     // @ts-ignore
@@ -58,6 +64,10 @@ onMounted(() => {
       imgWidth.value -= imgWidth.value * 0.15;
     }
   });
+});
+
+watch(toRefRealHtml, newVal => {
+  createHigslide(newVal, eleHighslide.value, eleImage.value);
 });
 </script>
 

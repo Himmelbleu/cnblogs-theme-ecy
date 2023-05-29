@@ -16,22 +16,17 @@ const isDownArrow = ref(true);
 const boxWrapInstHeight = ref(0);
 let lastBoxWrapInstHeight = 0;
 
-// 开启监听，当异步函数渲染完成之后最后一次高度就是最终的高度
 const observer: ResizeObserver = new ResizeObserver(entries => {
   entries.forEach(entry => {
     boxWrapInstHeight.value = entry.target.offsetHeight;
-    // console.log(boxWrapInstHeight.value);
   });
 });
 
 function toggle() {
-  // 当收起面板时，将 boxWrapInstHeight 设置为0，那么整个面板就没了
   if (isDownArrow.value) {
     lastBoxWrapInstHeight = boxWrapInstHeight.value;
-    // observer.unobserve(boxWrapInst.value);
     boxWrapInstHeight.value = 0;
   } else {
-    // observer.observe(boxWrapInst.value);
     boxWrapInstHeight.value = lastBoxWrapInstHeight;
   }
   isDownArrow.value = !isDownArrow.value;

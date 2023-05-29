@@ -24,7 +24,7 @@ const hidden = computed(() => {
       <template #icon>
         <i-ep-aim />
       </template>
-      <skillgraph />
+      <skill-graph />
     </expanded-box>
     <expanded-box text="常用链接" v-if="EcyVars.config.menu.links?.length">
       <template #icon>
