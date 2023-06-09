@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
 import { defineConfig, loadEnv } from "vite";
 import AutoImport from "unplugin-auto-import/vite";
@@ -6,26 +5,15 @@ import Components from "unplugin-vue-components/vite";
 import Icons from "unplugin-icons/vite";
 import IconsResolver from "unplugin-icons/resolver";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-// unocss
-import Unocss from "unocss/vite";
-import { presetAttributify, presetUno } from "unocss";
-import transformerDirectives from "@unocss/transformer-directives";
-import { rules, shortcuts } from "./unocss.config";
+import UnoCSS from "unocss/vite";
 
 export default defineConfig(({ mode }) => {
   const { VITE_BLOG_APP } = loadEnv(mode, "./");
   return {
     plugins: [
       vue(),
-      Unocss({
-        rules,
-        shortcuts,
-        transformers: [
-          transformerDirectives({
-            applyVariable: ["--uno"]
-          })
-        ],
-        presets: [presetAttributify({}), presetUno()]
+      UnoCSS({
+        configFile: "./uno.config.ts"
       }),
       AutoImport({
         include: [
@@ -83,12 +71,9 @@ export default defineConfig(({ mode }) => {
       })
     ],
     resolve: {
-      alias: [
-        {
-          find: "@",
-          replacement: resolve(__dirname, "src")
-        }
-      ]
+      alias: {
+        "@": "/src"
+      }
     },
     css: {
       preprocessorOptions: {

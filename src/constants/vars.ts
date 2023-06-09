@@ -79,7 +79,7 @@ export namespace EcyVars {
     document.head.append(icon);
 
     PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
-    PrettifyLog.primary("v1.3.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+    PrettifyLog.primary("v2.0.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
   }
 
   export function useLite(dev: Function, pro: Function) {

@@ -1,31 +1,12 @@
 <script setup lang="ts">
-const ldisabled = ref(true);
-const rdisabled = ref(true);
 const catalogDisabled = ref(!EcyVars.pcDevice);
+const fontFamily = EcyVars.config.font.code || `var(--el-font-family)`;
 
 provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
 
-onMounted(() => {
-  const eleL = document.getElementById("l-ldisabled");
-  const eleR = document.getElementById("l-rdisabled");
-  const eleMatte = document.getElementById("l-matte");
+onMounted(() => {});
 
-  eleL.addEventListener("mouseover", () => {
-    ldisabled.value = !ldisabled.value;
-  });
-
-  eleR.addEventListener("mouseover", () => {
-    rdisabled.value = !rdisabled.value;
-  });
-
-  eleMatte.addEventListener("click", () => {
-    if (!ldisabled.value) {
-      ldisabled.value = true;
-    } else if (!rdisabled.value) {
-      rdisabled.value = true;
-    }
-  });
-});
+const isActiveMenu = ref(false);
 </script>
 
 <template>
@@ -34,7 +15,6 @@ onMounted(() => {
       <div class="bar rd-2"></div>
     </div>
   </div>
-  <div id="l-matte" class="fixed top-0 left-0 l-matee-bg z-9999" :class="{ 'w-100% h-100vh': !rdisabled || !ldisabled }"></div>
   <div id="l-content" class="fade-in-out relative">
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
@@ -48,11 +28,50 @@ onMounted(() => {
     </RouterView>
     <div id="l-bottom-nail"></div>
   </div>
-  <ToolKits />
-  <div id="l-ldisabled" class="z-99 h-30vh w-4 fixed left-0 top-30vh"></div>
-  <LeftMenu :disabled="ldisabled" />
-  <div id="l-rdisabled" class="z-99 h-30vh w-4 fixed right-0 top-30vh"></div>
-  <RightMenu :disabled="rdisabled" />
+  <div class="l-menu" :class="{ open: isActiveMenu }">
+    <div
+      @click="isActiveMenu = !isActiveMenu"
+      :class="{ 'static-menu': !isActiveMenu, 'active-menu': isActiveMenu }"
+      class="menu-button"
+      select-none
+      f-c-c
+      w-25
+      h-25
+      fixed
+      top-0
+      z-1
+      left-0
+      b="rd-rb-5">
+      <div v-show="!isActiveMenu">
+        <i-ep-fold size-3 cursor-pointer />
+        <div>MENU</div>
+      </div>
+      <div v-show="isActiveMenu">
+        <i-ep-close size-4 cursor-pointer />
+      </div>
+    </div>
+    <div class="menu-body" :class="{ 'close-menu-body': !isActiveMenu, 'open-menu-body': isActiveMenu }" fixed top-0 left-0 w-70 h-100vh>
+      <div relative class="menu-list" mt-40 ml-7 font-bold>
+        <div class="hover" mb-10>标签分类</div>
+        <div class="hover" mb-10>随笔分类</div>
+        <div class="hover" mb-10>随笔档案</div>
+        <div class="hover" mb-10>文章分类</div>
+        <div class="hover" mb-10>文章档案</div>
+        <div class="hover" mb-10>最新随笔</div>
+        <div class="hover" mb-10>最新评论</div>
+        <div class="hover" mb-10>我的相册</div>
+        <div class="hover">博客日历</div>
+        <img
+          z--1
+          absolute
+          left-0
+          top-0
+          class="w-100% h-100% object-cover"
+          src="https://images-1303923190.cos.ap-chengdu.myqcloud.com/top_header_menu_bg.png"
+          opacity-20 />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
@@ -74,9 +93,9 @@ onMounted(() => {
   }
 
   @keyframes track-active-animation {
-    @for $index from 0 to 25 {
-      #{$index * 4%} {
-        left: $index * 4vw;
+    @for $i from 0 to 25 {
+      #{$i * 4%} {
+        left: $i * 4vw;
       }
     }
   }
@@ -87,6 +106,70 @@ onMounted(() => {
 
   .track.static {
     left: 0;
+  }
+}
+
+.l-menu {
+  .menu-button {
+    transition-delay: 0s;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
+  }
+
+  .static-menu {
+    background-color: var(--l-theme-color);
+    color: white;
+  }
+
+  .active-menu {
+    background-color: white;
+    color: var(--l-theme-color);
+  }
+
+  .menu-body {
+    transition-delay: 0s;
+    transition-property: left;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
+  }
+
+  .close-menu-body {
+    left: -17.5rem;
+
+    .menu-list {
+      & > div {
+        opacity: 0;
+        transition-property: all;
+        transition-timing-function: ease-in-out;
+      }
+    }
+  }
+
+  .open-menu-body {
+    left: 0;
+
+    .menu-list {
+      @for $i from 0 to 10 {
+        & > div:nth-child(#{$i}) {
+          opacity: 1;
+          transition-delay: #{$i * 0.05}s !important;
+        }
+      }
+    }
+  }
+}
+
+code {
+  margin: 0;
+  --uno: rd-2 l-size-3;
+  letter-spacing: 1.5px;
+  color: var(--el-color-danger-light-3);
+  font-family: v-bind(fontFamily);
+
+  span {
+    line-height: 1.8;
+    font-family: v-bind(fontFamily);
   }
 }
 </style>

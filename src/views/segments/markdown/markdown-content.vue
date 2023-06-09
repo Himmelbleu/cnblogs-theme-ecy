@@ -16,7 +16,6 @@ defineProps({
 const emits = defineEmits(["update:realHtml"]);
 
 const htmlRef = ref<HTMLElement>();
-const fontFamily = EcyVars.config.font.code || `var(--el-font-family)`;
 
 onMounted(() => {
   // hljs
