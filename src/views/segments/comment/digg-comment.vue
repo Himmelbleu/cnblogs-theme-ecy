@@ -27,7 +27,7 @@ async function diggComment() {
 </script>
 
 <template>
-  <div v-show="!comment.isEditing && !comment.isAnsling" class="l-comment__digg hover l-size-2 l-color-2" @click="diggComment">
+  <div v-show="!comment.isEditing && !comment.isAnsling" class="l-comment__digg hover text-0.9rem text-b" @click="diggComment">
     <i-ep-caret-top class="mr-1" />
     <span>{{ comment.digg }}</span>
   </div>

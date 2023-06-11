@@ -1,5 +1,11 @@
-import { defineConfig, presetAttributify, presetUno } from "unocss";
-import transformerDirectives from "@unocss/transformer-directives";
+import {
+  defineConfig,
+  presetAttributify,
+  presetUno,
+  presetIcons,
+  presetWebFonts,
+  transformerDirectives
+} from "unocss";
 
 const matches = [
   { prefix: "c", value: "center" },
@@ -24,21 +30,67 @@ function addFlexJustify(p2: string) {
 }
 
 export default defineConfig({
-  presets: [presetAttributify(), presetUno()],
+  presets: [
+    presetUno(),
+    presetAttributify(),
+    presetIcons({
+      collections: {
+        tabler: () => import("@iconify-json/tabler/icons.json").then(i => i.default),
+        ep: () => import("@iconify-json/ep/icons.json").then(i => i.default)
+      }
+    }),
+    presetWebFonts({
+      provider: "bunny",
+      fonts: {
+        main: ["ZCOOL KuaiLe"]
+      }
+    })
+  ],
   transformers: [
     transformerDirectives({
       applyVariable: ["--uno"]
     })
   ],
+  theme: {
+    colors: {
+      a: "var(--text-a)",
+      b: "var(--text-b)",
+      c: "var(--text-c)",
+      d: "var(--text-d)",
+      primary: "var(--text-primary)"
+    }
+  },
+  preflights: [
+    {
+      getCSS: ({ theme }) => {
+        return `
+          * {
+            font-family: inherit;
+            color: inherit;
+            scroll-behavior: smooth;
+            word-break: break-all;
+            line-break: anywhere;
+            box-sizing: border-box;
+          }
+        `;
+      }
+    }
+  ],
   rules: [
-    [/^size-(\d*)$/, ([, d]) => ({ "font-size": `${d}rem !important` })],
-    [/^l-size-(\d*)$/, ([, d]) => ({ "font-size": `var(--l-size-${d}) !important` })],
-    [/^l-color-(\d*)$/, ([, d]) => ({ color: `var(--l-color-${d}) !important` })],
-    [/^l-hight-color-(\d*)$/, ([, d]) => ({ color: `var(--l-hight-color-${d}) !important` })],
-    [/^flow-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/, ([, d]) => ({ overflow: `${d}` })],
-    [/^flow-x-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/, ([, d]) => ({ overflow: `${d}` })],
-    [/^flow-y-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/, ([, d]) => ({ overflow: `${d}` })],
-    [/^l-([a-z]*)-bg$/, ([, d]) => ({ "background-color": `var(--l-${d}-bg) !important` })]
+    [
+      /^flow-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/,
+      ([, d]) => ({ overflow: `${d}` })
+    ],
+    [
+      /^flow-x-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/,
+      ([, d]) => ({ overflow: `${d}` })
+    ],
+    [
+      /^flow-y-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/,
+      ([, d]) => ({ overflow: `${d}` })
+    ],
+    [/^letter-spacing-(\d+|\d+\.\d+)$/, ([, d]) => ({ "letter-spacing": `${d}rem` })],
+    [/^line-height-(\d+|\d+\.\d+)$/, ([, d]) => ({ "line-height": `${d}rem` })]
   ],
   shortcuts: [
     [
@@ -52,6 +104,12 @@ export default defineConfig({
         }
 
         return style;
+      }
+    ],
+    [
+      /^hover$/,
+      () => {
+        return `cursor-pointer hover:text-primary transition-all-300`;
       }
     ]
   ]

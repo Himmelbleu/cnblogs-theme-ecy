@@ -87,8 +87,8 @@ await fetchData();
     </div>
     <div class="content z-999 absolute left-0 top-10vh w-100%">
       <div>
-        <div class="l-size-13 text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
-        <div class="f-c-s mt-6 l-size-2">
+        <div class="text-3.23 text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
+        <div class="f-c-s mt-6 text-0.9rem">
           <div class="f-c-c mr-4">
             <i-ep-clock class="mr-1" />
             <span>{{ works.date }}</span>
@@ -110,7 +110,7 @@ await fetchData();
           </div>
         </div>
         <div class="mt-6">
-          <div class="mb-4 flex-wrap l-size-2 f-c-s" v-if="worksProps.sorts.length > 0">
+          <div class="mb-4 flex-wrap text-0.9rem f-c-s" v-if="worksProps.sorts.length > 0">
             <div class="f-c-c">
               <i-ep-folder-opened class="mr-1" />
               <span>分类：</span>
@@ -125,7 +125,7 @@ await fetchData();
               </hollowed-box>
             </div>
           </div>
-          <div class="f-c-s flex-wrap l-size-2" v-if="worksProps.tags.length > 0">
+          <div class="f-c-s flex-wrap text-0.9rem" v-if="worksProps.tags.length > 0">
             <div class="f-c-c">
               <i-ep-price-tag class="mr-1" />
               <span>标签：</span>
@@ -152,7 +152,7 @@ await fetchData();
     <div class="content" v-if="!worksIsLocked">
       <markdown-content :html-str="works.content" v-model:real-html="markdownRef" />
       <div class="divider flex-col"></div>
-      <div class="l-color-2 f-c-e l-size-2">
+      <div class="text-b f-c-e text-0.9rem">
         <div class="f-c-c mr-4">
           <i-ep-clock class="mr-1" />
           <span>{{ works.date }}</span>
@@ -166,14 +166,14 @@ await fetchData();
           <span>{{ works.comm }}条评论</span>
         </div>
       </div>
-      <div class="prev-next mt-10 l-size-2">
+      <div class="prev-next mt-10 text-0.9rem">
         <div class="hover f-c-s mb-2" v-if="worksPrevNext.prev.href">
           <i-ep-d-arrow-left />
-          <a class="hover l-color-1" :href="worksPrevNext.prev.href"> 上一篇：{{ worksPrevNext.prev.text }} </a>
+          <a class="hover text-color-a" :href="worksPrevNext.prev.href"> 上一篇：{{ worksPrevNext.prev.text }} </a>
         </div>
         <div class="hover f-c-s" v-if="worksPrevNext.next.href">
           <i-ep-d-arrow-right />
-          <a class="hover l-color-1" :href="worksPrevNext.next.href"> 下一篇：{{ worksPrevNext.next.text }} </a>
+          <a class="hover text-color-a" :href="worksPrevNext.next.href"> 下一篇：{{ worksPrevNext.next.text }} </a>
         </div>
       </div>
       <div class="viewpoint my-10 f-c-e">

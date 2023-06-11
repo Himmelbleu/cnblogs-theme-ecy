@@ -9,7 +9,9 @@ export namespace Navigation {
       params.router.go(-1);
     } else {
       if (params.router) params.router.push(params.path);
-      else window.open(params.path, "_blank");
+      else {
+        window.open(params.path, "_blank");
+      }
     }
   }
 }

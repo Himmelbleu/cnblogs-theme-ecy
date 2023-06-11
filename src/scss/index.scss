@@ -1,0 +1,178 @@
+@import "./mixins.scss";
+@import "./cust-markdown.scss";
+@import "./cust-element-plus.scss";
+@import "./cust-highlightjs.scss";
+@import "./cust-res.scss";
+
+.scroll-none {
+  & {
+    scrollbar-color: initial;
+    scrollbar-width: none;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.shine-text {
+  background: linear-gradient(
+    to right,
+    #4b89ac,
+    #7bb1d1,
+    #9cc6d8,
+    #b2d1d1,
+    #f5b0cb,
+    #d395d7,
+    #a595d3,
+    #5d4e6d
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine-animation 10s ease infinite;
+}
+
+.shine-bg {
+  background: linear-gradient(
+    to right,
+    #4b89ac,
+    #7bb1d1,
+    #9cc6d8,
+    #b2d1d1,
+    #f5b0cb,
+    #d395d7,
+    #a595d3,
+    #5d4e6d
+  );
+  background-size: 200% auto;
+  animation: shine-animation 5s ease infinite;
+  filter: blur(55px);
+}
+
+@keyframes shine-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bounce {
+  animation: bounce-animation 0.8s ease alternate infinite;
+}
+
+@keyframes bounce-animation {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+
+  100% {
+    transform: translateY(-8px) scale(0.95, 1);
+  }
+}
+
+.clearfix:after {
+  content: "";
+  height: 0;
+  clear: both;
+  display: block;
+  visibility: hidden;
+}
+
+.textarea {
+  --uno: mb-5 rd-2;
+  border: 1px solid var(--el-border-color-darker);
+  background-color: transparent;
+  @include hover($border-color: all, $font-color: false);
+
+  textarea {
+    --uno: rd-2 p-2 text-0.9rem;
+    background-color: transparent;
+    width: 100%;
+    height: 15rem;
+    border: none;
+    outline: none;
+    color: var(--text-a);
+    resize: none;
+  }
+}
+
+.fade-in-out {
+  animation: transition-animation 0.9s ease-in;
+
+  @keyframes transition-animation {
+    @for $index from 0 to 10 {
+      #{$index * 10%} {
+        opacity: math.div($index, 10);
+      }
+    }
+  }
+}
+
+/**
+ * 设置所有元素共有的样式
+ *
+ * @author Himmelbleu
+ * @date 2023 年 2 月 14 日
+ */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--text-a);
+  font-size: var(--l-size-root);
+  background-color: var(--l-background-bg);
+
+  & {
+    scrollbar-color: initial;
+    scrollbar-width: none;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+a:link {
+  text-decoration: none;
+}
+
+@include pc() {
+  .page {
+    --uno: f-s-c relative;
+    z-index: 2;
+
+    & > .content {
+      width: 55vw;
+    }
+  }
+
+  .works-head-panel {
+    .content {
+      --uno: f-c-c;
+
+      & > div {
+        width: 55vw;
+      }
+    }
+  }
+}
+
+@include mb() {
+  .page {
+    --uno: px-4;
+    width: 100%;
+  }
+
+  .works-head-panel {
+    .content {
+      --uno: px-4;
+    }
+  }
+}

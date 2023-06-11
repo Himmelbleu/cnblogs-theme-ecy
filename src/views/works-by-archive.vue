@@ -48,7 +48,7 @@ watch(route, () => {
               </div>
             </template>
             <template #content>
-              <div class="l-size-5 mb-5 mt-4">{{ archiveWorks.hint }}</div>
+              <div class="text-1.2rem mb-5 mt-4">{{ archiveWorks.hint }}</div>
             </template>
           </el-page-header>
           <WorksItem

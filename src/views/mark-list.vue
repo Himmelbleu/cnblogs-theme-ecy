@@ -21,7 +21,7 @@ useLoading(fetchData);
           </div>
         </template>
         <template #content>
-          <div class="l-size-5">标签集合</div>
+          <div class="text-1.2rem">标签集合</div>
         </template>
       </el-page-header>
       <div class="tags">

@@ -58,7 +58,9 @@ export namespace EcyVars {
 
   function loadedEcy() {
     const setting = LocalStorage.getSetting().value;
-    const settingStr = JSON.stringify(LocalStorage.reloadObjProps(setting, LocalStorage.getSettingTemp()));
+    const settingStr = JSON.stringify(
+      LocalStorage.reloadObjProps(setting, LocalStorage.getSettingTemp())
+    );
     localStorage.setItem(`l-${getBlogApp()}-setting`, settingStr);
     document.documentElement.setAttribute("class", setting.theme.mode);
 
@@ -79,7 +81,10 @@ export namespace EcyVars {
     document.head.append(icon);
 
     PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
-    PrettifyLog.primary("v2.0.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+    PrettifyLog.primary(
+      "v2.0.0",
+      "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite."
+    );
   }
 
   export function useLite(dev: Function, pro: Function) {
@@ -103,15 +108,21 @@ export namespace EcyVars {
             index: "1.5px",
             works: "20px"
           },
-          works: ["https://img1.baidu.com/it/u=726526983,4132763702&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500"],
+          works: [
+            "https://img1.baidu.com/it/u=726526983,4132763702&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500"
+          ],
           index: ["https://gzw.sinaimg.cn/large/0073YlnVgy1h8apu19t61j32yo1o0x6v.jpg"]
         },
         graph: {
-          alpha: 0.85,
+          alpha: 1,
           sides: 9,
           layer: 6,
-          lineWidth: 1,
-          textSize: 0.8,
+          lineWidth: 0.8,
+          textSize: 1,
+          fillColor: "#409effb8",
+          strokeColor: "#409effb8",
+          textColor: "#383838f8",
+          lineColor: "#383838f8",
           data: [
             { title: "scss", star: 5 },
             { title: "vue3", star: 5 },

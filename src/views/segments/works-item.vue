@@ -24,11 +24,11 @@ defineProps({
     </div>
     <div class="w-52%" :class="{ 'pl-4': index % 2 === 0, 'pr-4': index % 2 !== 0 }">
       <div
-        class="hover text-ellipsis line-clamp-2 f-c-s mb-6 l-size-6"
+        class="hover text-ellipsis line-clamp-2 f-c-s mb-6 text-1.3rem"
         @click="Navigation.go({ path: RouterPath.WORKS(item.id), router: $router })">
         {{ item.text }}
       </div>
-      <div class="f-c-s mb-4 l-size-2 l-color-2">
+      <div class="f-c-s mb-4 text-0.9rem text-b">
         <div class="mr-3 f-c-c">
           <i-ep-view class="mr-1" />
           {{ item.view }}
@@ -42,20 +42,20 @@ defineProps({
           {{ item.digg }}
         </div>
       </div>
-      <div class="l-color-3 text-ellipsis line-clamp-4">
+      <div class="text-c text-ellipsis line-clamp-4">
         {{ item.desc }}
       </div>
-      <div class="hover f-c-s mt-6 l-size-2 l-color-2">
+      <div class="hover f-c-s mt-6 text-0.9rem text-b">
         <i-ep-caret-right />
         <router-link class="ml-1 b-b-1 b-b-dotted p-b-0.5" :to="'/p/' + item.id"> 阅读全文 </router-link>
       </div>
       <div class="mt-4 f-c-e">
-        <div class="l-size-2 l-color-2 f-c-c">
+        <div class="text-0.9rem text-b f-c-c">
           <i-ep-clock class="mr-1" />
           {{ item.date }}
         </div>
       </div>
-      <div v-show="item.isTop || item.isOnlyMe || item.isLocked" class="mt-4 l-color-3">
+      <div v-show="item.isTop || item.isOnlyMe || item.isLocked" class="mt-4 text-c">
         <hollowed-box round plain v-if="item.isTop" class="mr-2">置顶随笔</hollowed-box>
         <hollowed-box round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</hollowed-box>
         <hollowed-box round plain v-else-if="item.isLocked" class="mr-2">密码锁定</hollowed-box>
@@ -69,7 +69,7 @@ defineProps({
   </div>
   <div v-else class="item h-20rem rd-2">
     <div
-      class="hover text-ellipsis line-clamp-2 f-c-s mb-6 l-size-6"
+      class="hover text-ellipsis line-clamp-2 f-c-s mb-6 text-1.3rem"
       @click="Navigation.go({ path: RouterPath.WORKS(item.id), router: $router })">
       {{ item.text }}
     </div>
@@ -79,7 +79,7 @@ defineProps({
         <img class="w-100% h-8rem" :src="item.surface || cover" />
         <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
       </div>
-      <div class="w-52% l-color-3 text-ellipsis line-clamp-5">
+      <div class="w-52% text-c text-ellipsis line-clamp-5">
         {{ item.desc }}
       </div>
       <div v-if="index % 2 === 0" class="w-45% h-100% relative">
@@ -88,7 +88,7 @@ defineProps({
         <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
       </div>
     </div>
-    <div class="f-c-s mb-4 l-size-2 l-color-2">
+    <div class="f-c-s mb-4 text-0.9rem text-b">
       <div class="mr-3 f-c-c">
         <i-ep-view class="mr-1" />
         {{ item.view }}
@@ -107,13 +107,13 @@ defineProps({
       <hollowed-box round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</hollowed-box>
       <hollowed-box round plain v-else-if="item.isLocked" class="mr-2">密码锁定</hollowed-box>
     </div>
-    <div class="hover f-c-b mt-6 l-size-2 l-color-2">
+    <div class="hover f-c-b mt-6 text-0.9rem text-b">
       <div class="f-c-c">
         <i-ep-caret-right />
         <router-link class="ml-1 b-b-1 b-b-dotted p-b-0.5" :to="'/p/' + item.id"> 阅读全文 </router-link>
       </div>
       <div class="f-c-e">
-        <div class="l-size-2 f-c-c">
+        <div class="text-0.9rem f-c-c">
           <i-ep-clock class="mr-1" />
           {{ item.date }}
         </div>

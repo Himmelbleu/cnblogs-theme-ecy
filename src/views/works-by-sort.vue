@@ -36,11 +36,11 @@ watch(route, () => {
               </div>
             </template>
             <template #content>
-              <div class="l-size-5 mb-5 mt-4">{{ typeL1Works.hint }}</div>
+              <div class="text-1.2rem mb-5 mt-4">{{ typeL1Works.hint }}</div>
             </template>
           </el-page-header>
-          <div class="mb-10 l-size-2 l-color-3" v-html="typeL1Works.desc2 || typeL1Works.desc"></div>
-          <div class="l-size-2" v-if="typeL2Works.length > 0">
+          <div class="mb-10 text-0.9rem text-c" v-html="typeL1Works.desc2 || typeL1Works.desc"></div>
+          <div class="text-0.9rem" v-if="typeL2Works.length > 0">
             <div class="hover f-c-s" v-for="(item, index) in typeL2Works" :class="{ 'mb-3': index != typeL2Works.length - 1 }">
               <span class="mr-2">📁</span>
               <router-link :to="RouterPath.WORKS_BY_SORT(item.id)">{{ item.text }}</router-link>

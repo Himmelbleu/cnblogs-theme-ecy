@@ -34,7 +34,10 @@ MenuApi.getTopList().then(res => {
 });
 
 function search() {
-  window.open(`https://zzk.cnblogs.com/s?w=blog:${EcyVars.getBlogApp()}%${searchVal.value}`, "__blank");
+  window.open(
+    `https://zzk.cnblogs.com/s?w=blog:${EcyVars.getBlogApp()}%${searchVal.value}`,
+    "__blank"
+  );
 }
 
 async function subscribe() {
@@ -59,7 +62,7 @@ const hidden = computed(() => {
 <template>
   <div
     id="l-lmenu"
-    class="l-size-2 z-9999 fixed top-0 left--70 noscroll flow-auto h-100vh l-back-bg p-3 w-70"
+    class="text-0.9rem z-9999 fixed top-0 left--70 scroll-none flow-auto h-100vh l-back-bg p-3 w-70"
     :class="{ 'show-lmenu': block, 'hidden-lmenu': hidden }">
     <expanded-Box text="博客信息">
       <template #icon>
@@ -71,14 +74,24 @@ const hidden = computed(() => {
         </router-link>
       </div>
       <div class="f-c-c mb-4" v-if="!isBlogOwner">
-        <el-popconfirm @confirm="unsubscribe" confirm-button-text="确定" cancel-button-text="取消" title="确定取消关注？">
+        <el-popconfirm
+          @confirm="unsubscribe"
+          confirm-button-text="确定"
+          cancel-button-text="取消"
+          title="确定取消关注？">
           <template #reference>
             <el-button v-if="EcyVars.isFollow" type="danger" text bg> -取消关注 </el-button>
           </template>
         </el-popconfirm>
-        <el-button @click="subscribe" v-if="!EcyVars.isFollow" type="primary" text bg> +关注博主 </el-button>
+        <el-button @click="subscribe" v-if="!EcyVars.isFollow" type="primary" text bg>
+          +关注博主
+        </el-button>
       </div>
-      <div class="hover mb-4" v-if="news" v-for="(item, index) in news" @click="Navigation.go({ path: item.href })">
+      <div
+        class="hover mb-4"
+        v-if="news"
+        v-for="(item, index) in news"
+        @click="Navigation.go({ path: item.href })">
         <div class="f-c-s" v-if="index === 0">
           <i-ep-user-filled class="mr-2" />
           昵称：{{ item.text }}
@@ -97,7 +110,9 @@ const hidden = computed(() => {
         </div>
       </div>
       <div class="mb-4">
-        <span class="mr-3" v-if="stats" v-for="item in stats"> {{ item.text }} - {{ item.digg }} </span>
+        <span class="mr-3" v-if="stats" v-for="item in stats">
+          {{ item.text }} - {{ item.digg }}
+        </span>
       </div>
       <el-input clearable @keyup.enter="search" v-model="searchVal">
         <template #prefix>
@@ -114,7 +129,7 @@ const hidden = computed(() => {
           <template v-if="columnList">
             <div class="mb-2" v-for="item in columnList.rankings">{{ item.text }}</div>
             <router-link :to="RouterPath.WORKS_BY_CALENDAR()">
-              <div class="my-4 f-c-s hover l-color-1">
+              <div class="my-4 f-c-s hover text-color-a">
                 <i-ep-calendar class="mr-2" />
                 博客日历
               </div>
@@ -181,7 +196,10 @@ const hidden = computed(() => {
                   <i-ep-price-tag class="mr-2" />
                   标签分类
                 </template>
-                <div class="hover" :class="{ 'mb-1': index != columnList.tagList.length - 1 }" v-for="(item, index) in columnList.tagList">
+                <div
+                  class="hover"
+                  :class="{ 'mb-1': index != columnList.tagList.length - 1 }"
+                  v-for="(item, index) in columnList.tagList">
                   <router-link :to="RouterPath.WORKS_BY_MARK(item.id)">
                     {{ item.text }}
                   </router-link>
@@ -209,7 +227,9 @@ const hidden = computed(() => {
                   <i-ep-comment class="mr-2" />
                   最新评论
                 </template>
-                <div :class="{ 'mb-4': index != columnList.latestComments.length - 1 }" v-for="(item, index) in columnList.latestComments">
+                <div
+                  :class="{ 'mb-4': index != columnList.latestComments.length - 1 }"
+                  v-for="(item, index) in columnList.latestComments">
                   <div class="hover">
                     <router-link :to="RouterPath.WORKS(item.id)">
                       {{ item.title }}
@@ -217,7 +237,12 @@ const hidden = computed(() => {
                   </div>
                   <div class="pl-4">{{ item.content }}</div>
                   <div class="f-c-e mt-4">
-                    <a class="hover" :href="'https://www.cnblogs.com/' + item.author" target="_blank">by {{ item.author }}</a>
+                    <a
+                      class="hover"
+                      :href="'https://www.cnblogs.com/' + item.author"
+                      target="_blank"
+                      >by {{ item.author }}</a
+                    >
                   </div>
                 </div>
               </el-collapse-item>
@@ -226,8 +251,13 @@ const hidden = computed(() => {
                   <i-ep-picture class="mr-2" />
                   我的相册
                 </template>
-                <div :class="{ 'mb-2': index != columnList.albumn.length - 1 }" v-for="(item, index) in columnList.albumn" :key="index">
-                  <router-link class="hover" :to="RouterPath.ALBUMN(item.id)">{{ item.text }}</router-link>
+                <div
+                  :class="{ 'mb-2': index != columnList.albumn.length - 1 }"
+                  v-for="(item, index) in columnList.albumn"
+                  :key="index">
+                  <router-link class="hover" :to="RouterPath.ALBUMN(item.id)">{{
+                    item.text
+                  }}</router-link>
                 </div>
               </el-collapse-item>
             </el-collapse>

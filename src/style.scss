@@ -1,5 +1,5 @@
 @import "element-plus/theme-chalk/dark/css-vars.css";
-@import "@/scss/common";
+@import "@/scss/index";
 
 /**
  * 设置昼夜模式下使用的颜色
@@ -8,12 +8,6 @@
  * @date 2023 年 2 月 14 日
  */
 html[class="dark"] {
-  // 盒子背景颜色
-  --l-back-bg: #191919;
-  // 条背景颜色
-  --l-strip-bg: #7f7f7f;
-  // 分界线颜色
-  --l-divider-bg: #464646;
   // 块级代码块颜色
   --l-block-code-bg: #222222;
   // blockquote 颜色
@@ -23,12 +17,10 @@ html[class="dark"] {
   // 序列背景颜色
   --l-step-bg: #2e2e2e;
   // 主题规定的文字颜色
-  --l-color-1: #a7a7a7;
-  --l-color-2: #999999;
-  --l-color-3: #7c7c7c;
-  // 主题规定的高亮文字颜色
-  --l-hight-color-1: white;
-  --l-hight-color-2: #ededed;
+  --text-a: #a7a7a7;
+  --text-b: #999999;
+  --text-c: #7c7c7c;
+  --text-primary: #409eff;
   // highlight
   --hljs-color: #abb2bf;
   --hljs-bg: #282c34;
@@ -43,12 +35,6 @@ html[class="dark"] {
 }
 
 html[class="light"] {
-  // 盒子背景颜色
-  --l-back-bg: #f9f9f9;
-  // 条背景颜色
-  --l-strip-bg: #d5d5d5;
-  // 分界线背景颜色
-  --l-divider-bg: #e3e3e3;
   // 块级代码块颜色
   --l-block-code-bg: #f3f3f3;
   // blockquote 颜色
@@ -57,13 +43,13 @@ html[class="light"] {
   --l-code-modal-bg: #e0e0e0;
   // 序列背景颜色
   --l-step-bg: #eaeaea;
+  --l-background-bg: #f8f8f8;
   // 主题规定的文字颜色
-  --l-color-1: #393939;
-  --l-color-2: #686868;
-  --l-color-3: #969696;
-  // 主题规定的高亮文字颜色
-  --l-hight-color-1: black;
-  --l-hight-color-2: rgb(24, 24, 24);
+  --text-a: #383838;
+  --text-b: #686868;
+  --text-c: #969696;
+  --text-d: #dedede;
+  --text-primary: #409eff;
   // highlight
   --hljs-color: #383a42;
   --hljs-bg: #fafafa;
@@ -78,23 +64,7 @@ html[class="light"] {
 }
 
 html {
-  // 主题规定的文字大小
-  --l-size-13: 2rem;
-  --l-size-12: 1.9rem;
-  --l-size-11: 1.8rem;
-  --l-size-10: 1.7rem;
-  --l-size-9: 1.6rem;
-  --l-size-8: 1.5rem;
-  --l-size-7: 1.4rem;
-  --l-size-6: 1.3rem;
-  --l-size-5: 1.2rem;
-  --l-size-4: 1.1rem;
-  --l-size-3: 1rem;
-  --l-size-2: 0.9rem;
-  --l-size-1: 0.8rem;
   // 主题颜色
   --l-theme-color: #409eff;
-  // 模态框背景颜色
-  --l-matee-bg: #0d0d0d8f;
   --l-animation-effect: all 0.4s ease-in-out;
 }

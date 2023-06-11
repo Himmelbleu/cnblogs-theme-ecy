@@ -168,6 +168,10 @@ type EcyConfig = Partial<{
     layer: number;
     lineWidth: number;
     textSize: number;
+    fillColor: string;
+    strokeColor: string;
+    textColor: string;
+    lineColor: string;
     data: { title: string; star: number }[];
   };
   font: {

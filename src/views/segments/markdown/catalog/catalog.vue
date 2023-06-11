@@ -11,7 +11,9 @@ let observer: IntersectionObserver = null;
 
 function moveSlider(entries: any) {
   for (let i = 0; i < catalogList.value.length; i++) {
-    document.querySelector(`#catalog-${catalogList.value[i].id}`)?.classList.remove("catalog-active");
+    document
+      .querySelector(`#catalog-${catalogList.value[i].id}`)
+      ?.classList.remove("catalog-active");
   }
   const item = document.querySelector(`#catalog-${entries[0].target.id}`);
   const step = item?.getAttribute("data-step");
@@ -28,7 +30,8 @@ watch(toRefRealHtml, newVal => {
 
   observer = new IntersectionObserver(
     entries => {
-      const offsetTop = window.innerHeight * 0.5 + entries[0].target.offsetTop - entries[0].target.clientHeight;
+      const offsetTop =
+        window.innerHeight * 0.5 + entries[0].target.offsetTop - entries[0].target.clientHeight;
 
       if (isTouchedTitle(offsetTop)) {
         moveSlider(entries);
@@ -58,19 +61,21 @@ onUnmounted(() => {
   <div
     id="l-catalog"
     :class="{ 'catalog-disable': disabled, 'catalog-show': !disabled }"
-    class="fixed top-4vh pl-4 py-6 w-16rem h-92vh l-back-bg rd-2 noscroll flow-auto z-90"
+    class="fixed top-4vh pl-4 py-6 w-16rem h-92vh l-back-bg rd-2 scroll-none flow-auto z-90"
     v-if="catalogList && catalogList.length">
     <div class="relative l-back-bg">
-      <div class="ml-6 l-color-2">
+      <div class="ml-6 text-b">
         <div
-          class="l-size-1 mb-4 h-1.5rem f-c-s text-ellipsis line-clamp-1"
+          class="text-0.8rem mb-4 h-1.5rem f-c-s text-ellipsis line-clamp-1"
           v-for="item in catalogList"
           @click="Broswer.scrollIntoView('#' + item.id)">
           <div v-html="item.content"></div>
         </div>
       </div>
       <div class="absolute slider-track"></div>
-      <div class="absolute slider" :style="{ transform: 'translate(0, ' + translate + 'rem)' }"></div>
+      <div
+        class="absolute slider"
+        :style="{ transform: 'translate(0, ' + translate + 'rem)' }"></div>
     </div>
   </div>
 </template>
@@ -135,7 +140,7 @@ onUnmounted(() => {
   width: 0.25rem;
   height: 100%;
   border-radius: 0.25rem;
-  background-color: var(--l-color-1);
+  background-color: var(--text-a);
   opacity: 0.15;
   top: 0;
   left: 0;

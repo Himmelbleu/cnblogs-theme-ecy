@@ -27,22 +27,22 @@ watch(route, () => {
           </div>
         </template>
         <template #content>
-          <div class="l-size-5 mb-5 mt-4">{{ markWorks.hint }}</div>
+          <div class="text-1.2rem mb-5 mt-4">{{ markWorks.hint }}</div>
         </template>
       </el-page-header>
       <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="markWorks.page">
         <template #content>
           <div class="relative mb-15" v-for="item of markWorks.data">
-            <div class="l-size-5">
+            <div class="text-1.2rem">
               <router-link class="hover" :to="'/p/' + item.id">
                 {{ item.text }}
               </router-link>
             </div>
-            <div class="f-c-s l-size-2 mt-6">
+            <div class="f-c-s text-0.9rem mt-6">
               <i-ep-caret-right />
               <router-link class="hover ml-0.5 b-b-1 b-b-dotted p-b-0.3" :to="'/p/' + item.id"> 阅读全文 </router-link>
             </div>
-            <div class="works-synopsis mt-6 f-c-s l-size-2 l-color-2">
+            <div class="works-synopsis mt-6 f-c-s text-0.9rem text-b">
               <div class="mr-3 f-c-c">
                 <i-ep-clock class="mr-1" />
                 {{ item.date }}

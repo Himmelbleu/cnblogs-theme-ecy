@@ -58,13 +58,13 @@ await fetchData();
               {{ item.author }}
             </div>
             <div
-              class="l-comment__data l-size-2 l-color-2 mt-2 f-c-c"
+              class="l-comment__data text-0.9rem text-b mt-2 f-c-c"
               :id="'level-' + item.commentId"
               v-if="anchor == item.commentId"
               ref="level">
               {{ item.layer }} {{ item.date }}
             </div>
-            <div class="l-comment__data l-size-2 l-color-2 mt-2 f-c-c" :id="'level-' + item.commentId" v-else>
+            <div class="l-comment__data text-0.9rem text-b mt-2 f-c-c" :id="'level-' + item.commentId" v-else>
               {{ item.layer }} {{ item.date }}
             </div>
           </div>
@@ -76,7 +76,7 @@ await fetchData();
         <div class="l-comment__more float-right f-c-e" v-show="!item.isEditing && !item.isAnsling">
           <el-dropdown>
             <div class="f-c-c">
-              <i-ep-more class="hover l-size-2 l-color-2" />
+              <i-ep-more class="hover text-0.9rem text-b" />
             </div>
             <template #dropdown>
               <el-dropdown-menu>

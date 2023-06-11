@@ -43,7 +43,7 @@ onUnmounted(() => {
 
 <template>
   <div class="l-expbox mb-6">
-    <div class="title" select-none mb-4 f-c-b l-size-5 l-color-1>
+    <div class="title" select-none mb-4 f-c-b text-1.2rem text-color-a>
       <div f-c-s>
         <div f-c-c mr-1>
           <slot name="icon"></slot>
@@ -56,7 +56,7 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <div l-color-2 flow-hidden class="effect" ref="boxInst" :style="{ height: boxWrapInstHeight + 'px' }">
+    <div text-b flow-hidden class="effect" ref="boxInst" :style="{ height: boxWrapInstHeight + 'px' }">
       <div ref="boxWrapInst">
         <slot></slot>
       </div>

@@ -64,7 +64,7 @@ watch(route, () => {
 </script>
 
 <template>
-  <div id="l-toolkits" :class="{ 'take-toolkits': isTake, 'intake-toolkits': !isTake }" class="fixed z-99 right-0 top-55vh l-size-4">
+  <div id="l-toolkits" :class="{ 'take-toolkits': isTake, 'intake-toolkits': !isTake }" class="fixed z-99 right-0 top-55vh text-1.1rem">
     <div
       v-show="isShowGuide"
       :class="{ 'show-0': toolkits.pin, 'close-0': !toolkits.pin }"

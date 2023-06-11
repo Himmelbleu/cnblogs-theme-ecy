@@ -22,7 +22,7 @@ useLoading(fetchData);
           </div>
         </template>
         <template #content>
-          <div class="l-size-5 mb-5 mt-4">我的照片</div>
+          <div class="text-1.2rem mb-5 mt-4">我的照片</div>
         </template>
       </el-page-header>
       <div class="f-c-c">

@@ -9,8 +9,7 @@
   display: block;
   overflow-x: auto;
   overflow-y: hidden;
-  color: var(--l-color-1);
-  transition: var(--l-animation-effect);
+  color: var(--text-a);
 
   &::-webkit-scrollbar {
     height: 0.5rem;

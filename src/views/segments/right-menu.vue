@@ -18,7 +18,7 @@ const hidden = computed(() => {
 <template>
   <div
     id="l-rmenu"
-    class="noscroll z-9999 l-size-2 h-100vh flow-auto fixed top-0 right--70 l-back-bg p-3 w-70"
+    class="scroll-none z-9999 text-0.9rem h-100vh flow-auto fixed top-0 right--70 l-back-bg p-3 w-70"
     :class="{ 'show-rmenu ': block, 'hidden-rmenu': hidden }">
     <expanded-box text="我的技能" v-if="EcyVars.config.graph?.data">
       <template #icon>
@@ -30,7 +30,11 @@ const hidden = computed(() => {
       <template #icon>
         <i-ep-link />
       </template>
-      <a class="hover block mb-3" v-for="item in EcyVars.config.menu.links" :href="item.href" target="_blank">
+      <a
+        class="hover block mb-3"
+        v-for="item in EcyVars.config.menu.links"
+        :href="item.href"
+        target="_blank">
         {{ item.text }}
       </a>
     </expanded-box>

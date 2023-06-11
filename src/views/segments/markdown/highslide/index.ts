@@ -6,7 +6,7 @@
 export function createHigslide(el: HTMLElement | HTMLElement[], eleHighslide: HTMLElement, eleHighslideImage: HTMLImageElement) {
   function addEvent(image: HTMLImageElement) {
     const eleTip = document.createElement("div");
-    eleTip.setAttribute("class", "l-color-2 l-size-2 mt-2");
+    eleTip.setAttribute("class", "text-b text-0.9rem mt-2");
     eleTip.innerText = image.alt;
 
     if (image.parentElement.tagName === "P") {

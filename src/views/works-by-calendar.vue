@@ -36,7 +36,7 @@ watch(dateModel, (newVal, oldVal) => {
           </div>
         </template>
         <template #content>
-          <div class="l-size-5">博客日历</div>
+          <div class="text-1.2rem">博客日历</div>
         </template>
       </el-page-header>
       <el-calendar v-model="dateModel">
@@ -53,7 +53,7 @@ watch(dateModel, (newVal, oldVal) => {
             <u>
               {{ data.day.split("-")[2] }}
             </u>
-            <div class="mt-2 l-color-2 l-size-1">点击查看</div>
+            <div class="mt-2 text-b text-0.8rem">点击查看</div>
           </div>
           <span v-else>{{ data.day.split("-")[2] }}</span>
         </template>

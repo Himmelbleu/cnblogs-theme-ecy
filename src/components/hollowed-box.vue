@@ -10,11 +10,11 @@ defineProps({
   },
   fontSize: {
     type: String,
-    default: "l-size-1"
+    default: "text-0.8rem"
   },
   textColor: {
     type: String,
-    default: "l-color-1"
+    default: "text-color-a"
   },
   round: {
     type: Boolean,

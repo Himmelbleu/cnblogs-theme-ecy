@@ -27,9 +27,9 @@ devDependencies:
   '@iconify-json/ep':
     specifier: ^1.1.10
     version: 1.1.10
-  '@unocss/transformer-directives':
-    specifier: ^0.53.1
-    version: 0.53.1
+  '@iconify-json/tabler':
+    specifier: ^1.1.79
+    version: 1.1.79
   '@vitejs/plugin-vue':
     specifier: ^4.1.0
     version: 4.1.0(vite@4.3.2)(vue@3.2.47)
@@ -332,6 +332,12 @@ packages:
 
   /@iconify-json/ep@1.1.10:
     resolution: {integrity: sha512-1N3H28hbulsw3UNZjAZ1c7BhK9mLiw8VrngQc58xNQ7dnzaUgtKN81aqkrZ9ffDXcfJGL3Rk9Yc3/QrSSI24sg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/tabler@1.1.79:
+    resolution: {integrity: sha512-O3RtNqP5ZaP8abkLR/JJuqPY2JjsuV1ttK3xttbcCE9Uz11Pu1WpmbGJ8jv75DoAGYoZ784VUgL8oiJcINLblw==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true

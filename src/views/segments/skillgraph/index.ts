@@ -1,6 +1,3 @@
-let fillColor = "",
-  strokeColor = "";
-
 function drawPolygon(j: any, x: any, y: any, sides: any, radius: any, coords: any, ctx: any) {
   ctx.beginPath();
   let averageAngle = (Math.PI * 2) / sides;
@@ -108,10 +105,10 @@ function drawDataArea(coords: any, x: any, y: any, config: any, ctx: any) {
 
   ctx.closePath();
   ctx.lineWidth = 3;
-  ctx.strokeStyle = strokeColor;
+  ctx.strokeStyle = config.strokeColor;
   ctx.stroke();
   ctx.globalAlpha = config.alpha;
-  ctx.fillStyle = fillColor;
+  ctx.fillStyle = config.fillColor;
   ctx.fill();
 
   drawDataAreaTop(axis, ctx);
@@ -142,10 +139,6 @@ export function calcSize(sideWidthVw: number) {
 
 export function useSkillGraph(vw: number, graph: HTMLCanvasElement, config: any) {
   if (config) {
-    fillColor = "#409effde";
-    strokeColor = config.strokeColor || "#a7a7a7";
-    config.textColor = config.textColor || "#a7a7a7";
-    config.lineColor = config.textColor || "#a7a7a7";
     // @ts-ignore
     const ctx = graph.getContext("2d");
     drawRadarMap(config, vw, vw, ctx);
