@@ -5,7 +5,7 @@ import { useLoading } from "@/hooks/comp-hooks";
 const route = useRoute();
 const typeL2Works = shallowRef();
 const typeL1Works = shallowRef();
-const worksImgs = EcyVars.config.covers.works;
+const worksImgs = EcyVars.config.images.works;
 const imgsIndex = shallowRef();
 
 async function fetchData(index?: any) {
@@ -27,7 +27,12 @@ watch(route, () => {
 <template>
   <div id="l-works-by-sort" class="page">
     <div class="content">
-      <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="typeL1Works.page" :disabled="!typeL1Works.data.length">
+      <pagination
+        @nexpr="fetchData"
+        @next="fetchData"
+        @prev="fetchData"
+        :count="typeL1Works.page"
+        :disabled="!typeL1Works.data.length">
         <template #content>
           <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
             <template #title>
@@ -39,9 +44,14 @@ watch(route, () => {
               <div class="text-1.2rem mb-5 mt-4">{{ typeL1Works.hint }}</div>
             </template>
           </el-page-header>
-          <div class="mb-10 text-0.9rem text-c" v-html="typeL1Works.desc2 || typeL1Works.desc"></div>
+          <div
+            class="mb-10 text-0.9rem text-c"
+            v-html="typeL1Works.desc2 || typeL1Works.desc"></div>
           <div class="text-0.9rem" v-if="typeL2Works.length > 0">
-            <div class="hover f-c-s" v-for="(item, index) in typeL2Works" :class="{ 'mb-3': index != typeL2Works.length - 1 }">
+            <div
+              class="hover f-c-s"
+              v-for="(item, index) in typeL2Works"
+              :class="{ 'mb-3': index != typeL2Works.length - 1 }">
               <span class="mr-2">📁</span>
               <router-link :to="RouterPath.WORKS_BY_SORT(item.id)">{{ item.text }}</router-link>
             </div>

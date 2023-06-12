@@ -4,6 +4,20 @@
  * @author Himmelbleu
  * @date 2023 年 6 月 11 日
  */
+
+code {
+  margin: 0;
+  --uno: rd-2 text-4;
+  letter-spacing: 1.5px;
+  color: var(--el-color-danger-light-3);
+  font-family: var(--l-code-font-family);
+
+  span {
+    line-height: 1.8;
+    font-family: var(--l-code-font-family);
+  }
+}
+
 pre {
   --uno: rd-2;
   position: relative;
@@ -121,7 +135,7 @@ a > code {
     padding-left: 4rem;
 
     li {
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
       position: relative;
       line-height: 1.8;
       list-style-type: none;
@@ -130,11 +144,11 @@ a > code {
       &::before {
         content: counter(step-counter);
         border-radius: 50%;
-        height: 1.5rem;
-        width: 1.5rem;
+        height: 1.7rem;
+        width: 1.7rem;
         position: absolute;
         top: 0;
-        left: -2rem;
+        left: -2.5rem;
         --uno: f-c-c text-0.8rem;
         font-weight: 400;
         color: var(--text-a);

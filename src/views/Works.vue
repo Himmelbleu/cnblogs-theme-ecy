@@ -10,15 +10,7 @@ const worksIsLocked = ref(false);
 const worksPassword = ref("");
 const markdownRef = ref();
 const eleComments = ref();
-
-const coverFilter = EcyVars.config.covers.filter.works;
-const coverMatte = EcyVars.config.covers.matte.works;
-const worksCovers = EcyVars.config.covers.works;
 let worksId = route.params.id as string;
-
-const calcWorksCover = computed(() => {
-  return worksCovers[Math.floor(Math.random() * worksCovers.length)];
-});
 
 async function fetchData(mouted?: boolean) {
   Broswer.startLoading();
@@ -46,11 +38,19 @@ async function submit() {
     works.value = await WorksApi.getLockedWorks(worksPassword.value, worksId);
     worksIsLocked.value = false;
   }
-  ElMessage({ message: passed ? "密码正确！" : "密码错误！", grouping: true, type: passed ? "success" : "error" });
+  ElMessage({
+    message: passed ? "密码正确！" : "密码错误！",
+    grouping: true,
+    type: passed ? "success" : "error"
+  });
 }
 
 async function vote(type: VoteType) {
-  const res = await WorksApi.vote({ postId: parseInt(worksId), isAbandoned: false, voteType: type });
+  const res = await WorksApi.vote({
+    postId: parseInt(worksId),
+    isAbandoned: false,
+    voteType: type
+  });
   if (res && res.isSuccess) {
     type == "Bury" ? worksViewPoint.value.buryCount++ : worksViewPoint.value.diggCount++;
   }
@@ -81,78 +81,74 @@ await fetchData();
 </script>
 
 <template>
-  <div v-show="!worksIsLocked" class="reception works-head-panel relative h-50vh w-100vw">
-    <div class="cover z-999 absolute left-0 top-0 h-100% w-100%">
-      <img class="h-100% w-100% rd-0" :src="calcWorksCover" />
-    </div>
-    <div class="content z-999 absolute left-0 top-10vh w-100%">
-      <div>
-        <div class="text-3.23 text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
-        <div class="f-c-s mt-6 text-0.9rem">
-          <div class="f-c-c mr-4">
-            <i-ep-clock class="mr-1" />
-            <span>{{ works.date }}</span>
-          </div>
-          <div class="f-c-c mr-4">
-            <i-ep-view class="mr-1" />
-            <span>{{ works.view }}次阅读</span>
-          </div>
-          <div class="f-c-c mr-4">
-            <i-ep-chat-line-square class="mr-1" />
-            <span>{{ works.comm }}条评论</span>
+  <div id="l-works" class="page">
+    <div class="content" v-if="!worksIsLocked">
+      <div class="text-1.6rem font-bold text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
+      <div class="f-c-s mt-6 text-0.9rem">
+        <div class="f-c-c mr-4">
+          <i-ep-clock class="mr-1" />
+          <span>{{ works.date }}</span>
+        </div>
+        <div class="f-c-c mr-4">
+          <i-ep-view class="mr-1" />
+          <span>{{ works.view }}次阅读</span>
+        </div>
+        <div class="f-c-c mr-4">
+          <i-ep-chat-line-square class="mr-1" />
+          <span>{{ works.comm }}条评论</span>
+        </div>
+        <div
+          v-if="isBlogOwner"
+          class="f-c-c hover"
+          @click="
+            Navigation.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + worksId })
+          ">
+          <i-ep-edit-pen class="mr-1" />
+          <span>编辑</span>
+        </div>
+      </div>
+      <div class="mt-6 mb-15">
+        <div class="mb-4 flex-wrap text-0.9rem f-c-s" v-if="worksProps.sorts.length > 0">
+          <div class="f-c-c">
+            <i-ep-folder-opened class="mr-1" />
+            <span>分类：</span>
           </div>
           <div
-            v-if="isBlogOwner"
-            class="f-c-c hover"
-            @click="Navigation.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + worksId })">
-            <i-ep-edit-pen class="mr-1" />
-            <span>编辑</span>
+            v-for="(item, index) in worksProps.sorts"
+            :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
+            <hollowed-box
+              line="dotted"
+              hover
+              round
+              @click="
+                Navigation.go({ path: RouterPath.WORKS_BY_SORT(item.href), router: $router })
+              ">
+              {{ item.text }}
+            </hollowed-box>
           </div>
         </div>
-        <div class="mt-6">
-          <div class="mb-4 flex-wrap text-0.9rem f-c-s" v-if="worksProps.sorts.length > 0">
-            <div class="f-c-c">
-              <i-ep-folder-opened class="mr-1" />
-              <span>分类：</span>
-            </div>
-            <div v-for="(item, index) in worksProps.sorts" :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
-              <hollowed-box
-                line="dotted"
-                hover
-                round
-                @click="Navigation.go({ path: RouterPath.WORKS_BY_SORT(item.href), router: $router })">
-                {{ item.text }}
-              </hollowed-box>
-            </div>
+        <div class="f-c-s flex-wrap text-0.9rem" v-if="worksProps.tags.length > 0">
+          <div class="f-c-c">
+            <i-ep-price-tag class="mr-1" />
+            <span>标签：</span>
           </div>
-          <div class="f-c-s flex-wrap text-0.9rem" v-if="worksProps.tags.length > 0">
-            <div class="f-c-c">
-              <i-ep-price-tag class="mr-1" />
-              <span>标签：</span>
-            </div>
-            <div v-for="(item, index) in worksProps.tags" :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
-              <hollowed-box
-                line="dotted"
-                hover
-                round
-                @click="Navigation.go({ path: RouterPath.WORKS_BY_MARK(item.text), router: $router })">
-                {{ item.text }}
-              </hollowed-box>
-            </div>
+          <div
+            v-for="(item, index) in worksProps.tags"
+            :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
+            <hollowed-box
+              line="dotted"
+              hover
+              round
+              @click="
+                Navigation.go({ path: RouterPath.WORKS_BY_MARK(item.text), router: $router })
+              ">
+              {{ item.text }}
+            </hollowed-box>
           </div>
         </div>
       </div>
-    </div>
-    <div class="z-999 absolute bottom-0 left-0 h-20 w-100% flow-hidden">
-      <div class="wave-1 absolute h-100% w-200%"></div>
-      <div class="wave-2 absolute h-100% w-200%"></div>
-    </div>
-  </div>
-  <div id="l-works" class="page">
-    <div class="content" v-if="!worksIsLocked">
       <markdown-content :html-str="works.content" v-model:real-html="markdownRef" />
-      <div class="divider flex-col"></div>
-      <div class="text-b f-c-e text-0.9rem">
+      <div class="text-b mt-15 f-c-e text-0.9rem">
         <div class="f-c-c mr-4">
           <i-ep-clock class="mr-1" />
           <span>{{ works.date }}</span>
@@ -166,14 +162,18 @@ await fetchData();
           <span>{{ works.comm }}条评论</span>
         </div>
       </div>
-      <div class="prev-next mt-10 text-0.9rem">
+      <div class="prev-next mt-15 text-0.9rem">
         <div class="hover f-c-s mb-2" v-if="worksPrevNext.prev.href">
           <i-ep-d-arrow-left />
-          <a class="hover text-color-a" :href="worksPrevNext.prev.href"> 上一篇：{{ worksPrevNext.prev.text }} </a>
+          <a class="hover text-color-a" :href="worksPrevNext.prev.href">
+            上一篇：{{ worksPrevNext.prev.text }}
+          </a>
         </div>
         <div class="hover f-c-s" v-if="worksPrevNext.next.href">
           <i-ep-d-arrow-right />
-          <a class="hover text-color-a" :href="worksPrevNext.next.href"> 下一篇：{{ worksPrevNext.next.text }} </a>
+          <a class="hover text-color-a" :href="worksPrevNext.next.href">
+            下一篇：{{ worksPrevNext.next.text }}
+          </a>
         </div>
       </div>
       <div class="viewpoint my-10 f-c-e">
@@ -202,7 +202,11 @@ await fetchData();
       <div class="modal fixed w-100vw h-100vh top-0 left-0 l-back-bg f-c-c z-999999">
         <el-form>
           <el-form-item label="密码：">
-            <el-input show-password type="password" v-model="worksPassword" placeholder="输入博文阅读密码" />
+            <el-input
+              show-password
+              type="password"
+              v-model="worksPassword"
+              placeholder="输入博文阅读密码" />
           </el-form-item>
           <el-form-item>
             <el-button size="small" type="primary" @click="submit">确定</el-button>
@@ -212,17 +216,3 @@ await fetchData();
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.reception {
-  .cover::before {
-    backdrop-filter: blur(v-bind(coverFilter));
-    z-index: 1;
-  }
-
-  .cover::after {
-    background-color: black;
-    opacity: v-bind(coverMatte);
-  }
-}
-</style>

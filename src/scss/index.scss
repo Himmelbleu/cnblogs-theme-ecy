@@ -152,27 +152,11 @@ a:link {
       width: 55vw;
     }
   }
-
-  .works-head-panel {
-    .content {
-      --uno: f-c-c;
-
-      & > div {
-        width: 55vw;
-      }
-    }
-  }
 }
 
 @include mb() {
   .page {
     --uno: px-4;
     width: 100%;
-  }
-
-  .works-head-panel {
-    .content {
-      --uno: px-4;
-    }
   }
 }

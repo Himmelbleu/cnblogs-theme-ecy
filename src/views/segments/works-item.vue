@@ -16,7 +16,7 @@ defineProps({
 </script>
 
 <template>
-  <div v-if="EcyVars.pcDevice" class="f-c-b item h-20rem rd-2">
+  <div v-if="EcyVars.isPcDevice()" class="f-c-b item h-20rem rd-2">
     <div v-if="index % 2 !== 0" class="w-45% h-100% flow-hidden relative">
       <div class="mask absolute top-0 left-0 w-100% h-15% z-1"></div>
       <img class="w-100% h-100%" :src="item.surface || cover" />
@@ -47,7 +47,9 @@ defineProps({
       </div>
       <div class="hover f-c-s mt-6 text-0.9rem text-b">
         <i-ep-caret-right />
-        <router-link class="ml-1 b-b-1 b-b-dotted p-b-0.5" :to="'/p/' + item.id"> 阅读全文 </router-link>
+        <router-link class="ml-1 b-b-1 b-b-dotted p-b-0.5" :to="'/p/' + item.id">
+          阅读全文
+        </router-link>
       </div>
       <div class="mt-4 f-c-e">
         <div class="text-0.9rem text-b f-c-c">
@@ -110,7 +112,9 @@ defineProps({
     <div class="hover f-c-b mt-6 text-0.9rem text-b">
       <div class="f-c-c">
         <i-ep-caret-right />
-        <router-link class="ml-1 b-b-1 b-b-dotted p-b-0.5" :to="'/p/' + item.id"> 阅读全文 </router-link>
+        <router-link class="ml-1 b-b-1 b-b-dotted p-b-0.5" :to="'/p/' + item.id">
+          阅读全文
+        </router-link>
       </div>
       <div class="f-c-e">
         <div class="text-0.9rem f-c-c">

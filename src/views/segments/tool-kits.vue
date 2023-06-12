@@ -80,7 +80,7 @@ watch(route, () => {
       class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="disabled = !disabled">
       <div class="f-c-c w-8 h-8">
-        <i-ep-guide />
+        <div class="i-tabler-map text-1.2rem"></div>
       </div>
     </div>
     <div

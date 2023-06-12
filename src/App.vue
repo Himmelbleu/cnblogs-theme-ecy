@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const isActiveMenu = ref(false);
-const catalogDisabled = ref(!EcyVars.pcDevice);
-const codeFontFamily = EcyVars.config.font.code || `var(--el-font-family)`;
+const catalogDisabled = ref(!EcyVars.isPcDevice());
 
 provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
 </script>
@@ -30,7 +29,12 @@ provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
   <!-- toolkits -->
   <tool-kits />
   <!-- background -->
-  <div class="l-background fixed top-0 left-0 w-100vw h-100vh light:opacity-4 dark:opacity-3"></div>
+  <div
+    class="l-background fixed top-0 left-0 w-100vw h-100vh"
+    :style="{
+      'background-image': 'url(' + EcyVars.config.images.bg.src + ')',
+      opacity: EcyVars.config.images.bg.opacity
+    }"></div>
   <!-- github -->
   <div v-show="!isActiveMenu" class="l-github fixed left-0 bottom-0 z-9" m="l-2">
     <div class="f-c-c flex-col">
@@ -133,24 +137,10 @@ provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
     left: 0;
   }
 }
-
-code {
-  margin: 0;
-  --uno: rd-2 text-4;
-  letter-spacing: 1.5px;
-  color: var(--el-color-danger-light-3);
-  font-family: v-bind(codeFontFamily);
-
-  span {
-    line-height: 1.8;
-    font-family: v-bind(codeFontFamily);
-  }
-}
 </style>
 
 <style scoped lang="scss">
 .l-background {
-  background-image: url("/94471721_p0.jpg");
   background-size: 40% auto;
   background-repeat: repeat;
 }

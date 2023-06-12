@@ -7,6 +7,7 @@ declare global {
   const Broswer: typeof import('@/utils/index')['Broswer']
   const EcyVars: typeof import('@/constants/index')['EcyVars']
   const EffectScope: typeof import('vue')['EffectScope']
+  const ElMessage: typeof import('element-plus/es')['ElMessage']
   const Formatter: typeof import('@/utils/index')['Formatter']
   const LocalStorage: typeof import('@/utils/index')['LocalStorage']
   const Native: typeof import('@/utils/index')['Native']
@@ -321,6 +322,7 @@ declare module 'vue' {
     readonly Broswer: UnwrapRef<typeof import('@/utils/index')['Broswer']>
     readonly EcyVars: UnwrapRef<typeof import('@/constants/index')['EcyVars']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly Formatter: UnwrapRef<typeof import('@/utils/index')['Formatter']>
     readonly LocalStorage: UnwrapRef<typeof import('@/utils/index')['LocalStorage']>
     readonly Native: UnwrapRef<typeof import('@/utils/index')['Native']>
@@ -625,6 +627,7 @@ declare module '@vue/runtime-core' {
     readonly Broswer: UnwrapRef<typeof import('@/utils/index')['Broswer']>
     readonly EcyVars: UnwrapRef<typeof import('@/constants/index')['EcyVars']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly Formatter: UnwrapRef<typeof import('@/utils/index')['Formatter']>
     readonly LocalStorage: UnwrapRef<typeof import('@/utils/index')['LocalStorage']>
     readonly Native: UnwrapRef<typeof import('@/utils/index')['Native']>

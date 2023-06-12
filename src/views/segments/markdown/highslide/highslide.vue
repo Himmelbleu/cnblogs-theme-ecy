@@ -83,7 +83,7 @@ watch(toRefRealHtml, newVal => {
             cursor-move
             class="l-highslide__img"
             :class="{
-              fixed: positionX && positionY && !!EcyVars.pcDevice,
+              fixed: positionX && positionY && !!EcyVars.isPcDevice(),
               transition: animationOpened
             }"
             :style="{

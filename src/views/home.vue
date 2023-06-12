@@ -8,6 +8,7 @@ const status = shallowRef();
 const topList = shallowRef();
 const column = shallowRef();
 const markList = shallowRef();
+const carouselList = shallowRef(EcyVars.config.images.home.carousel);
 
 useLoading(async () => {
   const then = await Promise.all([
@@ -35,13 +36,6 @@ setInterval(() => {
     carouselIndex.value = 0;
   }
 }, 5000);
-
-const carouselList = ref([
-  "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv01.jpg",
-  "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv02.jpg",
-  "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv03.jpg",
-  "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv04.jpg"
-]);
 </script>
 
 <template>
@@ -218,15 +212,16 @@ const carouselList = ref([
     <!-- area-3：中间过渡图片 -->
     <div class="mt-20">
       <div class="divide-bg w-100vw h-80 relative">
-        <img
-          class="w-100% h-100% object-cover"
-          src="https://img.soogif.com/7Qhba91zLWe1Q55zyeCxw82hsSxH5UmG.gif" />
+        <img class="w-100% h-100% object-cover" :src="EcyVars.config.images.home.divider" />
       </div>
     </div>
     <!-- area-4：随笔标签 -->
     <div class="f-c-c font-main mt-20">
       <div class="px-30 w-80vw">
-        <div id="tags-nail" class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+        <div
+          id="tags-nail"
+          class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
+          m="b-10">
           <div class="i-tabler-bookmarks mr-2"></div>
           我的标签
         </div>
@@ -247,7 +242,10 @@ const carouselList = ref([
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw f-s-b">
         <div class="w-48%">
-          <div id="essay-nail" class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+          <div
+            id="essay-nail"
+            class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
+            m="b-10">
             <div class="i-tabler-category-2 mr-2"></div>
             随笔分类
           </div>
@@ -261,7 +259,10 @@ const carouselList = ref([
           </div>
         </div>
         <div class="w-48%">
-          <div id="article-nail" class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+          <div
+            id="article-nail"
+            class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
+            m="b-10">
             <div class="i-tabler-sort-a-z mr-2"></div>
             文章分类
           </div>
@@ -279,7 +280,10 @@ const carouselList = ref([
     <!-- area-6：随笔归档 -->
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw">
-        <div id="essay-archive-nail" class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+        <div
+          id="essay-archive-nail"
+          class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
+          m="b-10">
           <div class="i-tabler-archive-filled mr-2"></div>
           随笔归档
         </div>
@@ -298,7 +302,10 @@ const carouselList = ref([
     <!-- area-7：文章归档 -->
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw">
-        <div id="article-archive-nail" class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+        <div
+          id="article-archive-nail"
+          class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
+          m="b-10">
           <div class="i-tabler-folder-check mr-2"></div>
           文章归档
         </div>
@@ -317,7 +324,10 @@ const carouselList = ref([
     <!-- area-8：相册列表 -->
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw">
-        <div id="my-pohoto-nail" class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+        <div
+          id="my-pohoto-nail"
+          class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
+          m="b-10">
           <div class="i-tabler-photo mr-2"></div>
           我的相册
         </div>
@@ -335,7 +345,10 @@ const carouselList = ref([
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw f-s-b">
         <div class="w-48%">
-          <div id="recent-essay-nail" class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+          <div
+            id="recent-essay-nail"
+            class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
+            m="b-10">
             <div class="i-tabler-arrow-badge-up-filled mr-2"></div>
             最新随笔
           </div>
@@ -349,7 +362,10 @@ const carouselList = ref([
           </div>
         </div>
         <div class="w-48%">
-          <div id="recent-comms-nail" class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+          <div
+            id="recent-comms-nail"
+            class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
+            m="b-10">
             <div class="i-tabler-arrow-badge-up mr-2"></div>
             最新评论
           </div>

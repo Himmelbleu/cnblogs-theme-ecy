@@ -152,15 +152,16 @@ interface EcyAlbumnItem {
 type EcyConfig = Partial<{
   icon: string;
   avatar: string;
-  menu: Partial<{
-    links: { href: string; text: string }[];
-    books: { href?: string; text: string; img: string; author: string; rate: number }[];
-  }>;
-  covers: {
-    matte: { index: number; works: number };
-    filter: { index: string; works: string };
-    index: string[];
-    works: string[];
+  images: {
+    bg: {
+      src: string;
+      opacity: number;
+    };
+    works?: string[];
+    home: {
+      carousel: string[];
+      divider: string;
+    };
   };
   graph: {
     alpha: number;
@@ -193,14 +194,17 @@ type EcyLocalSetting = Partial<{
  */
 declare namespace EcyVars {
   let config: EcyConfig;
-  let userGuid: string;
-  let isFollow: boolean;
-  let pcDevice: boolean;
 
   function getBlogApp(): string;
   function getBlogId(): number;
   function getBaseURL(): string;
-  function useLite(dev: Function, pro: Function);
+  function isPcDevice(): boolean;
+
+  function getUserGuid(): string;
+  /**
+   * 是否已经订阅
+   */
+  function isFollow(): boolean;
 }
 
 /**

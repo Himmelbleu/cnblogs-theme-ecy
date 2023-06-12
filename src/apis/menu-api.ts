@@ -40,7 +40,7 @@ export namespace MenuApi {
    */
   export async function follow() {
     const { data } = await request.post(`/ajax/Follow/FollowBlogger.aspx`, {
-      blogUserGuid: EcyVars.userGuid
+      blogUserGuid: EcyVars.getUserGuid()
     });
     return data === "关注成功" ?? false;
   }
@@ -50,7 +50,7 @@ export namespace MenuApi {
    */
   export async function unfollow() {
     const { data } = await request.post(`/ajax/Follow/RemoveFollow.aspx`, {
-      blogUserGuid: EcyVars.userGuid
+      blogUserGuid: EcyVars.getUserGuid()
     });
     return data === "取消成功" ?? false;
   }
