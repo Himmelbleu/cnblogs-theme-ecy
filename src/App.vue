@@ -27,23 +27,25 @@ provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
     </RouterView>
     <div id="l-bottom-nail"></div>
   </div>
+  <!-- toolkits -->
+  <tool-kits />
   <!-- background -->
-  <div class="l-background fixed top-0 left-0 w-100vw h-100vh opacity-3"></div>
+  <div class="l-background fixed top-0 left-0 w-100vw h-100vh light:opacity-4 dark:opacity-3"></div>
   <!-- github -->
   <div v-show="!isActiveMenu" class="l-github fixed left-0 bottom-0 z-9" m="l-2">
     <div class="f-c-c flex-col">
-      <div class="write-vertical-left font-main bounce" m="b-4" text="4 c">
+      <div class="write-vertical-left font-art bounce" m="b-4" text="4 b">
         {{ EcyVars.getBlogApp() }}'s Github
       </div>
       <div
         @click="Navigation.go({ path: 'www.github.com/himmelbleu' })"
         class="i-tabler-brand-github cursor-pointer"
-        text="c 7"
+        text="b 7"
         m="b-4"></div>
     </div>
   </div>
   <!-- menu -->
-  <div class="l-menu font-main">
+  <div class="l-menu">
     <div
       @click="isActiveMenu = !isActiveMenu"
       class="transition-all-300 select-none cursor-pointer f-c-c w-20 h-20 fixed top-0 z-99"
@@ -53,27 +55,44 @@ provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
       }"
       b="rd-rb-4">
       <div v-show="!isActiveMenu">
-        <div class="i-tabler-menu2 text-10" />
-        <div text="center 1">菜单</div>
+        <div class="i-tabler-menu2 text-10"></div>
+        <div text="center 1" class="font-art">菜单</div>
       </div>
       <div v-show="isActiveMenu">
         <div text="15" class="i-tabler-x cursor-pointer" />
       </div>
     </div>
     <div
-      class="menu-body transition-all-300 fixed top-0 left-0 w-70 h-100vh z-90"
+      class="menu-body transition-all-300 fixed top-0 left-0 w-70 h-100vh z-90 bg-drop-primary"
       :class="{ 'close-menu-body': !isActiveMenu, 'open-menu-body': isActiveMenu }">
       <div class="relative f-c-s flow-hidden h-100%">
-        <div class="menu-list ml-7 font-bold">
-          <div class="hover mb-10">标签分类</div>
-          <div class="hover mb-10">随笔分类</div>
-          <div class="hover mb-10">随笔档案</div>
-          <div class="hover mb-10">文章分类</div>
-          <div class="hover mb-10">文章档案</div>
-          <div class="hover mb-10">最新随笔</div>
-          <div class="hover mb-10">最新评论</div>
-          <div class="hover mb-10">我的相册</div>
-          <div class="hover">博客日历</div>
+        <div class="menu-list ml-10 text-1.2rem">
+          <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#tags-nail')">
+            我的标签
+          </div>
+          <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#essay-nail')">
+            随笔分类
+          </div>
+          <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#article-nail')">
+            文章分类
+          </div>
+          <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#essay-archive-nail')">
+            随笔归档
+          </div>
+          <div
+            class="hover mb-10 font-art"
+            @click="Broswer.scrollIntoView('#article-archive-nail')">
+            文章归档
+          </div>
+          <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#my-pohoto-nail')">
+            我的相册
+          </div>
+          <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#recent-essay-nail')">
+            最新随笔
+          </div>
+          <div class="hover font-art" @click="Broswer.scrollIntoView('#recent-comms-nail')">
+            最新评论
+          </div>
         </div>
       </div>
     </div>

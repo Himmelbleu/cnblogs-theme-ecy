@@ -37,6 +37,7 @@ declare module 'vue' {
     ElResult: typeof import('element-plus/es')['ElResult']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ExpandedBox: typeof import('./src/components/expanded-box.vue')['default']
     Highslide: typeof import('./src/views/segments/markdown/highslide/highslide.vue')['default']

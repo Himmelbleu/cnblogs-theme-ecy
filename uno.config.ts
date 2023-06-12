@@ -42,7 +42,7 @@ export default defineConfig({
     presetWebFonts({
       provider: "bunny",
       fonts: {
-        main: ["ZCOOL KuaiLe"]
+        art: ["ZCOOL KuaiLe"]
       }
     })
   ],
@@ -57,7 +57,8 @@ export default defineConfig({
       b: "var(--text-b)",
       c: "var(--text-c)",
       d: "var(--text-d)",
-      primary: "var(--text-primary)"
+      primary: "var(--text-primary)",
+      dropPrimary: "var(--l-background-bg)"
     }
   },
   preflights: [
@@ -67,6 +68,10 @@ export default defineConfig({
           * {
             font-family: inherit;
             color: inherit;
+            line-height: 1.7;
+            font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+            'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+            letter-spacing: 0.05rem;
             scroll-behavior: smooth;
             word-break: break-all;
             line-break: anywhere;

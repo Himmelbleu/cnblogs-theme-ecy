@@ -23,6 +23,9 @@ onMounted(() => {
     },
     () => {
       isTake.value = false;
+    },
+    {
+      throttle: 50
     }
   );
 
@@ -34,6 +37,9 @@ onMounted(() => {
     () => {
       isInBottom.value = true;
       isInTop.value = false;
+    },
+    {
+      throttle: 50
     }
   );
 });
@@ -64,11 +70,14 @@ watch(route, () => {
 </script>
 
 <template>
-  <div id="l-toolkits" :class="{ 'take-toolkits': isTake, 'intake-toolkits': !isTake }" class="fixed z-99 right-0 top-55vh text-1.1rem">
+  <div
+    id="l-toolkits"
+    :class="{ 'take-toolkits': isTake, 'intake-toolkits': !isTake }"
+    class="fixed z-99 right-0 top-55vh text-1.1rem">
     <div
       v-show="isShowGuide"
       :class="{ 'show-0': toolkits.pin, 'close-0': !toolkits.pin }"
-      class="absolute hover left-0 rd-2 l-back-bg"
+      class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="disabled = !disabled">
       <div class="f-c-c w-8 h-8">
         <i-ep-guide />
@@ -76,29 +85,34 @@ watch(route, () => {
     </div>
     <div
       :class="{ 'show-1': toolkits.pin, 'close-1': !toolkits.pin }"
-      class="absolute hover left-0 rd-2 l-back-bg"
+      class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="Navigation.go({ path: RouterPath.HOME(), router: $router })">
       <div class="f-c-c w-8 h-8">
-        <i-ep-house />
+        <div class="i-tabler-home text-1.2rem"></div>
       </div>
     </div>
     <div
       :class="{ 'show-2': toolkits.pin, 'close-2': !toolkits.pin }"
-      class="absolute hover left-0 rd-2 l-back-bg"
+      class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="Navigation.go({ path: 'back', router: $router })">
       <div class="f-c-c w-8 h-8">
-        <i-ep-location />
+        <div class="i-tabler-arrow-back-up text-1.2rem"></div>
       </div>
     </div>
     <div
       :class="{ 'show-3': toolkits.pin, 'close-3': !toolkits.pin }"
-      class="absolute hover left-0 rd-2 l-back-bg"
+      class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="isInTop ? scrollTo(topNail) : scrollTo(bottomNail)">
       <div class="f-c-c w-8 h-8">
-        <i-ep-upload :class="{ 'top-nav': isInTop, 'bottom-nav': isInBottom }" />
+        <div
+          class="i-tabler-arrow-bar-up"
+          :class="{ 'top-nav': isInTop, 'bottom-nav': isInBottom }"></div>
       </div>
     </div>
-    <div :class="{ 'show-4': toolkits.pin, 'close-4': !toolkits.pin }" class="absolute hover left-0 rd-2 l-back-bg" @click="toggleMode">
+    <div
+      :class="{ 'show-4': toolkits.pin, 'close-4': !toolkits.pin }"
+      class="absolute hover left-0 rd-2 bg-drop-primary"
+      @click="toggleMode">
       <div class="f-c-c w-8 h-8">
         <i-ep-moon v-show="theme.mode === 'dark'" />
         <i-ep-sunny v-show="theme.mode === 'light'" />
@@ -106,7 +120,7 @@ watch(route, () => {
     </div>
     <div
       :class="{ 'show-5': toolkits.pin, 'close-5': !toolkits.pin }"
-      class="absolute hover left-0 rd-2 l-back-bg"
+      class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="Navigation.go({ path: 'https://i.cnblogs.com' })">
       <div class="f-c-c w-8 h-8">
         <i-ep-setting />
@@ -115,7 +129,7 @@ watch(route, () => {
     <div
       @click="toolkits.pin = !toolkits.pin"
       :class="{ 'take-items': toolkits.pin, 'intake-items': !toolkits.pin }"
-      class="kits-box absolute hover top-60 left-0 rd-2 l-back-bg">
+      class="kits-box absolute hover top-60 left-0 rd-2 bg-drop-primary">
       <div class="f-c-c w-8 h-8">
         <i-ep-more />
       </div>
