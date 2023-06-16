@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getMarkList } from "@/apis";
-import { useLoading } from "@/hooks/comp-hooks";
+import { useLoading } from "@/hooks/use-loading";
 
 const markList = shallowRef();
 

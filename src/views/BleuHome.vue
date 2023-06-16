@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useLoading } from "@/hooks/comp-hooks";
+import { useRadarChart, usePieChart, useLineChart } from "@/hooks/use-echarts";
+import { useLoading } from "@/hooks/use-loading";
 import { WorksApi, MenuApi, getMarkList } from "@/apis";
 
 const list = shallowRef();
 const news = shallowRef();
 const status = shallowRef();
 const topList = shallowRef();
-const column = shallowRef();
-const markList = shallowRef();
-const carouselList = shallowRef(BleuVars.config.images.home.carousel);
+const column = shallowRef<BleuMenuColumn>();
+const markList = shallowRef<BleuMark[]>();
 
 useLoading(async () => {
-  const then = await Promise.all([
+  const [listVal, newsVal, statusVal, toplistVal, columnVal, marklistVal] = await Promise.all([
     WorksApi.getList(),
     MenuApi.getNews(),
     MenuApi.getStats(),
@@ -19,15 +19,72 @@ useLoading(async () => {
     MenuApi.getColumn(),
     getMarkList()
   ]);
-  then[0].data.splice(3, 7);
-  list.value = then[0];
-  news.value = then[1];
-  status.value = then[2];
-  topList.value = then[3];
-  column.value = then[4];
-  markList.value = then[5];
+  listVal.data.splice(3, 7);
+  list.value = listVal;
+  news.value = newsVal;
+  status.value = statusVal;
+  topList.value = toplistVal;
+  column.value = columnVal;
+  markList.value = marklistVal;
 });
 
+const radarInst = ref<HTMLElement>();
+const pie1Inst = ref<HTMLElement>();
+const pie2Inst = ref<HTMLElement>();
+const lineInst = ref<HTMLElement>();
+const isShowPieChart1 = ref(false);
+const openPieChartCount1 = ref(0);
+const isShowPieChart2 = ref(false);
+const openPieChartCount2 = ref(0);
+const isShowLineChart = ref(false);
+const openLineChartCount = ref(0);
+
+onMounted(() => {
+  useRadarChart(radarInst.value);
+});
+
+const clearWatcher1 = watch(markList, () => {
+  usePieChart(
+    pie1Inst.value,
+    markList.value.map((i, index) => {
+      if (index <= 10) {
+        return { value: i.count, name: i.text };
+      }
+    }),
+    openPieChartCount1,
+    "90%"
+  );
+
+  clearWatcher1();
+});
+
+const clearWatcher2 = watch(column, () => {
+  usePieChart(
+    pie2Inst.value,
+    column.value.essaySort.map((i, index) => {
+      if (index <= 10) {
+        return { value: i.count, name: i.text };
+      }
+    }),
+    openPieChartCount2,
+    ["40%", "70%"]
+  );
+
+  clearWatcher2();
+});
+
+const clearWatcher3 = watch(column, () => {
+  useLineChart(
+    lineInst.value,
+    column.value.essayArchive.map(i => i.count),
+    column.value.essayArchive.map(i => i.id),
+    openLineChartCount
+  );
+
+  clearWatcher3();
+});
+
+const carouselList = shallowRef(BleuVars.config.images.home.carousel);
 const carouselIndex = ref(0);
 
 setInterval(() => {
@@ -41,10 +98,10 @@ setInterval(() => {
 <template>
   <div id="l-home">
     <!-- area-1：开屏 -->
-    <div class="f-c-c">
-      <div class="f-c-c w-80vw">
-        <div p="x-30" class="h-100vh w-52% f-c-c">
-          <div class="h-100%">
+    <div class="px-18vw">
+      <div class="f-c-b">
+        <div class="w-49% f-c-c">
+          <div class="h-100vh">
             <div m="t-5">
               <div text="start 10" class="shine-text font-art">
                 {{ BleuVars.getBlogApp() }} 的博客
@@ -56,10 +113,10 @@ setInterval(() => {
                 Time tick away, dream faded away.
               </div>
             </div>
-            <div m="t-14">
-              <div m="b-7" v-if="list?.data" v-for="item in list.data">
+            <div m="t-15">
+              <div m="b-8" v-if="list?.data" v-for="item in list.data">
                 <div p="b-4">
-                  <div class="f-c-s text-b" m="b-6">
+                  <div class="f-c-s text-b text-0.9rem mb-6">
                     <div class="i-tabler-clock-hour3 mr-2"></div>
                     {{ item.date }}
                   </div>
@@ -114,8 +171,8 @@ setInterval(() => {
             </div>
           </div>
         </div>
-        <div class="w-52% h-100vh f-c-b">
-          <div class="carousel w-87% relative h-100vh">
+        <div class="w-49% f-c-b">
+          <div class="carousel w-88% relative h-100vh">
             <img
               v-for="(item, index) in carouselList"
               :class="carouselIndex == index ? 'opacity-100 z-99' : 'opacity-0 z-0'"
@@ -123,13 +180,13 @@ setInterval(() => {
               :src="item" />
           </div>
           <div class="w-12% f-e-e h-100vh">
-            <div class="mb-5">
+            <div class="mb-4">
               <div
                 v-for="(item, index) in carouselList"
                 class="f-c-c cursor-pointer"
                 @mouseover="carouselIndex = index">
                 <img
-                  class="mt-5 w-18 h-18 rd-50 object-cover b-solid p-1 b-width-2.5"
+                  class="mt-3 w-13 h-13 rd-50 object-cover b-solid p-1 b-width-2.5"
                   :class="carouselIndex == index ? 'b-blue' : 'b-transparent'"
                   :src="item" />
               </div>
@@ -139,77 +196,73 @@ setInterval(() => {
       </div>
     </div>
     <!-- area-2：基本信息展示 -->
-    <div class="f-c-c mt-20">
-      <div class="px-30 w-80vw">
-        <div class="f-s-b">
-          <div class="w-48%">
-            <div class="caption">
-              <div class="i-tabler-info-square-rounded mr-2"></div>
-              博主数据
-            </div>
-            <div class="f-s-b mb-6">
+    <div class="mt-20 px-18vw">
+      <div class="f-s-b">
+        <div class="w-49%">
+          <div class="caption mb-10">
+            <div class="i-tabler-info-square-rounded mr-2"></div>
+            博主数据
+          </div>
+          <div class="f-c-b mb-10 text-1rem text-c">
+            <img class="w-25 h-25 rd-50" :src="BleuVars.config.avatar" />
+            <div v-if="column?.rankings?.length > 0" class="f-c-e">
               <div>
-                <img class="w-25 h-25 rd-50" :src="BleuVars.config.avatar" />
-              </div>
-              <div v-if="column?.rankings?.length > 0" class="f-c-e">
-                <div>
-                  <div v-for="item in column.rankings" class="mt-4">
-                    {{ item.text }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="f-s-b pr-30">
-              <div v-if="news?.length > 0">
-                <div class="text-1.1rem">
-                  <div class="f-c-s">
-                    <div class="i-tabler-user mr-2"></div>
-                    博主：{{ news[0].text }}
-                  </div>
-                  <div class="f-c-s" m="t-5">
-                    <div class="i-tabler-calendar mr-2"></div>
-                    园龄：{{ news[1].text }}
-                  </div>
-                  <div class="f-c-s" m="t-5">
-                    <div class="i-tabler-brand-twitch mr-2"></div>
-                    粉丝：{{ news[2].text }}
-                  </div>
-                  <div class="f-c-s" m="t-5">
-                    <div class="i-tabler-heart mr-2"></div>
-                    关注：{{ news[3].text }}
-                  </div>
-                </div>
-              </div>
-              <div v-if="status?.length > 0">
-                <div class="text-1.1rem">
-                  <div class="f-c-s">
-                    <div class="i-tabler-pencil-minus mr-2"></div>
-                    发表的随笔：{{ status[0].digg }}
-                  </div>
-                  <div class="f-c-s" m="t-5">
-                    <div class="i-tabler-books mr-2"></div>
-                    发表的文章：{{ status[1].digg }}
-                  </div>
-                  <div class="f-c-s" m="t-5">
-                    <div class="i-tabler-message-circle mr-2"></div>
-                    拥有的评论：{{ status[2].digg }}
-                  </div>
-                  <div class="f-c-s" m="t-5">
-                    <div class="i-tabler-chart-bar mr-2"></div>
-                    被阅读：{{ status[3].digg }}次
-                  </div>
+                <div v-for="item in column.rankings" class="mt-2">
+                  {{ item.text }}
                 </div>
               </div>
             </div>
           </div>
-          <div class="w-48%">
-            <div class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-5">
-              <div class="i-tabler-chart-radar mr-2"></div>
-              我的技能
+          <div class="f-s-b pr-30 text-1rem">
+            <div v-if="news?.length > 0">
+              <div>
+                <div class="f-c-s">
+                  <div class="i-tabler-user mr-2"></div>
+                  博主：{{ news[0].text }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-calendar mr-2"></div>
+                  园龄：{{ news[1].text }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-brand-twitch mr-2"></div>
+                  粉丝：{{ news[2].text }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-heart mr-2"></div>
+                  关注：{{ news[3].text }}
+                </div>
+              </div>
             </div>
-            <div class="f-c-c">
-              <skill-graph />
+            <div v-if="status?.length > 0">
+              <div>
+                <div class="f-c-s">
+                  <div class="i-tabler-pencil-minus mr-2"></div>
+                  发表的随笔：{{ status[0].digg }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-books mr-2"></div>
+                  发表的文章：{{ status[1].digg }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-message-circle mr-2"></div>
+                  拥有的评论：{{ status[2].digg }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-chart-bar mr-2"></div>
+                  被阅读：{{ status[3].digg }}次
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+        <div class="w-49%">
+          <div class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-5">
+            <div class="i-tabler-chart-radar mr-2"></div>
+            我的技能
+          </div>
+          <div class="f-c-c">
+            <div ref="radarInst" class="w-90 h-90"></div>
           </div>
         </div>
       </div>
@@ -221,13 +274,28 @@ setInterval(() => {
       </div>
     </div>
     <!-- area-4：随笔标签 -->
-    <div class="f-c-c font-main mt-20">
-      <div class="px-30 w-80vw">
-        <div id="tags-nail" class="caption">
-          <div class="i-tabler-bookmarks mr-2"></div>
-          我的标签
+    <div class="font-main mt-20 px-18vw relative">
+      <div
+        class="transition-all-500"
+        :class="{ 'opacity-100': !isShowPieChart1, 'opacity-30': isShowPieChart1 }">
+        <div class="f-c-b mb-10">
+          <div id="tags-nail" class="caption">
+            <div class="i-tabler-bookmarks mr-2"></div>
+            我的标签
+          </div>
+          <div
+            @mouseover="
+              () => {
+                openPieChartCount1++;
+                isShowPieChart1 = !isShowPieChart1;
+              }
+            "
+            class="f-c-c cursor-pointer hover text-c text-0.9rem">
+            <div class="i-tabler-zoom-in text-1.2rem mr-2"></div>
+            图表
+          </div>
         </div>
-        <div v-if="markList?.length > 0" class="f-c-b flex-wrap">
+        <div v-if="markList?.length > 0" class="f-s-b flex-wrap overflow-auto scroll-none">
           <HollowedBox
             v-for="item in markList"
             line="dotted"
@@ -239,26 +307,61 @@ setInterval(() => {
           </HollowedBox>
         </div>
       </div>
+      <div
+        @mouseleave="isShowPieChart1 = !isShowPieChart1"
+        :class="{ 'scale-0': !isShowPieChart1, 'scale-100': isShowPieChart1 }"
+        class="transition-all-300 absolute left-18vw top-0">
+        <div class="f-c-c w-64vw">
+          <div ref="pie1Inst" class="w-100% h-50vh"></div>
+        </div>
+      </div>
     </div>
     <!-- area-5：随笔分类 -->
-    <div class="f-c-c font-main mt-15">
-      <div class="px-30 w-80vw f-s-b">
-        <div class="w-48%">
-          <div id="essay-nail" class="caption">
-            <div class="i-tabler-category-2 mr-2"></div>
-            随笔分类
+    <div class="font-main mt-15 px-18vw relative">
+      <div class="f-s-b">
+        <div class="w-49%">
+          <div
+            class="transition-all-500"
+            :class="{ 'opacity-100': !isShowPieChart2, 'opacity-30': isShowPieChart2 }">
+            <div class="f-c-b mb-10">
+              <div id="essay-nail" class="caption">
+                <div class="i-tabler-category-2 mr-2"></div>
+                随笔分类
+              </div>
+              <div
+                @mouseover="
+                  () => {
+                    openPieChartCount2++;
+                    isShowPieChart2 = !isShowPieChart2;
+                  }
+                "
+                class="f-c-c cursor-pointer hover text-c text-0.9rem mr-4">
+                <div class="i-tabler-zoom-in text-1.2rem mr-2"></div>
+                图表
+              </div>
+            </div>
+            <div v-if="column?.essaySort?.length > 0" class="f-c-b flex-wrap">
+              <div
+                @click="
+                  Navigation.go({ path: RouterPath.ArbeitenBySort(item.id), router: $router })
+                "
+                class="mb-6 mr-4 cursor-pointer hover"
+                v-for="item in column.essaySort">
+                {{ item.text }}
+              </div>
+            </div>
           </div>
-          <div v-if="column?.essaySort?.length > 0" class="f-c-b flex-wrap">
-            <div
-              @click="Navigation.go({ path: RouterPath.ArbeitenBySort(item.id), router: $router })"
-              class="mb-6 mr-4 cursor-pointer hover"
-              v-for="item in column.essaySort">
-              {{ item.text }}
+          <div
+            @mouseleave="isShowPieChart2 = !isShowPieChart2"
+            :class="{ 'scale-0': !isShowPieChart2, 'scale-100': isShowPieChart2 }"
+            class="transition-all-300 absolute left-18vw top-0">
+            <div class="f-c-c w-30vw">
+              <div ref="pie2Inst" class="w-100% h-30vh"></div>
             </div>
           </div>
         </div>
-        <div class="w-48%">
-          <div id="article-nail" class="caption">
+        <div class="w-49%">
+          <div id="article-nail" class="caption mb-10">
             <div class="i-tabler-sort-a-z mr-2"></div>
             文章分类
           </div>
@@ -274,95 +377,78 @@ setInterval(() => {
       </div>
     </div>
     <!-- area-6：随笔归档 -->
-    <div class="f-c-c font-main mt-15">
-      <div class="px-30 w-80vw">
-        <div id="essay-archive-nail" class="caption">
-          <div class="i-tabler-archive-filled mr-2"></div>
-          随笔归档
-        </div>
-        <div v-if="column?.essayArchive?.length > 0" class="f-c-b flex-wrap">
-          <div
-            @click="
-              Navigation.go({ path: RouterPath.ArbeitenByArchive('p', item.id), router: $router })
-            "
-            class="mb-6 mr-4 cursor-pointer hover"
-            v-for="item in column.essayArchive">
-            {{ item.text }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- area-7：文章归档 -->
-    <div class="f-c-c font-main mt-15">
-      <div class="px-30 w-80vw">
-        <div id="article-archive-nail" class="caption">
-          <div class="i-tabler-folder-check mr-2"></div>
-          文章归档
-        </div>
-        <div v-if="column?.articleArchive?.length > 0" class="f-c-b flex-wrap">
-          <div
-            @click="
-              Navigation.go({ path: RouterPath.ArbeitenByArchive('a', item.id), router: $router })
-            "
-            class="mb-6 mr-4 cursor-pointer hover"
-            v-for="item in column.articleArchive">
-            {{ item.text }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- area-8：相册列表 -->
-    <div class="f-c-c font-main mt-15">
-      <div class="px-30 w-80vw">
-        <div id="my-pohoto-nail" class="caption">
-          <div class="i-tabler-photo mr-2"></div>
-          我的相册
-        </div>
-        <div v-if="column?.albumn?.length > 0" class="f-c-b flex-wrap">
-          <div
-            @click="Navigation.go({ path: RouterPath.Albumn(item.id), router: $router })"
-            class="mb-6 cursor-pointer hover line-height-1.5 text-ellipsis line-clamp-2"
-            v-for="item in column.albumn">
-            {{ item.text }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- area-9：其他数据 -->
-    <div class="f-c-c font-main mt-15">
-      <div class="px-30 w-80vw f-s-b">
-        <div class="w-48%">
-          <div id="recent-essay-nail" class="caption">
-            <div class="i-tabler-arrow-badge-up-filled mr-2"></div>
-            最新随笔
-          </div>
-          <div v-if="column?.latestEssayList?.length > 0">
+    <div class="font-main mt-15 px-18vw relative">
+      <div>
+        <div
+          class="transition-all-500"
+          :class="{ 'opacity-100': !isShowLineChart, 'opacity-10': isShowLineChart }">
+          <div class="mb-10 f-c-b">
+            <div id="essay-archive-nail" class="caption">
+              <div class="i-tabler-archive-filled mr-2"></div>
+              随笔归档
+            </div>
             <div
-              @click="Navigation.go({ path: RouterPath.Arbeiten(item.id), router: $router })"
-              class="mb-10 cursor-pointer hover line-height-1.5 text-ellipsis line-clamp-2"
-              v-for="item in column.latestEssayList">
+              @mouseover="
+                () => {
+                  openLineChartCount++;
+                  isShowLineChart = !isShowLineChart;
+                }
+              "
+              class="f-c-c cursor-pointer hover text-c text-0.9rem mr-4">
+              <div class="i-tabler-zoom-in text-1.2rem mr-2"></div>
+              图表
+            </div>
+          </div>
+          <div v-if="column?.essayArchive?.length > 0" class="f-c-b flex-wrap">
+            <div
+              @click="
+                Navigation.go({ path: RouterPath.ArbeitenByArchive('p', item.id), router: $router })
+              "
+              class="mb-6 mr-4 cursor-pointer hover"
+              v-for="item in column.essayArchive">
               {{ item.text }}
             </div>
           </div>
         </div>
-        <div class="w-48%">
-          <div id="recent-comms-nail" class="caption">
-            <div class="i-tabler-arrow-badge-up mr-2"></div>
-            最新评论
-          </div>
-          <div v-if="column?.latestComments?.length > 0">
-            <div
-              @click="Navigation.go({ path: RouterPath.Arbeiten(item.id), router: $router })"
-              class="mb-10 cursor-pointer hover"
-              v-for="item in column.latestComments">
-              <div>
-                {{ item.title }}
-              </div>
-              <div class="mt-4 f-c-e">
-                {{ item.content }}
-              </div>
-            </div>
-          </div>
+      </div>
+      <div
+        @mouseleave="isShowLineChart = !isShowLineChart"
+        :class="{ 'scale-0': !isShowLineChart, 'scale-100': isShowLineChart }"
+        class="transition-all-300 absolute left-18vw top-0">
+        <div class="f-c-c w-64vw">
+          <div ref="lineInst" class="w-45vw h-50vh"></div>
+        </div>
+      </div>
+    </div>
+    <!-- area-7：文章归档 -->
+    <div class="font-main mt-15 px-18vw">
+      <div id="article-archive-nail" class="caption mb-10">
+        <div class="i-tabler-folder-check mr-2"></div>
+        文章归档
+      </div>
+      <div v-if="column?.articleArchive?.length > 0" class="f-c-b flex-wrap">
+        <div
+          @click="
+            Navigation.go({ path: RouterPath.ArbeitenByArchive('a', item.id), router: $router })
+          "
+          class="mb-6 mr-4 cursor-pointer hover"
+          v-for="item in column.articleArchive">
+          {{ item.text }}
+        </div>
+      </div>
+    </div>
+    <!-- area-8：相册列表 -->
+    <div class="font-main mt-15 px-18vw">
+      <div id="my-pohoto-nail" class="caption mb-10">
+        <div class="i-tabler-photo mr-2"></div>
+        我的相册
+      </div>
+      <div v-if="column?.albumn?.length > 0" class="f-c-b flex-wrap">
+        <div
+          @click="Navigation.go({ path: RouterPath.Albumn(item.id), router: $router })"
+          class="mb-6 cursor-pointer hover line-height-1.5 text-ellipsis line-clamp-2"
+          v-for="item in column.albumn">
+          {{ item.text }}
         </div>
       </div>
     </div>

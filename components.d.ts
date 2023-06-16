@@ -66,7 +66,6 @@ declare module 'vue' {
     PostComment: typeof import('./src/views/segments/comment/PostComment.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SkillGraph: typeof import('./src/views/segments/skillgraph/skill-graph.vue')['default']
     ToolKits: typeof import('./src/views/segments/ToolKits.vue')['default']
   }
 }

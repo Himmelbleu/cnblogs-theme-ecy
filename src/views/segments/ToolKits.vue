@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useWheelRollsUpAndDown, useLineBetweenHighAndLow } from "@/hooks/window-events";
+import { useWheelRollsUpAndDown, useLineBetweenHighAndLow } from "@/hooks/use-mouse";
 
 const route = useRoute();
 const { toolkits, theme } = LocalStorage.getSetting().value;

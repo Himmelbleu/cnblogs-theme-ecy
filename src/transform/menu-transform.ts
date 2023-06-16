@@ -16,7 +16,7 @@ export namespace MenuTransform {
     return data;
   }
 
-  function loadColumn(
+  function parseColHTML(
     dom: Document,
     selector: string,
     success: (e: Element, matched?: any) => void,
@@ -46,93 +46,98 @@ export namespace MenuTransform {
       albumn: []
     };
 
-    loadColumn(
+    parseColHTML(
       dom,
       "#sidebar_recentposts ul li > a",
-      (e, matched) => {
+      (element, matched) => {
         data.latestEssayList.push({
           id: matched[0],
-          text: e.innerText
+          text: element.innerText
         });
       },
       /[0-9]+/g
     );
 
-    loadColumn(
+    parseColHTML(
       dom,
       "#sidebar_toptags ul li > a",
-      (e, matched) => {
+      (element, matched) => {
         data.tagList.push({
           id: matched[1],
-          text: e.innerText
+          text: element.innerText
         });
       },
       /tag\/(.[^\/]+)/
     );
 
-    loadColumn(dom, "#sidebar_scorerank ul li", e => {
+    parseColHTML(dom, "#sidebar_scorerank ul li", e => {
       data.rankings.push({
         text: e.innerText
       });
     });
 
-    loadColumn(
+    parseColHTML(
       dom,
       "#sidebar_postcategory ul li > a",
-      (e, matched) => {
+      (element, matched) => {
+        const innerText = element.innerText;
         data.essaySort.push({
           id: matched[0],
-          text: e.innerText
+          text: innerText,
+          count: innerText.match(/[0-9]+/g)[0]
         });
       },
       /[0-9]+/g
     );
 
-    loadColumn(
+    parseColHTML(
       dom,
       "#sidebar_postarchive ul li > a",
-      (e, matched) => {
+      (element, matched) => {
+        const innerText = element.innerText;
         const date = matched[1].split("/");
+
         data.essayArchive.push({
           id: `${date[0]}-${date[1]}`,
-          text: e.innerText
+          text: innerText,
+          count: innerText.match(/\([0-9]+\)/g)[0].match(/[0-9]/g)[0]
         });
       },
       /archive\/([0-9]+\/[0-9]+)/
     );
 
-    loadColumn(
+    parseColHTML(
       dom,
       "#sidebar_imagecategory ul li > a",
-      (e, matched) => {
+      (element, matched) => {
         data.albumn.push({
           id: matched[1],
-          text: e.innerText
+          text: element.innerText
         });
       },
       /gallery\/([0-9]+)/
     );
 
-    loadColumn(
+    parseColHTML(
       dom,
       "#sidebar_articlecategory ul li > a",
-      (e, matched) => {
+      (element, matched) => {
         data.articleSort.push({
           id: matched[0],
-          text: e.innerText
+          text: element.innerText
         });
       },
       /[0-9]+/g
     );
 
-    loadColumn(
+    parseColHTML(
       dom,
       "#sidebar_articlearchive ul li > a",
-      (e, matched) => {
+      (element, matched) => {
         const date = matched[1].split("/");
         data.articleArchive.push({
           id: `${date[0]}-${date[1]}`,
-          text: e.innerText
+          text: element.innerText
         });
       },
       /archives\/([0-9]+\/[0-9]+)/

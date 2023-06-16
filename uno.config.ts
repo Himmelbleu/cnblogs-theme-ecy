@@ -119,7 +119,7 @@ export default defineConfig({
     [
       /^caption$/,
       () => {
-        return `text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s mb-10`;
+        return `text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s`;
       }
     ]
   ]

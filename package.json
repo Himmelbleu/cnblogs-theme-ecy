@@ -12,6 +12,7 @@
   "dependencies": {
     "@vueuse/core": "^10.1.2",
     "axios": "^1.4.0",
+    "echarts": "^5.4.2",
     "element-plus": "^2.3.6",
     "highlight.js": "^11.8.0",
     "pinia": "^2.0.33",

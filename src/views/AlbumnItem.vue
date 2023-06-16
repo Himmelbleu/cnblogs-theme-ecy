@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getAlbumnItem } from "@/apis";
-import { useLoading } from "@/hooks/comp-hooks";
+import { useLoading } from "@/hooks/use-loading";
 
 const route = useRoute();
 const imgUrl = shallowRef();

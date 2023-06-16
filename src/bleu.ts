@@ -61,26 +61,37 @@ export function useBleu(dev: Function, pro: Function) {
           ]
         }
       },
-      graph: {
-        alpha: 1,
-        sides: 9,
-        layer: 6,
-        lineWidth: 0.8,
-        textSize: 1,
-        fillColor: "#409effb8",
-        strokeColor: "#409effb8",
-        textColor: "#383838f8",
-        lineColor: "#383838f8",
-        data: [
-          { title: "scss", star: 5 },
-          { title: "vue3", star: 5 },
-          { title: "vite", star: 4 },
-          { title: "js", star: 5 },
-          { title: "ts", star: 4 },
-          { title: "C", star: 2 },
-          { title: "react", star: 2 },
-          { title: "uniapp", star: 5 },
-          { title: "java", star: 4 }
+      chart: {
+        tooltip: {
+          trigger: "axis"
+        },
+        radar: [
+          {
+            indicator: [
+              { name: "Vue", max: 5 },
+              { name: "React", max: 5 },
+              { name: "JS", max: 5 },
+              { name: "TS", max: 5 },
+              { name: "Python", max: 5 },
+              { name: "C", max: 5 },
+              { name: "Java", max: 5 }
+            ]
+          }
+        ],
+        series: [
+          {
+            tooltip: {
+              trigger: "item"
+            },
+            areaStyle: {},
+            type: "radar",
+            data: [
+              {
+                value: [4, 1, 4, 3.5, 3.5, 1, 3.5],
+                name: "技能掌握程度"
+              }
+            ]
+          }
         ]
       },
       font: {

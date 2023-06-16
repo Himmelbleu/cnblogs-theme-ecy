@@ -1,8 +1,25 @@
 <script setup lang="ts">
+import { useWheelRollsUpAndDown } from "@/hooks/use-mouse";
+
 const isActiveMenu = ref(false);
 const disabled = ref(!BleuVars.isPcDevice());
+const isShowMenu = ref(false);
 
 provide(ProvideKey.Katalog, disabled);
+
+onMounted(() => {
+  useWheelRollsUpAndDown(
+    () => {
+      isShowMenu.value = false;
+    },
+    () => {
+      isShowMenu.value = true;
+    },
+    {
+      throttle: 50
+    }
+  );
+});
 </script>
 
 <template>
@@ -36,27 +53,28 @@ provide(ProvideKey.Katalog, disabled);
       'background-image': 'url(' + BleuVars.config.images.bg.src + ')',
       opacity: BleuVars.config.images.bg.opacity
     }"></div>
-  <!-- github -->
+  <!-- GitHub -->
   <div v-show="!isActiveMenu" class="l-github fixed left-0 bottom-0 z-9" m="l-2">
-    <div class="f-c-c flex-col">
-      <div class="write-vertical-left font-art bounce" m="b-4" text="4 b">
+    <div
+      class="f-c-c flex-col"
+      @click="Navigation.go({ path: 'http://github.com/' + BleuVars.getBlogApp() })">
+      <div class="write-vertical-left font-art bounce hover" m="b-4" text="4 b">
         {{ BleuVars.getBlogApp() }}'s Github
       </div>
-      <div
-        @click="Navigation.go({ path: 'www.github.com/himmelbleu' })"
-        class="i-tabler-brand-github cursor-pointer"
-        text="b 7"
-        m="b-4"></div>
+      <div class="i-tabler-brand-github hover" text="b 7" m="b-4"></div>
     </div>
   </div>
   <!-- 导航栏 -->
   <div class="l-menu">
+    <!-- 按钮 -->
     <div
       @click="isActiveMenu = !isActiveMenu"
       class="transition-all-300 select-none cursor-pointer f-c-c w-20 h-20 fixed top-0 z-99"
       :class="{
-        'static-menu left--16 hover:left-0': !isActiveMenu,
-        'active-menu left-0': isActiveMenu
+        'static-menu': !isActiveMenu,
+        'active-menu': isActiveMenu,
+        'left--20': !isShowMenu,
+        'left-0': isShowMenu
       }"
       b="rd-rb-4">
       <div v-show="!isActiveMenu">
@@ -67,11 +85,15 @@ provide(ProvideKey.Katalog, disabled);
         <div text="15" class="i-tabler-x cursor-pointer" />
       </div>
     </div>
+    <!-- 内容 -->
     <div
-      class="menu-body transition-all-300 fixed top-0 left-0 w-70 h-100vh z-90 bg-drop-primary"
+      class="transition-all-300 fixed top-0 left-0 w-70 h-100vh z-90 bg-drop-primary"
       :class="{ 'close-menu-body': !isActiveMenu, 'open-menu-body': isActiveMenu }">
       <div class="relative f-c-s flow-hidden h-100%">
         <div class="menu-list ml-10 text-1.2rem">
+          <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#l-top-nail')">
+            回到顶部
+          </div>
           <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#tags-nail')">
             我的标签
           </div>
@@ -91,12 +113,6 @@ provide(ProvideKey.Katalog, disabled);
           </div>
           <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#my-pohoto-nail')">
             我的相册
-          </div>
-          <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#recent-essay-nail')">
-            最新随笔
-          </div>
-          <div class="hover font-art" @click="Broswer.scrollIntoView('#recent-comms-nail')">
-            最新评论
           </div>
         </div>
       </div>

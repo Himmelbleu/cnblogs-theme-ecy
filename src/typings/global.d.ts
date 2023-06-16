@@ -95,8 +95,8 @@ interface BleuArbeitenL2 {
  * 侧边栏标签和分类数组
  */
 interface BleuMenuColumn {
-  essaySort: { id: string; text: string }[];
-  essayArchive: { id: string; text: string }[];
+  essaySort: { id: string; text: string; count: string }[];
+  essayArchive: { id: string; text: string; count: string }[];
   articleSort: { id: string; text: string }[];
   articleArchive: { id: string; text: string }[];
   latestEssayList: { id: string; text: string }[];
@@ -163,17 +163,27 @@ type BleuConfig = Partial<{
       divider: string;
     };
   };
-  graph: {
-    alpha: number;
-    sides: number;
-    layer: number;
-    lineWidth: number;
-    textSize: number;
-    fillColor: string;
-    strokeColor: string;
-    textColor: string;
-    lineColor: string;
-    data: { title: string; star: number }[];
+  chart: {
+    tooltip?: {
+      trigger: "axis";
+    };
+    legend?: {
+      left: "center";
+      data: string[];
+    };
+    radar: {
+      indicator: { name: string; max: number }[];
+      center?: string[];
+      radius?: number | string;
+    }[];
+    series: {
+      tooltip?: {
+        trigger: "item";
+      };
+      areaStyle?: object;
+      type: string;
+      data: { value: number[]; name?: string }[];
+    }[];
   };
   font: {
     main: string;
