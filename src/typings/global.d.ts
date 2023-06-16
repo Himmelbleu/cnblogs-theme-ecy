@@ -152,13 +152,16 @@ interface BleuAlbumnItem {
 type BleuConfig = Partial<{
   icon: string;
   avatar: string;
+  signature: string;
   images: {
     bg: {
       src: string;
       opacity: number;
     };
-    works?: string[];
+    arbeiten?: string[];
     home: {
+      opacity: number;
+      interval: number;
       carousel: string[];
       divider: string;
     };

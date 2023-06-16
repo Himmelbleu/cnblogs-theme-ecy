@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps({
   item: {
-    type: Object as PropType<BleuArbeiten & { id: string }>,
+    type: Object,
     require: true
   },
   cover: {
@@ -16,10 +16,11 @@ defineProps({
 </script>
 
 <template>
+  <!-- PC 端 -->
   <div v-if="BleuVars.isPcDevice()" class="f-c-b item h-20rem rd-2">
     <div v-if="index % 2 !== 0" class="w-45% h-100% flow-hidden relative">
       <div class="mask absolute top-0 left-0 w-100% h-15% z-1"></div>
-      <img class="w-100% h-100%" :src="item.surface || cover" />
+      <img class="w-100% h-100% object-cover" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
     </div>
     <div class="w-52%" :class="{ 'pl-4': index % 2 === 0, 'pr-4': index % 2 !== 0 }">
@@ -65,10 +66,11 @@ defineProps({
     </div>
     <div v-if="index % 2 === 0" class="w-45% h-100% flow-hidden relative">
       <div class="mask absolute top-0 left-0 w-100% h-15% z-1"></div>
-      <img class="w-100% h-100%" :src="item.surface || cover" />
+      <img class="w-100% h-100% object-cover" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
     </div>
   </div>
+  <!-- 移动端 -->
   <div v-else class="item h-20rem rd-2">
     <div
       class="hover text-ellipsis line-clamp-2 f-c-s mb-6 text-1.3rem"
@@ -78,7 +80,7 @@ defineProps({
     <div class="f-c-b mb-4">
       <div v-if="index % 2 !== 0" class="w-45% h-100% relative">
         <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
-        <img class="w-100% h-8rem" :src="item.surface || cover" />
+        <img class="w-100% h-8rem object-cover" :src="item.surface || cover" />
         <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
       </div>
       <div class="w-52% text-c text-ellipsis line-clamp-5">
@@ -86,7 +88,7 @@ defineProps({
       </div>
       <div v-if="index % 2 === 0" class="w-45% h-100% relative">
         <div class="mask absolute top-0 left-0 w-100% h-15%"></div>
-        <img class="w-100% h-8rem" :src="item.surface || cover" />
+        <img class="w-100% h-8rem object-cover" :src="item.surface || cover" />
         <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
       </div>
     </div>
@@ -146,6 +148,7 @@ defineProps({
   }
 
   img {
+    --uno: rd-2;
     transition: var(--l-animation-effect);
   }
 }
@@ -153,8 +156,8 @@ defineProps({
 @include pc() {
   .item {
     margin: {
-      top: 1.5rem;
-      bottom: 3rem;
+      top: 2rem;
+      bottom: 6rem;
     }
   }
 }

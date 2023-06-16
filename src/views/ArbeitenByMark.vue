@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { WorksApi } from "@/apis";
-import { useLoading } from "@/hooks/use-loading";
 
 const route = useRoute();
 const markWorks = shallowRef();
 
 async function fetchData(index?: any) {
+  Broswer.startLoading();
   markWorks.value = await WorksApi.getListByMark(`${route.params.tag}`, index);
   Broswer.setTitle(markWorks.value.hint);
+  Broswer.endLoading();
 }
 
-useLoading(fetchData);
+await fetchData();
 
-watch(route, () => {
-  if (route.name === RouterName.ArbeitenByMark) useLoading(fetchData);
+watch(route, async () => {
+  if (route.name === RouterName.ArbeitenByMark) {
+    await fetchData();
+  }
 });
 </script>
 

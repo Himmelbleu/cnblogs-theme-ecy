@@ -37,6 +37,14 @@ export namespace RouterPath {
   }
 
   /**
+   * @param id 岁别列表
+   * @returns "/list"
+   */
+  export function ArbeitenList() {
+    return `/list`;
+  }
+
+  /**
    *
    * @param mode a -> 文章；p -> 随笔；d -> 从日历点击过来的
    * @param date 日期

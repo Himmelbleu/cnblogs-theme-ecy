@@ -35,7 +35,12 @@ onMounted(() => {
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
         <KeepAlive
-          :include="[RouterName.BleuHome, RouterName.MarkList, RouterName.ArbeitenByCalendar]">
+          :include="[
+            RouterName.BleuHome,
+            RouterName.MarkList,
+            RouterName.ArbeitenByCalendar,
+            RouterName.ArbeitenList
+          ]">
           <Suspense>
             <component :is="Component" />
           </Suspense>
@@ -78,8 +83,8 @@ onMounted(() => {
       }"
       b="rd-rb-4">
       <div v-show="!isActiveMenu">
-        <div class="i-tabler-menu2 text-10"></div>
-        <div text="center 1" class="font-art">菜单</div>
+        <div class="i-tabler-menu2 text-2.2rem"></div>
+        <div text="center 0.9rem" class="font-art">菜单</div>
       </div>
       <div v-show="isActiveMenu">
         <div text="15" class="i-tabler-x cursor-pointer" />
@@ -113,6 +118,11 @@ onMounted(() => {
           </div>
           <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#my-pohoto-nail')">
             我的相册
+          </div>
+          <div
+            class="hover mb-10 font-art"
+            @click="Navigation.go({ path: RouterPath.ArbeitenByCalendar(), router: $router })">
+            我的日历
           </div>
         </div>
       </div>

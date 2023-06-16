@@ -48,7 +48,9 @@ export namespace WorksApi {
    * @param isArticle 分类类型，随笔的类型是1，文章的类型是2
    */
   export async function getByL2(id: string, isArticle: boolean) {
-    const { data } = await request.get(`/ajax/TreeCategoryList.aspx?parentId=${id}&categoryType=${isArticle ? 2 : 1}`);
+    const { data } = await request.get(
+      `/ajax/TreeCategoryList.aspx?parentId=${id}&categoryType=${isArticle ? 2 : 1}`
+    );
     return WorksTransform.toWorksByL2(strToDOM(data));
   }
 
@@ -56,7 +58,9 @@ export namespace WorksApi {
    * 获取随笔、文章的标签和分类
    */
   export async function getProps(id: string) {
-    const { data } = await request.get(`/ajax/CategoriesTags.aspx?blogId=${BleuVars.getBlogId()}&postId=${id}`);
+    const { data } = await request.get(
+      `/ajax/CategoriesTags.aspx?blogId=${BleuVars.getBlogId()}&postId=${id}`
+    );
     return WorksTransform.toWorksProps(strToDOM(data));
   }
 
@@ -86,7 +90,9 @@ export namespace WorksApi {
    */
   export async function getListByArchive(date: string, type: "article" | "works") {
     const split = date.split("-");
-    const { data } = await request.get(`/${type === "article" ? "archives" : "archive"}/${split[0]}/${split[1]}.html}`);
+    const { data } = await request.get(
+      `/${type === "article" ? "archives" : "archive"}/${split[0]}/${split[1]}.html}`
+    );
     return WorksTransform.toWorksFull(strToDOM(data));
   }
 

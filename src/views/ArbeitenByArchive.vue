@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { WorksApi } from "@/apis";
-import { useLoading } from "@/hooks/use-loading";
 
 const route = useRoute();
 let archiveDate = route.params.date;
 let archiveMode = route.params.mode;
-const archiveWorks = shallowRef();
-const worksImgs = BleuVars.config.images.works;
-const imgsIndex = shallowRef();
+const archiveList = shallowRef();
+const images = BleuVars.config.images.arbeiten;
+const imgsIndexs = shallowRef();
 
 async function fetchData() {
+  Broswer.startLoading();
+
   let fetchDataPromise;
 
   if (archiveMode == "a") {
@@ -20,26 +21,29 @@ async function fetchData() {
     fetchDataPromise = WorksApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
   }
 
-  archiveWorks.value = await fetchDataPromise;
-  imgsIndex.value = Random.get(worksImgs, archiveWorks.value.data.length);
-  Broswer.setTitle(archiveWorks.value.hint);
+  archiveList.value = await fetchDataPromise;
+
+  imgsIndexs.value = Random.get(images, archiveList.value.data.length);
+  Broswer.setTitle(archiveList.value.hint);
+
+  Broswer.endLoading();
 }
 
-useLoading(fetchData);
+await fetchData();
 
-watch(route, () => {
+watch(route, async () => {
   if (route.name === RouterName.ArbeitenByArchive) {
     archiveMode = route.params.mode;
     archiveDate = route.params.date;
-    useLoading(fetchData);
+    await fetchData();
   }
 });
 </script>
 
 <template>
   <div id="l-works-by-archive" class="page">
-    <div class="content" v-if="archiveWorks">
-      <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveWorks.page">
+    <div class="content" v-if="archiveList">
+      <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveList.page">
         <template #content>
           <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
             <template #title>
@@ -48,16 +52,16 @@ watch(route, () => {
               </div>
             </template>
             <template #content>
-              <div class="text-1.2rem mb-5 mt-4">{{ archiveWorks.hint }}</div>
+              <div class="text-1.2rem mb-5 mt-4">{{ archiveList.hint }}</div>
             </template>
           </el-page-header>
           <ArbeitenItem
-            v-if="archiveWorks.data.length > 0"
-            v-for="(item, index) in archiveWorks.data"
+            v-if="archiveList.data.length > 0"
+            v-for="(item, index) in archiveList.data"
             :key="item.id"
             :item="item"
             :index="index"
-            :cover="worksImgs[imgsIndex[index]]" />
+            :cover="images[imgsIndexs[index]]" />
         </template>
       </pagination>
     </div>
