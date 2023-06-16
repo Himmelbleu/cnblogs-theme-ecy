@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { WorksApi } from "@/apis";
-import { useLoading } from "@/hooks/use-loading";
 
 const date = new Date();
 const calendar = shallowRef();
 const dateModel = ref(date);
+
+Broswer.startLoading();
 
 function findDate(data: any) {
   const date = data.day.replaceAll("-", "/");
@@ -19,11 +20,15 @@ async function fetchData() {
   );
 }
 
-useLoading(fetchData);
+onMounted(() => {
+  Broswer.endLoading();
+});
 
-watch(dateModel, (newVal, oldVal) => {
+await fetchData();
+
+watch(dateModel, async (newVal, oldVal) => {
   if (newVal.getMonth() !== oldVal.getMonth()) {
-    useLoading(fetchData);
+    await fetchData();
   }
 });
 </script>
@@ -32,7 +37,7 @@ watch(dateModel, (newVal, oldVal) => {
   <div class="l-works-by-calendar page">
     <div class="content" v-if="calendar">
       <el-page-header
-        class="mt-4 mb-6"
+        class="mt-4 mb-15"
         :icon="null"
         @back="Navigation.go({ path: 'back', router: $router })">
         <template #title>

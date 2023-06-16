@@ -16,6 +16,7 @@ declare module 'vue' {
     ArbeitenByMark: typeof import('./src/views/ArbeitenByMark.vue')['default']
     ArbeitenBySort: typeof import('./src/views/ArbeitenBySort.vue')['default']
     ArbeitenItem: typeof import('./src/views/segments/ArbeitenItem.vue')['default']
+    ArbeitenList: typeof import('./src/views/ArbeitenList.vue')['default']
     BleuHome: typeof import('./src/views/BleuHome.vue')['default']
     BuryComment: typeof import('./src/views/segments/comment/BuryComment.vue')['default']
     Comment: typeof import('./src/views/segments/comment/Comment.vue')['default']

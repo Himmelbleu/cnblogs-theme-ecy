@@ -21,6 +21,11 @@ export const routes = <RouteRecordRaw[]>[
     component: () => import("@/views/Arbeiten.vue")
   },
   {
+    name: RouterName.ArbeitenList,
+    path: RouterPath.ArbeitenList(),
+    component: () => import("@/views/ArbeitenList.vue")
+  },
+  {
     name: RouterName.ArbeitenByMark,
     path: RouterPath.ArbeitenByMark(),
     component: () => import("@/views/ArbeitenByMark.vue")

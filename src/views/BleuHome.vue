@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRadarChart, usePieChart, useLineChart } from "@/hooks/use-echarts";
-import { useLoading } from "@/hooks/use-loading";
 import { WorksApi, MenuApi, getMarkList } from "@/apis";
 
 const list = shallowRef();
@@ -10,8 +9,10 @@ const topList = shallowRef();
 const column = shallowRef<BleuMenuColumn>();
 const markList = shallowRef<BleuMark[]>();
 
-useLoading(async () => {
-  const [listVal, newsVal, statusVal, toplistVal, columnVal, marklistVal] = await Promise.all([
+async function fetchData() {
+  Broswer.startLoading();
+
+  const [val1, val2, val3, val4, val5, val6] = await Promise.all([
     WorksApi.getList(),
     MenuApi.getNews(),
     MenuApi.getStats(),
@@ -19,14 +20,17 @@ useLoading(async () => {
     MenuApi.getColumn(),
     getMarkList()
   ]);
-  listVal.data.splice(3, 7);
-  list.value = listVal;
-  news.value = newsVal;
-  status.value = statusVal;
-  topList.value = toplistVal;
-  column.value = columnVal;
-  markList.value = marklistVal;
-});
+
+  val1.data.splice(3, 7);
+  list.value = val1;
+  news.value = val2;
+  status.value = val3;
+  topList.value = val4;
+  column.value = val5;
+  markList.value = val6;
+
+  Broswer.endLoading();
+}
 
 const radarInst = ref<HTMLElement>();
 const pie1Inst = ref<HTMLElement>();
@@ -41,9 +45,7 @@ const openLineChartCount = ref(0);
 
 onMounted(() => {
   useRadarChart(radarInst.value);
-});
 
-const clearWatcher1 = watch(markList, () => {
   usePieChart(
     pie1Inst.value,
     markList.value.map((i, index) => {
@@ -55,10 +57,6 @@ const clearWatcher1 = watch(markList, () => {
     "90%"
   );
 
-  clearWatcher1();
-});
-
-const clearWatcher2 = watch(column, () => {
   usePieChart(
     pie2Inst.value,
     column.value.essaySort.map((i, index) => {
@@ -70,18 +68,12 @@ const clearWatcher2 = watch(column, () => {
     ["40%", "70%"]
   );
 
-  clearWatcher2();
-});
-
-const clearWatcher3 = watch(column, () => {
   useLineChart(
     lineInst.value,
     column.value.essayArchive.map(i => i.count),
     column.value.essayArchive.map(i => i.id),
     openLineChartCount
   );
-
-  clearWatcher3();
 });
 
 const carouselList = shallowRef(BleuVars.config.images.home.carousel);
@@ -92,7 +84,9 @@ setInterval(() => {
   if (carouselIndex.value > 3) {
     carouselIndex.value = 0;
   }
-}, 5000);
+}, BleuVars.config.images.home.interval);
+
+await fetchData();
 </script>
 
 <template>
@@ -110,7 +104,7 @@ setInterval(() => {
                 text="start 4 ellipsis"
                 class="line-clamp-2 line-height-1.2 letter-spacing-0.1 font-art"
                 m="t-3">
-                Time tick away, dream faded away.
+                {{ BleuVars.config.signature }}
               </div>
             </div>
             <div m="t-15">
@@ -161,6 +155,7 @@ setInterval(() => {
               </div>
               <div text="end" class="f-c-e">
                 <div
+                  @click="Navigation.go({ path: RouterPath.ArbeitenList(), router: $router })"
                   class="w-20 cursor-pointer hover:text-primary transition-all-300 font-art"
                   p="x-1 y-1"
                   text="center 0.8rem"
@@ -171,15 +166,22 @@ setInterval(() => {
             </div>
           </div>
         </div>
+        <!-- 轮播图 -->
         <div class="w-49% f-c-b">
-          <div class="carousel w-88% relative h-100vh">
+          <div class="carousel w-100% relative h-100vh">
+            <!-- 图片 -->
             <img
               v-for="(item, index) in carouselList"
-              :class="carouselIndex == index ? 'opacity-100 z-99' : 'opacity-0 z-0'"
+              :style="
+                carouselIndex == index
+                  ? { zIndex: 9, opacity: BleuVars.config.images.home.opacity }
+                  : { zIndex: 0, opacity: 0 }
+              "
               class="w-100% h-100% absolute top-0 left-0 object-cover"
               :src="item" />
           </div>
-          <div class="w-12% f-e-e h-100vh">
+          <!-- 指示器 -->
+          <!-- <div class="w-12% f-e-e h-100vh">
             <div class="mb-4">
               <div
                 v-for="(item, index) in carouselList"
@@ -191,7 +193,7 @@ setInterval(() => {
                   :src="item" />
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -213,7 +215,7 @@ setInterval(() => {
               </div>
             </div>
           </div>
-          <div class="f-s-b pr-30 text-1rem">
+          <div class="f-c-b text-1rem">
             <div v-if="news?.length > 0">
               <div>
                 <div class="f-c-s">
@@ -290,8 +292,8 @@ setInterval(() => {
                 isShowPieChart1 = !isShowPieChart1;
               }
             "
-            class="f-c-c cursor-pointer hover text-c text-0.9rem">
-            <div class="i-tabler-zoom-in text-1.2rem mr-2"></div>
+            class="f-c-c cursor-pointer hover text-c text-1rem">
+            <div class="i-tabler-zoom-in mr-2"></div>
             图表
           </div>
         </div>
@@ -311,6 +313,12 @@ setInterval(() => {
         @mouseleave="isShowPieChart1 = !isShowPieChart1"
         :class="{ 'scale-0': !isShowPieChart1, 'scale-100': isShowPieChart1 }"
         class="transition-all-300 absolute left-18vw top-0">
+        <div class="text-c text-1rem">
+          <div class="f-c-e hover" @click="isShowPieChart1 = !isShowPieChart1">
+            <div class="i-tabler-arrows-minimize mr-2"></div>
+            关闭
+          </div>
+        </div>
         <div class="f-c-c w-64vw">
           <div ref="pie1Inst" class="w-100% h-50vh"></div>
         </div>
@@ -335,8 +343,8 @@ setInterval(() => {
                     isShowPieChart2 = !isShowPieChart2;
                   }
                 "
-                class="f-c-c cursor-pointer hover text-c text-0.9rem mr-4">
-                <div class="i-tabler-zoom-in text-1.2rem mr-2"></div>
+                class="f-c-c cursor-pointer hover text-c text-1rem mr-4">
+                <div class="i-tabler-zoom-in mr-2"></div>
                 图表
               </div>
             </div>
@@ -355,6 +363,12 @@ setInterval(() => {
             @mouseleave="isShowPieChart2 = !isShowPieChart2"
             :class="{ 'scale-0': !isShowPieChart2, 'scale-100': isShowPieChart2 }"
             class="transition-all-300 absolute left-18vw top-0">
+            <div class="text-c text-1rem">
+              <div class="f-c-e hover" @click="isShowPieChart2 = !isShowPieChart2">
+                <div class="i-tabler-arrows-minimize mr-2"></div>
+                关闭
+              </div>
+            </div>
             <div class="f-c-c w-30vw">
               <div ref="pie2Inst" class="w-100% h-30vh"></div>
             </div>
@@ -394,8 +408,8 @@ setInterval(() => {
                   isShowLineChart = !isShowLineChart;
                 }
               "
-              class="f-c-c cursor-pointer hover text-c text-0.9rem mr-4">
-              <div class="i-tabler-zoom-in text-1.2rem mr-2"></div>
+              class="f-c-c cursor-pointer hover text-c text-1rem mr-4">
+              <div class="i-tabler-zoom-in mr-2"></div>
               图表
             </div>
           </div>
@@ -415,6 +429,12 @@ setInterval(() => {
         @mouseleave="isShowLineChart = !isShowLineChart"
         :class="{ 'scale-0': !isShowLineChart, 'scale-100': isShowLineChart }"
         class="transition-all-300 absolute left-18vw top-0">
+        <div class="text-c text-1rem">
+          <div class="f-c-e hover" @click="isShowLineChart = !isShowLineChart">
+            <div class="i-tabler-arrows-minimize mr-2"></div>
+            关闭
+          </div>
+        </div>
         <div class="f-c-c w-64vw">
           <div ref="lineInst" class="w-45vw h-50vh"></div>
         </div>
