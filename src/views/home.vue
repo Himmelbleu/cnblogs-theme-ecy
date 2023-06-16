@@ -143,9 +143,21 @@ setInterval(() => {
       <div class="px-30 w-80vw">
         <div class="f-s-b">
           <div class="w-48%">
-            <div class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-10">
+            <div class="caption">
               <div class="i-tabler-info-square-rounded mr-2"></div>
               博主数据
+            </div>
+            <div class="f-s-b mb-6">
+              <div>
+                <img class="w-25 h-25 rd-50" :src="EcyVars.config.avatar" />
+              </div>
+              <div v-if="column?.rankings?.length > 0" class="f-c-e">
+                <div>
+                  <div v-for="item in column.rankings" class="mt-4">
+                    {{ item.text }}
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="f-s-b pr-30">
               <div v-if="news?.length > 0">
@@ -189,13 +201,6 @@ setInterval(() => {
                 </div>
               </div>
             </div>
-            <div v-if="column?.rankings?.length > 0" class="mt-6 f-c-e">
-              <div>
-                <div v-for="item in column.rankings" class="mt-4">
-                  {{ item.text }}
-                </div>
-              </div>
-            </div>
           </div>
           <div class="w-48%">
             <div class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-5">
@@ -218,10 +223,7 @@ setInterval(() => {
     <!-- area-4：随笔标签 -->
     <div class="f-c-c font-main mt-20">
       <div class="px-30 w-80vw">
-        <div
-          id="tags-nail"
-          class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
-          m="b-10">
+        <div id="tags-nail" class="caption">
           <div class="i-tabler-bookmarks mr-2"></div>
           我的标签
         </div>
@@ -242,10 +244,7 @@ setInterval(() => {
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw f-s-b">
         <div class="w-48%">
-          <div
-            id="essay-nail"
-            class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
-            m="b-10">
+          <div id="essay-nail" class="caption">
             <div class="i-tabler-category-2 mr-2"></div>
             随笔分类
           </div>
@@ -259,10 +258,7 @@ setInterval(() => {
           </div>
         </div>
         <div class="w-48%">
-          <div
-            id="article-nail"
-            class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
-            m="b-10">
+          <div id="article-nail" class="caption">
             <div class="i-tabler-sort-a-z mr-2"></div>
             文章分类
           </div>
@@ -280,10 +276,7 @@ setInterval(() => {
     <!-- area-6：随笔归档 -->
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw">
-        <div
-          id="essay-archive-nail"
-          class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
-          m="b-10">
+        <div id="essay-archive-nail" class="caption">
           <div class="i-tabler-archive-filled mr-2"></div>
           随笔归档
         </div>
@@ -302,10 +295,7 @@ setInterval(() => {
     <!-- area-7：文章归档 -->
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw">
-        <div
-          id="article-archive-nail"
-          class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
-          m="b-10">
+        <div id="article-archive-nail" class="caption">
           <div class="i-tabler-folder-check mr-2"></div>
           文章归档
         </div>
@@ -324,10 +314,7 @@ setInterval(() => {
     <!-- area-8：相册列表 -->
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw">
-        <div
-          id="my-pohoto-nail"
-          class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
-          m="b-10">
+        <div id="my-pohoto-nail" class="caption">
           <div class="i-tabler-photo mr-2"></div>
           我的相册
         </div>
@@ -345,10 +332,7 @@ setInterval(() => {
     <div class="f-c-c font-main mt-15">
       <div class="px-30 w-80vw f-s-b">
         <div class="w-48%">
-          <div
-            id="recent-essay-nail"
-            class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
-            m="b-10">
+          <div id="recent-essay-nail" class="caption">
             <div class="i-tabler-arrow-badge-up-filled mr-2"></div>
             最新随笔
           </div>
@@ -362,10 +346,7 @@ setInterval(() => {
           </div>
         </div>
         <div class="w-48%">
-          <div
-            id="recent-comms-nail"
-            class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s"
-            m="b-10">
+          <div id="recent-comms-nail" class="caption">
             <div class="i-tabler-arrow-badge-up mr-2"></div>
             最新评论
           </div>

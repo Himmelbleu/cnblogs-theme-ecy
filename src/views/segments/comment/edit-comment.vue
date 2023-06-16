@@ -34,7 +34,10 @@ async function before() {
 }
 
 async function finish() {
-  const response = await CommentApi.update({ body: content.value, commentId: props.comment.commentId });
+  const response = await CommentApi.update({
+    body: content.value,
+    commentId: props.comment.commentId
+  });
 
   if (response.isSuccess) {
     content.value = "";
@@ -56,7 +59,8 @@ function cancel() {
 </script>
 
 <template>
-  <div class="l-comment__editor">
+  <!-- 编辑评论 -->
+  <div>
     <div class="float-right w-100%" v-show="comment.isEditing">
       <div class="mb-2 f-c-e">
         <el-tooltip effect="dark" content="插入图片" placement="top-start">
@@ -69,9 +73,11 @@ function cancel() {
         <textarea v-model="content" placeholder="请编辑一条友善的评论，支持 Markdown 语法" />
       </div>
     </div>
-    <div class="float-right f-c-e text-0.9rem text-b" :class="{ 're-item': !comment.isEditing, 'w-100%': comment.isEditing }">
+    <div
+      class="float-right f-c-e text-0.9rem text-b"
+      :class="{ 'edit-item': !comment.isEditing, 'w-100%': comment.isEditing }">
       <div v-show="!comment.isEditing && !comment.isAnsling" class="hover f-c-e" @click="before">
-        <i-ep-edit-pen class="mr-1" />
+        <div class="i-tabler-pencil-minus mr-1"></div>
         <span>编辑</span>
       </div>
       <div v-show="comment.isEditing" class="hover f-c-e mr-4" @click="finish">
@@ -88,13 +94,13 @@ function cancel() {
 
 <style scoped lang="scss">
 @include pc() {
-  .re-item {
+  .edit-item {
     --uno: w-8%;
   }
 }
 
 @include mb() {
-  .re-item {
+  .edit-item {
     --uno: w-18%;
   }
 }

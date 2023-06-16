@@ -73,7 +73,7 @@ watch(toRefRealHtml, newVal => {
 
 <template>
   <Teleport to="body">
-    <div class="l-highslide l-matee-bg noactive" ref="eleHighslide">
+    <div class="l-highslide noactive" ref="eleHighslide">
       <div class="relative w-100% h-100%">
         <div class="w-100% h-100% f-c-c">
           <img
@@ -120,6 +120,7 @@ watch(toRefRealHtml, newVal => {
   width: 100vw;
   height: 100vh;
   transition: all 0.2s ease-in-out;
+  background-color: #222222b4;
 }
 
 .active {

@@ -25,8 +25,12 @@ async function buryComment() {
 </script>
 
 <template>
-  <div v-show="!comment.isEditing && !comment.isAnsling" class="l-comment__bury hover text-0.8rem text-b" @click="buryComment">
-    <i-ep-caret-bottom class="mr-1" />
-    <span>{{ comment.bury }}</span>
+  <!-- 反对评论 -->
+  <div
+    v-show="!comment.isEditing && !comment.isAnsling"
+    class="hover f-c-c text-0.8rem text-b"
+    @click="buryComment">
+    <div class="i-tabler-thumb-down mr-1"></div>
+    <div>反对{{ comment.bury }}</div>
   </div>
 </template>

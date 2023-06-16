@@ -36,7 +36,9 @@ function before() {
 
 async function finish() {
   const { isSuccess } = await CommentApi.answer({
-    body: `回复 ${props.comment.layer} [@${props.comment.author}](${props.comment.space})\n\n` + content.value,
+    body:
+      `回复 ${props.comment.layer} [@${props.comment.author}](${props.comment.space})\n\n` +
+      content.value,
     postId: parseInt(props.postId),
     parentCommentId: parseInt(props.comment.commentId)
   });
@@ -62,7 +64,8 @@ function cancel() {
 </script>
 
 <template>
-  <div class="l-comment__answer">
+  <!-- 回复评论 -->
+  <div>
     <div class="float-right w-100%" v-show="comment.isAnsling">
       <div class="mb-2 f-c-e">
         <el-tooltip content="插入图片" placement="top-start">
@@ -75,9 +78,11 @@ function cancel() {
         <textarea v-model="content" placeholder="请回复一条友善的评论，支持 Markdown 语法" />
       </div>
     </div>
-    <div class="float-right f-c-e text-0.9rem text-b" :class="{ 'ed-item': !comment.isAnsling, ' w-100%': comment.isAnsling }">
+    <div
+      class="float-right f-c-e text-0.9rem text-b"
+      :class="{ 'answer-item': !comment.isAnsling, ' w-100%': comment.isAnsling }">
       <div v-show="!comment.isAnsling && !comment.isEditing" class="hover f-c-e" @click="before">
-        <i-ep-chat-round class="mr-1" />
+        <div class="i-tabler-message-circle mr-1"></div>
         <span>回复</span>
       </div>
       <div v-show="comment.isAnsling" class="hover f-c-e mr-4" @click="finish">
@@ -94,13 +99,13 @@ function cancel() {
 
 <style scoped lang="scss">
 @include pc() {
-  .ed-item {
+  .answer-item {
     --uno: w-8%;
   }
 }
 
 @include mb() {
-  .ed-item {
+  .answer-item {
     --uno: w-18%;
   }
 }

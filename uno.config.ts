@@ -115,6 +115,12 @@ export default defineConfig({
       () => {
         return `cursor-pointer hover:text-primary transition-all-300`;
       }
+    ],
+    [
+      /^caption$/,
+      () => {
+        return `text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s mb-10`;
+      }
     ]
   ]
 });

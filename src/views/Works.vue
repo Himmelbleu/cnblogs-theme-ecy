@@ -85,17 +85,20 @@ await fetchData();
     <div class="content" v-if="!worksIsLocked">
       <div class="text-1.6rem font-bold text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
       <div class="f-c-s mt-6 text-0.9rem">
+        <!-- 发表日期 -->
         <div class="f-c-c mr-4">
-          <i-ep-clock class="mr-1" />
-          <span>{{ works.date }}</span>
+          <div class="i-tabler-calendar-stats mr-1"></div>
+          <div>{{ works.date }}</div>
         </div>
+        <!-- 阅读次数 -->
         <div class="f-c-c mr-4">
-          <i-ep-view class="mr-1" />
-          <span>{{ works.view }}次阅读</span>
+          <div class="i-tabler-eye mr-1"></div>
+          <div>{{ works.view }}次阅读</div>
         </div>
+        <!-- 评论条数 -->
         <div class="f-c-c mr-4">
-          <i-ep-chat-line-square class="mr-1" />
-          <span>{{ works.comm }}条评论</span>
+          <div class="i-tabler-message-2 mr-1"></div>
+          <div>{{ works.comm }}条评论</div>
         </div>
         <div
           v-if="isBlogOwner"
@@ -103,15 +106,15 @@ await fetchData();
           @click="
             Navigation.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + worksId })
           ">
-          <i-ep-edit-pen class="mr-1" />
-          <span>编辑</span>
+          <div class="i-tabler-pencil-minus mr-1"></div>
+          <div>编辑</div>
         </div>
       </div>
       <div class="mt-6 mb-15">
         <div class="mb-4 flex-wrap text-0.9rem f-c-s" v-if="worksProps.sorts.length > 0">
           <div class="f-c-c">
-            <i-ep-folder-opened class="mr-1" />
-            <span>分类：</span>
+            <div class="i-tabler-category-2 mr-1"></div>
+            <div>分类：</div>
           </div>
           <div
             v-for="(item, index) in worksProps.sorts"
@@ -129,8 +132,8 @@ await fetchData();
         </div>
         <div class="f-c-s flex-wrap text-0.9rem" v-if="worksProps.tags.length > 0">
           <div class="f-c-c">
-            <i-ep-price-tag class="mr-1" />
-            <span>标签：</span>
+            <div class="i-tabler-bookmarks mr-1"></div>
+            <div>标签：</div>
           </div>
           <div
             v-for="(item, index) in worksProps.tags"
@@ -150,27 +153,27 @@ await fetchData();
       <markdown-content :html-str="works.content" v-model:real-html="markdownRef" />
       <div class="text-b mt-15 f-c-e text-0.9rem">
         <div class="f-c-c mr-4">
-          <i-ep-clock class="mr-1" />
+          <div class="i-tabler-calendar-stats mr-1"></div>
           <span>{{ works.date }}</span>
         </div>
         <div class="f-c-c mr-4">
-          <i-ep-view class="mr-1" />
+          <div class="i-tabler-eye mr-1"></div>
           <span>{{ works.view }}次阅读</span>
         </div>
         <div class="f-c-c">
-          <i-ep-chat-line-square class="mr-1" />
+          <div class="i-tabler-message-2 mr-1"></div>
           <span>{{ works.comm }}条评论</span>
         </div>
       </div>
       <div class="prev-next mt-15 text-0.9rem">
         <div class="hover f-c-s mb-2" v-if="worksPrevNext.prev.href">
-          <i-ep-d-arrow-left />
+          <div class="i-tabler-arrow-autofit-up mr-1"></div>
           <a class="hover text-color-a" :href="worksPrevNext.prev.href">
             上一篇：{{ worksPrevNext.prev.text }}
           </a>
         </div>
         <div class="hover f-c-s" v-if="worksPrevNext.next.href">
-          <i-ep-d-arrow-right />
+          <div class="i-tabler-arrow-autofit-down mr-1"></div>
           <a class="hover text-color-a" :href="worksPrevNext.next.href">
             下一篇：{{ worksPrevNext.next.text }}
           </a>
@@ -181,7 +184,7 @@ await fetchData();
           <el-button plain @click="vote('Digg')">
             点赞 {{ worksViewPoint.diggCount }}
             <template #icon>
-              <i-ep-caret-top />
+              <div class="i-tabler-thumb-up"></div>
             </template>
           </el-button>
         </div>
@@ -189,7 +192,7 @@ await fetchData();
           <el-button plain @click="vote('Bury')">
             反对 {{ worksViewPoint.buryCount }}
             <template #icon>
-              <i-ep-caret-bottom />
+              <div class="i-tabler-thumb-down"></div>
             </template>
           </el-button>
         </div>

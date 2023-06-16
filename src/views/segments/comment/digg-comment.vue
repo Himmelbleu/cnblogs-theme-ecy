@@ -27,8 +27,12 @@ async function diggComment() {
 </script>
 
 <template>
-  <div v-show="!comment.isEditing && !comment.isAnsling" class="l-comment__digg hover text-0.9rem text-b" @click="diggComment">
-    <i-ep-caret-top class="mr-1" />
-    <span>{{ comment.digg }}</span>
+  <!-- 同意评论 -->
+  <div
+    v-show="!comment.isEditing && !comment.isAnsling"
+    class="hover f-c-c text-0.9rem text-b"
+    @click="diggComment">
+    <div class="i-tabler-thumb-up mr-1"></div>
+    <div>支持{{ comment.digg }}</div>
   </div>
 </template>
