@@ -1,4 +1,4 @@
-export namespace WorksTransform {
+export namespace ArbeitenTransform {
   /**
    * 获取页数
    */
@@ -15,13 +15,13 @@ export namespace WorksTransform {
   /**
    * 获取首页随笔列表：日期下的随笔和文章。列表项包含描述、评论、点赞的随笔列表。
    */
-  export function toWorksList(dom: Document): EcyWorksList {
+  export function toWorksList(dom: Document): BleuArbeitenList {
     const id = dom.getElementsByClassName("postTitle2");
     const head = dom.getElementsByClassName("postTitle");
     const desc = dom.getElementsByClassName("c_b_p_desc");
     const notes = dom.getElementsByClassName("postDesc");
     const hint = dom.getElementsByClassName("dayTitle");
-    const data: EcyWorks[] = [];
+    const data: BleuArbeiten[] = [];
 
     for (let index = 0; index < desc.length; index++) {
       const eleDescImg = desc[index].getElementsByClassName("desc_img")[0];
@@ -40,7 +40,9 @@ export namespace WorksTransform {
         id: id[index].getAttribute("href").match(/[0-9]+/g)[0],
         text: Textual.replace(head[index].innerText.trim(), [/\[置顶\]/g]),
         desc: Textual.replace(desc[index].innerText, [/阅读全文/g]),
-        date: notes[index].innerText.match(/[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g)[0],
+        date: notes[index].innerText.match(
+          /[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g
+        )[0],
         view: notes[index].innerText.match(/阅读\([0-9]+\)/g)[0],
         comm: notes[index].innerText.match(/评论\([0-9]+\)/g)[0],
         digg: notes[index].innerText.match(/推荐\([0-9]+\)/g)[0],
@@ -61,7 +63,7 @@ export namespace WorksTransform {
   /**
    * 解析随笔详细页面
    */
-  export function toWorks(id: string, dom: Document): EcyWorks {
+  export function toWorks(id: string, dom: Document): BleuArbeiten {
     const text = dom.querySelector(".postTitle > a > span").innerText;
     const content = dom.getElementById("cnblogs_post_body").innerHTML;
 
@@ -79,8 +81,8 @@ export namespace WorksTransform {
   /**
    * 解析随笔详细页面中的属性：标签、分类
    */
-  export function toWorksProps(dom: Document): EcyWorksProps {
-    const data = <EcyWorksProps>{ tags: [], sorts: [] };
+  export function toWorksProps(dom: Document): BleuArbeitenProps {
+    const data = <BleuArbeitenProps>{ tags: [], sorts: [] };
 
     const eleCates = dom.querySelectorAll("#BlogPostCategory > a");
 
@@ -109,8 +111,8 @@ export namespace WorksTransform {
   /**
    * 解析上下篇随笔
    */
-  export function toWorksPrevNext(dom: Document): EcyWorksPrevNext {
-    const data: EcyWorksPrevNext = { prev: {}, next: {} };
+  export function toWorksPrevNext(dom: Document): BleuArbeitenPrevNext {
+    const data: BleuArbeitenPrevNext = { prev: {}, next: {} };
     const eleAs = dom.getElementsByTagName("a");
 
     for (let i = 0; i < eleAs.length; i++) {
@@ -135,10 +137,11 @@ export namespace WorksTransform {
   /**
    * 获取随笔档案、文章档案、随笔分类、档案分类四种列表。列表项包含描述、评论、点赞的随笔列表。
    */
-  export function toWorksFull(dom: Document): EcyWorksList2 {
-    const data: EcyWorks[] = [];
+  export function toWorksFull(dom: Document): BleuArbeitenList2 {
+    const data: BleuArbeiten[] = [];
 
-    const dateReg = /[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g;
+    const dateReg =
+      /[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g;
     const viewReg = /阅读\([0-9]+\)/g;
     const commReg = /评论\([0-9]+\)/g;
     const diggReg = /推荐\([0-9]+\)/g;
@@ -187,17 +190,19 @@ export namespace WorksTransform {
   /**
    * 获取随笔和文章列表，列表通过标签查询。
    */
-  export function toWorksSlice(dom: Document): EcyWorksList2 {
+  export function toWorksSlice(dom: Document): BleuArbeitenList2 {
     const head = dom.querySelectorAll(".PostList > .postTitl2 > a");
     const desc = dom.querySelectorAll(".PostList > .postDesc2");
     const hint = dom.getElementsByClassName("PostListTitle")[0].innerText.trim();
-    const data: EcyWorks[] = [];
+    const data: BleuArbeiten[] = [];
 
     head.forEach((ele, index) => {
       data.push({
         id: ele.getAttribute("href").match(/[0-9]+/g)[0],
         text: ele.innerText.trim(),
-        date: desc[index].innerText.match(/[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g)[0],
+        date: desc[index].innerText.match(
+          /[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g
+        )[0],
         view: desc[index].getElementsByClassName("post-view-count")[0].innerText.split(":")[1],
         comm: desc[index].getElementsByClassName("post-comment-count")[0].innerText.split(":")[1],
         digg: desc[index].getElementsByClassName("post-digg-count")[0].innerText.split(":")[1]
@@ -221,7 +226,7 @@ export namespace WorksTransform {
     }
   }
 
-  export function toWorksByL2(dom: Document): EcyWorksL2[] {
+  export function toWorksByL2(dom: Document): BleuArbeitenL2[] {
     const nodeList = dom.getElementsByTagName("li");
     return Array.from(nodeList).map(ele => ({
       id: ele.getAttribute("data-category-id"),

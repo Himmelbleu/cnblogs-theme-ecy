@@ -1,7 +1,7 @@
-function loadedEcy() {
+function loadedBleu() {
   function setFontFamily() {
-    const fontFamily = EcyVars.config.font.main || `var(--el-font-family)`;
-    const codeFontFamily = EcyVars.config.font.code || `var(--el-font-family)`;
+    const fontFamily = BleuVars.config.font.main || `var(--el-font-family)`;
+    const codeFontFamily = BleuVars.config.font.code || `var(--el-font-family)`;
     document.querySelector("html").style.setProperty("--l-font-family", fontFamily);
     document.querySelector("html").style.setProperty("--l-code-font-family", codeFontFamily);
   }
@@ -11,7 +11,7 @@ function loadedEcy() {
     const settingStr = JSON.stringify(
       LocalStorage.reloadObjProps(setting, LocalStorage.getSettingTemp())
     );
-    localStorage.setItem(`l-${EcyVars.getBlogApp()}-setting`, settingStr);
+    localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, settingStr);
     document.documentElement.setAttribute("class", setting.theme.mode);
   }
 
@@ -19,31 +19,31 @@ function loadedEcy() {
   setLocalSetting();
 }
 
-function beforeUseEcy() {
+function beforeUseBleu() {
   const app = document.createElement("div");
   app.setAttribute("id", "app");
   document.body.append(app);
 }
 
-function afterUseEcy() {
+function afterUseBleu() {
   const icon = document.createElement("link");
   icon.rel = "shortcut icon";
-  icon.href = EcyVars.config.icon;
+  icon.href = BleuVars.config.icon;
   document.head.append(icon);
 
-  PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-ecy");
+  PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
   PrettifyLog.primary("v2.0.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
-export function useEcy(dev: Function, pro: Function) {
-  beforeUseEcy();
+export function useBleu(dev: Function, pro: Function) {
+  beforeUseBleu();
 
   if (import.meta.env.PROD) {
-    EcyVars.config = window["__ECY_CONFIG__"];
-    loadedEcy();
+    BleuVars.config = window["__BLEU_CONFIG__"];
+    loadedBleu();
     pro();
   } else if (import.meta.env.DEV) {
-    EcyVars.config = {
+    BleuVars.config = {
       avatar:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F52685712-3f98-4dd5-b05b-87cd8b8524c3%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1689215021&t=6944511081f659351480894aa55663eb",
       images: {
@@ -88,9 +88,9 @@ export function useEcy(dev: Function, pro: Function) {
         main: ""
       }
     };
-    loadedEcy();
+    loadedBleu();
     dev();
   }
 
-  afterUseEcy();
+  afterUseBleu();
 }

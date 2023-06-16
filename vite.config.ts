@@ -27,10 +27,25 @@ export default defineConfig(({ mode }) => {
           "vue-router",
           "@vueuse/core",
           {
-            "@/constants/index": ["RouterName", "RouterPath", "RouterRegx", "ProvideKey", "EcyVars"]
+            "@/constants/index": [
+              "RouterName",
+              "RouterPath",
+              "RouterRegx",
+              "ProvideKey",
+              "BleuVars"
+            ]
           },
           {
-            "@/utils/index": ["Broswer", "Formatter", "Native", "Navigation", "PrettifyLog", "Random", "LocalStorage", "Textual"]
+            "@/utils/index": [
+              "Broswer",
+              "Formatter",
+              "Native",
+              "Navigation",
+              "PrettifyLog",
+              "Random",
+              "LocalStorage",
+              "Textual"
+            ]
           },
           {
             from: "vue-router",
@@ -97,9 +112,9 @@ export default defineConfig(({ mode }) => {
           manualChunks() {
             return "components";
           },
-          entryFileNames: "[name]-ecy.js",
-          chunkFileNames: "[name]-ecy.js",
-          assetFileNames: "[name]-ecy.[ext]"
+          entryFileNames: "[name]-bleu.js",
+          chunkFileNames: "[name]-bleu.js",
+          assetFileNames: "[name]-bleu.[ext]"
         }
       }
     }

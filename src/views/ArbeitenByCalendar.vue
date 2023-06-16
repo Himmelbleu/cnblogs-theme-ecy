@@ -13,7 +13,9 @@ function findDate(data: any) {
 
 async function fetchData() {
   calendar.value = await WorksApi.getCalendar(
-    `${dateModel.value.getFullYear()}/${dateModel.value.getMonth() + 1}/${dateModel.value.getDate()}`
+    `${dateModel.value.getFullYear()}/${
+      dateModel.value.getMonth() + 1
+    }/${dateModel.value.getDate()}`
   );
 }
 
@@ -29,7 +31,10 @@ watch(dateModel, (newVal, oldVal) => {
 <template>
   <div class="l-works-by-calendar page">
     <div class="content" v-if="calendar">
-      <el-page-header class="mt-4 mb-6" :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
+      <el-page-header
+        class="mt-4 mb-6"
+        :icon="null"
+        @back="Navigation.go({ path: 'back', router: $router })">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />
@@ -45,7 +50,7 @@ watch(dateModel, (newVal, oldVal) => {
             class="w-100% h-100%"
             @click="
               Navigation.go({
-                path: RouterPath.WORKS_BY_ARCHIVE('d', data.day),
+                path: RouterPath.ArbeitenByArchive('d', data.day),
                 router: $router
               })
             "

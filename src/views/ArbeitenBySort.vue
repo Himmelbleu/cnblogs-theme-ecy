@@ -5,7 +5,7 @@ import { useLoading } from "@/hooks/comp-hooks";
 const route = useRoute();
 const typeL2Works = shallowRef();
 const typeL1Works = shallowRef();
-const worksImgs = EcyVars.config.images.works;
+const worksImgs = BleuVars.config.images.works;
 const imgsIndex = shallowRef();
 
 async function fetchData(index?: any) {
@@ -18,7 +18,7 @@ async function fetchData(index?: any) {
 useLoading(fetchData);
 
 watch(route, () => {
-  if (route.name === RouterName.WORKS_BY_SORT) {
+  if (route.name === RouterName.ArbeitenBySort) {
     useLoading(fetchData);
   }
 });
@@ -53,10 +53,10 @@ watch(route, () => {
               v-for="(item, index) in typeL2Works"
               :class="{ 'mb-3': index != typeL2Works.length - 1 }">
               <span class="mr-2">📁</span>
-              <router-link :to="RouterPath.WORKS_BY_SORT(item.id)">{{ item.text }}</router-link>
+              <router-link :to="RouterPath.ArbeitenBySort(item.id)">{{ item.text }}</router-link>
             </div>
           </div>
-          <WorksItem
+          <ArbeitenItem
             v-if="typeL1Works.data.length > 0"
             v-for="(item, index) in typeL1Works.data"
             :key="item.id"

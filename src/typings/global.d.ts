@@ -1,7 +1,7 @@
 /**
  * 随笔/文章
  */
-type EcyWorks = Partial<{
+type BleuArbeiten = Partial<{
   id: string;
   // 随笔标题
   text: string;
@@ -23,7 +23,7 @@ type EcyWorks = Partial<{
 /**
  * 评论
  */
-type EcyComment = Partial<{
+type BleuComment = Partial<{
   // 是否正在编辑
   isEditing: boolean;
   // 是否正在回复
@@ -50,7 +50,7 @@ type EcyComment = Partial<{
 /**
  * 标签
  */
-interface EcyMark {
+interface BleuMark {
   count: number;
   href: string;
   text: string;
@@ -59,16 +59,16 @@ interface EcyMark {
 /**
  * 随笔列表
  */
-type EcyWorksList = Partial<{
+type BleuArbeitenList = Partial<{
   page: number;
   hint: string;
-  data: EcyWorks[];
+  data: BleuArbeiten[];
 }>;
 
 /**
  * 随笔列表，用于分类或标签区分的随笔列表
  */
-interface EcyWorksList2 extends EcyWorksList {
+interface BleuArbeitenList2 extends BleuArbeitenList {
   desc?: string;
   // 子分类描述
   desc2?: string;
@@ -78,7 +78,7 @@ interface EcyWorksList2 extends EcyWorksList {
 /**
  * 随笔的分类和标签数组
  */
-interface EcyWorksProps {
+interface BleuArbeitenProps {
   tags: { text: string }[];
   sorts: { href: string; text: string }[];
 }
@@ -86,7 +86,7 @@ interface EcyWorksProps {
 /**
  * 二级分类
  */
-interface EcyWorksL2 {
+interface BleuArbeitenL2 {
   id: string;
   text: string;
 }
@@ -94,7 +94,7 @@ interface EcyWorksL2 {
 /**
  * 侧边栏标签和分类数组
  */
-interface EcyMenuColumn {
+interface BleuMenuColumn {
   essaySort: { id: string; text: string }[];
   essayArchive: { id: string; text: string }[];
   articleSort: { id: string; text: string }[];
@@ -116,7 +116,7 @@ interface EcyMenuColumn {
  * 第三种：
  * 随笔上一篇或下一篇随笔数据类型
  */
-type EcyMenuItemData = Partial<{
+type BleuMenuItemData = Partial<{
   id: string;
   // 文本描述
   text: string;
@@ -127,21 +127,21 @@ type EcyMenuItemData = Partial<{
 /**
  * 侧边栏阅读排行榜
  */
-interface EcyTopList {
-  topView: EcyMenuItemData[];
-  topComments: EcyMenuItemData[];
-  topDigg: EcyMenuItemData[];
+interface BleuTopList {
+  topView: BleuMenuItemData[];
+  topComments: BleuMenuItemData[];
+  topDigg: BleuMenuItemData[];
 }
 
 /**
  * 上一篇或下一篇随笔
  */
-interface EcyWorksPrevNext {
+interface BleuArbeitenPrevNext {
   prev: IMenuItemData;
   next: IMenuItemData;
 }
 
-interface EcyAlbumnItem {
+interface BleuAlbumnItem {
   id: string;
   src: string;
 }
@@ -149,7 +149,7 @@ interface EcyAlbumnItem {
 /**
  * 博客配置项
  */
-type EcyConfig = Partial<{
+type BleuConfig = Partial<{
   icon: string;
   avatar: string;
   images: {
@@ -182,18 +182,18 @@ type EcyConfig = Partial<{
 }>;
 
 /**
- * Ecy 本地设置
+ * Bleu 本地设置
  */
-type EcyLocalSetting = Partial<{
+type BleuLocalSetting = Partial<{
   theme: { mode: "dark" | "light" };
   toolkits: { pin: boolean };
 }>;
 
 /**
- * Ecy 配置选项
+ * Bleu 配置选项
  */
-declare namespace EcyVars {
-  let config: EcyConfig;
+declare namespace BleuVars {
+  let config: BleuConfig;
 
   function getBlogApp(): string;
   function getBlogId(): number;
@@ -252,8 +252,8 @@ declare namespace PrettifyLog {
 }
 
 declare namespace LocalStorage {
-  function getSetting(): RemovableRef<EcyLocalSetting>;
-  function getSettingTemp(): EcyLocalSetting;
+  function getSetting(): RemovableRef<BleuLocalSetting>;
+  function getSettingTemp(): BleuLocalSetting;
   function reloadObjProps(source: any, template: any): any;
 }
 

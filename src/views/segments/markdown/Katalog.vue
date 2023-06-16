@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { createCatalog } from "./index";
+import { createKatalog } from "./index";
 
 const props = defineProps(["realHtml"]);
 const toRefRealHtml = toRef(props, "realHtml");
 
 const translate = shallowRef("");
-const disabled = inject<boolean>(ProvideKey.CATALOG_DISABLED);
-const catalogList = shallowRef();
+const disabled = inject<boolean>(ProvideKey.Katalog);
+const katalogList = shallowRef();
 let observer: IntersectionObserver = null;
 
 function moveSlider(entries: any) {
-  for (let i = 0; i < catalogList.value.length; i++) {
+  for (let i = 0; i < katalogList.value.length; i++) {
     document
-      .querySelector(`#catalog-${catalogList.value[i].id}`)
-      ?.classList.remove("catalog-active");
+      .querySelector(`#katalog-${katalogList.value[i].id}`)
+      ?.classList.remove("katalog-active");
   }
-  const item = document.querySelector(`#catalog-${entries[0].target.id}`);
+  const item = document.querySelector(`#katalog-${entries[0].target.id}`);
   const step = item?.getAttribute("data-step");
   translate.value = step;
-  item?.classList.add("catalog-active");
+  item?.classList.add("katalog-active");
 }
 
 function isTouchedTitle(offsetTop: number) {
@@ -26,7 +26,7 @@ function isTouchedTitle(offsetTop: number) {
 }
 
 watch(toRefRealHtml, newVal => {
-  catalogList.value = createCatalog(newVal);
+  katalogList.value = createKatalog(newVal);
 
   observer = new IntersectionObserver(
     entries => {
@@ -47,8 +47,8 @@ watch(toRefRealHtml, newVal => {
     }
   );
 
-  for (let i = 0; i < catalogList.value.length; i++) {
-    observer.observe(catalogList.value[i].item);
+  for (let i = 0; i < katalogList.value.length; i++) {
+    observer.observe(katalogList.value[i].item);
   }
 });
 
@@ -59,15 +59,15 @@ onUnmounted(() => {
 
 <template>
   <div
-    id="l-catalog"
-    :class="{ 'catalog-disable': disabled, 'catalog-show': !disabled }"
+    id="l-katalog"
+    :class="{ 'katalog-disable': disabled, 'katalog-show': !disabled }"
     class="fixed top-4vh pl-4 py-6 w-16rem h-92vh l-back-bg rd-2 scroll-none flow-auto z-90"
-    v-if="catalogList && catalogList.length">
+    v-if="katalogList && katalogList.length">
     <div class="relative l-back-bg">
       <div class="ml-6 text-b">
         <div
           class="text-0.8rem mb-4 h-1.5rem f-c-s text-ellipsis line-clamp-1"
-          v-for="item in catalogList"
+          v-for="item in katalogList"
           @click="Broswer.scrollIntoView('#' + item.id)">
           <div v-html="item.content"></div>
         </div>
@@ -81,19 +81,19 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss">
-.catalog-active {
+.katalog-active {
   color: var(--l-hight-color-1);
 }
 </style>
 
 <style scoped lang="scss">
-@mixin catalog($left) {
-  .catalog-disable {
-    animation: catalog-disable-animation 0.3s ease-in;
+@mixin katalog($left) {
+  .katalog-disable {
+    animation: katalog-disable-animation 0.3s ease-in;
     left: 100vw;
   }
 
-  @keyframes catalog-disable-animation {
+  @keyframes katalog-disable-animation {
     @for $i from 0 to 11 {
       #{ $i * 10%} {
         // 100 -> 80
@@ -102,12 +102,12 @@ onUnmounted(() => {
     }
   }
 
-  .catalog-show {
-    animation: catalog-show-animation 0.3s ease-in;
+  .katalog-show {
+    animation: katalog-show-animation 0.3s ease-in;
     left: $left;
   }
 
-  @keyframes catalog-show-animation {
+  @keyframes katalog-show-animation {
     @for $i from 0 to 11 {
       #{ $i * 10%} {
         left: 100vw - $i * math.div(100vw - $left, 10);
@@ -118,12 +118,12 @@ onUnmounted(() => {
 
 @include pc() {
   $left: calc(55vw * 1.45);
-  @include catalog($left);
+  @include katalog($left);
 }
 
 @include mb() {
   $left: 50vw;
-  @include catalog($left);
+  @include katalog($left);
 }
 
 .slider {

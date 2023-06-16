@@ -6,7 +6,9 @@ export namespace Broswer {
    */
   export function setTitle(title?: string) {
     const prefix = title ? title + " - " : "";
-    document.getElementsByTagName("title")[0].innerText = `${prefix}${EcyVars.getBlogApp()} - 博客园`;
+    document.getElementsByTagName(
+      "title"
+    )[0].innerText = `${prefix}${BleuVars.getBlogApp()} - 博客园`;
   }
 
   /**

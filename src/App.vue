@@ -1,23 +1,24 @@
 <script setup lang="ts">
 const isActiveMenu = ref(false);
-const catalogDisabled = ref(!EcyVars.isPcDevice());
+const disabled = ref(!BleuVars.isPcDevice());
 
-provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
+provide(ProvideKey.Katalog, disabled);
 </script>
 
 <template>
-  <!-- progress -->
+  <!-- 进度条 -->
   <div id="l-progress" class="z-9999 fixed left-0 top-0 w-100vw">
     <div class="track absolute top-0">
       <div class="bar rd-2"></div>
     </div>
   </div>
-  <!-- content -->
+  <!-- 主要内容 -->
   <div id="l-content" class="fade-in-out relative z-9" @click="isActiveMenu = false">
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
-        <KeepAlive :include="[RouterName.HOME, RouterName.MARK_LIST, RouterName.WORKS_BY_CALENDAR]">
+        <KeepAlive
+          :include="[RouterName.BleuHome, RouterName.MarkList, RouterName.ArbeitenByCalendar]">
           <Suspense>
             <component :is="Component" />
           </Suspense>
@@ -26,20 +27,20 @@ provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
     </RouterView>
     <div id="l-bottom-nail"></div>
   </div>
-  <!-- toolkits -->
-  <tool-kits />
-  <!-- background -->
+  <!-- 工具箱 -->
+  <ToolKits />
+  <!-- 背景 -->
   <div
     class="l-background fixed top-0 left-0 w-100vw h-100vh"
     :style="{
-      'background-image': 'url(' + EcyVars.config.images.bg.src + ')',
-      opacity: EcyVars.config.images.bg.opacity
+      'background-image': 'url(' + BleuVars.config.images.bg.src + ')',
+      opacity: BleuVars.config.images.bg.opacity
     }"></div>
   <!-- github -->
   <div v-show="!isActiveMenu" class="l-github fixed left-0 bottom-0 z-9" m="l-2">
     <div class="f-c-c flex-col">
       <div class="write-vertical-left font-art bounce" m="b-4" text="4 b">
-        {{ EcyVars.getBlogApp() }}'s Github
+        {{ BleuVars.getBlogApp() }}'s Github
       </div>
       <div
         @click="Navigation.go({ path: 'www.github.com/himmelbleu' })"
@@ -48,7 +49,7 @@ provide(ProvideKey.CATALOG_DISABLED, catalogDisabled);
         m="b-4"></div>
     </div>
   </div>
-  <!-- menu -->
+  <!-- 导航栏 -->
   <div class="l-menu">
     <div
       @click="isActiveMenu = !isActiveMenu"

@@ -14,7 +14,10 @@ useLoading(fetchData);
 <template>
   <div id="l-mark-list" class="page">
     <div class="content" v-if="markList">
-      <el-page-header class="mt-4 mb-6" :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
+      <el-page-header
+        class="mt-4 mb-6"
+        :icon="null"
+        @back="Navigation.go({ path: 'back', router: $router })">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />
@@ -25,11 +28,19 @@ useLoading(fetchData);
         </template>
       </el-page-header>
       <div class="tags">
-        <hollowed-box round hover :padding="false" line="dotted" class="item mb-4" v-for="item of markList">
+        <HollowedBox
+          round
+          hover
+          :padding="false"
+          line="dotted"
+          class="item mb-4"
+          v-for="item of markList">
           <div class="f-c-c w-100% h-100%">
-            <router-link :to="RouterPath.WORKS_BY_MARK(item.text)"> {{ item.text }} ({{ item.count }}) </router-link>
+            <router-link :to="RouterPath.ArbeitenByMark(item.text)">
+              {{ item.text }} ({{ item.count }})
+            </router-link>
           </div>
-        </hollowed-box>
+        </HollowedBox>
       </div>
     </div>
   </div>

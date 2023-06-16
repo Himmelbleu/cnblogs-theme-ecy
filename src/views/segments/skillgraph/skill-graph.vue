@@ -4,8 +4,8 @@ import { useSkillGraph } from "./index";
 const graph = ref<HTMLCanvasElement>();
 
 onMounted(() => {
-  if (EcyVars.config.graph) {
-    useSkillGraph(110, graph.value, EcyVars.config.graph);
+  if (BleuVars.config.graph) {
+    useSkillGraph(110, graph.value, BleuVars.config.graph);
   }
 });
 </script>

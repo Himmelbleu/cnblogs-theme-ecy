@@ -6,6 +6,6 @@ declare interface Element {
 }
 
 interface Window {
-  __ECY_CONFIG__: EcyConfig;
+  __BLEU_CONFIG__: BleuConfig;
   MathJax: any;
 }

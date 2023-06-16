@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const request = axios.create({
-  baseURL: `${EcyVars.getBaseURL()}`,
+  baseURL: `${BleuVars.getBaseURL()}`,
   timeout: 5000
 });
 

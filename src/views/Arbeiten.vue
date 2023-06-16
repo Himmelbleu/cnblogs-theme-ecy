@@ -58,7 +58,7 @@ async function vote(type: VoteType) {
 }
 
 watch(route, async () => {
-  if (route.name === RouterName.WORKS) {
+  if (route.name === RouterName.Arbeiten) {
     worksId = route.params.id as string;
     await fetchData(true);
     await eleComments.value.fetchData();
@@ -119,15 +119,15 @@ await fetchData();
           <div
             v-for="(item, index) in worksProps.sorts"
             :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
-            <hollowed-box
+            <HollowedBox
               line="dotted"
               hover
               round
               @click="
-                Navigation.go({ path: RouterPath.WORKS_BY_SORT(item.href), router: $router })
+                Navigation.go({ path: RouterPath.ArbeitenBySort(item.href), router: $router })
               ">
               {{ item.text }}
-            </hollowed-box>
+            </HollowedBox>
           </div>
         </div>
         <div class="f-c-s flex-wrap text-0.9rem" v-if="worksProps.tags.length > 0">
@@ -138,19 +138,19 @@ await fetchData();
           <div
             v-for="(item, index) in worksProps.tags"
             :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
-            <hollowed-box
+            <HollowedBox
               line="dotted"
               hover
               round
               @click="
-                Navigation.go({ path: RouterPath.WORKS_BY_MARK(item.text), router: $router })
+                Navigation.go({ path: RouterPath.ArbeitenByMark(item.text), router: $router })
               ">
               {{ item.text }}
-            </hollowed-box>
+            </HollowedBox>
           </div>
         </div>
       </div>
-      <markdown-content :html-str="works.content" v-model:real-html="markdownRef" />
+      <MarkdownContent :html-str="works.content" v-model:real-html="markdownRef" />
       <div class="text-b mt-15 f-c-e text-0.9rem">
         <div class="f-c-c mr-4">
           <div class="i-tabler-calendar-stats mr-1"></div>
@@ -197,9 +197,9 @@ await fetchData();
           </el-button>
         </div>
       </div>
-      <catalog :real-html="markdownRef" />
-      <highslide :real-html="markdownRef" />
-      <comment :post-id="worksId" ref="eleComments" />
+      <Katalog :real-html="markdownRef" />
+      <ImgAmplifier :real-html="markdownRef" />
+      <Comment :post-id="worksId" ref="eleComments" />
     </div>
     <div class="content" v-else>
       <div class="modal fixed w-100vw h-100vh top-0 left-0 l-back-bg f-c-c z-999999">

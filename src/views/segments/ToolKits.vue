@@ -10,7 +10,7 @@ const isTake = ref(false);
 let html: HTMLElement;
 let topNail: HTMLElement;
 let bottomNail: HTMLElement;
-const disabled = inject<boolean>(ProvideKey.CATALOG_DISABLED);
+const disabled = inject<boolean>(ProvideKey.Katalog);
 
 onMounted(() => {
   html = document.querySelector("html");
@@ -61,7 +61,7 @@ function toggleMode() {
 }
 
 watch(route, () => {
-  if (route.name !== RouterName.WORKS) {
+  if (route.name !== RouterName.Arbeiten) {
     isShowGuide.value = false;
   } else {
     isShowGuide.value = true;
@@ -86,7 +86,7 @@ watch(route, () => {
     <div
       :class="{ 'show-1': toolkits.pin, 'close-1': !toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
-      @click="Navigation.go({ path: RouterPath.HOME(), router: $router })">
+      @click="Navigation.go({ path: RouterPath.BleuHome(), router: $router })">
       <div class="f-c-c w-8 h-8">
         <div class="i-tabler-home text-1.2rem"></div>
       </div>

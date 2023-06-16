@@ -2,7 +2,7 @@ export namespace RouterPath {
   /**
    * @returns "/"
    */
-  export function HOME() {
+  export function BleuHome() {
     return "/";
   }
 
@@ -10,7 +10,7 @@ export namespace RouterPath {
    * @param id 随笔或文章 ID
    * @returns "/p/:id"
    */
-  export function WORKS(id?: string | number) {
+  export function Arbeiten(id?: string | number) {
     if (id) {
       return `/p/${id}`;
     } else return "/p/:id";
@@ -20,7 +20,7 @@ export namespace RouterPath {
    * @param tag 标签
    * @returns "/mark/:tag"
    */
-  export function WORKS_BY_MARK(tag?: string) {
+  export function ArbeitenByMark(tag?: string) {
     if (tag) {
       return `/mark/${tag}`;
     } else return "/mark/:tag";
@@ -30,7 +30,7 @@ export namespace RouterPath {
    * @param id 文章或随笔 ID
    * @returns "/sort/:id"
    */
-  export function WORKS_BY_SORT(id?: string | number) {
+  export function ArbeitenBySort(id?: string | number) {
     if (id) {
       return `/sort/${id}`;
     } else return "/sort/:id";
@@ -42,7 +42,7 @@ export namespace RouterPath {
    * @param date 日期
    * @returns "/archive/:mode/:date"
    */
-  export function WORKS_BY_ARCHIVE(mode?: "a" | "p" | "d", date?: string) {
+  export function ArbeitenByArchive(mode?: "a" | "p" | "d", date?: string) {
     if (mode && date) {
       return `/archive/${mode}/${date}`;
     } else return "/archive/:mode/:date";
@@ -51,14 +51,14 @@ export namespace RouterPath {
   /**
    * @returns "/calendar"
    */
-  export function WORKS_BY_CALENDAR() {
+  export function ArbeitenByCalendar() {
     return "/calendar";
   }
 
   /**
    * @returns "/marks"
    */
-  export function MARK_LIST() {
+  export function MarkList() {
     return "/marks";
   }
 
@@ -66,7 +66,7 @@ export namespace RouterPath {
    * @param id 相册 ID
    * @returns "/albumn/:id"
    */
-  export function ALBUMN(id?: string | number) {
+  export function Albumn(id?: string | number) {
     if (id) {
       return `/albumn/${id}`;
     } else return "/albumn/:id";
@@ -76,7 +76,7 @@ export namespace RouterPath {
    * @param id 照片 ID
    * @returns "/albumn/item/:id"
    */
-  export function ALBUMN_ITEM(id?: string | number) {
+  export function AlbumnItem(id?: string | number) {
     if (id) {
       return `/albumn/item/${id}`;
     } else return "/album/item/:id";

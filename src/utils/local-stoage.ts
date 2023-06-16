@@ -2,14 +2,14 @@ export namespace LocalStorage {
   /**
    * 获取本地存储中的设置
    */
-  export function getSetting(): RemovableRef<EcyLocalSetting> {
-    return useStorage(`l-${EcyVars.getBlogApp()}-setting`, getSettingTemp());
+  export function getSetting(): RemovableRef<BleuLocalSetting> {
+    return useStorage(`l-${BleuVars.getBlogApp()}-setting`, getSettingTemp());
   }
 
   /**
    * 获取本地存储中的模板
    */
-  export function getSettingTemp(): EcyLocalSetting {
+  export function getSettingTemp(): BleuLocalSetting {
     return {
       theme: { mode: "dark" },
       toolkits: { pin: true }

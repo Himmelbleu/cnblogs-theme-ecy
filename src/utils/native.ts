@@ -2,7 +2,11 @@ export namespace Native {
   function openWindow(w: string, t: number, i: number, r: number) {
     const left = (screen.width - t) / 2 - r;
     const top = (screen.height - i) / 2 - r;
-    const hatch = window.open(w, "_blank", `width=${t},height=${i},toolbars=0,resizable=1,left=${left},top=${top}`);
+    const hatch = window.open(
+      w,
+      "_blank",
+      `width=${t},height=${i},toolbars=0,resizable=1,left=${left},top=${top}`
+    );
     hatch.focus();
   }
 
@@ -27,7 +31,10 @@ export namespace Native {
         location.hostname.lastIndexOf(".")
       )}/imageuploader/upload?host=www.cnblogs.com&editor=0#${el}`;
 
-      document.domain = `cnblogs.${location.hostname.substring(location.hostname.lastIndexOf(".") + 1, location.hostname.length)}`;
+      document.domain = `cnblogs.${location.hostname.substring(
+        location.hostname.lastIndexOf(".") + 1,
+        location.hostname.length
+      )}`;
 
       openWindow(w, 450, 120, 200);
     } catch (e) {

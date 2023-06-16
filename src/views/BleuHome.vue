@@ -8,7 +8,7 @@ const status = shallowRef();
 const topList = shallowRef();
 const column = shallowRef();
 const markList = shallowRef();
-const carouselList = shallowRef(EcyVars.config.images.home.carousel);
+const carouselList = shallowRef(BleuVars.config.images.home.carousel);
 
 useLoading(async () => {
   const then = await Promise.all([
@@ -47,7 +47,7 @@ setInterval(() => {
           <div class="h-100%">
             <div m="t-5">
               <div text="start 10" class="shine-text font-art">
-                {{ EcyVars.getBlogApp() }} 的博客
+                {{ BleuVars.getBlogApp() }} 的博客
               </div>
               <div
                 text="start 4 ellipsis"
@@ -73,7 +73,7 @@ setInterval(() => {
                       class="cursor-pointer hover"
                       @click="
                         Navigation.go({
-                          path: RouterPath.WORKS(item.id),
+                          path: RouterPath.Arbeiten(item.id),
                           router: $router
                         })
                       ">
@@ -149,7 +149,7 @@ setInterval(() => {
             </div>
             <div class="f-s-b mb-6">
               <div>
-                <img class="w-25 h-25 rd-50" :src="EcyVars.config.avatar" />
+                <img class="w-25 h-25 rd-50" :src="BleuVars.config.avatar" />
               </div>
               <div v-if="column?.rankings?.length > 0" class="f-c-e">
                 <div>
@@ -217,7 +217,7 @@ setInterval(() => {
     <!-- area-3：中间过渡图片 -->
     <div class="mt-20">
       <div class="divide-bg w-100vw h-80 relative">
-        <img class="w-100% h-100% object-cover" :src="EcyVars.config.images.home.divider" />
+        <img class="w-100% h-100% object-cover" :src="BleuVars.config.images.home.divider" />
       </div>
     </div>
     <!-- area-4：随笔标签 -->
@@ -228,15 +228,15 @@ setInterval(() => {
           我的标签
         </div>
         <div v-if="markList?.length > 0" class="f-c-b flex-wrap">
-          <hollowed-box
+          <HollowedBox
             v-for="item in markList"
             line="dotted"
             hover
             round
             class="mr-4 mb-6"
-            @click="Navigation.go({ path: RouterPath.WORKS_BY_MARK(item.text), router: $router })">
+            @click="Navigation.go({ path: RouterPath.ArbeitenByMark(item.text), router: $router })">
             {{ item.text }}({{ item.count }})
-          </hollowed-box>
+          </HollowedBox>
         </div>
       </div>
     </div>
@@ -250,7 +250,7 @@ setInterval(() => {
           </div>
           <div v-if="column?.essaySort?.length > 0" class="f-c-b flex-wrap">
             <div
-              @click="Navigation.go({ path: RouterPath.WORKS_BY_SORT(item.id), router: $router })"
+              @click="Navigation.go({ path: RouterPath.ArbeitenBySort(item.id), router: $router })"
               class="mb-6 mr-4 cursor-pointer hover"
               v-for="item in column.essaySort">
               {{ item.text }}
@@ -264,7 +264,7 @@ setInterval(() => {
           </div>
           <div v-if="column?.articleSort?.length > 0" class="f-c-b flex-wrap">
             <div
-              @click="Navigation.go({ path: RouterPath.WORKS_BY_SORT(item.id), router: $router })"
+              @click="Navigation.go({ path: RouterPath.ArbeitenBySort(item.id), router: $router })"
               class="mb-6 mr-4 cursor-pointer hover"
               v-for="item in column.articleSort">
               {{ item.text }}
@@ -283,7 +283,7 @@ setInterval(() => {
         <div v-if="column?.essayArchive?.length > 0" class="f-c-b flex-wrap">
           <div
             @click="
-              Navigation.go({ path: RouterPath.WORKS_BY_ARCHIVE('p', item.id), router: $router })
+              Navigation.go({ path: RouterPath.ArbeitenByArchive('p', item.id), router: $router })
             "
             class="mb-6 mr-4 cursor-pointer hover"
             v-for="item in column.essayArchive">
@@ -302,7 +302,7 @@ setInterval(() => {
         <div v-if="column?.articleArchive?.length > 0" class="f-c-b flex-wrap">
           <div
             @click="
-              Navigation.go({ path: RouterPath.WORKS_BY_ARCHIVE('a', item.id), router: $router })
+              Navigation.go({ path: RouterPath.ArbeitenByArchive('a', item.id), router: $router })
             "
             class="mb-6 mr-4 cursor-pointer hover"
             v-for="item in column.articleArchive">
@@ -320,7 +320,7 @@ setInterval(() => {
         </div>
         <div v-if="column?.albumn?.length > 0" class="f-c-b flex-wrap">
           <div
-            @click="Navigation.go({ path: RouterPath.ALBUMN(item.id), router: $router })"
+            @click="Navigation.go({ path: RouterPath.Albumn(item.id), router: $router })"
             class="mb-6 cursor-pointer hover line-height-1.5 text-ellipsis line-clamp-2"
             v-for="item in column.albumn">
             {{ item.text }}
@@ -338,7 +338,7 @@ setInterval(() => {
           </div>
           <div v-if="column?.latestEssayList?.length > 0">
             <div
-              @click="Navigation.go({ path: RouterPath.WORKS(item.id), router: $router })"
+              @click="Navigation.go({ path: RouterPath.Arbeiten(item.id), router: $router })"
               class="mb-10 cursor-pointer hover line-height-1.5 text-ellipsis line-clamp-2"
               v-for="item in column.latestEssayList">
               {{ item.text }}
@@ -352,7 +352,7 @@ setInterval(() => {
           </div>
           <div v-if="column?.latestComments?.length > 0">
             <div
-              @click="Navigation.go({ path: RouterPath.WORKS(item.id), router: $router })"
+              @click="Navigation.go({ path: RouterPath.Arbeiten(item.id), router: $router })"
               class="mb-10 cursor-pointer hover"
               v-for="item in column.latestComments">
               <div>

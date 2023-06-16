@@ -1,5 +1,5 @@
-export namespace EcyVars {
-  export let config: EcyConfig;
+export namespace BleuVars {
+  export let config: BleuConfig;
 
   export function getBlogApp() {
     if (import.meta.env.DEV) {

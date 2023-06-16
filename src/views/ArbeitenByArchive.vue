@@ -6,7 +6,7 @@ const route = useRoute();
 let archiveDate = route.params.date;
 let archiveMode = route.params.mode;
 const archiveWorks = shallowRef();
-const worksImgs = EcyVars.config.images.works;
+const worksImgs = BleuVars.config.images.works;
 const imgsIndex = shallowRef();
 
 async function fetchData() {
@@ -28,7 +28,7 @@ async function fetchData() {
 useLoading(fetchData);
 
 watch(route, () => {
-  if (route.name === RouterName.WORKS_BY_ARCHIVE) {
+  if (route.name === RouterName.ArbeitenByArchive) {
     archiveMode = route.params.mode;
     archiveDate = route.params.date;
     useLoading(fetchData);
@@ -51,7 +51,7 @@ watch(route, () => {
               <div class="text-1.2rem mb-5 mt-4">{{ archiveWorks.hint }}</div>
             </template>
           </el-page-header>
-          <WorksItem
+          <ArbeitenItem
             v-if="archiveWorks.data.length > 0"
             v-for="(item, index) in archiveWorks.data"
             :key="item.id"

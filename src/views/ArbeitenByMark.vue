@@ -13,7 +13,7 @@ async function fetchData(index?: any) {
 useLoading(fetchData);
 
 watch(route, () => {
-  if (route.name === RouterName.WORKS_BY_MARK) useLoading(fetchData);
+  if (route.name === RouterName.ArbeitenByMark) useLoading(fetchData);
 });
 </script>
 
@@ -40,7 +40,9 @@ watch(route, () => {
             </div>
             <div class="f-c-s text-0.9rem mt-6">
               <i-ep-caret-right />
-              <router-link class="hover ml-0.5 b-b-1 b-b-dotted p-b-0.3" :to="'/p/' + item.id"> 阅读全文 </router-link>
+              <router-link class="hover ml-0.5 b-b-1 b-b-dotted p-b-0.3" :to="'/p/' + item.id">
+                阅读全文
+              </router-link>
             </div>
             <div class="works-synopsis mt-6 f-c-s text-0.9rem text-b">
               <div class="mr-3 f-c-c">

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps({
   item: {
-    type: Object as PropType<EcyWorks & { id: string }>,
+    type: Object as PropType<BleuArbeiten & { id: string }>,
     require: true
   },
   cover: {
@@ -16,7 +16,7 @@ defineProps({
 </script>
 
 <template>
-  <div v-if="EcyVars.isPcDevice()" class="f-c-b item h-20rem rd-2">
+  <div v-if="BleuVars.isPcDevice()" class="f-c-b item h-20rem rd-2">
     <div v-if="index % 2 !== 0" class="w-45% h-100% flow-hidden relative">
       <div class="mask absolute top-0 left-0 w-100% h-15% z-1"></div>
       <img class="w-100% h-100%" :src="item.surface || cover" />
@@ -25,7 +25,7 @@ defineProps({
     <div class="w-52%" :class="{ 'pl-4': index % 2 === 0, 'pr-4': index % 2 !== 0 }">
       <div
         class="hover text-ellipsis line-clamp-2 f-c-s mb-6 text-1.3rem"
-        @click="Navigation.go({ path: RouterPath.WORKS(item.id), router: $router })">
+        @click="Navigation.go({ path: RouterPath.Arbeiten(item.id), router: $router })">
         {{ item.text }}
       </div>
       <div class="f-c-s mb-4 text-0.9rem text-b">
@@ -58,9 +58,9 @@ defineProps({
         </div>
       </div>
       <div v-show="item.isTop || item.isOnlyMe || item.isLocked" class="mt-4 text-c">
-        <hollowed-box round plain v-if="item.isTop" class="mr-2">置顶随笔</hollowed-box>
-        <hollowed-box round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</hollowed-box>
-        <hollowed-box round plain v-else-if="item.isLocked" class="mr-2">密码锁定</hollowed-box>
+        <HollowedBox round plain v-if="item.isTop" class="mr-2">置顶随笔</HollowedBox>
+        <HollowedBox round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</HollowedBox>
+        <HollowedBox round plain v-else-if="item.isLocked" class="mr-2">密码锁定</HollowedBox>
       </div>
     </div>
     <div v-if="index % 2 === 0" class="w-45% h-100% flow-hidden relative">
@@ -72,7 +72,7 @@ defineProps({
   <div v-else class="item h-20rem rd-2">
     <div
       class="hover text-ellipsis line-clamp-2 f-c-s mb-6 text-1.3rem"
-      @click="Navigation.go({ path: RouterPath.WORKS(item.id), router: $router })">
+      @click="Navigation.go({ path: RouterPath.Arbeiten(item.id), router: $router })">
       {{ item.text }}
     </div>
     <div class="f-c-b mb-4">
@@ -105,9 +105,9 @@ defineProps({
       </div>
     </div>
     <div v-show="item.isTop || item.isOnlyMe || item.isLocked" class="mt-4">
-      <hollowed-box round plain v-if="item.isTop" class="mr-2">置顶随笔</hollowed-box>
-      <hollowed-box round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</hollowed-box>
-      <hollowed-box round plain v-else-if="item.isLocked" class="mr-2">密码锁定</hollowed-box>
+      <HollowedBox round plain v-if="item.isTop" class="mr-2">置顶随笔</HollowedBox>
+      <HollowedBox round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</HollowedBox>
+      <HollowedBox round plain v-else-if="item.isLocked" class="mr-2">密码锁定</HollowedBox>
     </div>
     <div class="hover f-c-b mt-6 text-0.9rem text-b">
       <div class="f-c-c">

@@ -12,7 +12,7 @@ async function fetchData() {
 }
 
 watch(route, () => {
-  if (route.name === RouterName.ALBUMN) {
+  if (route.name === RouterName.Albumn) {
     useLoading(fetchData);
   }
 });
@@ -35,8 +35,17 @@ useLoading(fetchData);
       </el-page-header>
       <div class="mb-4 text-0.9rem text-b">{{ albumn.desc }}</div>
       <div class="f-c-b flex-wrap">
-        <el-image class="w-50 h-50 mb-4" v-for="(item, index) in srcList" :initial-index="index" :src="item" :preview-src-list="srcList" />
-        <el-result v-if="!albumn.data.length" icon="error" title="相册加载失败" sub-title="相册可能被移除">
+        <el-image
+          class="w-50 h-50 mb-4"
+          v-for="(item, index) in srcList"
+          :initial-index="index"
+          :src="item"
+          :preview-src-list="srcList" />
+        <el-result
+          v-if="!albumn.data.length"
+          icon="error"
+          title="相册加载失败"
+          sub-title="相册可能被移除">
           <template #extra>
             <el-button @click="$router.push('/')" type="primary">返回首页</el-button>
           </template>

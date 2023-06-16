@@ -2,8 +2,8 @@ export namespace MenuTransform {
   /**
    * 解析侧边栏博客排行信息。
    */
-  export function parseMenuRankList(dom: Document): EcyMenuItemData[] {
-    const data: EcyMenuItemData[] = [];
+  export function parseMenuRankList(dom: Document): BleuMenuItemData[] {
+    const data: BleuMenuItemData[] = [];
     const eles = dom.querySelectorAll("li");
 
     for (let i = 0; i < eles.length; i++) {
@@ -16,7 +16,12 @@ export namespace MenuTransform {
     return data;
   }
 
-  function loadColumn(dom: Document, selector: string, success: (e: Element, matched?: any) => void, regexp?: RegExp) {
+  function loadColumn(
+    dom: Document,
+    selector: string,
+    success: (e: Element, matched?: any) => void,
+    regexp?: RegExp
+  ) {
     dom.querySelectorAll(selector).forEach(ele => {
       if (regexp) {
         const matched = ele.getAttribute("href")?.match(regexp);
@@ -28,8 +33,8 @@ export namespace MenuTransform {
   /**
    * 解析侧边栏分类列表、标签列表，... 列表
    */
-  export function toMenuColumn(dom: Document): EcyMenuColumn {
-    const data: EcyMenuColumn = {
+  export function toMenuColumn(dom: Document): BleuMenuColumn {
+    const data: BleuMenuColumn = {
       essaySort: [],
       essayArchive: [],
       articleArchive: [],
@@ -169,16 +174,19 @@ export namespace MenuTransform {
   /**
    * 解析侧边栏博主主人基本的昵称、粉丝数、园龄等数据
    */
-  export function toAuthorData(dom: Document): EcyMenuItemData[] {
+  export function toAuthorData(dom: Document): BleuMenuItemData[] {
     const nodeList = dom.querySelectorAll("#profile_block > a");
-    return Array.from(nodeList).map(ele => ({ text: ele.innerText.trim(), href: ele.getAttribute("href") }));
+    return Array.from(nodeList).map(ele => ({
+      text: ele.innerText.trim(),
+      href: ele.getAttribute("href")
+    }));
   }
 
   /**
    * 解析博主主人的随笔、文章、评论、阅读等数据
    */
-  export function toMasterData(dom: Document): EcyMenuItemData[] {
-    const data: EcyMenuItemData[] = [];
+  export function toMasterData(dom: Document): BleuMenuItemData[] {
+    const data: BleuMenuItemData[] = [];
     const eles = dom.getElementsByTagName("span");
 
     for (let index = 0; index < eles.length; index++) {
@@ -197,8 +205,8 @@ export namespace MenuTransform {
   /**
    * 解析博客阅读排行榜
    */
-  export function toTopList(dom: Document): EcyTopList {
-    const data: EcyTopList = {
+  export function toTopList(dom: Document): BleuTopList {
+    const data: BleuTopList = {
       topView: [],
       topComments: [],
       topDigg: []

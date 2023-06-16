@@ -14,8 +14,8 @@ export namespace CommentTransform {
   /**
    * 解析随笔详细页面的评论列表
    */
-  export function toCommentList(dom: Document): EcyComment[] {
-    const data: EcyComment[] = [];
+  export function toCommentList(dom: Document): BleuComment[] {
+    const data: BleuComment[] = [];
     const eles = dom.getElementsByClassName("feedbackItem");
 
     for (let i = 0; i < eles.length; i++) {

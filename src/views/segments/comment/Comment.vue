@@ -9,7 +9,7 @@ const props = defineProps({
 const level = ref();
 const { anchor } = storeToRefs(useAnchorStore());
 const commentRefs = ref();
-const comments = ref<EcyComment[]>();
+const comments = ref<BleuComment[]>();
 const pageCount = ref(0);
 const currIndex = ref(1);
 
@@ -47,7 +47,7 @@ await fetchData();
 
 <template>
   <div class="l-comment">
-    <post-comment :post-id="postId" @on-post="onPost" />
+    <PostComment :post-id="postId" @on-post="onPost" />
     <div class="caption">
       <div class="i-tabler-list mr-2"></div>
       评论列表
@@ -82,7 +82,7 @@ await fetchData();
         <!-- 内容 -->
         <div class="mt-4 relative" style="margin-left: 4.5rem">
           <textarea class="z--1 opacity-0 absolute top-0 left-0" :id="'upload-img-' + index" />
-          <markdown-content :html-str="item.content" />
+          <MarkdownContent :html-str="item.content" />
         </div>
         <!-- 更多 -->
         <div class="l-comment__more float-right f-c-e" v-show="!item.isEditing && !item.isAnsling">
@@ -94,13 +94,13 @@ await fetchData();
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>
-                  <digg-comment :comment="item" :post-id="postId" />
+                  <DiggComment :comment="item" :post-id="postId" />
                 </el-dropdown-item>
                 <el-dropdown-item>
-                  <bury-comment :comment="item" :post-id="postId" />
+                  <BuryComment :comment="item" :post-id="postId" />
                 </el-dropdown-item>
                 <el-dropdown-item>
-                  <delete-comment
+                  <DeleteComment
                     :comment="item"
                     :comments="comments"
                     :post-id="postId"
@@ -110,18 +110,18 @@ await fetchData();
             </template>
           </el-dropdown>
         </div>
-        <edit-comment
+        <EditComment
           @on-finish="onEdFinish"
           :post-id="postId"
           :curr-page-index="currIndex"
           :comment="item" />
-        <answer-comment
+        <AnswerComment
           @on-finish="onReFinish"
           :post-id="postId"
           :curr-page-index="currIndex"
           :comment="item" />
       </div>
-      <highslide :real-html="commentRefs" />
+      <ImgAmplifier :real-html="commentRefs" />
       <div class="mt-10 f-c-e" v-if="pageCount > 1">
         <el-pagination
           @current-change="fetchData"

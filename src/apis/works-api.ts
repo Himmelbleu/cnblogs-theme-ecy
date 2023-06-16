@@ -56,7 +56,7 @@ export namespace WorksApi {
    * 获取随笔、文章的标签和分类
    */
   export async function getProps(id: string) {
-    const { data } = await request.get(`/ajax/CategoriesTags.aspx?blogId=${EcyVars.getBlogId()}&postId=${id}`);
+    const { data } = await request.get(`/ajax/CategoriesTags.aspx?blogId=${BleuVars.getBlogId()}&postId=${id}`);
     return WorksTransform.toWorksProps(strToDOM(data));
   }
 

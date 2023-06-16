@@ -4,7 +4,7 @@ export namespace AlbumnTransform {
   }
 
   export function toAlbumn(dom: Document) {
-    const data: EcyAlbumnItem[] = [];
+    const data: BleuAlbumnItem[] = [];
     const eles = dom.getElementsByClassName("divPhoto");
 
     for (let i = 0; i < eles.length; i++) {
