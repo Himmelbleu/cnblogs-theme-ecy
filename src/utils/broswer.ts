@@ -24,15 +24,9 @@ export namespace Broswer {
    * 关闭 loading 屏
    */
   export function endLoading() {
-    const lightLoding = document.querySelector<HTMLElement>(".light-loading");
-    const darkLoding = document.querySelector<HTMLElement>(".dark-loading");
-    if (lightLoding) {
-      lightLoding.classList.toggle("fade-in-out");
-      lightLoding.style.display = "none";
-    } else {
-      darkLoding.classList.toggle("fade-in-out");
-      darkLoding.style.display = "none";
-    }
+    const loadingInst = document.querySelector<HTMLElement>(".loading");
+    loadingInst.classList.toggle("fade-in-out");
+    loadingInst.style.display = "none";
 
     document.getElementById("l-content").classList.toggle("fade-in-out");
 

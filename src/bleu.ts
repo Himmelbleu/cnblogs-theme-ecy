@@ -2,17 +2,17 @@ function loadedBleu() {
   function setFontFamily() {
     const fontFamily = BleuVars.config.font.main || `var(--el-font-family)`;
     const codeFontFamily = BleuVars.config.font.code || `var(--el-font-family)`;
-    document.querySelector("html").style.setProperty("--l-font-family", fontFamily);
-    document.querySelector("html").style.setProperty("--l-code-font-family", codeFontFamily);
+
+    document.documentElement.style.setProperty("--l-font-family", fontFamily);
+    document.documentElement.style.setProperty("--l-code-font-family", codeFontFamily);
   }
 
   function setLocalSetting() {
-    const setting = LocalStorage.getSetting().value;
-    const settingStr = JSON.stringify(
-      LocalStorage.reloadObjProps(setting, LocalStorage.getSettingTemp())
-    );
-    localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, settingStr);
-    document.documentElement.setAttribute("class", setting.theme.mode);
+    const oldSetting = JSON.parse(localStorage.getItem(`l-${BleuVars.getBlogApp()}-setting`));
+    const checkOldSetting = LocalStorage.reloadObjProps(oldSetting, LocalStorage.getSettingTemp());
+    const newSetting = JSON.stringify(checkOldSetting);
+    localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, newSetting);
+    document.documentElement.classList.add(oldSetting.theme.mode);
   }
 
   setFontFamily();
@@ -32,7 +32,7 @@ function afterUseBleu() {
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
-  PrettifyLog.primary("v2.1.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+  PrettifyLog.primary("v2.2.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
 export function useBleu(dev: Function, pro: Function) {
@@ -71,22 +71,19 @@ export function useBleu(dev: Function, pro: Function) {
         ]
       },
       chart: {
-        tooltip: {
-          trigger: "axis"
+        radar: {
+          indicator: [
+            { name: "Vue", max: 5 },
+            { name: "React", max: 5 },
+            { name: "JS", max: 5 },
+            { name: "TS", max: 5 },
+            { name: "Python", max: 5 },
+            { name: "C", max: 5 },
+            { name: "Java", max: 5 },
+            { name: "MySQL", max: 5 },
+            { name: "Mybatis", max: 5 }
+          ]
         },
-        radar: [
-          {
-            indicator: [
-              { name: "Vue", max: 5 },
-              { name: "React", max: 5 },
-              { name: "JS", max: 5 },
-              { name: "TS", max: 5 },
-              { name: "Python", max: 5 },
-              { name: "C", max: 5 },
-              { name: "Java", max: 5 }
-            ]
-          }
-        ],
         series: [
           {
             tooltip: {
@@ -96,7 +93,7 @@ export function useBleu(dev: Function, pro: Function) {
             type: "radar",
             data: [
               {
-                value: [4, 1, 4, 3.5, 3.5, 1, 3.5],
+                value: [4, 1, 4, 3, 3.5, 1, 3.5, 2.5, 3.5],
                 name: "技能掌握程度"
               }
             ]

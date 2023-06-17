@@ -16,8 +16,7 @@ defineProps({
 </script>
 
 <template>
-  <!-- PC 端 -->
-  <div v-if="BleuVars.isPcDevice()" class="f-c-b item h-20rem rd-2">
+  <div v-if="BleuVars.isPcDevice()" class="f-c-b mt-2rem mb-6rem item h-20rem rd-2">
     <div v-if="index % 2 !== 0" class="w-45% h-100% flow-hidden relative">
       <div class="mask absolute top-0 left-0 w-100% h-15% z-1"></div>
       <img class="w-100% h-100% object-cover" :src="item.surface || cover" />
@@ -71,7 +70,7 @@ defineProps({
     </div>
   </div>
   <!-- 移动端 -->
-  <div v-else class="item h-20rem rd-2">
+  <div v-else class="item mt-2rem mb-4rem h-20rem rd-2">
     <div
       class="hover text-ellipsis line-clamp-2 f-c-s mb-6 text-1.3rem"
       @click="Navigation.go({ path: RouterPath.Arbeiten(item.id), router: $router })">
@@ -139,34 +138,27 @@ defineProps({
   backdrop-filter: blur(6px);
 }
 
-.item {
-  &:hover {
-    img {
-      transition: var(--l-animation-effect);
-      transform: scale(1.1, 1.1);
-    }
-  }
-
-  img {
-    --uno: rd-2;
-    transition: var(--l-animation-effect);
-  }
-}
-
 @include pc() {
   .item {
-    margin: {
-      top: 2rem;
-      bottom: 6rem;
+    &:hover {
+      img {
+        transition: var(--l-animation-effect);
+        transform: scale(1.1, 1.1);
+      }
+    }
+
+    img {
+      --uno: rd-2;
+      transition: var(--l-animation-effect);
     }
   }
 }
 
 @include mb() {
   .item {
-    margin: {
-      top: 1.5rem;
-      bottom: 1.5rem;
+    img {
+      --uno: rd-2;
+      transition: var(--l-animation-effect);
     }
   }
 }

@@ -6,6 +6,7 @@ import { createPinia } from "pinia";
 /* Import CSS */
 import "uno.css";
 import "@/style.scss";
+/* Import Bleu Theme */
 import { useBleu } from "./bleu";
 
 const app = createApp(App);

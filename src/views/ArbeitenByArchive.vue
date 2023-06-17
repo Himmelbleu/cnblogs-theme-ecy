@@ -43,7 +43,7 @@ watch(route, async () => {
 <template>
   <div id="l-works-by-archive" class="page">
     <div class="content" v-if="archiveList">
-      <pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveList.page">
+      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveList.page">
         <template #content>
           <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
             <template #title>
@@ -63,7 +63,7 @@ watch(route, async () => {
             :index="index"
             :cover="images[imgsIndexs[index]]" />
         </template>
-      </pagination>
+      </Pagination>
     </div>
   </div>
 </template>

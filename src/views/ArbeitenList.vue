@@ -18,7 +18,7 @@ await fetchData(0);
 <template>
   <div id="l-works-by-sort" class="page">
     <div class="content">
-      <pagination
+      <Pagination
         @nexpr="fetchData"
         @next="fetchData"
         @prev="fetchData"
@@ -32,7 +32,7 @@ await fetchData(0);
             :index="index"
             :cover="couverture[couvertureIndexs[index]]" />
         </template>
-      </pagination>
+      </Pagination>
     </div>
   </div>
 </template>

@@ -1,11 +1,11 @@
 /**
- * 设置响应式 font-size 方案
+ * 设置响应式 font-size
  *
  * @author Himmelbleu
  * @date 2023 年 1 月 15 日
  */
 :root {
-  --l-size-root: 14px;
+  --l-respond-text: 14px;
 }
 
 // 375 ~ 1400 都是 14px，超过 1500px 就开始依次往上递增
@@ -14,7 +14,7 @@
 
   @media screen and (min-width: $min) {
     :root {
-      --l-size-root: #{calc($min / 100)};
+      --l-respond-text: #{calc($min / 100)};
     }
   }
 }

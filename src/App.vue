@@ -24,7 +24,7 @@ onMounted(() => {
 
 <template>
   <!-- 进度条 -->
-  <div id="l-progress" class="z-9999 fixed left-0 top-0 w-100vw">
+  <div id="l-progress" class="z-9999 fixed-lt w-100vw">
     <div class="track absolute top-0">
       <div class="bar rd-2"></div>
     </div>
@@ -53,13 +53,13 @@ onMounted(() => {
   <ToolKits />
   <!-- 背景 -->
   <div
-    class="l-background fixed top-0 left-0 w-100vw h-100vh"
+    class="l-background fixed-lt w-100vw h-100vh"
     :style="{
       'background-image': 'url(' + BleuVars.config.images.bg.src + ')',
       opacity: BleuVars.config.images.bg.opacity
     }"></div>
   <!-- GitHub -->
-  <div v-show="!isActiveMenu" class="l-github fixed left-0 bottom-0 z-9" m="l-2">
+  <div v-show="!isActiveMenu" class="l-github lt-sm:hidden fixed-lb z-9" m="l-2">
     <div
       class="f-c-c flex-col"
       @click="Navigation.go({ path: 'http://github.com/' + BleuVars.getBlogApp() })">
@@ -74,7 +74,7 @@ onMounted(() => {
     <!-- 按钮 -->
     <div
       @click="isActiveMenu = !isActiveMenu"
-      class="transition-all-300 select-none cursor-pointer f-c-c w-20 h-20 fixed top-0 z-99"
+      class="transition-all-300 select-none cursor-pointer f-c-c w-20 h-20 fixed-t top-0 z-99"
       :class="{
         'static-menu': !isActiveMenu,
         'active-menu': isActiveMenu,
@@ -92,10 +92,10 @@ onMounted(() => {
     </div>
     <!-- 内容 -->
     <div
-      class="transition-all-300 fixed top-0 left-0 w-70 h-100vh z-90 bg-drop-primary"
+      class="transition-all-300 fixed-lt w-70 h-100vh z-90 bg-drop-primary"
       :class="{ 'close-menu-body': !isActiveMenu, 'open-menu-body': isActiveMenu }">
-      <div class="relative f-c-s flow-hidden h-100%">
-        <div class="menu-list ml-10 text-1.2rem">
+      <div class="flow-auto select-none scroll-none h-100% mt-30 text-1.2rem">
+        <div class="menu-list ml-10">
           <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#l-top-nail')">
             回到顶部
           </div>
@@ -194,7 +194,7 @@ onMounted(() => {
   .open-menu-body {
     left: 0;
 
-    @for $i from 0 to 10 {
+    @for $i from 0 to 9 {
       .menu-list > div:nth-child(#{$i}) {
         opacity: 1;
         transition-delay: #{$i * 0.06}s !important;

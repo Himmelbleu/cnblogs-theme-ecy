@@ -7,15 +7,13 @@ const isInTop = ref(false);
 const isInBottom = ref(true);
 const isShowGuide = ref(false);
 const isTake = ref(false);
-let html: HTMLElement;
-let topNail: HTMLElement;
-let bottomNail: HTMLElement;
+let topNailInst: HTMLElement;
+let bottomNailInst: HTMLElement;
 const disabled = inject<boolean>(ProvideKey.Katalog);
 
 onMounted(() => {
-  html = document.querySelector("html");
-  topNail = document.querySelector("#l-top-nail");
-  bottomNail = document.querySelector("#l-bottom-nail");
+  topNailInst = document.querySelector("#l-top-nail");
+  bottomNailInst = document.querySelector("#l-bottom-nail");
 
   useWheelRollsUpAndDown(
     () => {
@@ -52,10 +50,12 @@ function scrollTo(dom: HTMLElement) {
 
 function toggleMode() {
   if (theme.mode === "dark") {
-    html.className = "light";
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.add("light");
     theme.mode = "light";
   } else {
-    html.className = "dark";
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add("dark");
     theme.mode = "dark";
   }
 }
@@ -102,7 +102,7 @@ watch(route, () => {
     <div
       :class="{ 'show-3': toolkits.pin, 'close-3': !toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
-      @click="isInTop ? scrollTo(topNail) : scrollTo(bottomNail)">
+      @click="isInTop ? scrollTo(topNailInst) : scrollTo(bottomNailInst)">
       <div class="f-c-c w-8 h-8">
         <div
           class="i-tabler-arrow-bar-up"
@@ -182,15 +182,32 @@ $move-step: 2.5rem;
   }
 }
 
-.take-toolkits {
-  animation: take-toolkits-animation 0.3s linear;
-  right: 5rem;
+@include pc() {
+  .take-toolkits {
+    animation: take-toolkits-animation 0.3s linear;
+    right: 5rem;
+  }
+
+  @keyframes take-toolkits-animation {
+    @for $i from 0 to 11 {
+      #{$i * 10%} {
+        right: calc($i * 0.5rem);
+      }
+    }
+  }
 }
 
-@keyframes take-toolkits-animation {
-  @for $i from 0 to 11 {
-    #{$i * 10%} {
-      right: calc($i * 0.5rem);
+@include mb() {
+  .take-toolkits {
+    animation: take-toolkits-animation 0.3s linear;
+    right: 3rem;
+  }
+
+  @keyframes take-toolkits-animation {
+    @for $i from 0 to 11 {
+      #{$i * 10%} {
+        right: calc($i * 0.3rem);
+      }
     }
   }
 }
@@ -199,10 +216,22 @@ $move-step: 2.5rem;
   animation: intake-toolkits-animation 0.3s linear;
 }
 
-@keyframes intake-toolkits-animation {
-  @for $i from 0 to 11 {
-    #{$i * 10%} {
-      right: calc(5rem + $i * -0.5rem);
+@include pc() {
+  @keyframes intake-toolkits-animation {
+    @for $i from 0 to 11 {
+      #{$i * 10%} {
+        right: calc(5rem + $i * -0.5rem);
+      }
+    }
+  }
+}
+
+@include mb() {
+  @keyframes intake-toolkits-animation {
+    @for $i from 0 to 11 {
+      #{$i * 10%} {
+        right: calc(3rem + $i * -0.3rem);
+      }
     }
   }
 }

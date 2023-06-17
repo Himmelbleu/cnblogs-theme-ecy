@@ -166,28 +166,7 @@ type BleuConfig = Partial<{
       divider: string;
     };
   };
-  chart: {
-    tooltip?: {
-      trigger: "axis";
-    };
-    legend?: {
-      left: "center";
-      data: string[];
-    };
-    radar: {
-      indicator: { name: string; max: number }[];
-      center?: string[];
-      radius?: number | string;
-    }[];
-    series: {
-      tooltip?: {
-        trigger: "item";
-      };
-      areaStyle?: object;
-      type: string;
-      data: { value: number[]; name?: string }[];
-    }[];
-  };
+  chart: any;
   font: {
     main: string;
     code: string;

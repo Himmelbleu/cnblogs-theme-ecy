@@ -84,21 +84,21 @@ await fetchData();
   <div id="l-works" class="page">
     <div class="content" v-if="!worksIsLocked">
       <div class="text-1.6rem font-bold text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
-      <div class="f-c-s mt-6 text-0.9rem">
+      <div class="f-c-s lt-sm:flex-wrap mt-6 text-0.9rem">
         <!-- 发表日期 -->
-        <div class="f-c-c mr-4">
-          <div class="i-tabler-calendar-stats mr-1"></div>
-          <div>{{ works.date }}</div>
+        <div class="f-c-c mr-6">
+          <div class="i-tabler-calendar-stats mr-2"></div>
+          {{ works.date }}
         </div>
         <!-- 阅读次数 -->
-        <div class="f-c-c mr-4">
-          <div class="i-tabler-eye mr-1"></div>
-          <div>{{ works.view }}次阅读</div>
+        <div class="f-c-c mr-6">
+          <div class="i-tabler-eye mr-2"></div>
+          {{ works.view }}次阅读
         </div>
         <!-- 评论条数 -->
-        <div class="f-c-c mr-4">
-          <div class="i-tabler-message-2 mr-1"></div>
-          <div>{{ works.comm }}条评论</div>
+        <div class="f-c-c mr-6">
+          <div class="i-tabler-message-2 mr-2"></div>
+          {{ works.comm }}条评论
         </div>
         <div
           v-if="isBlogOwner"
@@ -106,19 +106,20 @@ await fetchData();
           @click="
             Navigation.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + worksId })
           ">
-          <div class="i-tabler-pencil-minus mr-1"></div>
-          <div>编辑</div>
+          <div class="i-tabler-pencil-minus mr-2"></div>
+          编辑
         </div>
       </div>
       <div class="mt-6 mb-15">
-        <div class="mb-4 flex-wrap text-0.9rem f-c-s" v-if="worksProps.sorts.length > 0">
-          <div class="f-c-c">
-            <div class="i-tabler-category-2 mr-1"></div>
-            <div>分类：</div>
+        <div class="mb-4 f-c-s flex-wrap" v-if="worksProps.sorts.length > 0">
+          <div class="f-c-s mt-2 mr-2 text-1rem">
+            <div class="i-tabler-category-2 mr-2"></div>
+            分类：
           </div>
           <div
+            class="mt-2"
             v-for="(item, index) in worksProps.sorts"
-            :class="{ 'mr-2': index !== worksProps.sorts.length - 1 }">
+            :class="{ 'mr-4': index !== worksProps.sorts.length - 1 }">
             <HollowedBox
               line="dotted"
               hover
@@ -130,14 +131,15 @@ await fetchData();
             </HollowedBox>
           </div>
         </div>
-        <div class="f-c-s flex-wrap text-0.9rem" v-if="worksProps.tags.length > 0">
-          <div class="f-c-c">
-            <div class="i-tabler-bookmarks mr-1"></div>
-            <div>标签：</div>
+        <div class="f-c-s flex-wrap" v-if="worksProps.tags.length > 0">
+          <div class="f-c-s mt-2 mr-2 text-1rem">
+            <div class="i-tabler-bookmarks mr-2"></div>
+            标签：
           </div>
           <div
+            class="mt-2"
             v-for="(item, index) in worksProps.tags"
-            :class="{ 'mr-2': index !== worksProps.tags.length - 1 }">
+            :class="{ 'mr-4': index !== worksProps.tags.length - 1 }">
             <HollowedBox
               line="dotted"
               hover
@@ -153,16 +155,16 @@ await fetchData();
       <MarkdownContent :html-str="works.content" v-model:real-html="markdownRef" />
       <div class="text-b mt-15 f-c-e text-0.9rem">
         <div class="f-c-c mr-4">
-          <div class="i-tabler-calendar-stats mr-1"></div>
-          <span>{{ works.date }}</span>
+          <div class="i-tabler-calendar-stats mr-2"></div>
+          {{ works.date }}
         </div>
         <div class="f-c-c mr-4">
-          <div class="i-tabler-eye mr-1"></div>
-          <span>{{ works.view }}次阅读</span>
+          <div class="i-tabler-eye mr-2"></div>
+          {{ works.view }}次阅读
         </div>
         <div class="f-c-c">
-          <div class="i-tabler-message-2 mr-1"></div>
-          <span>{{ works.comm }}条评论</span>
+          <div class="i-tabler-message-2 mr-2"></div>
+          {{ works.comm }}条评论
         </div>
       </div>
       <div class="prev-next mt-15 text-0.9rem">
@@ -179,7 +181,7 @@ await fetchData();
           </a>
         </div>
       </div>
-      <div class="viewpoint my-10 f-c-e">
+      <div class="my-10 f-c-e">
         <div class="mr-5">
           <el-button plain @click="vote('Digg')">
             点赞 {{ worksViewPoint.diggCount }}
@@ -202,7 +204,7 @@ await fetchData();
       <Comment :post-id="worksId" ref="eleComments" />
     </div>
     <div class="content" v-else>
-      <div class="modal fixed w-100vw h-100vh top-0 left-0 l-back-bg f-c-c z-999999">
+      <div class="modal fixed-lt w-100vw h-100vh l-back-bg f-c-c z-999999">
         <el-form>
           <el-form-item label="密码：">
             <el-input

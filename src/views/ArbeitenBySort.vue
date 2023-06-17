@@ -37,7 +37,7 @@ watch(route, async () => {
 <template>
   <div id="l-works-by-sort" class="page">
     <div class="content">
-      <pagination
+      <Pagination
         @nexpr="fetchData"
         @next="fetchData"
         @prev="fetchData"
@@ -74,7 +74,7 @@ watch(route, async () => {
             :index="index"
             :cover="arbeitenCouverture[couvertureIndexs[index]]" />
         </template>
-      </pagination>
+      </Pagination>
       <div class="mt-30" v-if="!typeL1Arbeiten?.data?.length">
         <el-result title="没有随笔" sub-title="该分类没有随笔，请点击查看子分类"> </el-result>
       </div>
