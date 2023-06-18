@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WorksApi } from "@/apis";
+import { ArbeitenApi } from "@/apis";
 
 const arbeitenList = shallowRef<BleuArbeitenList>();
 const couvertureIndexs = shallowRef<number[]>([]);
@@ -7,7 +7,7 @@ const couverture = BleuVars.config.images.arbeiten;
 
 async function fetchData(index: any) {
   Broswer.startLoading();
-  arbeitenList.value = await WorksApi.getList(index || 1);
+  arbeitenList.value = await ArbeitenApi.getList(index || 1);
   couvertureIndexs.value = Random.get(couverture, arbeitenList.value.data.length);
   Broswer.endLoading();
 }

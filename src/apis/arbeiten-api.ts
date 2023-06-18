@@ -1,13 +1,13 @@
 import request from "./use-axios";
 import { strToDOM, WorksTransform, CalendarTransform } from "@/transform";
 
-export namespace WorksApi {
+export namespace ArbeitenApi {
   /**
    * 获取随笔、文章
    */
-  export async function getWorks(id: string) {
+  export async function getArbeiten(id: string) {
     const { data } = await request.get(`/p/${id}.html`);
-    return WorksTransform.toWorks(id, strToDOM(data));
+    return WorksTransform.toArbeiten(id, strToDOM(data));
   }
 
   /**
@@ -38,7 +38,7 @@ export namespace WorksApi {
    */
   export async function getByL1(id: string, page?: number | string) {
     const { data } = await request.get(`/category/${id}.html?page=${page || 1}`);
-    return WorksTransform.toWorksFull(strToDOM(data));
+    return WorksTransform.toArbeitenListFull(strToDOM(data));
   }
 
   /**
@@ -51,7 +51,7 @@ export namespace WorksApi {
     const { data } = await request.get(
       `/ajax/TreeCategoryList.aspx?parentId=${id}&categoryType=${isArticle ? 2 : 1}`
     );
-    return WorksTransform.toWorksByL2(strToDOM(data));
+    return WorksTransform.toArbeitenByL2(strToDOM(data));
   }
 
   /**
@@ -61,7 +61,7 @@ export namespace WorksApi {
     const { data } = await request.get(
       `/ajax/CategoriesTags.aspx?blogId=${BleuVars.getBlogId()}&postId=${id}`
     );
-    return WorksTransform.toWorksProps(strToDOM(data));
+    return WorksTransform.toProps(strToDOM(data));
   }
 
   /**
@@ -69,7 +69,7 @@ export namespace WorksApi {
    */
   export async function getPrevNext(id: string) {
     const { data } = await request.get(`/ajax/post/prevnext?postId=${id}`);
-    return WorksTransform.toWorksPrevNext(strToDOM(data));
+    return WorksTransform.toPrevNext(strToDOM(data));
   }
 
   /**
@@ -79,7 +79,7 @@ export namespace WorksApi {
    */
   export async function getList(page?: number | string) {
     const { data } = await request.get(`/default.html?page=${page || 1}`);
-    return WorksTransform.toWorksList(strToDOM(data));
+    return WorksTransform.toArbeitenList(strToDOM(data));
   }
 
   /**
@@ -93,7 +93,7 @@ export namespace WorksApi {
     const { data } = await request.get(
       `/${type === "article" ? "archives" : "archive"}/${split[0]}/${split[1]}.html}`
     );
-    return WorksTransform.toWorksFull(strToDOM(data));
+    return WorksTransform.toArbeitenListFull(strToDOM(data));
   }
 
   /**
@@ -101,7 +101,7 @@ export namespace WorksApi {
    */
   export async function getListByMark(tag: string, page?: string | number) {
     const { data } = await request.get(`/tag/${tag}/default.html?page=${page ?? 1}`);
-    return WorksTransform.toWorksSlice(strToDOM(data));
+    return WorksTransform.toArbeitenListPart(strToDOM(data));
   }
 
   /**
@@ -127,7 +127,7 @@ export namespace WorksApi {
     const formData = new FormData();
     formData.append("Password", pwd);
     const { data } = await request.post(`/protected/p/${id}.html`, formData);
-    return WorksTransform.toWorks(id, strToDOM(data));
+    return WorksTransform.toArbeiten(id, strToDOM(data));
   }
 
   /**
@@ -137,7 +137,7 @@ export namespace WorksApi {
    */
   export async function getListByDay(date: string) {
     const { data } = await request.get(`/archive/${date}.html`);
-    return WorksTransform.toWorksList(strToDOM(data));
+    return WorksTransform.toArbeitenList(strToDOM(data));
   }
 
   /**

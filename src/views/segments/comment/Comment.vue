@@ -121,7 +121,7 @@ await fetchData();
           :curr-page-index="currIndex"
           :comment="item" />
       </div>
-      <ImgAmplifier :real-html="commentRefs" />
+      <Amplifier :real-html="commentRefs" />
       <div class="mt-10 f-c-e" v-if="pageCount > 1">
         <el-pagination
           @current-change="fetchData"

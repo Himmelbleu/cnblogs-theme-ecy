@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRadarChart, usePieChart, useLineChart } from "@/hooks/use-echarts";
-import { WorksApi, MenuApi, getMarkList } from "@/apis";
+import { ArbeitenApi, MenuApi, getMarkList } from "@/apis";
+import { useWheelRollsUpAndDown } from "@/hooks/use-mouse";
 
 const list = shallowRef();
 const news = shallowRef();
@@ -13,7 +14,7 @@ async function fetchData() {
   Broswer.startLoading();
 
   const [val1, val2, val3, val4, val5, val6] = await Promise.all([
-    WorksApi.getList(),
+    ArbeitenApi.getList(),
     MenuApi.getNews(),
     MenuApi.getStats(),
     MenuApi.getTopList(),
@@ -42,6 +43,9 @@ const isShowPieChart2 = ref(false);
 const openPieChartCount2 = ref(0);
 const isShowLineChart = ref(false);
 const openLineChartCount = ref(0);
+
+const isShowMenu = ref(false);
+const isActiveMenu = ref(false);
 
 onMounted(() => {
   useRadarChart(radarInst.value);
@@ -74,6 +78,18 @@ onMounted(() => {
     column.value.essayArchive.map(i => i.id),
     openLineChartCount
   );
+
+  useWheelRollsUpAndDown(
+    () => {
+      isShowMenu.value = false;
+    },
+    () => {
+      isShowMenu.value = true;
+    },
+    {
+      throttle: 50
+    }
+  );
 });
 
 const carouselList = shallowRef(BleuVars.config.images.home.carousel);
@@ -86,11 +102,83 @@ setInterval(() => {
   }
 }, BleuVars.config.images.home.interval);
 
+const searchVal = ref();
+
 await fetchData();
 </script>
 
 <template>
   <div id="l-home" class="xl:px-18vw lt-xl:px-15vw lt-lg:px-10vw lt-md:px-5vw lt-sm:px-1rem">
+    <!-- 菜单栏 -->
+    <div class="l-menu">
+      <div
+        @click="isActiveMenu = !isActiveMenu"
+        class="transition-all-300 select-none cursor-pointer f-c-c w-20 h-20 fixed-t top-0 z-99"
+        :class="{
+          'static-menu': !isActiveMenu,
+          'active-menu': isActiveMenu,
+          'left--20': !isShowMenu,
+          'left-0': isShowMenu
+        }"
+        b="rd-rb-4">
+        <div v-show="!isActiveMenu">
+          <div class="i-tabler-menu2 text-2.2rem"></div>
+          <div text="center 0.9rem" class="font-art">菜单</div>
+        </div>
+        <div v-show="isActiveMenu">
+          <div text="15" class="i-tabler-x cursor-pointer" />
+        </div>
+      </div>
+      <div
+        class="transition-all-300 fixed-lt w-70 h-100vh z-90 bg-drop-primary"
+        :class="{ 'close-menu-body': !isActiveMenu, 'open-menu-body': isActiveMenu }">
+        <div class="flow-auto select-none scroll-none h-100% mt-30 text-1.2rem">
+          <div class="menu-list ml-10">
+            <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#l-top-nail')">
+              回到顶部
+            </div>
+            <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#tags-nail')">
+              我的标签
+            </div>
+            <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#essay-nail')">
+              随笔分类
+            </div>
+            <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#article-nail')">
+              文章分类
+            </div>
+            <div
+              class="hover mb-10 font-art"
+              @click="Broswer.scrollIntoView('#essay-archive-nail')">
+              随笔归档
+            </div>
+            <div
+              class="hover mb-10 font-art"
+              @click="Broswer.scrollIntoView('#article-archive-nail')">
+              文章归档
+            </div>
+            <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#my-pohoto-nail')">
+              我的相册
+            </div>
+            <div
+              class="hover mb-10 font-art"
+              @click="Navigation.go({ path: RouterPath.ArbeitenByCalendar(), router: $router })">
+              我的日历
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- GitHub -->
+    <div v-show="!isActiveMenu" class="l-github lt-sm:hidden fixed-lb z-9" m="l-2">
+      <div
+        class="f-c-c flex-col"
+        @click="Navigation.go({ path: 'http://github.com/' + BleuVars.getBlogApp() })">
+        <div class="write-vertical-left font-art bounce hover" m="b-4" text="4 b">
+          {{ BleuVars.getBlogApp() }}'s Github
+        </div>
+        <div class="i-tabler-brand-github hover" text="b 7" m="b-4"></div>
+      </div>
+    </div>
     <!-- area-1：开屏 -->
     <div class="f-c-b">
       <div class="sm:w-49% f-c-c">
@@ -139,21 +227,15 @@ await fetchData();
                   <div class="f-c-e">
                     <div m="r-2" class="f-c-c">
                       <div class="i-tabler-message2" m="r-1"></div>
-                      <div>
-                        {{ item.comm }}
-                      </div>
+                      {{ item.comm }}
                     </div>
                     <div m="r-2" class="f-c-c">
                       <div class="i-tabler-brand-tinder" m="r-1"></div>
-                      <div>
-                        {{ item.digg }}
-                      </div>
+                      {{ item.digg }}
                     </div>
                     <div class="f-c-c">
                       <div class="i-tabler-eye" m="r-1"></div>
-                      <div>
-                        {{ item.view }}
-                      </div>
+                      {{ item.view }}
                     </div>
                   </div>
                 </div>
@@ -193,18 +275,32 @@ await fetchData();
           <div class="i-tabler-info-square-rounded mr-2"></div>
           博主数据
         </div>
-        <div class="f-c-b mb-10 text-1rem text-c">
-          <img class="w-25 h-25 rd-50" :src="BleuVars.config.avatar" />
-          <div v-if="column?.rankings?.length > 0" class="f-c-e">
-            <div>
-              <div v-for="item in column.rankings" class="mt-2">
+        <div class="f-c-s mb-10 text-1rem text-b">
+          <img class="w-25 h-25 rd-50 mr-10" :src="BleuVars.config.avatar" />
+          <div class="">
+            <div v-if="column?.rankings?.length" class="f-c-s mb-4">
+              <div v-for="item in column.rankings" class="mr-4">
                 {{ item.text }}
               </div>
             </div>
+            <el-input
+              v-model="searchVal"
+              @keyup.enter="
+                Navigation.go({
+                  path:
+                    'https://zzk.cnblogs.com/s?w=blog:' + BleuVars.getBlogApp() + '%' + searchVal
+                })
+              "
+              placeholder="输入搜索的关键字"
+              clearable>
+              <template #prefix>
+                <div class="i-tabler-search"></div>
+              </template>
+            </el-input>
           </div>
         </div>
         <div class="f-c-b text-1rem">
-          <div v-if="news?.length > 0">
+          <div v-if="news?.length">
             <div>
               <div class="f-c-s">
                 <div class="i-tabler-user mr-2"></div>
@@ -247,7 +343,7 @@ await fetchData();
         </div>
       </div>
       <div class="sm:w-49% lt-sm:mt-20">
-        <div class="text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s" m="b-5">
+        <div class="caption mb-5">
           <div class="i-tabler-chart-radar mr-2"></div>
           我的技能
         </div>
@@ -454,4 +550,35 @@ await fetchData();
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.l-menu {
+  .static-menu {
+    background-color: var(--l-theme-color);
+    color: white;
+  }
+
+  .active-menu {
+    background-color: white;
+    color: var(--l-theme-color);
+  }
+
+  .close-menu-body {
+    left: -17.5rem;
+
+    .menu-list > div {
+      opacity: 0;
+    }
+  }
+
+  .open-menu-body {
+    left: 0;
+
+    @for $i from 0 to 9 {
+      .menu-list > div:nth-child(#{$i}) {
+        opacity: 1;
+        transition-delay: #{$i * 0.06}s !important;
+      }
+    }
+  }
+}
+</style>

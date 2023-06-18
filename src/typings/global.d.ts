@@ -157,6 +157,8 @@ type BleuConfig = Partial<{
     bg: {
       src: string;
       opacity: number;
+      size: string;
+      repeat: string;
     };
     arbeiten?: string[];
     home: {

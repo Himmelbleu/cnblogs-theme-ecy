@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { WorksApi } from "@/apis";
+import { ArbeitenApi } from "@/apis";
 
 const route = useRoute();
 const markWorks = shallowRef();
 
 async function fetchData(index?: any) {
   Broswer.startLoading();
-  markWorks.value = await WorksApi.getListByMark(`${route.params.tag}`, index);
+  markWorks.value = await ArbeitenApi.getListByMark(`${route.params.tag}`, index);
   Broswer.setTitle(markWorks.value.hint);
   Broswer.endLoading();
 }

@@ -56,7 +56,7 @@ export function createCodeModal(ele: HTMLElement) {
  * @param  eleHighslide - The element to be toggled on click.
  * @param  eleHighslideImage - The element that displays the clicked image.
  */
-export function createHigslide(
+export function createAmplifier(
   el: HTMLElement | HTMLElement[],
   eleHighslide: HTMLElement,
   eleHighslideImage: HTMLImageElement

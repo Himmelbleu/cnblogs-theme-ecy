@@ -15,7 +15,7 @@ export namespace ArbeitenTransform {
   /**
    * 获取首页随笔列表：日期下的随笔和文章。列表项包含描述、评论、点赞的随笔列表。
    */
-  export function toWorksList(dom: Document): BleuArbeitenList {
+  export function toArbeitenList(dom: Document): BleuArbeitenList {
     const id = dom.getElementsByClassName("postTitle2");
     const head = dom.getElementsByClassName("postTitle");
     const desc = dom.getElementsByClassName("c_b_p_desc");
@@ -63,7 +63,7 @@ export namespace ArbeitenTransform {
   /**
    * 解析随笔详细页面
    */
-  export function toWorks(id: string, dom: Document): BleuArbeiten {
+  export function toArbeiten(id: string, dom: Document): BleuArbeiten {
     const text = dom.querySelector(".postTitle > a > span").innerText;
     const content = dom.getElementById("cnblogs_post_body").innerHTML;
 
@@ -81,7 +81,7 @@ export namespace ArbeitenTransform {
   /**
    * 解析随笔详细页面中的属性：标签、分类
    */
-  export function toWorksProps(dom: Document): BleuArbeitenProps {
+  export function toProps(dom: Document): BleuArbeitenProps {
     const data = <BleuArbeitenProps>{ tags: [], sorts: [] };
 
     const eleCates = dom.querySelectorAll("#BlogPostCategory > a");
@@ -111,23 +111,23 @@ export namespace ArbeitenTransform {
   /**
    * 解析上下篇随笔
    */
-  export function toWorksPrevNext(dom: Document): BleuArbeitenPrevNext {
+  export function toPrevNext(dom: Document): BleuArbeitenPrevNext {
     const data: BleuArbeitenPrevNext = { prev: {}, next: {} };
-    const eleAs = dom.getElementsByTagName("a");
+    const elems = dom.getElementsByTagName("a");
 
-    for (let i = 0; i < eleAs.length; i++) {
-      const prefix = eleAs[i].innerText.trim();
-      const nextElement = eleAs[i].nextElementSibling;
-      if (prefix == "«") {
-        data["prev"] = {
-          text: nextElement.innerText.trim(),
-          href: nextElement.getAttribute("href")
-        };
-      } else if (prefix == "»") {
-        data["next"] = {
-          text: nextElement.innerText.trim(),
-          href: nextElement.getAttribute("href")
-        };
+    for (let i = 0; i < elems.length; i++) {
+      const prefixElem = elems[i].innerText.trim();
+      const textElem = elems[(i += 1)];
+
+      const res = {
+        text: textElem.innerText.trim(),
+        href: Textual.split(textElem.getAttribute("href"), RouterRegx.Arbeiten, [2, 0], ["/", "."])
+      };
+
+      if (prefixElem == "«") {
+        data["prev"] = res;
+      } else if (prefixElem == "»") {
+        data["next"] = res;
       }
     }
 
@@ -137,7 +137,7 @@ export namespace ArbeitenTransform {
   /**
    * 获取随笔档案、文章档案、随笔分类、档案分类四种列表。列表项包含描述、评论、点赞的随笔列表。
    */
-  export function toWorksFull(dom: Document): BleuArbeitenList2 {
+  export function toArbeitenListFull(dom: Document): BleuArbeitenList2 {
     const data: BleuArbeiten[] = [];
 
     const dateReg =
@@ -190,7 +190,7 @@ export namespace ArbeitenTransform {
   /**
    * 获取随笔和文章列表，列表通过标签查询。
    */
-  export function toWorksSlice(dom: Document): BleuArbeitenList2 {
+  export function toArbeitenListPart(dom: Document): BleuArbeitenList2 {
     const head = dom.querySelectorAll(".PostList > .postTitl2 > a");
     const desc = dom.querySelectorAll(".PostList > .postDesc2");
     const hint = dom.getElementsByClassName("PostListTitle")[0].innerText.trim();
@@ -226,7 +226,7 @@ export namespace ArbeitenTransform {
     }
   }
 
-  export function toWorksByL2(dom: Document): BleuArbeitenL2[] {
+  export function toArbeitenByL2(dom: Document): BleuArbeitenL2[] {
     const nodeList = dom.getElementsByTagName("li");
     return Array.from(nodeList).map(ele => ({
       id: ele.getAttribute("data-category-id"),

@@ -1,103 +1,103 @@
 <script setup lang="ts">
-import { createHigslide } from "./index";
+import { createAmplifier } from "./index";
 
 const props = defineProps(["realHtml"]);
 const toRefRealHtml = toRef(props, "realHtml");
 
-const eleHighslide = ref<HTMLElement>();
-const eleImage = ref<HTMLImageElement>();
+const amplifierInst = ref<HTMLElement>();
+const imageInst = ref<HTMLImageElement>();
 const positionX = ref(0);
 const positionY = ref(0);
-const imgDegree = ref(0);
-const imgWidth = ref(0);
-const imgHeight = ref(0);
-const animationOpened = ref(false);
+const degree = ref(0);
+const width = ref(0);
+const height = ref(0);
+const isOpenAnima = ref(false);
 
-useDraggable(eleImage, {
+useDraggable(imageInst, {
   onMove(position) {
     positionX.value = position.x;
     positionY.value = position.y;
   },
   onStart() {
-    imgWidth.value = parseInt(eleImage.value.style.width);
-    imgHeight.value = parseInt(eleImage.value.style.height);
-    animationOpened.value = false;
+    width.value = parseInt(imageInst.value.style.width);
+    height.value = parseInt(imageInst.value.style.height);
+    isOpenAnima.value = false;
   }
 });
 
 function close() {
-  eleHighslide.value.classList.toggle("active");
-  eleHighslide.value.classList.toggle("noactive");
+  amplifierInst.value.classList.toggle("active");
+  amplifierInst.value.classList.toggle("noactive");
   document.documentElement.style.overflow = "auto";
-  imgDegree.value = 0;
+  degree.value = 0;
   positionX.value = 0;
   positionY.value = 0;
 }
 
 function zoomIn() {
-  imgWidth.value = parseInt(eleImage.value.style.width);
-  imgHeight.value = parseInt(eleImage.value.style.height);
-  animationOpened.value = true;
-  imgHeight.value += imgHeight.value * 0.15;
-  imgWidth.value += imgWidth.value * 0.15;
+  width.value = parseInt(imageInst.value.style.width);
+  height.value = parseInt(imageInst.value.style.height);
+  isOpenAnima.value = true;
+  height.value += height.value * 0.15;
+  width.value += width.value * 0.15;
 }
 
 function zoomOut() {
-  imgWidth.value = parseInt(eleImage.value.style.width);
-  imgHeight.value = parseInt(eleImage.value.style.height);
-  animationOpened.value = true;
-  imgHeight.value -= imgHeight.value * 0.15;
-  imgWidth.value -= imgWidth.value * 0.15;
+  width.value = parseInt(imageInst.value.style.width);
+  height.value = parseInt(imageInst.value.style.height);
+  isOpenAnima.value = true;
+  height.value -= height.value * 0.15;
+  width.value -= width.value * 0.15;
 }
 
 onMounted(() => {
-  eleImage.value.addEventListener("mousewheel", e => {
-    animationOpened.value = false;
-    imgWidth.value = parseInt(eleImage.value.style.width);
-    imgHeight.value = parseInt(eleImage.value.style.height);
+  imageInst.value.addEventListener("mousewheel", e => {
+    isOpenAnima.value = false;
+    width.value = parseInt(imageInst.value.style.width);
+    height.value = parseInt(imageInst.value.style.height);
     // @ts-ignore
     if (e.deltaY < 0) {
-      imgHeight.value += imgHeight.value * 0.15;
-      imgWidth.value += imgWidth.value * 0.15;
+      height.value += height.value * 0.15;
+      width.value += width.value * 0.15;
     } else {
-      imgHeight.value -= imgHeight.value * 0.15;
-      imgWidth.value -= imgWidth.value * 0.15;
+      height.value -= height.value * 0.15;
+      width.value -= width.value * 0.15;
     }
   });
 });
 
 watch(toRefRealHtml, newVal => {
-  createHigslide(newVal, eleHighslide.value, eleImage.value);
+  createAmplifier(newVal, amplifierInst.value, imageInst.value);
 });
 </script>
 
 <template>
   <Teleport to="body">
-    <div class="l-highslide noactive" ref="eleHighslide">
+    <div class="l-amplifier noactive" ref="amplifierInst">
       <div class="relative w-100% h-100%">
         <div class="w-100% h-100% f-c-c">
           <img
-            ref="eleImage"
+            ref="imageInst"
             draggable="false"
             select-none
             cursor-move
-            class="l-highslide__img"
+            class="l-amplifier__img"
             :class="{
               fixed: positionX && positionY && !!BleuVars.isPcDevice(),
-              transition: animationOpened
+              transition: isOpenAnima
             }"
             :style="{
               left: positionX + 'px',
               top: positionY + 'px',
-              width: imgWidth + 'px',
-              height: imgHeight + 'px'
+              width: width + 'px',
+              height: height + 'px'
             }" />
         </div>
-        <div class="l-highslide__close f-c-c z-99 hover absolute top-2 right-2" @click="close">
+        <div class="l-amplifier__close f-c-c z-99 hover absolute top-2 right-2" @click="close">
           <i-ep-close />
         </div>
         <div class="z-99 f-c-c absolute bottom-4 left-0 w-100%">
-          <div class="l-highslide__tool f-c-c">
+          <div class="l-amplifier__tool f-c-c">
             <div class="mr-6 f-c-c hover" @click="zoomIn">
               <i-ep-zoom-in />
             </div>
@@ -112,7 +112,7 @@ watch(toRefRealHtml, newVal => {
 </template>
 
 <style scoped lang="scss">
-.l-highslide {
+.l-amplifier {
   position: fixed;
   z-index: 999999;
   top: 0;
@@ -135,21 +135,21 @@ watch(toRefRealHtml, newVal => {
   transition: all 0.3s ease-in-out;
 }
 
-.l-highslide__img {
+.l-amplifier__img {
   max-width: initial !important;
   max-height: initial !important;
 }
 
-.l-highslide__close {
+.l-amplifier__close {
   padding: 0.5rem 0.5rem;
 }
 
-.l-highslide__tool {
+.l-amplifier__tool {
   padding: 0.5rem 1rem;
 }
 
-.l-highslide__tool,
-.l-highslide__close {
+.l-amplifier__tool,
+.l-amplifier__close {
   border-radius: 2rem;
   font-size: 1.5rem;
   color: #fff;

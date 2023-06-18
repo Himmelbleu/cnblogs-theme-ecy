@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WorksApi } from "@/apis";
+import { ArbeitenApi } from "@/apis";
 
 const route = useRoute();
 let archiveDate = route.params.date;
@@ -14,11 +14,11 @@ async function fetchData() {
   let fetchDataPromise;
 
   if (archiveMode == "a") {
-    fetchDataPromise = WorksApi.getListByArchive(`${archiveDate}`, "article");
+    fetchDataPromise = ArbeitenApi.getListByArchive(`${archiveDate}`, "article");
   } else if (archiveMode == "p") {
-    fetchDataPromise = WorksApi.getListByArchive(`${archiveDate}`, "works");
+    fetchDataPromise = ArbeitenApi.getListByArchive(`${archiveDate}`, "works");
   } else {
-    fetchDataPromise = WorksApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
+    fetchDataPromise = ArbeitenApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
   }
 
   archiveList.value = await fetchDataPromise;

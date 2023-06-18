@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WorksApi } from "@/apis";
+import { ArbeitenApi } from "@/apis";
 
 const date = new Date();
 const calendar = shallowRef();
@@ -13,7 +13,7 @@ function findDate(data: any) {
 }
 
 async function fetchData() {
-  calendar.value = await WorksApi.getCalendar(
+  calendar.value = await ArbeitenApi.getCalendar(
     `${dateModel.value.getFullYear()}/${
       dateModel.value.getMonth() + 1
     }/${dateModel.value.getDate()}`

@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Albumn: typeof import('./src/views/Albumn.vue')['default']
     AlbumnItem: typeof import('./src/views/AlbumnItem.vue')['default']
+    Amplifier: typeof import('./src/views/segments/markdown/Amplifier.vue')['default']
     AnswerComment: typeof import('./src/views/segments/comment/AnswerComment.vue')['default']
     Arbeiten: typeof import('./src/views/Arbeiten.vue')['default']
     ArbeitenByArchive: typeof import('./src/views/ArbeitenByArchive.vue')['default']
@@ -31,6 +32,7 @@ declare module 'vue' {
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
@@ -59,7 +61,6 @@ declare module 'vue' {
     IEpView: typeof import('~icons/ep/view')['default']
     IEpZoomIn: typeof import('~icons/ep/zoom-in')['default']
     IEpZoomOut: typeof import('~icons/ep/zoom-out')['default']
-    ImgAmplifier: typeof import('./src/views/segments/markdown/ImgAmplifier.vue')['default']
     Katalog: typeof import('./src/views/segments/markdown/Katalog.vue')['default']
     MarkdownContent: typeof import('./src/views/segments/markdown/MarkdownContent.vue')['default']
     MarkList: typeof import('./src/views/MarkList.vue')['default']

@@ -13,26 +13,27 @@ defineProps({
   }
 });
 
+let isFirstRendering = 0;
 const emits = defineEmits(["update:realHtml"]);
+const htmlInst = ref<HTMLElement>();
 
-const htmlRef = ref<HTMLElement>();
-
-onMounted(() => {
+function renderMarkdown() {
   // hljs
   hljs.configure({
     ignoreUnescapedHTML: true
   });
 
-  const codes = htmlRef.value.querySelectorAll<HTMLElement>("pre code");
-  codes.forEach(ele => {
-    hljs.highlightElement(ele);
-    createCodeTools(ele);
-    createCodeModal(ele);
+  const preCodeInst = htmlInst.value.querySelectorAll<HTMLElement>("pre code");
+
+  preCodeInst.forEach(i => {
+    hljs.highlightElement(i);
+    createCodeTools(i);
+    createCodeModal(i);
   });
 
   // math
   const MathJax = window.MathJax;
-  const mathNodes = htmlRef.value.getElementsByClassName("math");
+  const mathNodes = htmlInst.value.getElementsByClassName("math");
 
   if (MathJax && mathNodes.length > 0) {
     MathJax.startup.promise = MathJax.startup.promise
@@ -42,10 +43,22 @@ onMounted(() => {
       .catch(console.error);
   }
 
-  emits("update:realHtml", htmlRef.value);
+  emits("update:realHtml", htmlInst.value);
+}
+
+onMounted(() => {
+  isFirstRendering++;
+  renderMarkdown();
+});
+
+onUpdated(() => {
+  isFirstRendering++;
+  if (isFirstRendering > 2) {
+    renderMarkdown();
+  }
 });
 </script>
 
 <template>
-  <div class="markdown-textual" ref="htmlRef" v-html="htmlStr"></div>
+  <div class="markdown-textual" ref="htmlInst" v-html="htmlStr"></div>
 </template>

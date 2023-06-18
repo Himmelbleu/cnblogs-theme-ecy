@@ -1,42 +1,42 @@
 <script setup lang="ts">
-import { WorksApi } from "@/apis";
+import { ArbeitenApi } from "@/apis";
 
 const route = useRoute();
-const works = shallowRef();
-const worksProps = shallowRef();
-const worksPrevNext = shallowRef();
-const worksViewPoint = shallowRef();
-const worksIsLocked = ref(false);
-const worksPassword = ref("");
-const markdownRef = ref();
-const eleComments = ref();
-let worksId = route.params.id as string;
+const arbeiten = shallowRef();
+const arbProps = shallowRef();
+const arbPrevNext = shallowRef();
+const arbViewPoint = shallowRef();
+const arbIsLock = ref(false);
+const arbPassword = ref("");
+const markdownInst = ref();
+const commentInst = ref();
+let arbeitenId = route.params.id as string;
 
 async function fetchData(mouted?: boolean) {
   Broswer.startLoading();
 
-  const [worksVal, worksPropsVal, worksPrevNextVal, worksViewPointVal] = await Promise.all([
-    WorksApi.getWorks(worksId),
-    WorksApi.getProps(worksId),
-    WorksApi.getPrevNext(worksId),
-    WorksApi.getViewPoint(worksId)
+  const [val1, val2, val3, val4] = await Promise.all([
+    ArbeitenApi.getArbeiten(arbeitenId),
+    ArbeitenApi.getProps(arbeitenId),
+    ArbeitenApi.getPrevNext(arbeitenId),
+    ArbeitenApi.getViewPoint(arbeitenId)
   ]);
 
-  works.value = worksVal;
-  worksProps.value = worksPropsVal;
-  worksPrevNext.value = worksPrevNextVal;
-  worksViewPoint.value = worksViewPointVal;
-  worksIsLocked.value = worksVal.isLocked;
+  arbeiten.value = val1;
+  arbProps.value = val2;
+  arbPrevNext.value = val3;
+  arbViewPoint.value = val4;
+  arbIsLock.value = val1.isLocked;
 
-  Broswer.setTitle(works.value.text);
+  Broswer.setTitle(arbeiten.value.text);
   mouted && Broswer.endLoading();
 }
 
 async function submit() {
-  const passed = await WorksApi.isPassed(worksPassword.value, worksId);
+  const passed = await ArbeitenApi.isPassed(arbPassword.value, arbeitenId);
   if (passed) {
-    works.value = await WorksApi.getLockedWorks(worksPassword.value, worksId);
-    worksIsLocked.value = false;
+    arbeiten.value = await ArbeitenApi.getLockedWorks(arbPassword.value, arbeitenId);
+    arbIsLock.value = false;
   }
   ElMessage({
     message: passed ? "密码正确！" : "密码错误！",
@@ -46,22 +46,22 @@ async function submit() {
 }
 
 async function vote(type: VoteType) {
-  const res = await WorksApi.vote({
-    postId: parseInt(worksId),
+  const res = await ArbeitenApi.vote({
+    postId: parseInt(arbeitenId),
     isAbandoned: false,
     voteType: type
   });
   if (res && res.isSuccess) {
-    type == "Bury" ? worksViewPoint.value.buryCount++ : worksViewPoint.value.diggCount++;
+    type == "Bury" ? arbViewPoint.value.buryCount++ : arbViewPoint.value.diggCount++;
   }
   ElMessage({ message: res.message, grouping: true, type: res.isSuccess ? "success" : "error" });
 }
 
 watch(route, async () => {
   if (route.name === RouterName.Arbeiten) {
-    worksId = route.params.id as string;
+    arbeitenId = route.params.id as string;
     await fetchData(true);
-    await eleComments.value.fetchData();
+    await commentInst.value.fetchData();
   }
 });
 
@@ -82,44 +82,41 @@ await fetchData();
 
 <template>
   <div id="l-works" class="page">
-    <div class="content" v-if="!worksIsLocked">
-      <div class="text-1.6rem font-bold text-ellipsis line-clamp-2 w-100%">{{ works.text }}</div>
+    <div class="content" v-if="!arbIsLock">
+      <div class="text-1.6rem font-bold text-ellipsis line-clamp-2 w-100%">{{ arbeiten.text }}</div>
       <div class="f-c-s lt-sm:flex-wrap mt-6 text-0.9rem">
-        <!-- 发表日期 -->
-        <div class="f-c-c mr-6">
+        <div class="f-c-c mr-4">
           <div class="i-tabler-calendar-stats mr-2"></div>
-          {{ works.date }}
+          {{ arbeiten.date }}
         </div>
-        <!-- 阅读次数 -->
-        <div class="f-c-c mr-6">
+        <div class="f-c-c mr-4">
           <div class="i-tabler-eye mr-2"></div>
-          {{ works.view }}次阅读
+          {{ arbeiten.view }}次阅读
         </div>
-        <!-- 评论条数 -->
-        <div class="f-c-c mr-6">
+        <div class="f-c-c mr-4">
           <div class="i-tabler-message-2 mr-2"></div>
-          {{ works.comm }}条评论
+          {{ arbeiten.comm }}条评论
         </div>
         <div
           v-if="isBlogOwner"
           class="f-c-c hover"
           @click="
-            Navigation.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + worksId })
+            Navigation.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + arbeitenId })
           ">
           <div class="i-tabler-pencil-minus mr-2"></div>
           编辑
         </div>
       </div>
       <div class="mt-6 mb-15">
-        <div class="mb-4 f-c-s flex-wrap" v-if="worksProps.sorts.length > 0">
+        <div class="mb-4 f-c-s flex-wrap" v-if="arbProps.sorts.length > 0">
           <div class="f-c-s mt-2 mr-2 text-1rem">
             <div class="i-tabler-category-2 mr-2"></div>
             分类：
           </div>
           <div
             class="mt-2"
-            v-for="(item, index) in worksProps.sorts"
-            :class="{ 'mr-4': index !== worksProps.sorts.length - 1 }">
+            v-for="(item, index) in arbProps.sorts"
+            :class="{ 'mr-4': index !== arbProps.sorts.length - 1 }">
             <HollowedBox
               line="dotted"
               hover
@@ -131,15 +128,15 @@ await fetchData();
             </HollowedBox>
           </div>
         </div>
-        <div class="f-c-s flex-wrap" v-if="worksProps.tags.length > 0">
+        <div class="f-c-s flex-wrap" v-if="arbProps.tags.length > 0">
           <div class="f-c-s mt-2 mr-2 text-1rem">
             <div class="i-tabler-bookmarks mr-2"></div>
             标签：
           </div>
           <div
             class="mt-2"
-            v-for="(item, index) in worksProps.tags"
-            :class="{ 'mr-4': index !== worksProps.tags.length - 1 }">
+            v-for="(item, index) in arbProps.tags"
+            :class="{ 'mr-4': index !== arbProps.tags.length - 1 }">
             <HollowedBox
               line="dotted"
               hover
@@ -152,39 +149,43 @@ await fetchData();
           </div>
         </div>
       </div>
-      <MarkdownContent :html-str="works.content" v-model:real-html="markdownRef" />
+      <MarkdownContent :html-str="arbeiten.content" v-model:real-html="markdownInst" />
       <div class="text-b mt-15 f-c-e text-0.9rem">
         <div class="f-c-c mr-4">
           <div class="i-tabler-calendar-stats mr-2"></div>
-          {{ works.date }}
+          {{ arbeiten.date }}
         </div>
         <div class="f-c-c mr-4">
           <div class="i-tabler-eye mr-2"></div>
-          {{ works.view }}次阅读
+          {{ arbeiten.view }}次阅读
         </div>
         <div class="f-c-c">
           <div class="i-tabler-message-2 mr-2"></div>
-          {{ works.comm }}条评论
+          {{ arbeiten.comm }}条评论
         </div>
       </div>
       <div class="prev-next mt-15 text-0.9rem">
-        <div class="hover f-c-s mb-2" v-if="worksPrevNext.prev.href">
-          <div class="i-tabler-arrow-autofit-up mr-1"></div>
-          <a class="hover text-color-a" :href="worksPrevNext.prev.href">
-            上一篇：{{ worksPrevNext.prev.text }}
-          </a>
+        <div
+          class="hover f-s-s mb-2"
+          @click="
+            Navigation.go({ path: RouterPath.Arbeiten(arbPrevNext.prev.href), router: $router })
+          "
+          v-if="arbPrevNext.prev.href">
+          上一篇：{{ arbPrevNext.prev.text }}
         </div>
-        <div class="hover f-c-s" v-if="worksPrevNext.next.href">
-          <div class="i-tabler-arrow-autofit-down mr-1"></div>
-          <a class="hover text-color-a" :href="worksPrevNext.next.href">
-            下一篇：{{ worksPrevNext.next.text }}
-          </a>
+        <div
+          class="hover f-s-s"
+          @click="
+            Navigation.go({ path: RouterPath.Arbeiten(arbPrevNext.next.href), router: $router })
+          "
+          v-if="arbPrevNext.next.href">
+          下一篇：{{ arbPrevNext.next.text }}
         </div>
       </div>
       <div class="my-10 f-c-e">
         <div class="mr-5">
           <el-button plain @click="vote('Digg')">
-            点赞 {{ worksViewPoint.diggCount }}
+            点赞 {{ arbViewPoint.diggCount }}
             <template #icon>
               <div class="i-tabler-thumb-up"></div>
             </template>
@@ -192,16 +193,16 @@ await fetchData();
         </div>
         <div>
           <el-button plain @click="vote('Bury')">
-            反对 {{ worksViewPoint.buryCount }}
+            反对 {{ arbViewPoint.buryCount }}
             <template #icon>
               <div class="i-tabler-thumb-down"></div>
             </template>
           </el-button>
         </div>
       </div>
-      <Katalog :real-html="markdownRef" />
-      <ImgAmplifier :real-html="markdownRef" />
-      <Comment :post-id="worksId" ref="eleComments" />
+      <Katalog :real-html="markdownInst" />
+      <Amplifier :real-html="markdownInst" />
+      <Comment :post-id="arbeitenId" ref="commentInst" />
     </div>
     <div class="content" v-else>
       <div class="modal fixed-lt w-100vw h-100vh l-back-bg f-c-c z-999999">
@@ -210,7 +211,7 @@ await fetchData();
             <el-input
               show-password
               type="password"
-              v-model="worksPassword"
+              v-model="arbPassword"
               placeholder="输入博文阅读密码" />
           </el-form-item>
           <el-form-item>

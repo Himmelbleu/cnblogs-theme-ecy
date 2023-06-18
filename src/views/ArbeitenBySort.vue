@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WorksApi } from "@/apis";
+import { ArbeitenApi } from "@/apis";
 
 const route = useRoute();
 const typeL2Arbeiten = shallowRef();
@@ -11,8 +11,8 @@ async function fetchData(index?: any) {
   Broswer.startLoading();
   const id = route.params.id;
 
-  const val1 = await WorksApi.getByL1(`${id}`, index);
-  const val2 = await WorksApi.getByL2(`${id}`, val1.isArticle);
+  const val1 = await ArbeitenApi.getByL1(`${id}`, index);
+  const val2 = await ArbeitenApi.getByL2(`${id}`, val1.isArticle);
 
   typeL1Arbeiten.value = val1;
   typeL2Arbeiten.value = val2;

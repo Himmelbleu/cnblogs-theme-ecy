@@ -32,7 +32,7 @@ function afterUseBleu() {
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
-  PrettifyLog.primary("v2.2.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+  PrettifyLog.primary("v2.3.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
 export function useBleu(dev: Function, pro: Function) {
@@ -50,7 +50,9 @@ export function useBleu(dev: Function, pro: Function) {
       images: {
         bg: {
           src: "https://th.bing.com/th/id/R.e79036ab9e7ef09bd5951536125c60ac?rik=qzIaIiYX81%2fOAA&riu=http%3a%2f%2f5b0988e595225.cdn.sohucs.com%2fimages%2f20181103%2ffeaa7d14883047fb81bbaa16f681f583.jpeg&ehk=hywgeurG%2fR6NTPM5A6bkA4YGllkcUFzqDTWm%2fxfDeDU%3d&risl=&pid=ImgRaw&r=0",
-          opacity: 0.03
+          opacity: 0.03,
+          size: "50% auto",
+          repeat: "repeat"
         },
         home: {
           opacity: 0.5,
