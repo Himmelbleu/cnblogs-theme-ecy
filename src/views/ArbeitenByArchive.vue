@@ -56,7 +56,7 @@ watch(route, async () => {
             </template>
           </el-page-header>
           <ArbeitenItem
-            v-if="archiveList.data.length > 0"
+            v-if="archiveList?.data?.length"
             v-for="(item, index) in archiveList.data"
             :key="item.id"
             :item="item"

@@ -4,13 +4,6 @@ export namespace Random {
     return Math.floor(Math.random() * sum + min);
   }
 
-  /**
-   * 获取不重复的数组的索引数组
-   *
-   * @param src 源数组
-   * @param max 最大数值
-   * @returns 一个不重复的 src 的索引
-   */
   export function get(src: string[], max: number) {
     let a = [];
 

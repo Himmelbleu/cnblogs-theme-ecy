@@ -109,7 +109,7 @@ await fetchData();
 
 <template>
   <div id="l-home" class="xl:px-18vw lt-xl:px-15vw lt-lg:px-10vw lt-md:px-5vw lt-sm:px-1rem">
-    <!-- 菜单栏 -->
+    <!-- area-1：菜单栏 -->
     <div class="l-menu">
       <div
         @click="isActiveMenu = !isActiveMenu"
@@ -168,7 +168,7 @@ await fetchData();
         </div>
       </div>
     </div>
-    <!-- GitHub -->
+    <!-- area-2：GitHub -->
     <div v-show="!isActiveMenu" class="l-github lt-sm:hidden fixed-lb z-9" m="l-2">
       <div
         class="f-c-c flex-col"
@@ -179,10 +179,10 @@ await fetchData();
         <div class="i-tabler-brand-github hover" text="b 7" m="b-4"></div>
       </div>
     </div>
-    <!-- area-1：开屏 -->
-    <div class="f-c-b">
+    <!-- area-3：开屏 -->
+    <div class="f-s-b">
       <div class="sm:w-49% f-c-c">
-        <div class="h-100vh">
+        <div>
           <div m="t-5">
             <div text="start 10" class="shine-text font-art">
               {{ BleuVars.getBlogApp() }} 的博客
@@ -195,14 +195,14 @@ await fetchData();
             </div>
           </div>
           <div m="t-15">
-            <div m="b-8" v-if="list?.data" v-for="item in list.data">
-              <div p="b-4">
-                <div class="f-c-s text-b text-0.9rem mb-6">
+            <div m="b-7" v-if="list?.data" v-for="item in list.data">
+              <div p="b-5">
+                <div class="f-c-s text-b text-0.9rem mb-2">
                   <div class="i-tabler-clock-hour3 mr-2"></div>
                   {{ item.date }}
                 </div>
                 <div
-                  class="text-ellipsis line-clamp-2 hover"
+                  class="text-ellipsis line-clamp-2 hover mb-2"
                   @click="
                     Navigation.go({
                       path: RouterPath.Arbeiten(item.id),
@@ -211,7 +211,10 @@ await fetchData();
                   ">
                   {{ item.text }}
                 </div>
-                <div class="f-c-e" text="0.8rem c" m="t-6">
+                <div class="text-ellipsis line-clamp-1 text-0.9rem text-c ml-10">
+                  {{ item.desc }}
+                </div>
+                <div class="f-c-e" text="0.8rem c" m="t-5">
                   <div
                     m="r-2"
                     text="b"
@@ -225,16 +228,16 @@ await fetchData();
                     阅读全文
                   </div>
                   <div class="f-c-e">
-                    <div m="r-2" class="f-c-c">
-                      <div class="i-tabler-message2" m="r-1"></div>
+                    <div class="f-c-c mr-2">
+                      <div class="i-tabler-message2 mr-1"></div>
                       {{ item.comm }}
                     </div>
-                    <div m="r-2" class="f-c-c">
-                      <div class="i-tabler-brand-tinder" m="r-1"></div>
+                    <div class="f-c-c mr-2">
+                      <div class="i-tabler-brand-tinder mr-1"></div>
                       {{ item.digg }}
                     </div>
                     <div class="f-c-c">
-                      <div class="i-tabler-eye" m="r-1"></div>
+                      <div class="i-tabler-eye mr-1"></div>
                       {{ item.view }}
                     </div>
                   </div>
@@ -245,8 +248,8 @@ await fetchData();
               <div
                 @click="Navigation.go({ path: RouterPath.ArbeitenList(), router: $router })"
                 class="w-20 cursor-pointer hover:text-primary transition-all-300 font-art"
-                p="x-1 y-1"
                 text="center 0.8rem"
+                p="x-1 y-1"
                 b="rd-4 solid 1 hover:primary">
                 MORE
               </div>
@@ -268,7 +271,7 @@ await fetchData();
           :src="item" />
       </div>
     </div>
-    <!-- area-2：基本信息展示 -->
+    <!-- area-4：基本信息展示 -->
     <div class="sm:f-s-b mt-20">
       <div class="sm:w-49%">
         <div class="caption mb-10">
@@ -302,25 +305,25 @@ await fetchData();
         <div class="f-c-b text-1rem">
           <div v-if="news?.length">
             <div>
-              <div class="f-c-s">
+              <div class="f-c-s hover" @click="Navigation.go({ path: news[0].href })">
                 <div class="i-tabler-user mr-2"></div>
-                博主：{{ news[0].text }}
+                昵称：{{ news[0].text }}
               </div>
-              <div class="f-c-s" m="t-5">
+              <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[1].href })">
                 <div class="i-tabler-calendar mr-2"></div>
                 园龄：{{ news[1].text }}
               </div>
-              <div class="f-c-s" m="t-5">
+              <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[2].href })">
                 <div class="i-tabler-brand-twitch mr-2"></div>
                 粉丝：{{ news[2].text }}
               </div>
-              <div class="f-c-s" m="t-5">
+              <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[3].href })">
                 <div class="i-tabler-heart mr-2"></div>
                 关注：{{ news[3].text }}
               </div>
             </div>
           </div>
-          <div v-if="status?.length > 0">
+          <div v-if="status?.length">
             <div>
               <div class="f-c-s">
                 <div class="i-tabler-pencil-minus mr-2"></div>
@@ -336,7 +339,7 @@ await fetchData();
               </div>
               <div class="f-c-s" m="t-5">
                 <div class="i-tabler-chart-bar mr-2"></div>
-                被阅读：{{ status[3].digg }}次
+                阅读的数量：{{ status[3].digg }}次
               </div>
             </div>
           </div>
@@ -352,7 +355,7 @@ await fetchData();
         </div>
       </div>
     </div>
-    <!-- area-3：随笔标签 -->
+    <!-- area-5：随笔标签 -->
     <div class="mt-20 relative">
       <div
         class="transition-all-500"
@@ -374,7 +377,7 @@ await fetchData();
             图表
           </div>
         </div>
-        <div v-if="markList?.length > 0" class="f-s-b flex-wrap overflow-auto scroll-none">
+        <div v-if="markList?.length" class="f-s-b flex-wrap overflow-auto scroll-none">
           <HollowedBox
             v-for="item in markList"
             line="dotted"
@@ -382,7 +385,7 @@ await fetchData();
             round
             class="mr-4 mb-6"
             @click="Navigation.go({ path: RouterPath.ArbeitenByMark(item.text), router: $router })">
-            {{ item.text }}({{ item.count }})
+            {{ item.text }}
           </HollowedBox>
         </div>
       </div>
@@ -401,7 +404,7 @@ await fetchData();
         </div>
       </div>
     </div>
-    <!-- area-4：随笔分类 -->
+    <!-- area-6：随笔分类 -->
     <div class="sm:f-s-b mt-15 relative">
       <!-- 随笔分类 -->
       <div class="sm:w-49%">
@@ -425,7 +428,7 @@ await fetchData();
               图表
             </div>
           </div>
-          <div v-if="column?.essaySort?.length > 0" class="f-c-b flex-wrap">
+          <div v-if="column?.essaySort?.length" class="f-c-b flex-wrap">
             <div
               @click="Navigation.go({ path: RouterPath.ArbeitenBySort(item.id), router: $router })"
               class="mb-6 mr-4 cursor-pointer hover"
@@ -455,7 +458,7 @@ await fetchData();
           <div class="i-tabler-sort-a-z mr-2"></div>
           文章分类
         </div>
-        <div v-if="column?.articleSort?.length > 0" class="f-c-b flex-wrap">
+        <div v-if="column?.articleSort?.length" class="f-c-b flex-wrap">
           <div
             @click="Navigation.go({ path: RouterPath.ArbeitenBySort(item.id), router: $router })"
             class="mb-6 mr-4 cursor-pointer hover"
@@ -465,7 +468,7 @@ await fetchData();
         </div>
       </div>
     </div>
-    <!-- area-5：随笔归档 -->
+    <!-- area-7：随笔归档 -->
     <div class="mt-15 relative">
       <div>
         <div
@@ -488,7 +491,7 @@ await fetchData();
               图表
             </div>
           </div>
-          <div v-if="column?.essayArchive?.length > 0" class="f-c-b flex-wrap">
+          <div v-if="column?.essayArchive?.length" class="f-c-b flex-wrap">
             <div
               @click="
                 Navigation.go({ path: RouterPath.ArbeitenByArchive('p', item.id), router: $router })
@@ -515,13 +518,13 @@ await fetchData();
         </div>
       </div>
     </div>
-    <!-- area-6：文章归档 -->
+    <!-- area-8：文章归档 -->
     <div class="mt-15">
       <div id="article-archive-nail" class="caption mb-10">
         <div class="i-tabler-folder-check mr-2"></div>
         文章归档
       </div>
-      <div v-if="column?.articleArchive?.length > 0" class="f-c-b flex-wrap">
+      <div v-if="column?.articleArchive?.length" class="f-c-b flex-wrap">
         <div
           @click="
             Navigation.go({ path: RouterPath.ArbeitenByArchive('a', item.id), router: $router })
@@ -532,13 +535,13 @@ await fetchData();
         </div>
       </div>
     </div>
-    <!-- area-7：相册列表 -->
+    <!-- area-9：相册列表 -->
     <div class="mt-15">
       <div id="my-pohoto-nail" class="caption mb-10">
         <div class="i-tabler-photo mr-2"></div>
         我的相册
       </div>
-      <div v-if="column?.albumn?.length > 0" class="f-c-b flex-wrap">
+      <div v-if="column?.albumn?.length" class="f-c-b flex-wrap">
         <div
           @click="Navigation.go({ path: RouterPath.Albumn(item.id), router: $router })"
           class="mb-6 cursor-pointer hover text-ellipsis line-clamp-2"

@@ -14,7 +14,7 @@ defineProps({
   },
   textColor: {
     type: String,
-    default: "text-color-a"
+    default: "text-a"
   },
   round: {
     type: Boolean,
@@ -34,7 +34,13 @@ function translate(prop: string): string {
 <template>
   <div
     class="l-hollobox"
-    :class="{ round: round, hover: hover, [translate(textColor)]: textColor, [translate(fontSize)]: fontSize, padding: padding }"
+    :class="{
+      round: round,
+      hover: hover,
+      [translate(textColor)]: textColor,
+      [translate(fontSize)]: fontSize,
+      padding: padding
+    }"
     :style="{ 'border-style': line }">
     <slot />
   </div>
@@ -55,7 +61,11 @@ function translate(prop: string): string {
 }
 
 .l-hollobox.hover {
-  @include hover($border-color: all);
+  --uno: cursor-pointer transition-all-300;
+
+  &:hover {
+    border-color: var(--el-color-primary) !important;
+  }
 }
 
 .l-hollobox.round {

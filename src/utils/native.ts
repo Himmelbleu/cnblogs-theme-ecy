@@ -10,12 +10,6 @@ export namespace Native {
     hatch.focus();
   }
 
-  /**
-   * 打开博客园上传图片的 API，上传完成之后，图片路径要回显到 textarea 上。
-   *
-   * @param el 图片上传成功之后返回的链接赋值给 textarea 元素。
-   * @param onUploaded 选择符合规则的本地图片之后，小窗关闭返回一个图片连接到 el textarea 元素中，获取 focus 得到图片链接该回调函数可向上传递该链接。
-   */
   export function openImageUploadWindow(el: string, onUploaded: (img: string) => void) {
     try {
       // @ts-ignore

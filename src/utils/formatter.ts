@@ -4,11 +4,6 @@ export namespace Formatter {
     return `${result}${suffix || ""}`;
   }
 
-  /**
-   * 把一串数字转换为“xx万”的形式
-   *
-   * @param num 被格式化的数字
-   */
   export function unit(num: string): string {
     const trimed = num.trim();
     if (trimed.length < 5) {

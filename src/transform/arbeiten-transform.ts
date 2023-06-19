@@ -38,8 +38,8 @@ export namespace ArbeitenTransform {
 
       data.push({
         id: id[index].getAttribute("href").match(/[0-9]+/g)[0],
-        text: Textual.replace(head[index].innerText.trim(), [/\[置顶\]/g]),
-        desc: Textual.replace(desc[index].innerText, [/阅读全文/g]),
+        text: Textual.regexReplace(head[index].innerText.trim(), [/\[置顶\]/g]),
+        desc: Textual.regexReplace(desc[index].innerText, [/阅读全文/g]),
         date: notes[index].innerText.match(
           /[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d/g
         )[0],
@@ -121,7 +121,12 @@ export namespace ArbeitenTransform {
 
       const res = {
         text: textElem.innerText.trim(),
-        href: Textual.split(textElem.getAttribute("href"), RouterRegx.Arbeiten, [2, 0], ["/", "."])
+        href: Textual.regexSplit(
+          textElem.getAttribute("href"),
+          RouterRegx.Arbeiten,
+          [2, 0],
+          ["/", "."]
+        )
       };
 
       if (prefixElem == "«") {

@@ -108,7 +108,7 @@ await fetchData();
         </div>
       </div>
       <div class="mt-6 mb-15">
-        <div class="mb-4 f-c-s flex-wrap" v-if="arbProps.sorts.length > 0">
+        <div class="mb-4 f-c-s flex-wrap" v-if="arbProps?.sorts?.length">
           <div class="f-c-s mt-2 mr-2 text-1rem">
             <div class="i-tabler-category-2 mr-2"></div>
             分类：
@@ -128,7 +128,7 @@ await fetchData();
             </HollowedBox>
           </div>
         </div>
-        <div class="f-c-s flex-wrap" v-if="arbProps.tags.length > 0">
+        <div class="f-c-s flex-wrap" v-if="arbProps?.tags?.length">
           <div class="f-c-s mt-2 mr-2 text-1rem">
             <div class="i-tabler-bookmarks mr-2"></div>
             标签：
@@ -170,7 +170,7 @@ await fetchData();
           @click="
             Navigation.go({ path: RouterPath.Arbeiten(arbPrevNext.prev.href), router: $router })
           "
-          v-if="arbPrevNext.prev.href">
+          v-if="arbPrevNext?.prev?.href">
           上一篇：{{ arbPrevNext.prev.text }}
         </div>
         <div
@@ -178,7 +178,7 @@ await fetchData();
           @click="
             Navigation.go({ path: RouterPath.Arbeiten(arbPrevNext.next.href), router: $router })
           "
-          v-if="arbPrevNext.next.href">
+          v-if="arbPrevNext?.next?.href">
           下一篇：{{ arbPrevNext.next.text }}
         </div>
       </div>

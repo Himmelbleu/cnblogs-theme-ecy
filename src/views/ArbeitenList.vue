@@ -25,7 +25,7 @@ await fetchData(0);
         :count="arbeitenList?.page">
         <template #content>
           <ArbeitenItem
-            v-if="arbeitenList?.data.length > 0"
+            v-if="arbeitenList?.data?.length"
             v-for="(item, index) in arbeitenList.data"
             :key="item.id"
             :item="item"

@@ -97,7 +97,7 @@ interface BleuArbeitenL2 {
 interface BleuMenuColumn {
   essaySort: { id: string; text: string; count: string }[];
   essayArchive: { id: string; text: string; count: string }[];
-  articleSort: { id: string; text: string }[];
+  articleSort: { id: string; text: string; count: string }[];
   articleArchive: { id: string; text: string }[];
   latestEssayList: { id: string; text: string }[];
   latestComments: { id: string; title: string; content: string; author: string }[];
@@ -222,21 +222,53 @@ declare const currentBlogId: number;
 declare const currentBlogApp: string;
 
 declare namespace Broswer {
+  /**
+   * 设置标题
+   *
+   * @param title 标题内容
+   */
   function setTitle(title?: string): void;
+  /**
+   * 移动窗口
+   *
+   * @param selector 选择器
+   */
   function scrollIntoView(selector: string): void;
+  /**
+   * 关闭 loading 屏
+   */
   function endLoading(): void;
+  /**
+   * 开启 loading 屏
+   */
   function startLoading(): void;
 }
 
 declare namespace Formatter {
+  /**
+   * 把一串数字转换为“xx万”的形式
+   *
+   * @param num 被格式化的数字
+   */
   function unit(num: string): string;
 }
 
 declare namespace Native {
+  /**
+   * 打开博客园上传图片的 API，上传完成之后，图片路径要回显到 textarea 上。
+   *
+   * @param el 图片上传成功之后返回的链接赋值给 textarea 元素。
+   * @param onUploaded 选择符合规则的本地图片之后，小窗关闭返回一个图片连接到 el textarea 元素中，获取 focus 得到图片链接该回调函数可向上传递该链接。
+   */
   function openImageUploadWindow(el: string, onUploaded: (img: string) => void): void;
 }
 
 declare namespace Navigation {
+  /**
+   * 封装 router 导航
+   *
+   * @param params 路径以及是否通过 vue-router 进行导航
+   */
   function go(params: { path: string; router?: Router }): void;
 }
 
@@ -246,16 +278,52 @@ declare namespace PrettifyLog {
 }
 
 declare namespace LocalStorage {
+  /**
+   * 获取本地存储中的设置
+   */
   function getSetting(): RemovableRef<BleuLocalSetting>;
+  /**
+   * 获取本地存储中的模板
+   */
   function getSettingTemp(): BleuLocalSetting;
+  /**
+   * 对一个对象的字段进行裁剪或添加
+   *
+   * @param source 要被裁剪或添加字段的对象
+   * @param template 一个对象，根据该模板（对象）对 source 进行裁剪或添加字段
+   */
   function reloadObjProps(source: any, template: any): any;
 }
 
 declare namespace Random {
+  /**
+   * 获取不重复的数组的索引数组
+   *
+   * @param src 源数组
+   * @param max 最大数值
+   * @returns 一个不重复的 src 的索引
+   */
   function get(src: string[], max: number): number[];
 }
 
 declare namespace Textual {
-  function split(str: string, regex: RegExp, keys: number[], values: string[]): string;
-  function replace(source: string, regExps: RegExp[], replacement?: string[]): string;
+  /**
+   * 匹配一串字符，得到其匹配的结果，再进行字符串切割
+   *
+   * @param str 源字符串
+   * @param regex 从字符串中匹配想要的再进行切割
+   * @param keys 对每一次 match 得到的子串进行索引，即取值
+   * @param values 每一次 match 得到的子串
+   * @returns 从 str 经过多次 split 得到的子串
+   */
+  function regexSplit(str: string, regex: RegExp, keys: number[], values: string[]): string;
+  /**
+   * 替换字符串，默认替换 ""。传递 regExps，一个正则表达式数组。
+   *
+   * @param str 被修剪的字符串
+   * @param regexs 正则表达式，找到匹配的字符串，然后替换掉
+   * @param replacement 不传递，默认被替换的字符串是 ""。传递的数组等于 regExps 的长度，就一一对应进行替换。如果传递的
+   * 数组小于 regExps，就与前几个进行对应替换，其余的用默认 "" 替换。
+   */
+  function regexReplace(str: string, regexs: RegExp[], replacement?: string[]): string;
 }

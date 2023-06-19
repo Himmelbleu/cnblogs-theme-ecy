@@ -1,9 +1,4 @@
 export namespace Broswer {
-  /**
-   * 设置标题
-   *
-   * @param title 标题内容
-   */
   export function setTitle(title?: string) {
     const prefix = title ? title + " - " : "";
     document.getElementsByTagName(
@@ -11,18 +6,10 @@ export namespace Broswer {
     )[0].innerText = `${prefix}${BleuVars.getBlogApp()} - 博客园`;
   }
 
-  /**
-   * 移动窗口
-   *
-   * @param selector 选择器
-   */
   export function scrollIntoView(selector: string) {
     document.querySelector(selector).scrollIntoView();
   }
 
-  /**
-   * 关闭 loading 屏
-   */
   export function endLoading() {
     const loadingInst = document.querySelector<HTMLElement>(".loading");
     loadingInst.classList.toggle("fade-in-out");
@@ -39,9 +26,6 @@ export namespace Broswer {
     eleBar.classList.add("bar-static");
   }
 
-  /**
-   * 开启 loading 屏
-   */
   export function startLoading() {
     document.getElementById("l-content").classList.toggle("fade-in-out");
 

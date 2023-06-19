@@ -7,13 +7,11 @@ onMounted(() => {});
 </script>
 
 <template>
-  <!-- 进度条 -->
   <div id="l-progress" class="z-9999 fixed-lt w-100vw">
     <div class="track absolute top-0">
       <div class="bar rd-2"></div>
     </div>
   </div>
-  <!-- 主要内容 -->
   <div id="l-content" class="fade-in-out relative z-9">
     <div id="l-top-nail"></div>
     <RouterView v-slot="{ Component }">

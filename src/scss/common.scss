@@ -126,10 +126,14 @@ a:link {
 }
 
 .textarea {
-  --uno: mb-5 rd-2;
-  border: 1px solid var(--el-border-color-darker);
+  --uno: mb-5 rd-2 transition-all-300;
   background-color: transparent;
-  @include hover($border-color: all, $font-color: false);
+  border: 1px solid var(--el-border-color-darker);
+
+  &:hover {
+    color: var(--el-color-primary) !important;
+    border-color: var(--el-color-primary) !important;
+  }
 
   textarea {
     --uno: rd-2 p-2 text-0.9rem;

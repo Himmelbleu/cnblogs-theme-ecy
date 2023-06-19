@@ -81,9 +81,10 @@ export namespace MenuTransform {
       "#sidebar_postcategory ul li > a",
       (element, matched) => {
         const innerText = element.innerText;
+
         data.essaySort.push({
           id: matched[0],
-          text: innerText,
+          text: innerText.split("(")[0],
           count: innerText.match(/[0-9]+/g)[0]
         });
       },
@@ -99,7 +100,7 @@ export namespace MenuTransform {
 
         data.essayArchive.push({
           id: `${date[0]}-${date[1]}`,
-          text: innerText,
+          text: innerText.split("(")[0],
           count: innerText.match(/\([0-9]+\)/g)[0].match(/[0-9]/g)[0]
         });
       },
@@ -122,9 +123,12 @@ export namespace MenuTransform {
       dom,
       "#sidebar_articlecategory ul li > a",
       (element, matched) => {
+        const innerText = element.innerText;
+
         data.articleSort.push({
           id: matched[0],
-          text: element.innerText
+          text: innerText.split("(")[0],
+          count: innerText.match(/[0-9]+/g)[0]
         });
       },
       /[0-9]+/g
@@ -161,7 +165,7 @@ export namespace MenuTransform {
         } else if (attr === "recent_comment_body") {
           comment.content = elesLi[i].innerText;
         } else if (attr === "recent_comment_author") {
-          comment.author = Textual.replace(elesLi[i].innerText, [/--/g]);
+          comment.author = Textual.regexReplace(elesLi[i].innerText, [/--/g]);
         }
       }
 

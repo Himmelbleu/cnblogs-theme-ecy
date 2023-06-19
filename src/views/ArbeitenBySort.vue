@@ -57,7 +57,7 @@ watch(route, async () => {
           <div
             class="mb-10 text-0.9rem text-c"
             v-html="typeL1Arbeiten.desc2 || typeL1Arbeiten.desc"></div>
-          <div class="text-0.9rem" v-if="typeL2Arbeiten.length > 0">
+          <div class="text-0.9rem" v-if="typeL2Arbeiten?.length">
             <div
               class="hover f-c-s text-b"
               v-for="(item, index) in typeL2Arbeiten"
@@ -67,7 +67,7 @@ watch(route, async () => {
             </div>
           </div>
           <ArbeitenItem
-            v-if="typeL1Arbeiten.data.length > 0"
+            v-if="typeL1Arbeiten?.data?.length"
             v-for="(item, index) in typeL1Arbeiten.data"
             :key="item.id"
             :item="item"
