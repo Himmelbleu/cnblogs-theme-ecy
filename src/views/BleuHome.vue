@@ -22,7 +22,7 @@ async function fetchData() {
     getMarkList()
   ]);
 
-  val1.data.splice(3, 7);
+  val1.data.splice(4, 6);
   list.value = val1;
   news.value = val2;
   status.value = val3;
@@ -97,7 +97,7 @@ const carouselIndex = ref(0);
 
 setInterval(() => {
   carouselIndex.value++;
-  if (carouselIndex.value > 3) {
+  if (carouselIndex.value > BleuVars.config.images.home.carousel.length) {
     carouselIndex.value = 0;
   }
 }, BleuVars.config.images.home.interval);
@@ -173,7 +173,7 @@ await fetchData();
       <div
         class="f-c-c flex-col"
         @click="Navigation.go({ path: 'http://github.com/' + BleuVars.getBlogApp() })">
-        <div class="write-vertical-left font-art bounce hover" m="b-4" text="4 b">
+        <div class="write-vertical-left font-art bounce shine-text hover" m="b-4" text="4 b">
           {{ BleuVars.getBlogApp() }}'s Github
         </div>
         <div class="i-tabler-brand-github hover" text="b 7" m="b-4"></div>
@@ -181,84 +181,71 @@ await fetchData();
     </div>
     <!-- area-3：开屏 -->
     <div class="f-s-b">
-      <div class="sm:w-49% f-c-c">
-        <div>
-          <div m="t-5">
-            <div text="start 10" class="shine-text font-art">
-              {{ BleuVars.getBlogApp() }} 的博客
+      <div class="sm:w-49% h-100vh py-4">
+        <div class="f-c-b flex-col h-100%">
+          <div v-if="list?.data" v-for="item in list.data">
+            <div class="f-c-s text-b text-0.9rem mb-2">
+              <div class="i-tabler-clock-hour3 mr-2"></div>
+              {{ item.date }}
             </div>
             <div
-              text="start 4 ellipsis"
-              class="line-clamp-2 line-height-1.2 letter-spacing-0.1 font-art"
-              m="t-3">
-              {{ BleuVars.config.signature }}
+              class="text-ellipsis line-clamp-2 hover mb-2"
+              @click="
+                Navigation.go({
+                  path: RouterPath.Arbeiten(item.id),
+                  router: $router
+                })
+              ">
+              {{ item.text }}
+            </div>
+            <div class="text-ellipsis line-clamp-1 text-0.9rem text-c ml-10">
+              {{ item.desc }}
+            </div>
+            <div class="f-c-e" text="0.8rem c" m="t-5">
+              <div
+                m="r-2"
+                text="b"
+                class="hover"
+                @click="
+                  Navigation.go({
+                    path: RouterPath.Arbeiten(item.id),
+                    router: $router
+                  })
+                ">
+                阅读全文
+              </div>
+              <div class="f-c-e">
+                <div class="f-c-c mr-2">
+                  <div class="i-tabler-message2 mr-1"></div>
+                  {{ item.comm }}
+                </div>
+                <div class="f-c-c mr-2">
+                  <div class="i-tabler-brand-tinder mr-1"></div>
+                  {{ item.digg }}
+                </div>
+                <div class="f-c-c">
+                  <div class="i-tabler-eye mr-1"></div>
+                  {{ item.view }}
+                </div>
+              </div>
             </div>
           </div>
-          <div m="t-15">
-            <div m="b-7" v-if="list?.data" v-for="item in list.data">
-              <div p="b-5">
-                <div class="f-c-s text-b text-0.9rem mb-2">
-                  <div class="i-tabler-clock-hour3 mr-2"></div>
-                  {{ item.date }}
-                </div>
-                <div
-                  class="text-ellipsis line-clamp-2 hover mb-2"
-                  @click="
-                    Navigation.go({
-                      path: RouterPath.Arbeiten(item.id),
-                      router: $router
-                    })
-                  ">
-                  {{ item.text }}
-                </div>
-                <div class="text-ellipsis line-clamp-1 text-0.9rem text-c ml-10">
-                  {{ item.desc }}
-                </div>
-                <div class="f-c-e" text="0.8rem c" m="t-5">
-                  <div
-                    m="r-2"
-                    text="b"
-                    class="hover"
-                    @click="
-                      Navigation.go({
-                        path: RouterPath.Arbeiten(item.id),
-                        router: $router
-                      })
-                    ">
-                    阅读全文
-                  </div>
-                  <div class="f-c-e">
-                    <div class="f-c-c mr-2">
-                      <div class="i-tabler-message2 mr-1"></div>
-                      {{ item.comm }}
-                    </div>
-                    <div class="f-c-c mr-2">
-                      <div class="i-tabler-brand-tinder mr-1"></div>
-                      {{ item.digg }}
-                    </div>
-                    <div class="f-c-c">
-                      <div class="i-tabler-eye mr-1"></div>
-                      {{ item.view }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div text="end" class="f-c-e">
-              <div
-                @click="Navigation.go({ path: RouterPath.ArbeitenList(), router: $router })"
-                class="w-20 cursor-pointer hover:text-primary transition-all-300 font-art"
-                text="center 0.8rem"
-                p="x-1 y-1"
-                b="rd-4 solid 1 hover:primary">
-                MORE
-              </div>
+          <div class="f-c-e">
+            <div
+              @click="Navigation.go({ path: RouterPath.ArbeitenList(), router: $router })"
+              class="w-20 cursor-pointer hover:text-primary transition-all-300 font-art shine-text"
+              text="center 0.8rem"
+              p="x-1 y-1"
+              b="rd-4 solid 1 hover:primary">
+              MORE
             </div>
           </div>
         </div>
       </div>
       <!-- 轮播图 -->
-      <div class="sm:w-49% lt-sm:hidden h-100vh f-c-b relative">
+      <div
+        v-if="!BleuVars.config.images.home.disabled"
+        class="sm:w-49% lt-sm:hidden h-100vh f-c-b relative">
         <!-- 图片 -->
         <img
           v-for="(item, index) in carouselList"
@@ -270,9 +257,97 @@ await fetchData();
           class="w-100% h-100% transition-all-800 absolute top-0 left-0 object-cover"
           :src="item" />
       </div>
+      <div
+        v-else
+        class="sm:w-49% ml-10 h-100vh"
+        :class="{ 'py-4': BleuVars.config.images.home.disabled }">
+        <div>
+          <div class="caption mb-10">
+            <div class="i-tabler-info-square-rounded mr-2"></div>
+            博主数据
+          </div>
+          <div class="f-c-s mb-10 text-1rem text-b">
+            <img class="w-25 h-25 rd-50 mr-10" :src="BleuVars.config.avatar" />
+            <div class="">
+              <div v-if="column?.rankings?.length" class="f-c-s mb-4">
+                <div v-for="item in column.rankings" class="mr-4">
+                  {{ item.text }}
+                </div>
+              </div>
+              <el-input
+                v-model="searchVal"
+                @keyup.enter="
+                  Navigation.go({
+                    path:
+                      'https://zzk.cnblogs.com/s?w=blog:' + BleuVars.getBlogApp() + '%' + searchVal
+                  })
+                "
+                placeholder="输入搜索的关键字"
+                clearable>
+                <template #prefix>
+                  <div class="i-tabler-search"></div>
+                </template>
+              </el-input>
+            </div>
+          </div>
+          <div class="f-c-b text-1rem">
+            <div v-if="news?.length">
+              <div>
+                <div
+                  class="f-c-s cursor-pointer shine-text"
+                  @click="Navigation.go({ path: news[0].href })">
+                  <div class="i-tabler-user mr-2"></div>
+                  昵称：{{ news[0].text }}
+                </div>
+                <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[1].href })">
+                  <div class="i-tabler-calendar mr-2"></div>
+                  园龄：{{ news[1].text }}
+                </div>
+                <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[2].href })">
+                  <div class="i-tabler-brand-twitch mr-2"></div>
+                  粉丝：{{ news[2].text }}
+                </div>
+                <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[3].href })">
+                  <div class="i-tabler-heart mr-2"></div>
+                  关注：{{ news[3].text }}
+                </div>
+              </div>
+            </div>
+            <div v-if="status?.length">
+              <div>
+                <div class="f-c-s">
+                  <div class="i-tabler-pencil-minus mr-2"></div>
+                  发表的随笔：{{ status[0].digg }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-books mr-2"></div>
+                  发表的文章：{{ status[1].digg }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-message-circle mr-2"></div>
+                  拥有的评论：{{ status[2].digg }}
+                </div>
+                <div class="f-c-s" m="t-5">
+                  <div class="i-tabler-chart-bar mr-2"></div>
+                  阅读的数量：{{ status[3].digg }}次
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-5">
+          <div class="caption mb-5">
+            <div class="i-tabler-chart-radar mr-2"></div>
+            我的技能
+          </div>
+          <div class="f-c-c w-100%">
+            <div ref="radarInst" class="w-100% h-90"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- area-4：基本信息展示 -->
-    <div class="sm:f-s-b mt-20">
+    <div v-if="!BleuVars.config.images.home.disabled" class="sm:f-s-b mt-20">
       <div class="sm:w-49%">
         <div class="caption mb-10">
           <div class="i-tabler-info-square-rounded mr-2"></div>
@@ -305,7 +380,9 @@ await fetchData();
         <div class="f-c-b text-1rem">
           <div v-if="news?.length">
             <div>
-              <div class="f-c-s hover" @click="Navigation.go({ path: news[0].href })">
+              <div
+                class="f-c-s cursor-pointer shine-text"
+                @click="Navigation.go({ path: news[0].href })">
                 <div class="i-tabler-user mr-2"></div>
                 昵称：{{ news[0].text }}
               </div>

@@ -82,7 +82,7 @@ await fetchData();
 
 <template>
   <div id="l-works" class="page">
-    <div class="content" v-if="!arbIsLock">
+    <div class="content mt-4" v-if="!arbIsLock">
       <div class="text-1.6rem w-100%">{{ arbeiten.text }}</div>
       <div class="f-c-s lt-sm:flex-wrap mt-6 text-0.9rem">
         <div class="f-c-c mr-4">

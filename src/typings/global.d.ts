@@ -166,6 +166,7 @@ type BleuConfig = Partial<{
       interval: number;
       carousel: string[];
       divider: string;
+      disabled: boolean;
     };
   };
   chart: any;

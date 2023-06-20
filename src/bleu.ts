@@ -35,7 +35,7 @@ function afterUseBleu() {
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
-  PrettifyLog.primary("v2.3.3", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+  PrettifyLog.primary("v2.4.0", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
 export function useBleu(dev: Function, pro: Function) {
@@ -66,7 +66,8 @@ export function useBleu(dev: Function, pro: Function) {
             "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv02.jpg",
             "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv03.jpg",
             "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv04.jpg"
-          ]
+          ],
+          disabled: true
         },
         arbeiten: [
           "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv01.jpg",
