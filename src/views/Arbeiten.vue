@@ -83,7 +83,7 @@ await fetchData();
 <template>
   <div id="l-works" class="page">
     <div class="content" v-if="!arbIsLock">
-      <div class="text-1.6rem font-bold text-ellipsis line-clamp-2 w-100%">{{ arbeiten.text }}</div>
+      <div class="text-1.6rem w-100%">{{ arbeiten.text }}</div>
       <div class="f-c-s lt-sm:flex-wrap mt-6 text-0.9rem">
         <div class="f-c-c mr-4">
           <div class="i-tabler-calendar-stats mr-2"></div>

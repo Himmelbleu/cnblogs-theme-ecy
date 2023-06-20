@@ -10,11 +10,11 @@ code {
   --uno: rd-2 text-4;
   letter-spacing: 1.5px;
   color: var(--el-color-danger-light-3);
-  font-family: var(--l-code-font-family);
+  font-family: var(--l-code-family);
 
   span {
     line-height: 1.8;
-    font-family: var(--l-code-font-family);
+    font-family: var(--l-code-family);
   }
 }
 
@@ -23,7 +23,7 @@ pre {
   position: relative;
 
   code {
-    background: var(--l-block-code-bg);
+    background: var(--l-blockcode-bg);
   }
 
   .code-tools {
@@ -40,7 +40,7 @@ pre {
     background-image: linear-gradient(
       -180deg,
       rgba(255, 255, 255, 0) 0%,
-      var(--l-code-modal-bg) 100%
+      var(--l-codemodal-bg) 100%
     );
 
     .display-btn {

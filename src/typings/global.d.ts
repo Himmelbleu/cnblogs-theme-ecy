@@ -172,6 +172,7 @@ type BleuConfig = Partial<{
   font: {
     main: string;
     code: string;
+    art: string;
   };
 }>;
 

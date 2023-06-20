@@ -3,7 +3,6 @@ import {
   presetAttributify,
   presetUno,
   presetIcons,
-  presetWebFonts,
   transformerDirectives
 } from "unocss";
 
@@ -15,12 +14,6 @@ export default defineConfig({
       collections: {
         tabler: () => import("@iconify-json/tabler/icons.json").then(i => i.default),
         ep: () => import("@iconify-json/ep/icons.json").then(i => i.default)
-      }
-    }),
-    presetWebFonts({
-      provider: "bunny",
-      fonts: {
-        art: ["ZCOOL KuaiLe"]
       }
     })
   ],
@@ -46,7 +39,7 @@ export default defineConfig({
           * {
             color: inherit;
             line-height: 1.7;
-            font-family: var(--l-font-family);
+            font-family: var(--l-main-family);
             letter-spacing: 0.05rem;
             scroll-behavior: smooth;
             word-break: break-all;
@@ -71,6 +64,7 @@ export default defineConfig({
       ([, d]) => ({ overflow: `${d}` })
     ],
     [/^letter-spacing-(\d+|\d+\.\d+)$/, ([, d]) => ({ "letter-spacing": `${d}rem` })],
+    [/^font-(code|main|art)$/, ([, d]) => ({ "font-family": `var(--l-${d}-family) !important` })],
     [/^line-height-(\d+|\d+\.\d+)$/, ([, d]) => ({ "line-height": `${d}rem` })]
   ],
   shortcuts: [

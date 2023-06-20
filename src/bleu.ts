@@ -1,10 +1,12 @@
 function loadedBleu() {
   function setFontFamily() {
-    const fontFamily = BleuVars.config.font.main || `var(--el-font-family)`;
-    const codeFontFamily = BleuVars.config.font.code || `var(--el-font-family)`;
+    const mainFamily = BleuVars.config.font.main || `var(--el-font-family)`;
+    const codeFamily = BleuVars.config.font.code || `var(--el-font-family)`;
+    const artFamily = BleuVars.config.font.art || `var(--el-font-family)`;
 
-    document.documentElement.style.setProperty("--l-font-family", fontFamily);
-    document.documentElement.style.setProperty("--l-code-font-family", codeFontFamily);
+    document.documentElement.style.setProperty("--l-main-family", mainFamily);
+    document.documentElement.style.setProperty("--l-code-family", codeFamily);
+    document.documentElement.style.setProperty("--l-art-family", artFamily);
   }
 
   function setLocalSetting() {
@@ -32,7 +34,7 @@ function afterUseBleu() {
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
-  PrettifyLog.primary("v2.3.1", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+  PrettifyLog.primary("v2.3.2", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
 export function useBleu(dev: Function, pro: Function) {
@@ -104,7 +106,8 @@ export function useBleu(dev: Function, pro: Function) {
       },
       font: {
         code: "Hack",
-        main: ""
+        main: "",
+        art: "ZCOOL KuaiLe"
       }
     };
     loadedBleu();
