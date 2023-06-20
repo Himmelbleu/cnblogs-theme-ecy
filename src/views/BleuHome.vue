@@ -180,7 +180,7 @@ await fetchData();
       </div>
     </div>
     <!-- area-3：开屏 -->
-    <div class="f-s-b">
+    <div class="sm:f-s-b">
       <div class="sm:w-49% h-100vh py-4">
         <div class="f-c-b flex-col h-100%">
           <div v-if="list?.data" v-for="item in list.data">
@@ -259,7 +259,7 @@ await fetchData();
       </div>
       <div
         v-else
-        class="sm:w-49% ml-10 h-100vh"
+        class="sm:w-49% sm:ml-10 h-100vh"
         :class="{ 'py-4': BleuVars.config.images.home.disabled }">
         <div>
           <div class="caption mb-10">
