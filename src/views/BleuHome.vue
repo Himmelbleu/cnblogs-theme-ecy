@@ -267,7 +267,7 @@ await fetchData();
             博主数据
           </div>
           <div class="f-c-s mb-10 text-1rem text-b">
-            <img class="w-25 h-25 rd-50 mr-10" :src="BleuVars.config.avatar" />
+            <img class="w-25 h-25 rd-50 mr-10 object-cover" :src="BleuVars.config.avatar" />
             <div class="">
               <div v-if="column?.rankings?.length" class="f-c-s mb-4">
                 <div v-for="item in column.rankings" class="mr-4">
@@ -354,7 +354,7 @@ await fetchData();
           博主数据
         </div>
         <div class="f-c-s mb-10 text-1rem text-b">
-          <img class="w-25 h-25 rd-50 mr-10" :src="BleuVars.config.avatar" />
+          <img class="w-25 h-25 rd-50 mr-10 object-cover" :src="BleuVars.config.avatar" />
           <div class="">
             <div v-if="column?.rankings?.length" class="f-c-s mb-4">
               <div v-for="item in column.rankings" class="mr-4">
