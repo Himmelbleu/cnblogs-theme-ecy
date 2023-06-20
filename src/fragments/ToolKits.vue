@@ -2,7 +2,7 @@
 import { useWheelRollsUpAndDown, useLineBetweenHighAndLow } from "@/hooks/use-mouse";
 
 const route = useRoute();
-const setting = LocalStorage.getSetting();
+const bleuOps = BleuStorage.getOptions();
 const isInTop = ref(false);
 const isInBottom = ref(true);
 const isShowGuide = ref(false);
@@ -49,14 +49,14 @@ function scrollTo(dom: HTMLElement) {
 }
 
 function toggleMode() {
-  if (setting.value.theme.mode === "dark") {
+  if (bleuOps.value.theme.mode === "dark") {
     document.documentElement.classList.remove("dark");
     document.documentElement.classList.add("light");
-    setting.value.theme.mode = "light";
+    bleuOps.value.theme.mode = "light";
   } else {
     document.documentElement.classList.remove("light");
     document.documentElement.classList.add("dark");
-    setting.value.theme.mode = "dark";
+    bleuOps.value.theme.mode = "dark";
   }
 }
 
@@ -76,7 +76,7 @@ watch(route, () => {
     class="fixed z-99 right-0 top-55vh text-1.1rem">
     <div
       v-show="isShowGuide"
-      :class="{ 'show-0': setting.toolkits.pin, 'close-0': !setting.toolkits.pin }"
+      :class="{ 'show-0': bleuOps.toolkits.pin, 'close-0': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="disabled = !disabled">
       <div class="f-c-c w-8 h-8">
@@ -84,7 +84,7 @@ watch(route, () => {
       </div>
     </div>
     <div
-      :class="{ 'show-1': setting.toolkits.pin, 'close-1': !setting.toolkits.pin }"
+      :class="{ 'show-1': bleuOps.toolkits.pin, 'close-1': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="Navigation.go({ path: RouterPath.BleuHome(), router: $router })">
       <div class="f-c-c w-8 h-8">
@@ -92,7 +92,7 @@ watch(route, () => {
       </div>
     </div>
     <div
-      :class="{ 'show-2': setting.toolkits.pin, 'close-2': !setting.toolkits.pin }"
+      :class="{ 'show-2': bleuOps.toolkits.pin, 'close-2': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="Navigation.go({ path: 'back', router: $router })">
       <div class="f-c-c w-8 h-8">
@@ -100,7 +100,7 @@ watch(route, () => {
       </div>
     </div>
     <div
-      :class="{ 'show-3': setting.toolkits.pin, 'close-3': !setting.toolkits.pin }"
+      :class="{ 'show-3': bleuOps.toolkits.pin, 'close-3': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="isInTop ? scrollTo(topNailInst) : scrollTo(bottomNailInst)">
       <div class="f-c-c w-8 h-8">
@@ -110,16 +110,16 @@ watch(route, () => {
       </div>
     </div>
     <div
-      :class="{ 'show-4': setting.toolkits.pin, 'close-4': !setting.toolkits.pin }"
+      :class="{ 'show-4': bleuOps.toolkits.pin, 'close-4': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="toggleMode">
       <div class="f-c-c w-8 h-8">
-        <i-ep-moon v-show="setting.theme.mode === 'dark'" />
-        <i-ep-sunny v-show="setting.theme.mode === 'light'" />
+        <i-ep-moon v-show="bleuOps.theme.mode === 'dark'" />
+        <i-ep-sunny v-show="bleuOps.theme.mode === 'light'" />
       </div>
     </div>
     <div
-      :class="{ 'show-5': setting.toolkits.pin, 'close-5': !setting.toolkits.pin }"
+      :class="{ 'show-5': bleuOps.toolkits.pin, 'close-5': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
       @click="Navigation.go({ path: 'https://i.cnblogs.com' })">
       <div class="f-c-c w-8 h-8">
@@ -127,8 +127,8 @@ watch(route, () => {
       </div>
     </div>
     <div
-      @click="setting.toolkits.pin = !setting.toolkits.pin"
-      :class="{ 'take-items': setting.toolkits.pin, 'intake-items': !setting.toolkits.pin }"
+      @click="bleuOps.toolkits.pin = !bleuOps.toolkits.pin"
+      :class="{ 'take-items': bleuOps.toolkits.pin, 'intake-items': !bleuOps.toolkits.pin }"
       class="kits-box absolute hover top-60 left-0 rd-2 bg-drop-primary">
       <div class="f-c-c w-8 h-8">
         <i-ep-more />

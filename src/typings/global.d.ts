@@ -179,7 +179,7 @@ type BleuConfig = Partial<{
 /**
  * Bleu 本地设置
  */
-type BleuLocalSetting = Partial<{
+type BleuOptions = Partial<{
   theme: { mode: "dark" | "light" };
   toolkits: { pin: boolean };
 }>;
@@ -278,22 +278,22 @@ declare namespace PrettifyLog {
   function warning(title: string, msg: string): void;
 }
 
-declare namespace LocalStorage {
+declare namespace BleuStorage {
   /**
    * 获取本地存储中的设置
    */
-  function getSetting(): RemovableRef<BleuLocalSetting>;
+  function getOptions(): RemovableRef<BleuOptions>;
   /**
    * 获取本地存储中的模板
    */
-  function getSettingTemp(): BleuLocalSetting;
+  function getOptionsTemp(): BleuOptions;
   /**
    * 对一个对象的字段进行裁剪或添加
    *
    * @param source 要被裁剪或添加字段的对象
    * @param template 一个对象，根据该模板（对象）对 source 进行裁剪或添加字段
    */
-  function reloadObjProps(source: any, template: any): any;
+  function refactor(source: any, template: any): any;
 }
 
 declare namespace Random {

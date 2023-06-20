@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => {
               "Navigation",
               "PrettifyLog",
               "Random",
-              "LocalStorage",
+              "BleuStorage",
               "Textual"
             ]
           },

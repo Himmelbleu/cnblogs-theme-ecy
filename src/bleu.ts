@@ -9,16 +9,17 @@ function loadedBleu() {
     document.documentElement.style.setProperty("--l-art-family", artFamily);
   }
 
-  function setLocalSetting() {
-    const oldSetting = JSON.parse(localStorage.getItem(`l-${BleuVars.getBlogApp()}-setting`));
-    const checkOldSetting = LocalStorage.reloadObjProps(oldSetting, LocalStorage.getSettingTemp());
-    const newSetting = JSON.stringify(checkOldSetting);
+  function setBleuOptions() {
+    const oldSetting = BleuStorage.getOptions().value;
+    const newSetting = JSON.stringify(
+      BleuStorage.refactor(oldSetting, BleuStorage.getOptionsTemp())
+    );
     localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, newSetting);
-    document.documentElement.classList.add(oldSetting.theme.mode);
+    document.documentElement.setAttribute("class", oldSetting.theme.mode);
   }
 
   setFontFamily();
-  setLocalSetting();
+  setBleuOptions();
 }
 
 function beforeUseBleu() {
@@ -34,7 +35,7 @@ function afterUseBleu() {
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
-  PrettifyLog.primary("v2.3.2", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+  PrettifyLog.primary("v2.3.3", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
 export function useBleu(dev: Function, pro: Function) {
