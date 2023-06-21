@@ -1,5 +1,3 @@
-# Bleu 主题
-
 <p align="center">CNBLOGS-THEME-BLEU</p>
 
 <p align="center">
@@ -10,7 +8,7 @@
 快速预览：https://www.cnblogs.com/himmelbleu
 </p>
 
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/himmelbleu/cnblogs-theme-bleu?include_prereleases&style=flat-square)](https://github.com/esofar/cnblogs-theme-silence/releases)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/himmelbleu/cnblogs-theme-bleu?include_prereleases&style=flat-square)](https://github.com/himmelbleu/cnblogs-theme-bleu/releases)
 
 ## 特性
 
