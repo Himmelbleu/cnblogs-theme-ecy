@@ -154,26 +154,60 @@ type BleuConfig = Partial<{
   avatar: string;
   signature: string;
   images: {
+    /**
+     * 背景的相关配置
+     */
     bg: {
       src: string;
-      opacity: number;
       size: string;
       repeat: string;
-    };
-    arbeiten?: string[];
-    home: {
       opacity: number;
+    };
+    /**
+     * 随笔、文章的相关配置
+     */
+    arbeiten: string[];
+    /**
+     * 首页的相关配置
+     */
+    home: {
+      /**
+       * 轮播图透明度
+       */
+      opacity: number;
+      /**
+       * 轮播图播放间隔
+       */
       interval: number;
       carousel: string[];
-      divider: string;
       disabled: boolean;
     };
   };
-  chart: any;
-  font: {
-    main: string;
-    code: string;
-    art: string;
+  /**
+   * 图表
+   */
+  chart: {
+    /**
+     * 技能表
+     */
+    tech: any;
+    /**
+     * 我的标签
+     */
+    mark?: {
+      count?: number;
+    };
+    category?: {
+      count?: number;
+    };
+  };
+  /**
+   * 字体
+   */
+  font?: {
+    main?: { name?: string };
+    code?: { name?: string; size?: string };
+    art?: { name?: string; size?: string };
   };
 }>;
 

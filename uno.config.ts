@@ -64,7 +64,13 @@ export default defineConfig({
       ([, d]) => ({ overflow: `${d}` })
     ],
     [/^letter-spacing-(\d+|\d+\.\d+)$/, ([, d]) => ({ "letter-spacing": `${d}rem` })],
-    [/^font-(code|main|art)$/, ([, d]) => ({ "font-family": `var(--l-${d}-family) !important` })],
+    [
+      /^font-(art)$/,
+      ([, d]) => ({
+        "font-family": `var(--l-${d}-family) !important;`,
+        "font-size": `var(--l-${d}-size) !important;`
+      })
+    ],
     [/^line-height-(\d+|\d+\.\d+)$/, ([, d]) => ({ "line-height": `${d}rem` })]
   ],
   shortcuts: [
@@ -123,7 +129,7 @@ export default defineConfig({
     [
       /^caption$/,
       () => {
-        return `text-primary font-art text-1.4rem letter-spacing-0.2 f-c-s`;
+        return `text-primary font-art letter-spacing-0.2 f-c-s`;
       }
     ]
   ]

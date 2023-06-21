@@ -25,7 +25,6 @@ html.dark {
   --text-b: #999999;
   --text-c: #7c7c7c;
   --text-d: #656565;
-  --text-primary: #409eff;
   // 目录高亮
   --l-hight-color-1: white;
   // highlight
@@ -59,7 +58,6 @@ html.light {
   --text-b: #686868;
   --text-c: #969696;
   --text-d: #dedede;
-  --text-primary: #409eff;
   // 目录高亮
   --l-hight-color-1: black;
   // highlight
@@ -76,7 +74,6 @@ html.light {
 }
 
 html {
-  // 主题颜色
-  --l-theme-color: #409eff;
+  --text-primary: var(--el-color-primary);
   --l-animation-effect: all 0.3s ease-in-out;
 }

@@ -81,7 +81,7 @@ await fetchData();
 </script>
 
 <template>
-  <div id="l-works" class="page">
+  <div id="l-arbeiten" class="page">
     <div class="content mt-4" v-if="!arbIsLock">
       <div class="text-1.6rem w-100%">{{ arbeiten.text }}</div>
       <div class="f-c-s lt-sm:flex-wrap mt-6 text-0.9rem">
@@ -107,7 +107,7 @@ await fetchData();
           编辑
         </div>
       </div>
-      <div class="mt-6 mb-15">
+      <div class="mt-6 mb-10">
         <div class="mb-4 f-c-s flex-wrap" v-if="arbProps?.sorts?.length">
           <div class="f-c-s mt-2 mr-2 text-1rem">
             <div class="i-tabler-category-2 mr-2"></div>

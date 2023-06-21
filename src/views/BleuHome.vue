@@ -53,7 +53,7 @@ onMounted(() => {
   usePieChart(
     pie1Inst.value,
     markList.value.map((i, index) => {
-      if (index <= 10) {
+      if (index <= (BleuVars.config.chart.mark?.count || 10)) {
         return { value: i.count, name: i.text };
       }
     }),
@@ -64,7 +64,7 @@ onMounted(() => {
   usePieChart(
     pie2Inst.value,
     column.value.essaySort.map((i, index) => {
-      if (index <= 10) {
+      if (index <= (BleuVars.config.chart.category?.count || 10)) {
         return { value: i.count, name: i.text };
       }
     }),
@@ -633,13 +633,13 @@ await fetchData();
 <style scoped lang="scss">
 .l-menu {
   .static-menu {
-    background-color: var(--l-theme-color);
+    background-color: var(--text-primary);
     color: white;
   }
 
   .active-menu {
     background-color: white;
-    color: var(--l-theme-color);
+    color: var(--text-primary);
   }
 
   .close-menu-body {

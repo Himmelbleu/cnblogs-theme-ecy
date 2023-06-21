@@ -7,14 +7,16 @@
 
 code {
   margin: 0;
-  --uno: rd-2 text-4;
+  --uno: rd-2;
   letter-spacing: 1.5px;
   color: var(--el-color-danger-light-3);
   font-family: var(--l-code-family);
+  font-size: var(--l-code-size);
 
   span {
     line-height: 1.8;
     font-family: var(--l-code-family);
+    font-size: var(--l-code-size);
   }
 }
 
@@ -50,7 +52,7 @@ pre {
 }
 
 a > code {
-  color: var(--l-theme-color) !important;
+  color: var(--text-primary) !important;
 }
 
 .markdown-textual {
@@ -96,7 +98,7 @@ a > code {
     border: {
       left: {
         width: 0.3rem;
-        color: var(--l-theme-color);
+        color: var(--text-primary);
         style: solid;
       }
     }
@@ -118,7 +120,7 @@ a > code {
   }
 
   a {
-    color: var(--l-theme-color);
+    color: var(--text-primary);
   }
 
   p {

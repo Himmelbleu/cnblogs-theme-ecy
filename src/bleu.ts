@@ -1,12 +1,27 @@
-function loadedBleu() {
+function onLoadedBleu() {
   function setFontFamily() {
-    const mainFamily = BleuVars.config.font.main || `var(--el-font-family)`;
-    const codeFamily = BleuVars.config.font.code || `var(--el-font-family)`;
-    const artFamily = BleuVars.config.font.art || `var(--el-font-family)`;
+    document.documentElement.style.setProperty(
+      "--l-main-family",
+      BleuVars.config.font?.main?.name || `var(--el-font-family)`
+    );
 
-    document.documentElement.style.setProperty("--l-main-family", mainFamily);
-    document.documentElement.style.setProperty("--l-code-family", codeFamily);
-    document.documentElement.style.setProperty("--l-art-family", artFamily);
+    document.documentElement.style.setProperty(
+      "--l-code-family",
+      BleuVars.config.font?.code?.name || `var(--el-font-family)`
+    );
+    document.documentElement.style.setProperty(
+      "--l-code-size",
+      BleuVars.config.font?.code?.size || "1rem"
+    );
+
+    document.documentElement.style.setProperty(
+      "--l-art-family",
+      BleuVars.config.font?.art?.name || `var(--el-font-family)`
+    );
+    document.documentElement.style.setProperty(
+      "--l-art-size",
+      BleuVars.config.font?.art?.size || "1rem"
+    );
   }
 
   function setBleuOptions() {
@@ -35,7 +50,7 @@ function afterUseBleu() {
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
-  PrettifyLog.primary("v2.4.2", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+  PrettifyLog.primary("v2.4.3", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
 export function useBleu(dev: Function, pro: Function) {
@@ -43,7 +58,7 @@ export function useBleu(dev: Function, pro: Function) {
 
   if (import.meta.env.PROD) {
     BleuVars.config = window["__BLEU_CONFIG__"];
-    loadedBleu();
+    onLoadedBleu();
     pro();
   } else if (import.meta.env.DEV) {
     BleuVars.config = {
@@ -60,7 +75,6 @@ export function useBleu(dev: Function, pro: Function) {
         home: {
           opacity: 0.5,
           interval: 5000,
-          divider: "https://img.soogif.com/7Qhba91zLWe1Q55zyeCxw82hsSxH5UmG.gif",
           carousel: [
             "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv01.jpg",
             "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv02.jpg",
@@ -77,42 +91,55 @@ export function useBleu(dev: Function, pro: Function) {
         ]
       },
       chart: {
-        radar: {
-          indicator: [
-            { name: "Vue", max: 5 },
-            { name: "React", max: 5 },
-            { name: "JS", max: 5 },
-            { name: "TS", max: 5 },
-            { name: "Python", max: 5 },
-            { name: "C", max: 5 },
-            { name: "Java", max: 5 },
-            { name: "MySQL", max: 5 },
-            { name: "Mybatis", max: 5 }
+        tech: {
+          radar: {
+            indicator: [
+              { name: "Vue", max: 5 },
+              { name: "React", max: 5 },
+              { name: "JS", max: 5 },
+              { name: "TS", max: 5 },
+              { name: "Python", max: 5 },
+              { name: "C", max: 5 },
+              { name: "Java", max: 5 },
+              { name: "MySQL", max: 5 },
+              { name: "Mybatis", max: 5 }
+            ]
+          },
+          series: [
+            {
+              tooltip: {
+                trigger: "item"
+              },
+              areaStyle: {},
+              type: "radar",
+              data: [
+                {
+                  value: [4, 1, 4, 3, 3.5, 1, 3.5, 2.5, 3.5],
+                  name: "技能掌握程度"
+                }
+              ]
+            }
           ]
         },
-        series: [
-          {
-            tooltip: {
-              trigger: "item"
-            },
-            areaStyle: {},
-            type: "radar",
-            data: [
-              {
-                value: [4, 1, 4, 3, 3.5, 1, 3.5, 2.5, 3.5],
-                name: "技能掌握程度"
-              }
-            ]
-          }
-        ]
+        mark: {
+          count: 12
+        }
       },
       font: {
-        code: "Hack",
-        main: "",
-        art: "ZCOOL KuaiLe"
+        code: {
+          name: "Hack, LXGW WenKai",
+          size: "0.8rem"
+        },
+        main: {
+          name: "LXGW WenKai"
+        },
+        art: {
+          name: "ZCOOL KuaiLe",
+          size: "1.2rem"
+        }
       }
     };
-    loadedBleu();
+    onLoadedBleu();
     dev();
   }
 

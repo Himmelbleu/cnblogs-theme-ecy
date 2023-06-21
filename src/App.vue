@@ -49,7 +49,7 @@ onMounted(() => {});
   .bar,
   .track {
     height: 100%;
-    background: var(--l-theme-color);
+    background: var(--text-primary);
   }
 
   .bar.bar-active {
