@@ -123,7 +123,7 @@ await fetchData();
         b="rd-rb-4">
         <div v-show="!isActiveMenu">
           <div class="i-tabler-menu2 text-2.2rem"></div>
-          <div text="center 0.9rem" class="font-art">菜单</div>
+          <div text="center 0.9rem">菜单</div>
         </div>
         <div v-show="isActiveMenu">
           <div text="15" class="i-tabler-x cursor-pointer" />
@@ -132,7 +132,7 @@ await fetchData();
       <div
         class="transition-all-300 fixed-lt w-70 h-100vh z-90 bg-drop-primary"
         :class="{ 'close-menu-body': !isActiveMenu, 'open-menu-body': isActiveMenu }">
-        <div class="flow-auto select-none scroll-none h-100% mt-30 text-1.2rem">
+        <div class="flow-auto select-none scroll-none h-100% mt-30">
           <div class="menu-list ml-10">
             <div class="hover mb-10 font-art" @click="Broswer.scrollIntoView('#l-top-nail')">
               回到顶部
@@ -180,16 +180,19 @@ await fetchData();
       </div>
     </div>
     <!-- area-3：开屏 -->
-    <div class="sm:f-s-b">
-      <div class="sm:w-49% h-100vh py-4">
+    <div class="lg:f-s-b">
+      <div class="lg:w-49% lg:h-100vh py-4">
         <div class="f-c-b flex-col h-100%">
-          <div v-if="list?.data" v-for="item in list.data">
+          <!-- 随笔列表 -->
+          <div class="lt-lg:mb-15" v-if="list?.data" v-for="item in list.data">
+            <!-- 日期 -->
             <div class="f-c-s text-b text-0.9rem mb-2">
               <div class="i-tabler-clock-hour3 mr-2"></div>
               {{ item.date }}
             </div>
+            <!-- 标题 -->
             <div
-              class="text-ellipsis line-clamp-2 hover mb-2"
+              class="text-ellipsis lg:line-clamp-2 hover mb-2"
               @click="
                 Navigation.go({
                   path: RouterPath.Arbeiten(item.id),
@@ -198,9 +201,11 @@ await fetchData();
               ">
               {{ item.text }}
             </div>
-            <div class="text-ellipsis line-clamp-1 text-0.9rem text-c ml-10">
+            <!-- 简介 -->
+            <div class="text-ellipsis lg:line-clamp-1 lt-lg:line-clamp-3 text-0.9rem text-c ml-10">
               {{ item.desc }}
             </div>
+            <!-- 简要信息 -->
             <div class="f-c-e" text="0.8rem c" m="t-5">
               <div
                 m="r-2"
@@ -233,9 +238,7 @@ await fetchData();
           <div class="f-c-e">
             <div
               @click="Navigation.go({ path: RouterPath.ArbeitenList(), router: $router })"
-              class="w-20 cursor-pointer hover:text-primary transition-all-300 font-art shine-text"
-              text="center 0.8rem"
-              p="x-1 y-1"
+              class="w-20 cursor-pointer hover:text-primary transition-all-300 text-center text-0.8rem px-1 py-1 shine-text"
               b="rd-4 solid 1 hover:primary">
               MORE
             </div>
@@ -245,8 +248,7 @@ await fetchData();
       <!-- 轮播图 -->
       <div
         v-if="!BleuVars.config.images.home.disabled"
-        class="sm:w-49% lt-sm:hidden h-100vh f-c-b relative">
-        <!-- 图片 -->
+        class="lg:w-49% lt-lg:hidden h-100vh f-c-b relative">
         <img
           v-for="(item, index) in carouselList"
           :style="
@@ -257,19 +259,22 @@ await fetchData();
           class="w-100% h-100% transition-all-800 absolute top-0 left-0 object-cover"
           :src="item" />
       </div>
+      <!-- area-4：不开启轮播图，个人数据 -->
       <div
         v-else
-        class="sm:w-49% sm:ml-10 h-100vh"
+        class="lg:w-49% lg:ml-10 lg:h-100vh"
         :class="{ 'py-4': BleuVars.config.images.home.disabled }">
         <div>
           <div class="caption mb-10">
             <div class="i-tabler-info-square-rounded mr-2"></div>
-            博主数据
+            博客信息
           </div>
           <div class="f-c-s mb-10 text-1rem text-b">
-            <img class="w-25 h-25 rd-50 mr-10 object-cover" :src="BleuVars.config.avatar" />
+            <img
+              class="lt-lg:w-20 lt-lg:h-20 lt-lg:mr-8 lg:w-25 lg:h-25 lg:mr-10 rd-50 object-cover"
+              :src="BleuVars.config.avatar" />
             <div class="">
-              <div v-if="column?.rankings?.length" class="f-c-s mb-4">
+              <div v-if="column?.rankings?.length" class="f-c-s mb-4 lt-lg:text-0.8rem">
                 <div v-for="item in column.rankings" class="mr-4">
                   {{ item.text }}
                 </div>
@@ -292,71 +297,75 @@ await fetchData();
           </div>
           <div class="f-c-b text-1rem">
             <div v-if="news?.length">
-              <div>
-                <div
-                  class="f-c-s cursor-pointer shine-text"
-                  @click="Navigation.go({ path: news[0].href })">
+              <div class="lt-lg:text-0.8rem">
+                <div class="f-c-s cursor-pointer" @click="Navigation.go({ path: news[0].href })">
                   <div class="i-tabler-user mr-2"></div>
                   昵称：{{ news[0].text }}
                 </div>
-                <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[1].href })">
+                <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[1].href })">
                   <div class="i-tabler-calendar mr-2"></div>
                   园龄：{{ news[1].text }}
                 </div>
-                <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[2].href })">
+                <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[2].href })">
                   <div class="i-tabler-brand-twitch mr-2"></div>
                   粉丝：{{ news[2].text }}
                 </div>
-                <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[3].href })">
+                <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[3].href })">
                   <div class="i-tabler-heart mr-2"></div>
                   关注：{{ news[3].text }}
                 </div>
               </div>
             </div>
             <div v-if="status?.length">
-              <div>
+              <div class="lt-lg:text-0.8rem">
                 <div class="f-c-s">
                   <div class="i-tabler-pencil-minus mr-2"></div>
                   发表的随笔：{{ status[0].digg }}
                 </div>
-                <div class="f-c-s" m="t-5">
+                <div class="f-c-s mt-5">
                   <div class="i-tabler-books mr-2"></div>
                   发表的文章：{{ status[1].digg }}
                 </div>
-                <div class="f-c-s" m="t-5">
+                <div class="f-c-s mt-5">
                   <div class="i-tabler-message-circle mr-2"></div>
                   拥有的评论：{{ status[2].digg }}
                 </div>
-                <div class="f-c-s" m="t-5">
+                <div class="f-c-s mt-5">
                   <div class="i-tabler-chart-bar mr-2"></div>
                   阅读的数量：{{ status[3].digg }}次
                 </div>
               </div>
             </div>
           </div>
+          <div class="lt-lg:text-0.8rem mt-5 text-ellipsis line-clamp-2 shine-text">
+            个性签名：{{ BleuVars.config.signature }}
+          </div>
         </div>
-        <div class="mt-5">
+        <!-- 技能雷达图 -->
+        <div class="lg:mt-5 lt-lg:mt-15">
           <div class="caption mb-5">
             <div class="i-tabler-chart-radar mr-2"></div>
             我的技能
           </div>
           <div class="f-c-c w-100%">
-            <div ref="radarInst" class="w-100% h-90"></div>
+            <div ref="radarInst" class="w-100% h-80"></div>
           </div>
         </div>
       </div>
     </div>
-    <!-- area-4：基本信息展示 -->
+    <!-- area-4：开启轮播图，个人数据 -->
     <div v-if="!BleuVars.config.images.home.disabled" class="sm:f-s-b mt-20">
       <div class="sm:w-49%">
         <div class="caption mb-10">
           <div class="i-tabler-info-square-rounded mr-2"></div>
-          博主数据
+          博客信息
         </div>
         <div class="f-c-s mb-10 text-1rem text-b">
-          <img class="w-25 h-25 rd-50 mr-10 object-cover" :src="BleuVars.config.avatar" />
+          <img
+            class="lt-lg:w-20 lt-lg:h-20 lt-lg:mr-8 lg:w-25 lg:h-25 lg:mr-10 rd-50 object-cover"
+            :src="BleuVars.config.avatar" />
           <div class="">
-            <div v-if="column?.rankings?.length" class="f-c-s mb-4">
+            <div v-if="column?.rankings?.length" class="f-c-s mb-4 lt-lg:text-0.8rem">
               <div v-for="item in column.rankings" class="mr-4">
                 {{ item.text }}
               </div>
@@ -378,57 +387,55 @@ await fetchData();
           </div>
         </div>
         <div class="f-c-b text-1rem">
-          <div v-if="news?.length">
-            <div>
-              <div
-                class="f-c-s cursor-pointer shine-text"
-                @click="Navigation.go({ path: news[0].href })">
-                <div class="i-tabler-user mr-2"></div>
-                昵称：{{ news[0].text }}
-              </div>
-              <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[1].href })">
-                <div class="i-tabler-calendar mr-2"></div>
-                园龄：{{ news[1].text }}
-              </div>
-              <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[2].href })">
-                <div class="i-tabler-brand-twitch mr-2"></div>
-                粉丝：{{ news[2].text }}
-              </div>
-              <div class="f-c-s hover" m="t-5" @click="Navigation.go({ path: news[3].href })">
-                <div class="i-tabler-heart mr-2"></div>
-                关注：{{ news[3].text }}
-              </div>
+          <div v-if="news?.length" class="lt-lg:text-0.8rem">
+            <div class="f-c-s cursor-pointer" @click="Navigation.go({ path: news[0].href })">
+              <div class="i-tabler-user mr-2"></div>
+              昵称：{{ news[0].text }}
+            </div>
+            <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[1].href })">
+              <div class="i-tabler-calendar mr-2"></div>
+              园龄：{{ news[1].text }}
+            </div>
+            <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[2].href })">
+              <div class="i-tabler-brand-twitch mr-2"></div>
+              粉丝：{{ news[2].text }}
+            </div>
+            <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[3].href })">
+              <div class="i-tabler-heart mr-2"></div>
+              关注：{{ news[3].text }}
             </div>
           </div>
-          <div v-if="status?.length">
-            <div>
-              <div class="f-c-s">
-                <div class="i-tabler-pencil-minus mr-2"></div>
-                发表的随笔：{{ status[0].digg }}
-              </div>
-              <div class="f-c-s" m="t-5">
-                <div class="i-tabler-books mr-2"></div>
-                发表的文章：{{ status[1].digg }}
-              </div>
-              <div class="f-c-s" m="t-5">
-                <div class="i-tabler-message-circle mr-2"></div>
-                拥有的评论：{{ status[2].digg }}
-              </div>
-              <div class="f-c-s" m="t-5">
-                <div class="i-tabler-chart-bar mr-2"></div>
-                阅读的数量：{{ status[3].digg }}次
-              </div>
+          <div v-if="status?.length" class="lt-lg:text-0.8rem">
+            <div class="f-c-s">
+              <div class="i-tabler-pencil-minus mr-2"></div>
+              发表的随笔：{{ status[0].digg }}
+            </div>
+            <div class="f-c-s mt-5">
+              <div class="i-tabler-books mr-2"></div>
+              发表的文章：{{ status[1].digg }}
+            </div>
+            <div class="f-c-s mt-5">
+              <div class="i-tabler-message-circle mr-2"></div>
+              拥有的评论：{{ status[2].digg }}
+            </div>
+            <div class="f-c-s mt-5">
+              <div class="i-tabler-chart-bar mr-2"></div>
+              阅读的数量：{{ status[3].digg }}次
             </div>
           </div>
         </div>
+        <div class="lt-lg:text-0.8rem mt-5 text-ellipsis line-clamp-2 shine-text">
+          个性签名：{{ BleuVars.config.signature }}
+        </div>
       </div>
-      <div class="sm:w-49% lt-sm:mt-20">
+      <!-- 技能雷达图 -->
+      <div class="sm:w-49% lt-sm:mt-15">
         <div class="caption mb-5">
           <div class="i-tabler-chart-radar mr-2"></div>
           我的技能
         </div>
         <div class="f-c-c w-100%">
-          <div ref="radarInst" class="w-100% h-90"></div>
+          <div ref="radarInst" class="w-100% h-80"></div>
         </div>
       </div>
     </div>

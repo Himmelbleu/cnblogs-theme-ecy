@@ -149,9 +149,9 @@ interface BleuAlbumnItem {
 /**
  * 博客配置项
  */
-type BleuConfig = Partial<{
-  icon: string;
-  avatar: string;
+type BleuConfig = {
+  icon?: string;
+  avatar?: string;
   signature: string;
   images: {
     /**
@@ -209,7 +209,7 @@ type BleuConfig = Partial<{
     code?: { name?: string; size?: string };
     art?: { name?: string; size?: string };
   };
-}>;
+};
 
 /**
  * Bleu 本地设置

@@ -55,14 +55,6 @@ export default defineConfig({
       /^flow-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/,
       ([, d]) => ({ overflow: `${d}` })
     ],
-    [
-      /^flow-x-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/,
-      ([, d]) => ({ overflow: `${d}` })
-    ],
-    [
-      /^flow-y-(auto|hidden|inherit|initial|overlay|revert|scroll|unset|visible)$/,
-      ([, d]) => ({ overflow: `${d}` })
-    ],
     [/^letter-spacing-(\d+|\d+\.\d+)$/, ([, d]) => ({ "letter-spacing": `${d}rem` })],
     [
       /^font-(art)$/,
