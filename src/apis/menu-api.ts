@@ -34,24 +34,4 @@ export namespace MenuApi {
     const { data } = await request.get(`/ajax/TopLists.aspx`);
     return MenuTransform.toTopList(strToDOM(data));
   }
-
-  /**
-   * 关注博主
-   */
-  export async function follow() {
-    const { data } = await request.post(`/ajax/Follow/FollowBlogger.aspx`, {
-      blogUserGuid: BleuVars.getUserGuid()
-    });
-    return data === "关注成功" ?? false;
-  }
-
-  /**
-   * 取消关注
-   */
-  export async function unfollow() {
-    const { data } = await request.post(`/ajax/Follow/RemoveFollow.aspx`, {
-      blogUserGuid: BleuVars.getUserGuid()
-    });
-    return data === "取消成功" ?? false;
-  }
 }

@@ -1,8 +1,20 @@
+/**
+ * 操作浏览器本地存储
+ *
+ * @author Himmelbleu
+ * @date 2023 年 1 月 15 日
+ */
 export namespace BleuStorage {
-  export function getOptions(): RemovableRef<BleuOptions> {
-    return useStorage(`l-${BleuVars.getBlogApp()}-setting`, {});
+  /**
+   * 获取本地存储中的设置
+   */
+  export function getOptions() {
+    return useStorage<BleuOptions>(`l-${BleuVars.getBlogApp()}-setting`, {} as any);
   }
 
+  /**
+   * 获取本地存储中的模板
+   */
   export function getOptionsTemp(): BleuOptions {
     return {
       theme: { mode: "dark" },
@@ -10,6 +22,12 @@ export namespace BleuStorage {
     };
   }
 
+  /**
+   * 对一个对象的字段进行裁剪或添加
+   *
+   * @param source 要被裁剪或添加字段的对象
+   * @param template 一个对象，根据该模板（对象）对 source 进行裁剪或添加字段
+   */
   export function refactor(source: any, template: any) {
     if (!source) source = template;
     const sourceKeys = Object.keys(source);

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { getAlbumnItem } from "@/apis";
-import { useLoading } from "@/hooks/use-loading";
 
 const route = useRoute();
 const imgUrl = shallowRef();
 
 async function fetchData() {
+  Broswer.startLoading();
   imgUrl.value = await getAlbumnItem(`${route.params.id}`);
+  Broswer.endLoading();
 }
 
-useLoading(fetchData);
+await fetchData();
 </script>
 
 <template>

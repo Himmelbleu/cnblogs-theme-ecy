@@ -12,7 +12,7 @@ export async function getMarkList() {
 /**
  * 获取相册照片
  *
- * @param id 相册照片 ID
+ * @param id 相册图片 ID
  */
 export async function getAlbumnItem(id: string) {
   const { data } = await request.get(`/gallery/image/${id}.html`);
@@ -20,7 +20,7 @@ export async function getAlbumnItem(id: string) {
 }
 
 /**
- * 获取相册下的所有照片
+ * 获取相册下的所有图片
  */
 export async function getAlbumn(id: string) {
   const { data } = await request.get(`/gallery/${id}.html`);

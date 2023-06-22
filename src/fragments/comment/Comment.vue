@@ -60,7 +60,7 @@ await fetchData();
         :key="item.commentId"
         ref="commentRefs">
         <div class="f-c-s">
-          <img class="mr-4 rd-50 w-14 h-14 object-cover" :src="item.avatar" />
+          <img class="mr-4 rd-50% w-14 h-14 object-cover" :src="item.avatar" />
           <div>
             <!-- 作者 -->
             <div class="hover cursor-pointer" @click="Navigation.go({ path: item.space })">
@@ -84,8 +84,7 @@ await fetchData();
           <textarea class="z--1 opacity-0 absolute top-0 left-0" :id="'upload-img-' + index" />
           <MarkdownContent :html-str="item.content" />
         </div>
-        <!-- 更多 -->
-        <div class="l-comment__more float-right f-c-e" v-show="!item.isEditing && !item.isAnsling">
+        <div class="more-action float-right f-c-e" v-show="!item.isEditing && !item.isAnsling">
           <el-dropdown>
             <div class="f-c-e text-0.9rem text-b hover">
               <div class="i-tabler-dots-vertical mr-1"></div>
@@ -137,13 +136,13 @@ await fetchData();
 
 <style scoped lang="scss">
 @include pc() {
-  .l-comment__more {
+  .more-action {
     --uno: w-8%;
   }
 }
 
 @include mb() {
-  .l-comment__more {
+  .more-action {
     --uno: w-10%;
   }
 }

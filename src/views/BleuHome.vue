@@ -2,6 +2,7 @@
 import { useRadarChart, usePieChart, useLineChart } from "@/hooks/use-echarts";
 import { ArbeitenApi, MenuApi, getMarkList } from "@/apis";
 import { useWheelRollsUpAndDown } from "@/hooks/use-mouse";
+import {} from "@/utils/native";
 
 const list = shallowRef();
 const news = shallowRef();
@@ -102,7 +103,7 @@ setInterval(() => {
   }
 }, BleuVars.config.images.home.interval);
 
-const searchVal = ref();
+const searchVal = ref("");
 
 await fetchData();
 </script>
@@ -202,15 +203,13 @@ await fetchData();
               {{ item.text }}
             </div>
             <!-- 简介 -->
-            <div class="text-ellipsis lg:line-clamp-1 lt-lg:line-clamp-3 text-0.9rem text-c ml-10">
+            <div class="text-ellipsis lg:line-clamp-1 lt-lg:line-clamp-3 text-0.9rem text-b ml-10">
               {{ item.desc }}
             </div>
             <!-- 简要信息 -->
             <div class="f-c-e" text="0.8rem c" m="t-5">
               <div
-                m="r-2"
-                text="b"
-                class="hover"
+                class="hover mr-2 text-b"
                 @click="
                   Navigation.go({
                     path: RouterPath.Arbeiten(item.id),
@@ -236,12 +235,13 @@ await fetchData();
             </div>
           </div>
           <div class="f-c-e">
-            <div
-              @click="Navigation.go({ path: RouterPath.ArbeitenList(), router: $router })"
-              class="w-20 cursor-pointer hover:text-primary transition-all-300 text-center text-0.8rem px-1 py-1 shine-text"
-              b="rd-4 solid 1 hover:primary">
+            <HollowedBox
+              round
+              hover
+              dotted
+              @click="Navigation.go({ path: RouterPath.ArbeitenList(), router: $router })">
               MORE
-            </div>
+            </HollowedBox>
           </div>
         </div>
       </div>
@@ -269,36 +269,43 @@ await fetchData();
             <div class="i-tabler-info-square-rounded mr-2"></div>
             博客信息
           </div>
-          <div class="f-c-s mb-10 text-1rem text-b">
+          <div class="f-c-s h-22 mb-5 text-1rem text-b">
+            <!-- 头像 -->
             <img
-              class="lt-lg:w-20 lt-lg:h-20 lt-lg:mr-8 lg:w-25 lg:h-25 lg:mr-10 rd-50 object-cover"
+              class="w-22 h-22 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
               :src="BleuVars.config.avatar" />
-            <div class="">
-              <div v-if="column?.rankings?.length" class="f-c-s mb-4 lt-lg:text-0.8rem">
-                <div v-for="item in column.rankings" class="mr-4">
+            <div class="f-s-b flex-col h-100%">
+              <!-- 积分和排名 -->
+              <div v-if="column?.rankings?.length" class="f-c-s text-0.8rem text-b">
+                <div
+                  v-for="(item, index) in column.rankings"
+                  :class="{ 'mr-4': index != column.rankings.length - 1 }">
                   {{ item.text }}
                 </div>
               </div>
-              <el-input
-                v-model="searchVal"
-                @keyup.enter="
-                  Navigation.go({
-                    path:
-                      'https://zzk.cnblogs.com/s?w=blog:' + BleuVars.getBlogApp() + '%' + searchVal
-                  })
-                "
-                placeholder="输入搜索的关键字"
-                clearable>
-                <template #prefix>
-                  <div class="i-tabler-search"></div>
-                </template>
-              </el-input>
+              <div class="text-0.8rem text-ellipsis line-clamp-1 shine-text">
+                个签：{{ BleuVars.config.signature }}
+              </div>
+              <div class="w-50">
+                <el-input
+                  size="small"
+                  v-model="searchVal"
+                  @keyup.enter="Native.searchArbeiten(searchVal)"
+                  placeholder="输入关键字"
+                  clearable>
+                  <template #prefix>
+                    <div class="i-tabler-search"></div>
+                  </template>
+                </el-input>
+              </div>
             </div>
           </div>
           <div class="f-c-b text-1rem">
             <div v-if="news?.length">
               <div class="lt-lg:text-0.8rem">
-                <div class="f-c-s cursor-pointer" @click="Navigation.go({ path: news[0].href })">
+                <div
+                  class="f-c-s cursor-pointer shine-text"
+                  @click="Navigation.go({ path: news[0].href })">
                   <div class="i-tabler-user mr-2"></div>
                   昵称：{{ news[0].text }}
                 </div>
@@ -337,9 +344,6 @@ await fetchData();
               </div>
             </div>
           </div>
-          <div class="lt-lg:text-0.8rem mt-5 text-ellipsis line-clamp-2 shine-text">
-            个性签名：{{ BleuVars.config.signature }}
-          </div>
         </div>
         <!-- 技能雷达图 -->
         <div class="lg:mt-5 lt-lg:mt-15">
@@ -360,35 +364,42 @@ await fetchData();
           <div class="i-tabler-info-square-rounded mr-2"></div>
           博客信息
         </div>
-        <div class="f-c-s mb-10 text-1rem text-b">
+        <div class="f-c-s h-22 mb-10 text-1rem text-b">
+          <!-- 头像 -->
           <img
-            class="lt-lg:w-20 lt-lg:h-20 lt-lg:mr-8 lg:w-25 lg:h-25 lg:mr-10 rd-50 object-cover"
+            class="w-22 h-22 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
             :src="BleuVars.config.avatar" />
-          <div class="">
-            <div v-if="column?.rankings?.length" class="f-c-s mb-4 lt-lg:text-0.8rem">
-              <div v-for="item in column.rankings" class="mr-4">
+          <div class="f-s-b flex-col h-100%">
+            <!-- 积分和排名 -->
+            <div v-if="column?.rankings?.length" class="f-c-s text-0.8rem text-b">
+              <div
+                v-for="(item, index) in column.rankings"
+                :class="{ 'mr-4': index != column.rankings.length - 1 }">
                 {{ item.text }}
               </div>
             </div>
-            <el-input
-              v-model="searchVal"
-              @keyup.enter="
-                Navigation.go({
-                  path:
-                    'https://zzk.cnblogs.com/s?w=blog:' + BleuVars.getBlogApp() + '%' + searchVal
-                })
-              "
-              placeholder="输入搜索的关键字"
-              clearable>
-              <template #prefix>
-                <div class="i-tabler-search"></div>
-              </template>
-            </el-input>
+            <div class="text-0.8rem text-ellipsis line-clamp-1 shine-text">
+              个签：{{ BleuVars.config.signature }}
+            </div>
+            <div class="w-50">
+              <el-input
+                size="small"
+                v-model="searchVal"
+                @keyup.enter="Native.searchArbeiten(searchVal)"
+                placeholder="输入关键字"
+                clearable>
+                <template #prefix>
+                  <div class="i-tabler-search"></div>
+                </template>
+              </el-input>
+            </div>
           </div>
         </div>
         <div class="f-c-b text-1rem">
           <div v-if="news?.length" class="lt-lg:text-0.8rem">
-            <div class="f-c-s cursor-pointer" @click="Navigation.go({ path: news[0].href })">
+            <div
+              class="f-c-s cursor-pointer shine-text"
+              @click="Navigation.go({ path: news[0].href })">
               <div class="i-tabler-user mr-2"></div>
               昵称：{{ news[0].text }}
             </div>
@@ -423,9 +434,6 @@ await fetchData();
               阅读的数量：{{ status[3].digg }}次
             </div>
           </div>
-        </div>
-        <div class="lt-lg:text-0.8rem mt-5 text-ellipsis line-clamp-2 shine-text">
-          个性签名：{{ BleuVars.config.signature }}
         </div>
       </div>
       <!-- 技能雷达图 -->

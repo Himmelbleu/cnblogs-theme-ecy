@@ -9,7 +9,7 @@ export function createCodeTools(ele: HTMLElement) {
 
   const eleClipboard = document.createElement("div");
   eleClipboard.setAttribute("class", "code-clipboard hover");
-  eleClipboard.innerText = "复制代码";
+  eleClipboard.innerText = "复制";
 
   const eleLang = document.createElement("div");
   eleLang.setAttribute("class", "code-language");

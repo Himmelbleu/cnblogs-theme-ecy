@@ -65,16 +65,23 @@ export namespace ArbeitenTransform {
    */
   export function toArbeiten(id: string, dom: Document): BleuArbeiten {
     const text = dom.querySelector(".postTitle > a > span").innerText;
-    const content = dom.getElementById("cnblogs_post_body").innerHTML;
+    const content = dom.getElementById("cnblogs_post_body");
+    const p = content.querySelectorAll("p:not(pre)");
+    let str = "";
+
+    for (let i = 0; i < p.length; i++) {
+      str += p[i].innerText.trim();
+    }
 
     return {
       id,
       text,
-      content,
+      content: content.innerHTML,
       date: dom.getElementById("post-date").innerText,
       view: dom.getElementById("post_view_count").innerText,
       comm: dom.getElementById("post_comment_count").innerText,
-      isLocked: !text && !content
+      isLocked: !text && !content,
+      wordCount: Textual.calcChineseWords(str)
     };
   }
 
@@ -237,5 +244,16 @@ export namespace ArbeitenTransform {
       id: ele.getAttribute("data-category-id"),
       text: ele.getElementsByClassName("tree-categories-item-title-right")[0].innerText
     }));
+  }
+
+  export function toArbeitenInfo(dom: Document) {
+    const followText = dom.querySelector("#green_channel_follow").innerText.trim();
+    const diggText = dom.querySelector("#green_channel_digg").innerText.trim();
+    const isFollowed = followText == "已关注" ? true : false;
+    const isDigg = diggText == "已推荐" ? true : false;
+    return {
+      isFollowed,
+      isDigg
+    };
   }
 }

@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import { getAlbumn } from "@/apis";
-import { useLoading } from "@/hooks/use-loading";
 
 const route = useRoute();
 const albumn = shallowRef();
 const srcList = shallowRef();
 
 async function fetchData() {
+  Broswer.startLoading();
   albumn.value = await getAlbumn(route.params.id as string);
   srcList.value = albumn.value.data.map((i: any) => i.src);
+  Broswer.endLoading();
 }
 
-watch(route, () => {
+watch(route, async () => {
   if (route.name === RouterName.Albumn) {
-    useLoading(fetchData);
+    await fetchData();
   }
 });
 
-useLoading(fetchData);
+await fetchData();
 </script>
 
 <template>

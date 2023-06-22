@@ -8,7 +8,7 @@ import { CalendarTransform } from "./calendar-transform";
 
 export {
   strToDOM,
-  ArbeitenTransform as WorksTransform,
+  ArbeitenTransform,
   CommentTransform,
   MenuTransform,
   AlbumnTransform,

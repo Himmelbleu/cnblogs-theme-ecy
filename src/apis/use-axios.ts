@@ -24,4 +24,14 @@ request.interceptors.request.use(
   }
 );
 
+request.interceptors.response.use(
+  config => {
+    return config;
+  },
+  error => {
+    ElMessage({ message: "失败请求，请稍后再试！", type: "error", grouping: true });
+    return Promise.reject(error);
+  }
+);
+
 export default request;

@@ -1,9 +1,22 @@
+/**
+ * 操作随机数
+ *
+ * @author Himmelbleu
+ * @date 2023 年 1 月 15 日
+ */
 export namespace Random {
   function select(min: number, max: number) {
     let sum = max - min + 1;
     return Math.floor(Math.random() * sum + min);
   }
 
+  /**
+   * 获取不重复的数组的索引数组
+   *
+   * @param src 源数组
+   * @param max 最大数值
+   * @returns 一个不重复的 src 的索引
+   */
   export function get(src: string[], max: number) {
     let a = [];
 

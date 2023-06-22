@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { getMarkList } from "@/apis";
-import { useLoading } from "@/hooks/use-loading";
 
 const markList = shallowRef();
 
 async function fetchData() {
+  Broswer.startLoading();
   markList.value = await getMarkList();
+  Broswer.endLoading();
 }
 
-useLoading(fetchData);
+await fetchData();
 </script>
 
 <template>

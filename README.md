@@ -25,7 +25,7 @@
 git clone git@github.com:Himmelbleu/cnblogs-theme-bleu.git
 
 # 进入目录
-cd cnblogs-theme-silence
+cd cnblogs-theme-bleu
 
 # 安装依赖
 pnpm install

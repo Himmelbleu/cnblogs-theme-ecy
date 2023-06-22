@@ -60,14 +60,6 @@ function translate(prop: string): string {
   }
 }
 
-.l-hollobox.hover {
-  --uno: cursor-pointer transition-all-300;
-
-  &:hover {
-    border-color: var(--el-color-primary) !important;
-  }
-}
-
 .l-hollobox.round {
   border-radius: 50px;
 }
