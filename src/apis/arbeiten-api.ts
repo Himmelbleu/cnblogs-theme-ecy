@@ -1,5 +1,5 @@
 import request from "./use-axios";
-import { strToDOM, ArbeitenTransform, CalendarTransform } from "@/transform";
+import { strToDOM, ArbeitenTransform } from "@/transform";
 
 export namespace ArbeitenApi {
   /**
@@ -16,7 +16,12 @@ export namespace ArbeitenApi {
    * @param form 随笔、文章实体。必须包含：isAbandoned、postId、voteType 三个字段。
    */
   export async function vote(form: BlogWorks): Promise<AjaxType> {
-    const { data } = await request.post(`/ajax/vote/blogpost`, form);
+    const { data } = await request.post<AjaxType>(`/ajax/vote/blogpost`, form);
+    ElMessage({
+      message: data.message,
+      grouping: true,
+      type: data.isSuccess ? "success" : "error"
+    });
     return data;
   }
 
@@ -114,7 +119,13 @@ export namespace ArbeitenApi {
     const formData = new FormData();
     formData.append("Password", pwd);
     const { data } = await request.post(`/protected/p/${id}.html`, formData);
-    return ArbeitenTransform.toIsUnLock(strToDOM(data));
+    const isPassed = ArbeitenTransform.toIsUnLock(strToDOM(data));
+    ElMessage({
+      message: isPassed ? "密码正确！" : "密码错误！",
+      grouping: true,
+      type: isPassed ? "success" : "error"
+    });
+    return isPassed;
   }
 
   /**
@@ -138,16 +149,6 @@ export namespace ArbeitenApi {
   export async function getListByDay(date: string) {
     const { data } = await request.get(`/archive/${date}.html`);
     return ArbeitenTransform.toArbeitenList(strToDOM(data));
-  }
-
-  /**
-   * 获取日历
-   *
-   * @param date 例如：2023/02/15
-   */
-  export async function getCalendar(date: string) {
-    const { data } = await request.get(`/ajax/calendar.aspx?dateStr=${date}`);
-    return CalendarTransform.toCalendar(strToDOM(data));
   }
 
   /**
@@ -192,27 +193,11 @@ export namespace ArbeitenApi {
       const { data } = await request.post(`/ajax/Follow/FollowBlogger.aspx`, {
         blogUserGuid: BleuVars.getOppositeGuid()
       });
-      if (data == "关注成功") {
-        ElMessage.success({
-          message: "关注成功！",
-          grouping: true
-        });
-      } else if (data == "未登录") {
-        ElMessage.error({
-          message: "没有登录！",
-          grouping: true
-        });
-      } else {
-        ElMessage.error({
-          message: "关注失败！",
-          grouping: true
-        });
-      }
+      if (data == "关注成功") ElMessage.success("关注成功！");
+      else if (data == "未登录") ElMessage.error("没有登录！");
+      else ElMessage.error("关注失败！");
     } catch (e: any) {
-      ElMessage.error({
-        message: `${e.code}: 关注失败！`,
-        grouping: true
-      });
+      ElMessage.error("操作失败！");
     }
   }
 
@@ -224,22 +209,10 @@ export namespace ArbeitenApi {
       const { data } = await request.post(`/ajax/Follow/RemoveFollow.aspx`, {
         blogUserGuid: BleuVars.getOppositeGuid()
       });
-      if (!(data == "取消成功")) {
-        ElMessage.error({
-          message: "取关失败！",
-          grouping: true
-        });
-      } else {
-        ElMessage.success({
-          message: "取关成功！",
-          grouping: true
-        });
-      }
+      if (data == "取消成功") ElMessage.success("取关成功！");
+      else ElMessage.error("取关失败！");
     } catch (e: any) {
-      ElMessage.error({
-        message: `${e.code}: 取关失败！`,
-        grouping: true
-      });
+      ElMessage.error("操作失败！");
     }
   }
 }

@@ -1,8 +1,24 @@
 <script setup lang="ts">
-import { createAmplifier } from "./index";
+import { PropType } from "vue";
+import { wrapImgInAmplifier } from "./index";
 
-const props = defineProps(["realHtml"]);
+const props = defineProps({
+  strHtml: {
+    type: String,
+    required: true
+  },
+  realHtml: {
+    type: Object as PropType<any>,
+    required: false
+  },
+  config: {
+    type: Object,
+    required: false
+  }
+});
+
 const toRefRealHtml = toRef(props, "realHtml");
+const toRefStrHtml = toRef(props, "strHtml");
 
 const amplifierInst = ref<HTMLElement>();
 const imageInst = ref<HTMLImageElement>();
@@ -66,8 +82,12 @@ onMounted(() => {
   });
 });
 
-watch(toRefRealHtml, newVal => {
-  createAmplifier(newVal, amplifierInst.value, imageInst.value);
+watch(toRefRealHtml, () => {
+  wrapImgInAmplifier(toRefRealHtml.value, amplifierInst.value, imageInst.value, props.config);
+});
+
+watch(toRefStrHtml, () => {
+  wrapImgInAmplifier(toRefRealHtml.value, amplifierInst.value, imageInst.value, props.config);
 });
 </script>
 

@@ -23,7 +23,7 @@ watch(route, async () => {
 <template>
   <div id="l-works-by-mark" class="page">
     <div class="content" v-if="markWorks">
-      <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
+      <el-page-header :icon="null" @back="$router.back()">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />

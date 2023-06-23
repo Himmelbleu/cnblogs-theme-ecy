@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { getAlbumnItem } from "@/apis";
+import { DatumApi } from "@/apis";
 
 const route = useRoute();
 const imgUrl = shallowRef();
 
 async function fetchData() {
   Broswer.startLoading();
-  imgUrl.value = await getAlbumnItem(`${route.params.id}`);
+  imgUrl.value = await DatumApi.getAlbumnItem(`${route.params.id}`);
   Broswer.endLoading();
 }
 
@@ -16,7 +16,7 @@ await fetchData();
 <template>
   <div id="l-albumn-item" class="page">
     <div class="content">
-      <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
+      <el-page-header :icon="null" @back="$router.back()">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />
@@ -30,7 +30,7 @@ await fetchData();
         <el-image v-if="imgUrl" class="albumn-item" :src="imgUrl" :preview-src-list="[imgUrl]" />
         <el-result v-else icon="error" title="图片加载失败" sub-title="图片可能从相册移除">
           <template #extra>
-            <el-button @click="$router.push('/')" type="primary">返回首页</el-button>
+            <el-button @click="$router.push(RouterPath.BleuHome())" type="primary">返回首页</el-button>
           </template>
         </el-result>
       </div>

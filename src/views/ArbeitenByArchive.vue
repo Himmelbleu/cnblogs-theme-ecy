@@ -45,7 +45,7 @@ watch(route, async () => {
     <div class="content" v-if="archiveList">
       <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveList.page">
         <template #content>
-          <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
+          <el-page-header :icon="null" @back="$router.back()">
             <template #title>
               <div class="f-c-c">
                 <i-ep-back />

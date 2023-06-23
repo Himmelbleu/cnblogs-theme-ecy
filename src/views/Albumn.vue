@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getAlbumn } from "@/apis";
+import { DatumApi } from "@/apis";
 
 const route = useRoute();
 const albumn = shallowRef();
@@ -7,7 +7,7 @@ const srcList = shallowRef();
 
 async function fetchData() {
   Broswer.startLoading();
-  albumn.value = await getAlbumn(route.params.id as string);
+  albumn.value = await DatumApi.getAlbumn(route.params.id as string);
   srcList.value = albumn.value.data.map((i: any) => i.src);
   Broswer.endLoading();
 }
@@ -24,7 +24,7 @@ await fetchData();
 <template>
   <div id="l-albumn" class="page">
     <div class="content" v-if="albumn">
-      <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
+      <el-page-header :icon="null" @back="$router.back()">
         <template #title>
           <div class="f-c-c">
             <i-ep-back />
@@ -48,7 +48,9 @@ await fetchData();
           title="相册加载失败"
           sub-title="相册可能被移除">
           <template #extra>
-            <el-button @click="$router.push('/')" type="primary">返回首页</el-button>
+            <el-button @click="$router.push(RouterPath.BleuHome())" type="primary">
+              返回首页
+            </el-button>
           </template>
         </el-result>
       </div>

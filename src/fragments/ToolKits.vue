@@ -9,7 +9,7 @@ const isShowGuide = ref(false);
 const isTake = ref(false);
 let topNailInst: HTMLElement;
 let bottomNailInst: HTMLElement;
-const disabled = inject<boolean>(ProvideKey.Katalog);
+const disabled = inject<boolean>(ProvideKey.Catalog);
 
 onMounted(() => {
   topNailInst = document.querySelector("#l-top-nail");
@@ -86,7 +86,7 @@ watch(route, () => {
     <div
       :class="{ 'show-1': bleuOps.toolkits.pin, 'close-1': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
-      @click="Navigation.go({ path: RouterPath.BleuHome(), router: $router })">
+      @click="$router.push(RouterPath.BleuHome())">
       <div class="f-c-c w-8 h-8">
         <div class="i-tabler-home text-1.2rem"></div>
       </div>
@@ -94,7 +94,7 @@ watch(route, () => {
     <div
       :class="{ 'show-2': bleuOps.toolkits.pin, 'close-2': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
-      @click="Navigation.go({ path: 'back', router: $router })">
+      @click="$router.back()">
       <div class="f-c-c w-8 h-8">
         <div class="i-tabler-arrow-back-up text-1.2rem"></div>
       </div>
@@ -121,7 +121,7 @@ watch(route, () => {
     <div
       :class="{ 'show-5': bleuOps.toolkits.pin, 'close-5': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
-      @click="Navigation.go({ path: 'https://i.cnblogs.com' })">
+      @click="Navigation.go('https://i.cnblogs.com')">
       <div class="f-c-c w-8 h-8">
         <i-ep-setting />
       </div>

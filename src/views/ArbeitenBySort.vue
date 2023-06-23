@@ -44,7 +44,7 @@ watch(route, async () => {
         :count="typeL1Arbeiten.page"
         :disabled="!typeL1Arbeiten.data.length">
         <template #content>
-          <el-page-header :icon="null" @back="Navigation.go({ path: 'back', router: $router })">
+          <el-page-header :icon="null" @back="$router.back()">
             <template #title>
               <div class="f-c-c">
                 <i-ep-back />

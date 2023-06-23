@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRadarChart, usePieChart, useLineChart } from "@/hooks/use-echarts";
-import { ArbeitenApi, MenuApi, getMarkList } from "@/apis";
+import { ArbeitenApi, DatumApi } from "@/apis";
 import { useWheelRollsUpAndDown } from "@/hooks/use-mouse";
 import {} from "@/utils/native";
 
@@ -16,11 +16,11 @@ async function fetchData() {
 
   const [val1, val2, val3, val4, val5, val6] = await Promise.all([
     ArbeitenApi.getList(),
-    MenuApi.getNews(),
-    MenuApi.getStats(),
-    MenuApi.getTopList(),
-    MenuApi.getColumn(),
-    getMarkList()
+    DatumApi.getNews(),
+    DatumApi.getStats(),
+    DatumApi.getTopList(),
+    DatumApi.getColumn(),
+    DatumApi.getMarkList()
   ]);
 
   val1.data.splice(4, 6);
@@ -45,7 +45,7 @@ const openPieChartCount2 = ref(0);
 const isShowLineChart = ref(false);
 const openLineChartCount = ref(0);
 
-const isShowMenu = ref(false);
+const isWinUp = ref(false);
 const isActiveMenu = ref(false);
 
 onMounted(() => {
@@ -82,10 +82,10 @@ onMounted(() => {
 
   useWheelRollsUpAndDown(
     () => {
-      isShowMenu.value = false;
+      isWinUp.value = false;
     },
     () => {
-      isShowMenu.value = true;
+      isWinUp.value = true;
     },
     {
       throttle: 50
@@ -118,8 +118,8 @@ await fetchData();
         :class="{
           'static-menu': !isActiveMenu,
           'active-menu': isActiveMenu,
-          'left--20': !isShowMenu,
-          'left-0': isShowMenu
+          'left--20': !isWinUp,
+          'left-0': isWinUp || isActiveMenu
         }"
         b="rd-rb-4">
         <div v-show="!isActiveMenu">
@@ -162,7 +162,7 @@ await fetchData();
             </div>
             <div
               class="hover mb-10 font-art"
-              @click="Navigation.go({ path: RouterPath.ArbeitenByCalendar(), router: $router })">
+              @click="$router.push(RouterPath.ArbeitenByCalendar())">
               我的日历
             </div>
           </div>
@@ -170,14 +170,14 @@ await fetchData();
       </div>
     </div>
     <!-- area-2：GitHub -->
-    <div v-show="!isActiveMenu" class="l-github lt-sm:hidden fixed-lb z-9" m="l-2">
+    <div v-show="!isActiveMenu" class="l-github lt-sm:hidden fixed-lb z-9 ml-2">
       <div
         class="f-c-c flex-col"
-        @click="Navigation.go({ path: 'http://github.com/' + BleuVars.getBlogApp() })">
-        <div class="write-vertical-left font-art bounce shine-text hover" m="b-4" text="4 b">
+        @click="Navigation.go('http://github.com/' + BleuVars.getBlogApp())">
+        <div class="write-vertical-left font-art bounce shine-text hover mb-4" text="4 b">
           {{ BleuVars.getBlogApp() }}'s Github
         </div>
-        <div class="i-tabler-brand-github hover" text="b 7" m="b-4"></div>
+        <div class="i-tabler-brand-github hover mb-4" text="b 7"></div>
       </div>
     </div>
     <!-- area-3：开屏 -->
@@ -192,15 +192,10 @@ await fetchData();
               {{ item.date }}
             </div>
             <!-- 标题 -->
-            <div
-              class="text-ellipsis lg:line-clamp-2 hover mb-2"
-              @click="
-                Navigation.go({
-                  path: RouterPath.Arbeiten(item.id),
-                  router: $router
-                })
-              ">
-              {{ item.text }}
+            <div class="text-ellipsis lg:line-clamp-2 mb-2">
+              <router-link class="hover" :to="RouterPath.Arbeiten(item.id)">
+                {{ item.text }}
+              </router-link>
             </div>
             <!-- 简介 -->
             <div class="text-ellipsis lg:line-clamp-1 lt-lg:line-clamp-3 text-0.9rem text-b ml-10">
@@ -208,15 +203,10 @@ await fetchData();
             </div>
             <!-- 简要信息 -->
             <div class="f-c-e" text="0.8rem c" m="t-5">
-              <div
-                class="hover mr-2 text-b"
-                @click="
-                  Navigation.go({
-                    path: RouterPath.Arbeiten(item.id),
-                    router: $router
-                  })
-                ">
-                阅读全文
+              <div class="mr-2 text-b">
+                <router-link class="hover" :to="RouterPath.Arbeiten(item.id)">
+                  阅读全文
+                </router-link>
               </div>
               <div class="f-c-e">
                 <div class="f-c-c mr-2">
@@ -235,12 +225,8 @@ await fetchData();
             </div>
           </div>
           <div class="f-c-e">
-            <HollowedBox
-              round
-              hover
-              dotted
-              @click="Navigation.go({ path: RouterPath.ArbeitenList(), router: $router })">
-              MORE
+            <HollowedBox round dotted hover @click="$router.push(RouterPath.ArbeitenList())">
+              <router-link :to="RouterPath.ArbeitenList()">MORE</router-link>
             </HollowedBox>
           </div>
         </div>
@@ -269,10 +255,10 @@ await fetchData();
             <div class="i-tabler-info-square-rounded mr-2"></div>
             博客信息
           </div>
-          <div class="f-c-s h-22 mb-5 text-1rem text-b">
+          <div class="f-c-s h-30 mb-10 text-1rem text-b">
             <!-- 头像 -->
             <img
-              class="w-22 h-22 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
+              class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
               :src="BleuVars.config.avatar" />
             <div class="f-s-b flex-col h-100%">
               <!-- 积分和排名 -->
@@ -286,9 +272,8 @@ await fetchData();
               <div class="text-0.8rem text-ellipsis line-clamp-1 shine-text">
                 个签：{{ BleuVars.config.signature }}
               </div>
-              <div class="w-50">
+              <div class="w-60">
                 <el-input
-                  size="small"
                   v-model="searchVal"
                   @keyup.enter="Native.searchArbeiten(searchVal)"
                   placeholder="输入关键字"
@@ -303,21 +288,19 @@ await fetchData();
           <div class="f-c-b text-1rem">
             <div v-if="news?.length">
               <div class="lt-lg:text-0.8rem">
-                <div
-                  class="f-c-s cursor-pointer shine-text"
-                  @click="Navigation.go({ path: news[0].href })">
+                <div class="f-c-s cursor-pointer shine-text" @click="Navigation.go(news[0].href)">
                   <div class="i-tabler-user mr-2"></div>
                   昵称：{{ news[0].text }}
                 </div>
-                <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[1].href })">
+                <div class="f-c-s hover mt-5" @click="Navigation.go(news[1].href)">
                   <div class="i-tabler-calendar mr-2"></div>
                   园龄：{{ news[1].text }}
                 </div>
-                <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[2].href })">
+                <div class="f-c-s hover mt-5" @click="Navigation.go(news[2].href)">
                   <div class="i-tabler-brand-twitch mr-2"></div>
                   粉丝：{{ news[2].text }}
                 </div>
-                <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[3].href })">
+                <div class="f-c-s hover mt-5" @click="Navigation.go(news[3].href)">
                   <div class="i-tabler-heart mr-2"></div>
                   关注：{{ news[3].text }}
                 </div>
@@ -364,10 +347,10 @@ await fetchData();
           <div class="i-tabler-info-square-rounded mr-2"></div>
           博客信息
         </div>
-        <div class="f-c-s h-22 mb-10 text-1rem text-b">
+        <div class="f-c-s h-30 mb-10 text-1rem text-b">
           <!-- 头像 -->
           <img
-            class="w-22 h-22 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
+            class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
             :src="BleuVars.config.avatar" />
           <div class="f-s-b flex-col h-100%">
             <!-- 积分和排名 -->
@@ -381,9 +364,8 @@ await fetchData();
             <div class="text-0.8rem text-ellipsis line-clamp-1 shine-text">
               个签：{{ BleuVars.config.signature }}
             </div>
-            <div class="w-50">
+            <div class="w-60">
               <el-input
-                size="small"
                 v-model="searchVal"
                 @keyup.enter="Native.searchArbeiten(searchVal)"
                 placeholder="输入关键字"
@@ -397,21 +379,19 @@ await fetchData();
         </div>
         <div class="f-c-b text-1rem">
           <div v-if="news?.length" class="lt-lg:text-0.8rem">
-            <div
-              class="f-c-s cursor-pointer shine-text"
-              @click="Navigation.go({ path: news[0].href })">
+            <div class="f-c-s cursor-pointer shine-text" @click="Navigation.go(news[0].href)">
               <div class="i-tabler-user mr-2"></div>
               昵称：{{ news[0].text }}
             </div>
-            <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[1].href })">
+            <div class="f-c-s hover mt-5" @click="Navigation.go(news[1].href)">
               <div class="i-tabler-calendar mr-2"></div>
               园龄：{{ news[1].text }}
             </div>
-            <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[2].href })">
+            <div class="f-c-s hover mt-5" @click="Navigation.go(news[2].href)">
               <div class="i-tabler-brand-twitch mr-2"></div>
               粉丝：{{ news[2].text }}
             </div>
-            <div class="f-c-s hover mt-5" @click="Navigation.go({ path: news[3].href })">
+            <div class="f-c-s hover mt-5" @click="Navigation.go(news[3].href)">
               <div class="i-tabler-heart mr-2"></div>
               关注：{{ news[3].text }}
             </div>
@@ -470,14 +450,10 @@ await fetchData();
           </div>
         </div>
         <div v-if="markList?.length" class="f-s-b flex-wrap overflow-auto scroll-none">
-          <HollowedBox
-            v-for="item in markList"
-            line="dotted"
-            hover
-            round
-            class="mr-4 mb-6"
-            @click="Navigation.go({ path: RouterPath.ArbeitenByMark(item.text), router: $router })">
-            {{ item.text }}
+          <HollowedBox v-for="item in markList" hover line="dotted" round class="mr-4 mb-6">
+            <router-link :to="RouterPath.ArbeitenByMark(item.text)">
+              {{ item.text }}
+            </router-link>
           </HollowedBox>
         </div>
       </div>
@@ -521,11 +497,10 @@ await fetchData();
             </div>
           </div>
           <div v-if="column?.essaySort?.length" class="f-c-b flex-wrap">
-            <div
-              @click="Navigation.go({ path: RouterPath.ArbeitenBySort(item.id), router: $router })"
-              class="mb-6 mr-4 cursor-pointer hover"
-              v-for="item in column.essaySort">
-              {{ item.text }}
+            <div class="mb-6 mr-4 hover" v-for="item in column.essaySort">
+              <router-link :to="RouterPath.ArbeitenBySort(item.id)">
+                {{ item.text }}
+              </router-link>
             </div>
           </div>
         </div>
@@ -551,11 +526,10 @@ await fetchData();
           文章分类
         </div>
         <div v-if="column?.articleSort?.length" class="f-c-b flex-wrap">
-          <div
-            @click="Navigation.go({ path: RouterPath.ArbeitenBySort(item.id), router: $router })"
-            class="mb-6 mr-4 cursor-pointer hover"
-            v-for="item in column.articleSort">
-            {{ item.text }}
+          <div class="mb-6 mr-4 hover" v-for="item in column.articleSort">
+            <router-link :to="RouterPath.ArbeitenBySort(item.id)">
+              {{ item.text }}
+            </router-link>
           </div>
         </div>
       </div>
@@ -584,13 +558,10 @@ await fetchData();
             </div>
           </div>
           <div v-if="column?.essayArchive?.length" class="f-c-b flex-wrap">
-            <div
-              @click="
-                Navigation.go({ path: RouterPath.ArbeitenByArchive('p', item.id), router: $router })
-              "
-              class="mb-6 mr-4 cursor-pointer hover"
-              v-for="item in column.essayArchive">
-              {{ item.text }}
+            <div class="mb-6 mr-4 hover" v-for="item in column.essayArchive">
+              <router-link :to="RouterPath.ArbeitenByArchive('p', item.id)">
+                {{ item.text }}
+              </router-link>
             </div>
           </div>
         </div>
@@ -617,13 +588,10 @@ await fetchData();
         文章归档
       </div>
       <div v-if="column?.articleArchive?.length" class="f-c-b flex-wrap">
-        <div
-          @click="
-            Navigation.go({ path: RouterPath.ArbeitenByArchive('a', item.id), router: $router })
-          "
-          class="mb-6 mr-4 cursor-pointer hover"
-          v-for="item in column.articleArchive">
-          {{ item.text }}
+        <div class="mb-6 mr-4 hover" v-for="item in column.articleArchive">
+          <router-link :to="RouterPath.ArbeitenBySort(item.id)">
+            {{ item.text }}
+          </router-link>
         </div>
       </div>
     </div>
@@ -634,11 +602,10 @@ await fetchData();
         我的相册
       </div>
       <div v-if="column?.albumn?.length" class="f-c-b flex-wrap">
-        <div
-          @click="Navigation.go({ path: RouterPath.Albumn(item.id), router: $router })"
-          class="mb-6 cursor-pointer hover text-ellipsis line-clamp-2"
-          v-for="item in column.albumn">
-          {{ item.text }}
+        <div class="mb-6 text-ellipsis line-clamp-2 hover" v-for="item in column.albumn">
+          <router-link :to="RouterPath.Albumn(item.id)">
+            {{ item.text }}
+          </router-link>
         </div>
       </div>
     </div>

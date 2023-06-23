@@ -8,17 +8,18 @@ const arbPrevNext = shallowRef();
 const arbViewPoint = shallowRef();
 const arbIsLock = ref(false);
 const blogInfo = ref();
-let arbeitenId = route.params.id as string;
+const realHtml = ref();
+const arbeitenId = ref(route.params.id as string);
 
 async function fetchData(mouted?: boolean) {
   Broswer.startLoading();
 
   const [val1, val2, val3, val4, val5] = await Promise.all([
-    ArbeitenApi.getArbeiten(arbeitenId),
-    ArbeitenApi.getProps(arbeitenId),
-    ArbeitenApi.getPrevNext(arbeitenId),
-    ArbeitenApi.getViewPoint(arbeitenId),
-    ArbeitenApi.getArbeitenInfo(arbeitenId)
+    ArbeitenApi.getArbeiten(arbeitenId.value),
+    ArbeitenApi.getProps(arbeitenId.value),
+    ArbeitenApi.getPrevNext(arbeitenId.value),
+    ArbeitenApi.getViewPoint(arbeitenId.value),
+    ArbeitenApi.getArbeitenInfo(arbeitenId.value)
   ]);
 
   arbeiten.value = val1;
@@ -35,41 +36,28 @@ async function fetchData(mouted?: boolean) {
 const arbPassword = ref("");
 
 async function submit() {
-  const passed = await ArbeitenApi.isPassed(arbPassword.value, arbeitenId);
-  if (passed) {
-    arbeiten.value = await ArbeitenApi.getLockedArbeiten(arbPassword.value, arbeitenId);
+  const isPassed = await ArbeitenApi.isPassed(arbPassword.value, arbeitenId.value);
+  if (isPassed) {
+    arbeiten.value = await ArbeitenApi.getLockedArbeiten(arbPassword.value, arbeitenId.value);
     arbIsLock.value = false;
   }
-  ElMessage({
-    message: passed ? "密码正确！" : "密码错误！",
-    grouping: true,
-    type: passed ? "success" : "error"
-  });
 }
 
 async function vote(type: VoteType) {
   const response = await ArbeitenApi.vote({
-    postId: parseInt(arbeitenId),
+    postId: parseInt(arbeitenId.value),
     isAbandoned: false,
     voteType: type
   });
-  if (response && response.isSuccess) {
+  if (response?.isSuccess) {
     type == "Bury" ? arbViewPoint.value.buryCount++ : arbViewPoint.value.diggCount++;
   }
-  ElMessage({
-    message: response.message,
-    grouping: true,
-    type: response.isSuccess ? "success" : "error"
-  });
 }
-
-const markdownInst = ref();
-const commentInst = ref();
 
 watch(route, async () => {
   if (route.name === RouterName.Arbeiten) {
-    arbeitenId = route.params.id as string;
-    await Promise.all([fetchData(true), commentInst.value.fetchData()]);
+    arbeitenId.value = route.params.id as string;
+    await fetchData(true);
   }
 });
 
@@ -112,9 +100,7 @@ await fetchData();
         <div
           v-if="isBlogOwner"
           class="f-c-c hover"
-          @click="
-            Navigation.go({ path: 'https://i.cnblogs.com/EditPosts.aspx?postid=' + arbeitenId })
-          ">
+          @click="Navigation.go('https://i.cnblogs.com/EditPosts.aspx?postid=' + arbeitenId)">
           <div class="i-tabler-pencil-minus mr-2"></div>
           编辑
         </div>
@@ -129,14 +115,10 @@ await fetchData();
             class="mt-2"
             v-for="(item, index) in arbProps.sorts"
             :class="{ 'mr-4': index !== arbProps.sorts.length - 1 }">
-            <HollowedBox
-              line="dotted"
-              hover
-              round
-              @click="
-                Navigation.go({ path: RouterPath.ArbeitenBySort(item.href), router: $router })
-              ">
-              {{ item.text }}
+            <HollowedBox hover line="dotted" round>
+              <router-link :to="RouterPath.ArbeitenBySort(item.href)">
+                {{ item.text }}
+              </router-link>
             </HollowedBox>
           </div>
         </div>
@@ -149,19 +131,18 @@ await fetchData();
             class="mt-2"
             v-for="(item, index) in arbProps.tags"
             :class="{ 'mr-4': index !== arbProps.tags.length - 1 }">
-            <HollowedBox
-              line="dotted"
-              hover
-              round
-              @click="
-                Navigation.go({ path: RouterPath.ArbeitenByMark(item.text), router: $router })
-              ">
-              {{ item.text }}
+            <HollowedBox line="dotted" hover round>
+              <router-link :to="RouterPath.ArbeitenByMark(item.text)">
+                {{ item.text }}
+              </router-link>
             </HollowedBox>
           </div>
         </div>
       </div>
-      <MarkdownContent :html-str="arbeiten.content" v-model:real-html="markdownInst" />
+      <Markdown
+        :style-css="BleuVars.config.markdown.arbeiten"
+        :str-html="arbeiten.content"
+        v-model:real-html="realHtml" />
       <div class="text-b mt-15 f-c-e text-0.9rem">
         <div class="f-c-c mr-4">
           <div class="i-tabler-calendar-stats mr-2"></div>
@@ -181,7 +162,7 @@ await fetchData();
           <div class="i-tabler-user mr-2"></div>
           作者：<span
             class="hover"
-            @click="Navigation.go({ path: 'https://home.cnblogs.com/u/Himmelbleu/' })">
+            @click="Navigation.go('https://home.cnblogs.com/u/' + BleuVars.getBlogApp())">
             {{ BleuVars.getBlogApp() }}
           </span>
         </div>
@@ -193,29 +174,21 @@ await fetchData();
           <div class="i-tabler-license mr-2"></div>
           版权：本作品采用「<span
             class="hover"
-            @click="Navigation.go({ path: 'https://creativecommons.org/licenses/by-nc-sa/4.0/' })">
+            @click="Navigation.go('https://creativecommons.org/licenses/by-nc-sa/4.0/')">
             署名-非商业性使用-相同方式共享 4.0 国际 </span
           >」许可协议进行许可。
         </div>
       </div>
-      <div class="prev-next mt-15 text-0.9rem">
+      <div class="mt-15 text-0.9rem">
         <div class="f-s-s mb-2" v-if="arbPrevNext?.prev?.href">
-          <span
-            class="hover"
-            @click="
-              Navigation.go({ path: RouterPath.Arbeiten(arbPrevNext.prev.href), router: $router })
-            ">
+          <router-link class="hover" :to="RouterPath.Arbeiten(arbPrevNext.prev.href)">
             上一篇：{{ arbPrevNext.prev.text }}
-          </span>
+          </router-link>
         </div>
         <div class="f-s-e" v-if="arbPrevNext?.next?.href">
-          <span
-            class="hover"
-            @click="
-              Navigation.go({ path: RouterPath.Arbeiten(arbPrevNext.prev.href), router: $router })
-            ">
+          <router-link class="hover" :to="RouterPath.Arbeiten(arbPrevNext.next.href)">
             下一篇：{{ arbPrevNext.next.text }}
-          </span>
+          </router-link>
         </div>
       </div>
       <div class="my-10 f-c-e" v-if="!isBlogOwner">
@@ -247,12 +220,15 @@ await fetchData();
           微信
         </div>
       </div>
-      <Katalog :real-html="markdownInst" />
-      <Amplifier :real-html="markdownInst" />
-      <Comment :post-id="arbeitenId" ref="commentInst" />
+      <Catalog :str-html="arbeiten.content" :real-html="realHtml" />
+      <Amplifier
+        :config="BleuVars.config.amplifier.arbeiten"
+        :str-html="arbeiten.content"
+        :real-html="realHtml" />
+      <Comment :post-id="arbeitenId" />
     </div>
     <div class="content" v-else>
-      <div class="modal fixed-lt w-100vw h-100vh l-back-bg f-c-c z-99999">
+      <div class="fixed-lt w-100vw h-100vh f-c-c z-99999">
         <el-form>
           <el-form-item label="密码：">
             <el-input

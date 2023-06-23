@@ -158,11 +158,12 @@ interface BleuConfig {
     /**
      * 背景的相关配置
      */
-    bg: {
+    background: {
       src: string;
       size: string;
       repeat: string;
       opacity: number;
+      position: string;
     };
     /**
      * 随笔、文章的相关配置
@@ -183,6 +184,20 @@ interface BleuConfig {
       carousel: string[];
       disabled: boolean;
     };
+  };
+  /**
+   * markdown 样式配置
+   */
+  markdown?: {
+    arbeiten: any;
+    comment: any;
+  };
+  /**
+   * 放大器配置
+   */
+  amplifier?: {
+    arbeiten: any;
+    comment: any;
   };
   /**
    * 图表

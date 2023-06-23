@@ -1,9 +1,7 @@
 <script setup lang="ts">
 const disabled = ref(!BleuVars.isPcDevice());
 
-provide(ProvideKey.Katalog, disabled);
-
-onMounted(() => {});
+provide(ProvideKey.Catalog, disabled);
 </script>
 
 <template>
@@ -35,10 +33,11 @@ onMounted(() => {});
   <div
     class="fixed-lt w-100vw h-100vh"
     :style="{
-      'background-image': 'url(' + BleuVars.config.images.bg.src + ')',
-      'background-size': BleuVars.config.images.bg.size || '50 auto',
-      'background-repeat': BleuVars.config.images.bg.repeat || 'repeat',
-      opacity: BleuVars.config.images.bg.opacity || 0.03
+      'background-image': 'url(' + BleuVars.config.images.background.src + ')',
+      'background-size': BleuVars.config.images.background.size || '50 auto',
+      'background-repeat': BleuVars.config.images.background.repeat || 'repeat',
+      'background-position': BleuVars.config.images.background.position || '100%',
+      opacity: BleuVars.config.images.background.opacity || 0.03
     }"></div>
 </template>
 

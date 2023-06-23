@@ -80,8 +80,6 @@ export namespace Native {
    * @param keyword 关键字
    */
   export function searchArbeiten(keyword: string) {
-    Navigation.go({
-      path: "https://zzk.cnblogs.com/s?w=blog:" + BleuVars.getBlogApp() + "%" + keyword
-    });
+    Navigation.go("https://zzk.cnblogs.com/s?w=blog:" + BleuVars.getBlogApp() + "%" + keyword);
   }
 }

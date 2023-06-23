@@ -3,18 +3,27 @@ import { createCodeTools, createCodeModal } from "./index";
 import hljs from "highlight.js";
 
 defineProps({
-  htmlStr: {
+  strHtml: {
     type: String,
     required: true
   },
   realHtml: {
     type: HTMLElement,
     required: false
+  },
+  styleCss: {
+    type: Object,
+    default() {
+      return {
+        fontSize: "1.1rem"
+      };
+    }
   }
 });
 
-let isFirstRendering = 0;
 const emits = defineEmits(["update:realHtml"]);
+
+let updatedTimes = 0;
 const htmlInst = ref<HTMLElement>();
 
 function renderMarkdown() {
@@ -23,9 +32,9 @@ function renderMarkdown() {
     ignoreUnescapedHTML: true
   });
 
-  const preCodeInst = htmlInst.value.querySelectorAll<HTMLElement>("pre code");
+  const preInst = htmlInst.value.querySelectorAll<HTMLElement>("pre code");
 
-  preCodeInst.forEach(i => {
+  preInst.forEach(i => {
     hljs.highlightElement(i);
     createCodeTools(i);
     createCodeModal(i);
@@ -47,18 +56,16 @@ function renderMarkdown() {
 }
 
 onMounted(() => {
-  isFirstRendering++;
+  updatedTimes++;
   renderMarkdown();
 });
 
 onUpdated(() => {
-  isFirstRendering++;
-  if (isFirstRendering > 2) {
-    renderMarkdown();
-  }
+  updatedTimes++;
+  if (updatedTimes > 2) renderMarkdown();
 });
 </script>
 
 <template>
-  <div class="markdown-textual" ref="htmlInst" v-html="htmlStr"></div>
+  <div class="markdown-textual" ref="htmlInst" :style="styleCss" v-html="strHtml"></div>
 </template>
