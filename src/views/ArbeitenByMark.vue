@@ -3,12 +3,13 @@ import { ArbeitenApi } from "@/apis";
 
 const route = useRoute();
 const markWorks = shallowRef();
+const loading = new Broswer.Loading();
 
 async function fetchData(index?: any) {
-  Broswer.startLoading();
+  loading.startLoading();
   markWorks.value = await ArbeitenApi.getListByMark(`${route.params.tag}`, index);
   Broswer.setTitle(markWorks.value.hint);
-  Broswer.endLoading();
+  loading.endLoading();
 }
 
 await fetchData();

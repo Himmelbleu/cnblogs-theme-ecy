@@ -6,11 +6,11 @@ const typeL2Arbeiten = shallowRef();
 const typeL1Arbeiten = shallowRef();
 const arbeitenCouverture = BleuVars.config.images.arbeiten;
 const couvertureIndexs = shallowRef();
+const loading = new Broswer.Loading();
 
 async function fetchData(index?: any) {
-  Broswer.startLoading();
+  loading.startLoading();
   const id = route.params.id;
-
   const val1 = await ArbeitenApi.getByL1(`${id}`, index);
   const val2 = await ArbeitenApi.getByL2(`${id}`, val1.isArticle);
 
@@ -20,7 +20,7 @@ async function fetchData(index?: any) {
   couvertureIndexs.value = Random.get(arbeitenCouverture, typeL1Arbeiten.value.data.length);
 
   nextTick(() => {
-    Broswer.endLoading();
+    loading.endLoading();
     Broswer.setTitle(typeL1Arbeiten.value.hint);
   });
 }

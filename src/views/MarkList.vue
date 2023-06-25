@@ -2,11 +2,12 @@
 import { DatumApi } from "@/apis";
 
 const markList = shallowRef();
+const loading = new Broswer.Loading();
 
 async function fetchData() {
-  Broswer.startLoading();
+  loading.startLoading();
   markList.value = await DatumApi.getMarkList();
-  Broswer.endLoading();
+  loading.endLoading();
 }
 
 await fetchData();

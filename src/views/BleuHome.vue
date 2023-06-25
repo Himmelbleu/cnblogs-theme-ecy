@@ -10,9 +10,11 @@ const status = shallowRef();
 const topList = shallowRef();
 const column = shallowRef<BleuMenuColumn>();
 const markList = shallowRef<BleuMark[]>();
+  const loading = new Broswer.Loading();
+
 
 async function fetchData() {
-  Broswer.startLoading();
+  loading.startLoading();
 
   const [val1, val2, val3, val4, val5, val6] = await Promise.all([
     ArbeitenApi.getList(),
@@ -31,7 +33,7 @@ async function fetchData() {
   column.value = val5;
   markList.value = val6;
 
-  Broswer.endLoading();
+  loading.endLoading();
 }
 
 const radarInst = ref<HTMLElement>();

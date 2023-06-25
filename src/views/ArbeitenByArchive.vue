@@ -7,29 +7,26 @@ let archiveMode = route.params.mode;
 const archiveList = shallowRef();
 const images = BleuVars.config.images.arbeiten;
 const imgsIndexs = shallowRef();
+const loading = new Broswer.Loading();
 
 async function fetchData() {
-  Broswer.startLoading();
-
-  let fetchDataPromise;
+  loading.startLoading();
+  let promise;
 
   if (archiveMode == "a") {
-    fetchDataPromise = ArbeitenApi.getListByArchive(`${archiveDate}`, "article");
+    promise = ArbeitenApi.getListByArchive(`${archiveDate}`, "article");
   } else if (archiveMode == "p") {
-    fetchDataPromise = ArbeitenApi.getListByArchive(`${archiveDate}`, "works");
+    promise = ArbeitenApi.getListByArchive(`${archiveDate}`, "works");
   } else {
-    fetchDataPromise = ArbeitenApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
+    promise = ArbeitenApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
   }
 
-  archiveList.value = await fetchDataPromise;
-
+  archiveList.value = await promise;
   imgsIndexs.value = Random.get(images, archiveList.value.data.length);
+
   Broswer.setTitle(archiveList.value.hint);
-
-  Broswer.endLoading();
+  loading.endLoading();
 }
-
-await fetchData();
 
 watch(route, async () => {
   if (route.name === RouterName.ArbeitenByArchive) {
@@ -38,6 +35,8 @@ watch(route, async () => {
     await fetchData();
   }
 });
+
+await fetchData();
 </script>
 
 <template>

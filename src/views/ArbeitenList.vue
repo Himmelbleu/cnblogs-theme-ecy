@@ -4,12 +4,13 @@ import { ArbeitenApi } from "@/apis";
 const arbeitenList = shallowRef<BleuArbeitenList>();
 const couvertureIndexs = shallowRef<number[]>([]);
 const couverture = BleuVars.config.images.arbeiten;
+const loading = new Broswer.Loading();
 
 async function fetchData(index: any) {
-  Broswer.startLoading();
+  loading.startLoading();
   arbeitenList.value = await ArbeitenApi.getList(index || 1);
   couvertureIndexs.value = Random.get(couverture, arbeitenList.value.data.length);
-  Broswer.endLoading();
+  loading.endLoading();
 }
 
 await fetchData(0);

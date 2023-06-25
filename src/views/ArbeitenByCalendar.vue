@@ -4,8 +4,9 @@ import { DatumApi } from "@/apis";
 const date = new Date();
 const calendar = shallowRef();
 const dateModel = ref(date);
+const loading = new Broswer.Loading();
 
-Broswer.startLoading();
+loading.startLoading();
 
 function findDate(data: any) {
   const date = data.day.replaceAll("-", "/");
@@ -21,16 +22,16 @@ async function fetchData() {
 }
 
 onMounted(() => {
-  Broswer.endLoading();
+  loading.endLoading();
 });
-
-await fetchData();
 
 watch(dateModel, async (newVal, oldVal) => {
   if (newVal.getMonth() !== oldVal.getMonth()) {
     await fetchData();
   }
 });
+
+await fetchData();
 </script>
 
 <template>

@@ -4,12 +4,13 @@ import { DatumApi } from "@/apis";
 const route = useRoute();
 const albumn = shallowRef();
 const srcList = shallowRef();
+const loading = new Broswer.Loading();
 
 async function fetchData() {
-  Broswer.startLoading();
+  loading.startLoading();
   albumn.value = await DatumApi.getAlbumn(route.params.id as string);
   srcList.value = albumn.value.data.map((i: any) => i.src);
-  Broswer.endLoading();
+  loading.endLoading();
 }
 
 watch(route, async () => {

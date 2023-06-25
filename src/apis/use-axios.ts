@@ -5,6 +5,7 @@ const request = axios.create({
   baseURL: `${BleuVars.getBaseURL()}`,
   timeout: 5000
 });
+const loading = new Broswer.Loading();
 
 function getToken() {
   let token = "";
@@ -31,8 +32,8 @@ request.interceptors.response.use(
   },
   error => {
     ElMessage({ message: "失败请求，请稍后再试！", type: "error", grouping: true });
-    Broswer.endLoading();
     router.push("/");
+    loading.endLoading();
     return Promise.reject(error);
   }
 );

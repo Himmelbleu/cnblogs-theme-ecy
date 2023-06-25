@@ -146,9 +146,9 @@ a:link {
 }
 
 .fade-in-out {
-  animation: transition-animation 0.9s ease-in;
+  animation: opacity-animation 0.9s ease-in forwards;
 
-  @keyframes transition-animation {
+  @keyframes opacity-animation {
     @for $index from 0 to 10 {
       #{$index * 10%} {
         opacity: math.div($index, 10);

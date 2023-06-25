@@ -3,11 +3,12 @@ import { DatumApi } from "@/apis";
 
 const route = useRoute();
 const imgUrl = shallowRef();
+const loading = new Broswer.Loading();
 
 async function fetchData() {
-  Broswer.startLoading();
+  loading.startLoading();
   imgUrl.value = await DatumApi.getAlbumnItem(`${route.params.id}`);
-  Broswer.endLoading();
+  loading.endLoading();
 }
 
 await fetchData();

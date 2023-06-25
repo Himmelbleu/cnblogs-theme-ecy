@@ -10,9 +10,10 @@ const arbIsLock = ref(false);
 const blogInfo = ref();
 const realHtml = ref();
 const arbeitenId = ref(route.params.id as string);
+const loading = new Broswer.Loading();
 
-async function fetchData(mouted?: boolean) {
-  Broswer.startLoading();
+async function fetchData(isInMounted?: boolean) {
+  loading.startLoading();
 
   const [val1, val2, val3, val4, val5] = await Promise.all([
     ArbeitenApi.getArbeiten(arbeitenId.value),
@@ -30,7 +31,7 @@ async function fetchData(mouted?: boolean) {
   blogInfo.value = val5;
 
   Broswer.setTitle(arbeiten.value.text);
-  mouted && Broswer.endLoading();
+  !isInMounted && loading.endLoading();
 }
 
 const arbPassword = ref("");
@@ -57,7 +58,7 @@ async function vote(type: VoteType) {
 watch(route, async () => {
   if (route.name === RouterName.Arbeiten) {
     arbeitenId.value = route.params.id as string;
-    await fetchData(true);
+    await fetchData(false);
   }
 });
 
@@ -70,10 +71,10 @@ onMounted(() => {
     }, 500);
   }
 
-  Broswer.endLoading();
+  loading.endLoading();
 });
 
-await fetchData();
+await fetchData(true);
 </script>
 
 <template>
