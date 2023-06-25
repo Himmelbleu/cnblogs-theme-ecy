@@ -10,8 +10,7 @@ const status = shallowRef();
 const topList = shallowRef();
 const column = shallowRef<BleuMenuColumn>();
 const markList = shallowRef<BleuMark[]>();
-  const loading = new Broswer.Loading();
-
+const loading = new Broswer.Loading();
 
 async function fetchData() {
   loading.startLoading();
@@ -95,15 +94,17 @@ onMounted(() => {
   );
 });
 
-const carouselList = shallowRef(BleuVars.config.images.home.carousel);
+const carouselList = shallowRef(BleuVars.config.images?.home?.carousel || []);
 const carouselIndex = ref(0);
 
-setInterval(() => {
-  carouselIndex.value++;
-  if (carouselIndex.value > BleuVars.config.images.home.carousel.length) {
-    carouselIndex.value = 0;
-  }
-}, BleuVars.config.images.home.interval);
+if (BleuVars.config.images?.home?.disabled && BleuVars.config.images?.home?.carousel) {
+  setInterval(() => {
+    carouselIndex.value++;
+    if (carouselIndex.value > BleuVars.config.images.home.carousel.length) {
+      carouselIndex.value = 0;
+    }
+  }, BleuVars.config.images.home.interval || 5000);
+}
 
 const searchVal = ref("");
 
@@ -235,13 +236,13 @@ await fetchData();
       </div>
       <!-- 轮播图 -->
       <div
-        v-if="!BleuVars.config.images.home.disabled"
+        v-if="BleuVars.config.images?.home?.disabled ? BleuVars.config.images.home.disabled : false"
         class="lg:w-49% lt-lg:hidden h-100vh f-c-b relative">
         <img
           v-for="(item, index) in carouselList"
           :style="
             carouselIndex == index
-              ? { zIndex: 9, opacity: BleuVars.config.images.home.opacity }
+              ? { zIndex: 9, opacity: BleuVars.config.images?.home?.opacity || 0.5 }
               : { zIndex: 0, opacity: 0 }
           "
           class="w-100% h-100% transition-all-800 absolute top-0 left-0 object-cover"
@@ -251,7 +252,7 @@ await fetchData();
       <div
         v-else
         class="lg:w-49% lg:ml-10 lg:h-100vh"
-        :class="{ 'py-4': BleuVars.config.images.home.disabled }">
+        :class="{ 'py-4': BleuVars.config.images?.home?.disabled }">
         <div>
           <div class="caption mb-10">
             <div class="i-tabler-info-square-rounded mr-2"></div>
@@ -272,7 +273,7 @@ await fetchData();
                 </div>
               </div>
               <div class="text-0.8rem text-ellipsis line-clamp-1 shine-text">
-                个签：{{ BleuVars.config.signature }}
+                个签：{{ BleuVars.config.signature || "这个人很懒，什么也没有留下" }}
               </div>
               <div class="w-60">
                 <el-input
@@ -339,7 +340,9 @@ await fetchData();
       </div>
     </div>
     <!-- area-4：开启轮播图，个人数据 -->
-    <div v-if="!BleuVars.config.images.home.disabled" class="sm:f-s-b mt-20">
+    <div
+      v-if="BleuVars.config.images?.home?.disabled ? BleuVars.config.images.home.disabled : false"
+      class="sm:f-s-b mt-20">
       <div class="sm:w-49%">
         <div class="caption mb-10">
           <div class="i-tabler-info-square-rounded mr-2"></div>
@@ -349,7 +352,7 @@ await fetchData();
           <!-- 头像 -->
           <img
             class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
-            :src="BleuVars.config.avatar" />
+            :src="BleuVars.config.avatar || ''" />
           <div class="f-s-b flex-col h-100%">
             <!-- 积分和排名 -->
             <div v-if="column?.rankings?.length" class="f-c-s text-0.8rem text-b">
@@ -360,7 +363,7 @@ await fetchData();
               </div>
             </div>
             <div class="text-0.8rem text-ellipsis line-clamp-1 shine-text">
-              个签：{{ BleuVars.config.signature }}
+              个签：{{ BleuVars.config.signature || "这个人很懒，什么也没有留下" }}
             </div>
             <div class="w-60">
               <el-input

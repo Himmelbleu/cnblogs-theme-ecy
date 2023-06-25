@@ -4,7 +4,7 @@ import { ArbeitenApi } from "@/apis";
 const route = useRoute();
 const typeL2Arbeiten = shallowRef();
 const typeL1Arbeiten = shallowRef();
-const arbeitenCouverture = BleuVars.config.images.arbeiten;
+const arbeitenCouverture = BleuVars.config.images?.arbeiten || [];
 const couvertureIndexs = shallowRef();
 const loading = new Broswer.Loading();
 

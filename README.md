@@ -187,7 +187,7 @@ window.__BLEU_CONFIG__ = {
 ## signature
 
 - 类型：string
-- 是否必填：是
+- 是否必填：否
 
 个性签名显示在博客信息底部，文字超过两行会被隐藏（出于布局的考虑）。
 
@@ -213,15 +213,15 @@ window.__BLEU_CONFIG__ = {
 ## images
 
 - 类型：object
-- 是否必填：是
+- 是否必填：否
 
-该配置项包括了背景图片、首页轮播图、文章和随笔列表封面图。
+该配置项包括了背景图片、首页轮播图、文章和随笔列表封面图。一下 background、home 等对象都是可选。
 
 ```js
 window.__BLEU_CONFIG__ = {
   images: {
     // 背景
-    bg: {
+    background: {
       // 网络图片
       src: ""
       // 透明度
@@ -329,6 +329,58 @@ window.__BLEU_CONFIG__ = {
 };
 ```
 
+## markdownStyle
+
+- 类型：object
+- 是否必填：否
+
+配置作品详细页内容的 markdown，以及评论区的 markdown 内容。
+
+```js
+window.__BLEU_CONFIG__ = {
+  markdownStyle: {
+    arbeiten: {
+      fontSize: "1.1rem"
+    },
+    comment: {
+      fontSize: "1rem"
+    }
+  }
+};
+```
+
+## amplifierUnoCSS
+
+- 类型：object
+- 是否必填：否
+
+配置作品详细页内容的图片，以及评论区的图片。值必须是 unocss 的值，如 flex flex-wrap flex-col 等，具体可以查阅 [UnoCSS 交互文档](https://unocss.dev/interactive/)。
+
+```js
+window.__BLEU_CONFIG__ = {
+  amplifierUnoCSS: {
+    arbeiten: {
+      align: "f-c-c flex-col"
+    },
+    comment: {
+      align: "f-s-s flex-col"
+    }
+  }
+};
+```
+
+其中 f-c-c 是本主题设置的 shortcuts，对照以下的值来设置。
+
+```js
+const keys = [
+  { k: "c", v: "center" },
+  { k: "s", v: "start" },
+  { k: "e", v: "end" },
+  { k: "b", v: "between" },
+  { k: "a", v: "around" }
+];
+```
+
 ## 完整配置
 
 ```html
@@ -339,11 +391,12 @@ window.__BLEU_CONFIG__ = {
     signature: "Time tick away, dream faded away.",
     avatar: "",
     images: {
-      bg: {
+      background: {
         src: ""
         opacity: 0.03,
         size: "50% auto",
-        repeat: "repeat"
+        repeat: "repeat",
+        posotion: "100%"
       },
       home: {
         opacity: 0.5,
@@ -407,6 +460,18 @@ window.__BLEU_CONFIG__ = {
         name: "ZCOOL KuaiLe",
         size: "1.2rem"
       }
+    },
+    markdownStyle: {
+      arbeiten: {
+        fontSize: "1.1rem"
+      },
+      comment: {
+        fontSize: "1rem"
+      }
+    },
+    amplifierUnoCSS: {
+      arbeiten: "f-c-c flex-col",
+      comment: "f-s-s flex-col"
     }
   };
 </script>

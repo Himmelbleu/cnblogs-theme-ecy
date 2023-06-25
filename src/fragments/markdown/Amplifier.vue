@@ -11,8 +11,8 @@ const props = defineProps({
     type: Object as PropType<any>,
     required: false
   },
-  config: {
-    type: Object,
+  unocss: {
+    type: String,
     required: false
   }
 });
@@ -83,11 +83,11 @@ onMounted(() => {
 });
 
 watch(toRefRealHtml, () => {
-  wrapImgInAmplifier(toRefRealHtml.value, amplifierInst.value, imageInst.value, props.config);
+  wrapImgInAmplifier(toRefRealHtml.value, amplifierInst.value, imageInst.value, props.unocss);
 });
 
 watch(toRefStrHtml, () => {
-  wrapImgInAmplifier(toRefRealHtml.value, amplifierInst.value, imageInst.value, props.config);
+  wrapImgInAmplifier(toRefRealHtml.value, amplifierInst.value, imageInst.value, props.unocss);
 });
 </script>
 

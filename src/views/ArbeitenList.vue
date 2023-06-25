@@ -3,7 +3,7 @@ import { ArbeitenApi } from "@/apis";
 
 const arbeitenList = shallowRef<BleuArbeitenList>();
 const couvertureIndexs = shallowRef<number[]>([]);
-const couverture = BleuVars.config.images.arbeiten;
+const couverture = BleuVars.config.images?.arbeiten || [];
 const loading = new Broswer.Loading();
 
 async function fetchData(index: any) {

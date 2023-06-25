@@ -11,7 +11,7 @@ function onLoadedBleu() {
     );
     document.documentElement.style.setProperty(
       "--l-code-size",
-      BleuVars.config.font?.code?.size || "1rem"
+      BleuVars.config.font?.code?.size || "0.8rem"
     );
 
     document.documentElement.style.setProperty(
@@ -20,7 +20,7 @@ function onLoadedBleu() {
     );
     document.documentElement.style.setProperty(
       "--l-art-size",
-      BleuVars.config.font?.art?.size || "1rem"
+      BleuVars.config.font?.art?.size || "1.2rem"
     );
   }
 
@@ -46,7 +46,7 @@ function beforeUseBleu() {
 function afterUseBleu() {
   const icon = document.createElement("link");
   icon.rel = "shortcut icon";
-  icon.href = BleuVars.config.icon;
+  icon.href = BleuVars.config.icon || "";
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
@@ -62,29 +62,29 @@ export function useBleu(dev: Function, pro: Function) {
     pro();
   } else if (import.meta.env.DEV) {
     BleuVars.config = {
-      icon: "",
-      signature: "Time tick away, dream faded away.",
+      // icon: "",
+      // signature: "Time tick away, dream faded away.",
       avatar:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F52685712-3f98-4dd5-b05b-87cd8b8524c3%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1689215021&t=6944511081f659351480894aa55663eb",
       images: {
-        background: {
-          src: "https://th.bing.com/th/id/R.e79036ab9e7ef09bd5951536125c60ac?rik=qzIaIiYX81%2fOAA&riu=http%3a%2f%2f5b0988e595225.cdn.sohucs.com%2fimages%2f20181103%2ffeaa7d14883047fb81bbaa16f681f583.jpeg&ehk=hywgeurG%2fR6NTPM5A6bkA4YGllkcUFzqDTWm%2fxfDeDU%3d&risl=&pid=ImgRaw&r=0",
-          opacity: 0.03,
-          size: "50% auto",
-          repeat: "repeat",
-          position: "100%"
-        },
-        home: {
-          opacity: 0.5,
-          interval: 5000,
-          carousel: [
-            "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv01.jpg",
-            "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv02.jpg",
-            "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv03.jpg",
-            "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv04.jpg"
-          ],
-          disabled: true
-        },
+        // background: {
+        //   src: "https://th.bing.com/th/id/R.e79036ab9e7ef09bd5951536125c60ac?rik=qzIaIiYX81%2fOAA&riu=http%3a%2f%2f5b0988e595225.cdn.sohucs.com%2fimages%2f20181103%2ffeaa7d14883047fb81bbaa16f681f583.jpeg&ehk=hywgeurG%2fR6NTPM5A6bkA4YGllkcUFzqDTWm%2fxfDeDU%3d&risl=&pid=ImgRaw&r=0",
+        //   opacity: 0.03,
+        //   size: "50% auto",
+        //   repeat: "repeat",
+        //   position: "100%"
+        // },
+        // home: {
+        //   opacity: 0.5,
+        //   interval: 5000,
+        //   carousel: [
+        //     "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv01.jpg",
+        //     "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv02.jpg",
+        //     "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv03.jpg",
+        //     "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv04.jpg"
+        //   ],
+        //   disabled: true
+        // },
         arbeiten: [
           "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv01.jpg",
           "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv02.jpg",
@@ -92,22 +92,18 @@ export function useBleu(dev: Function, pro: Function) {
           "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv04.jpg"
         ]
       },
-      markdown: {
-        arbeiten: {
-          fontSize: "1.1rem"
-        },
-        comment: {
-          fontSize: "1rem"
-        }
-      },
-      amplifier: {
-        arbeiten: {
-          align: "f-c-c flex-col"
-        },
-        comment: {
-          align: "f-s-s flex-col"
-        }
-      },
+      // markdownStyle: {
+      //   arbeiten: {
+      //     fontSize: "1.1rem"
+      //   },
+      //   comment: {
+      //     fontSize: "1rem"
+      //   }
+      // },
+      // amplifierUnoCSS: {
+      //   arbeiten: "f-c-c flex-col",
+      //   comment: "f-s-s flex-col"
+      // },
       chart: {
         tech: {
           radar: {
@@ -145,15 +141,13 @@ export function useBleu(dev: Function, pro: Function) {
       },
       font: {
         code: {
-          name: "Hack, LXGW WenKai",
-          size: "0.8rem"
+          name: "Hack, LXGW WenKai"
         },
         main: {
           name: "LXGW WenKai"
         },
         art: {
-          name: "ZCOOL KuaiLe",
-          size: "1.2rem"
+          name: "ZCOOL KuaiLe"
         }
       }
     };

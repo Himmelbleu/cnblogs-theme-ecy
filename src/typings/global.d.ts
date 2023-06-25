@@ -153,51 +153,51 @@ interface BleuAlbumnItem {
 interface BleuConfig {
   icon?: string;
   avatar?: string;
-  signature: string;
+  signature?: string;
   images: {
     /**
      * 背景的相关配置
      */
-    background: {
-      src: string;
-      size: string;
-      repeat: string;
-      opacity: number;
-      position: string;
+    background?: {
+      src?: string;
+      size?: string;
+      repeat?: string;
+      opacity?: number;
+      position?: string;
     };
     /**
      * 随笔、文章的相关配置
      */
-    arbeiten: string[];
+    arbeiten?: string[];
     /**
      * 首页的相关配置
      */
-    home: {
+    home?: {
       /**
        * 轮播图透明度
        */
-      opacity: number;
+      opacity?: number;
       /**
        * 轮播图播放间隔
        */
-      interval: number;
-      carousel: string[];
-      disabled: boolean;
+      interval?: number;
+      carousel?: string[];
+      disabled?: boolean;
     };
   };
   /**
    * markdown 样式配置
    */
-  markdown?: {
+  markdownStyle?: {
     arbeiten: any;
     comment: any;
   };
   /**
-   * 放大器配置
+   * 放大器 unocss 配置
    */
-  amplifier?: {
-    arbeiten: any;
-    comment: any;
+  amplifierUnoCSS?: {
+    arbeiten: string;
+    comment: string;
   };
   /**
    * 图表

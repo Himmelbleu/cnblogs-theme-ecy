@@ -94,7 +94,9 @@ await fetchData();
         <!-- 内容 -->
         <div class="mt-4 relative" style="margin-left: 4.5rem">
           <textarea class="z--1 opacity-0 absolute top-0 left-0" :id="'upload-img-' + index" />
-          <Markdown :style-css="BleuVars.config.markdown.comment" :str-html="item.content ?? ''" />
+          <Markdown
+            :style-css="BleuVars.config.markdownStyle?.comment || { fontSize: '1rem' }"
+            :str-html="item.content ?? ''" />
         </div>
         <div class="more-action float-right f-c-e" v-show="!item.isEditing && !item.isAnsling">
           <el-dropdown>
@@ -133,7 +135,7 @@ await fetchData();
           :comment="item" />
       </div>
       <Amplifier
-        :config="BleuVars.config.amplifier.comment"
+        :unocss="BleuVars.config.amplifierUnoCSS?.comment || 'f-s-s flex-col'"
         :str-html="postId ?? ''"
         :real-html="commentInst" />
       <div class="mt-10 f-c-e" v-if="pageCount > 1">

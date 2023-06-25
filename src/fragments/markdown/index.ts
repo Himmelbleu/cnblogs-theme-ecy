@@ -60,7 +60,7 @@ export function wrapImgInAmplifier(
   el: HTMLElement | HTMLElement[],
   eleHighslide: HTMLElement,
   eleHighslideImage: HTMLImageElement,
-  config?: any
+  unocss?: any
 ) {
   function addEvent(image: HTMLImageElement) {
     const eleTip = document.createElement("div");
@@ -68,10 +68,7 @@ export function wrapImgInAmplifier(
     eleTip.innerText = image.alt;
 
     if (image.parentElement.tagName === "P") {
-      image.parentElement.setAttribute(
-        "class",
-        `${config?.align ? config.align : "f-c-c flex-col"}`
-      );
+      image.parentElement.setAttribute("class", `${unocss}`);
       image.parentElement.insertAdjacentElement("beforeend", eleTip);
     }
 

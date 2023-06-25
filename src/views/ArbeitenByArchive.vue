@@ -5,7 +5,7 @@ const route = useRoute();
 let archiveDate = route.params.date;
 let archiveMode = route.params.mode;
 const archiveList = shallowRef();
-const images = BleuVars.config.images.arbeiten;
+const images = BleuVars.config.images?.arbeiten || [];
 const imgsIndexs = shallowRef();
 const loading = new Broswer.Loading();
 
