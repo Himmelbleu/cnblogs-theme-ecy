@@ -23,14 +23,16 @@ await fetchData();
           </div>
         </template>
         <template #content>
-          <div class="text-1.2rem mb-5 mt-4">我的照片</div>
+          <div class="text-1.2rem mb-5 mt-4">相册图片</div>
         </template>
       </el-page-header>
       <div class="f-c-c">
         <el-image v-if="imgUrl" class="albumn-item" :src="imgUrl" :preview-src-list="[imgUrl]" />
         <el-result v-else icon="error" title="图片加载失败" sub-title="图片可能从相册移除">
           <template #extra>
-            <el-button @click="$router.push(RouterPath.BleuHome())" type="primary">返回首页</el-button>
+            <el-button @click="$router.push(RouterPath.BleuHome())" type="primary">
+              返回首页
+            </el-button>
           </template>
         </el-result>
       </div>

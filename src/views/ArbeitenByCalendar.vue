@@ -34,7 +34,7 @@ watch(dateModel, async (newVal, oldVal) => {
 </script>
 
 <template>
-  <div class="l-works-by-calendar page">
+  <div class="l-arbeiten-by-calendar page">
     <div class="content" v-if="calendar">
       <el-page-header class="mt-4 mb-15" :icon="null" @back="$router.back()">
         <template #title>

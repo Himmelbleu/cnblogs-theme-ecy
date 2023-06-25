@@ -11,18 +11,25 @@ defineProps({
   index: {
     type: Number,
     required: true
+  },
+  length: {
+    type: Number,
+    required: true
   }
 });
 </script>
 
 <template>
-  <div v-if="BleuVars.isPcDevice()" class="f-c-b mt-4 mb-20 item h-20rem rd-2">
+  <div
+    v-if="BleuVars.isPcDevice()"
+    :class="{ 'mb-20': index !== length - 1 }"
+    class="f-c-b item h-20rem rd-2">
     <div v-if="index % 2 !== 0" class="w-45% h-100% flow-hidden relative">
       <div class="mask absolute top-0 left-0 w-100% h-15% z-1"></div>
       <img class="w-100% h-100% object-cover" :src="item.surface || cover" />
       <div class="mask absolute bottom-0 left-0 w-100% h-15%"></div>
     </div>
-    <div class="w-52%" :class="{ 'pl-4': index % 2 === 0, 'pr-4': index % 2 !== 0 }">
+    <div class="w-52%">
       <div class="text-ellipsis line-clamp-2 mb-6 text-1.3rem">
         <router-link :to="RouterPath.Arbeiten(item.id)" class="hover">
           {{ item.text }}
@@ -47,7 +54,9 @@ defineProps({
       </div>
       <div class="hover f-c-s mt-6 text-0.9rem text-b">
         <i-ep-caret-right class="mr-2" />
-        <router-link class="b-b-1 b-b-dotted p-b-0.5" :to="RouterPath.Arbeiten(item.id)"> 阅读全文 </router-link>
+        <router-link class="b-b-1 b-b-dotted p-b-0.5" :to="RouterPath.Arbeiten(item.id)">
+          阅读全文
+        </router-link>
       </div>
       <div class="mt-4 f-c-e">
         <div class="text-0.9rem text-b f-c-c">
@@ -68,7 +77,7 @@ defineProps({
     </div>
   </div>
   <!-- 移动端 -->
-  <div v-else class="item mt-1 mb-20 h-20rem rd-2">
+  <div v-else class="item mb-15 h-20rem rd-2">
     <div class="text-ellipsis line-clamp-2 mb-6 text-1.3rem">
       <router-link :to="RouterPath.Arbeiten(item.id)" class="hover">
         {{ item.text }}
@@ -103,15 +112,17 @@ defineProps({
         {{ item.digg }}
       </div>
     </div>
-    <div v-show="item.isTop || item.isOnlyMe || item.isLocked" class="mt-4">
+    <div v-if="item.isTop || item.isOnlyMe || item.isLocked" class="mt-4">
       <HollowedBox round plain v-if="item.isTop" class="mr-2">置顶随笔</HollowedBox>
       <HollowedBox round plain v-else-if="item.isOnlyMe" class="mr-2">自己可见</HollowedBox>
       <HollowedBox round plain v-else-if="item.isLocked" class="mr-2">密码锁定</HollowedBox>
     </div>
-    <div class="hover f-c-b mt-6 text-0.9rem text-b">
-      <div class="f-c-c">
+    <div class="f-c-b mt-6 text-0.9rem text-b">
+      <div class="f-c-c hover">
         <i-ep-caret-right class="mr-2" />
-        <router-link class="b-b-1 b-b-dotted p-b-0.5" :to="RouterPath.Arbeiten(item.id)"> 阅读全文 </router-link>
+        <router-link class="b-b-1 b-b-dotted p-b-0.5" :to="RouterPath.Arbeiten(item.id)">
+          阅读全文
+        </router-link>
       </div>
       <div class="f-c-e">
         <div class="text-0.9rem f-c-c">

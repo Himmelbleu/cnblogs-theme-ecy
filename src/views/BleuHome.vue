@@ -174,10 +174,10 @@ await fetchData();
       <div
         class="f-c-c flex-col"
         @click="Navigation.go('http://github.com/' + BleuVars.getBlogApp())">
-        <div class="write-vertical-left font-art bounce shine-text hover mb-4" text="4 b">
-          {{ BleuVars.getBlogApp() }}'s Github
+        <div class="write-vertical-left text-0.9rem text-b bounce shine-text hover mb-4">
+          {{ BleuVars.getBlogApp() }}'s github
         </div>
-        <div class="i-tabler-brand-github hover mb-4" text="b 7"></div>
+        <div class="i-tabler-brand-github hover mb-4 text-1.2rem text-b"></div>
       </div>
     </div>
     <!-- area-3：开屏 -->
@@ -286,44 +286,40 @@ await fetchData();
             </div>
           </div>
           <div class="f-c-b text-1rem">
-            <div v-if="news?.length">
-              <div class="lt-lg:text-0.8rem">
-                <div class="f-c-s cursor-pointer shine-text" @click="Navigation.go(news[0].href)">
-                  <div class="i-tabler-user mr-2"></div>
-                  昵称：{{ news[0].text }}
-                </div>
-                <div class="f-c-s hover mt-5" @click="Navigation.go(news[1].href)">
-                  <div class="i-tabler-calendar mr-2"></div>
-                  园龄：{{ news[1].text }}
-                </div>
-                <div class="f-c-s hover mt-5" @click="Navigation.go(news[2].href)">
-                  <div class="i-tabler-brand-twitch mr-2"></div>
-                  粉丝：{{ news[2].text }}
-                </div>
-                <div class="f-c-s hover mt-5" @click="Navigation.go(news[3].href)">
-                  <div class="i-tabler-heart mr-2"></div>
-                  关注：{{ news[3].text }}
-                </div>
+            <div v-if="news?.length" class="text-0.9rem">
+              <div class="f-c-s cursor-pointer shine-text" @click="Navigation.go(news[0].href)">
+                <div class="i-tabler-user mr-2"></div>
+                昵称：{{ news[0].text }}
+              </div>
+              <div class="f-c-s hover mt-5" @click="Navigation.go(news[1].href)">
+                <div class="i-tabler-calendar mr-2"></div>
+                园龄：{{ news[1].text }}
+              </div>
+              <div class="f-c-s hover mt-5" @click="Navigation.go(news[2].href)">
+                <div class="i-tabler-brand-twitch mr-2"></div>
+                粉丝：{{ news[2].text }}
+              </div>
+              <div class="f-c-s hover mt-5" @click="Navigation.go(news[3].href)">
+                <div class="i-tabler-heart mr-2"></div>
+                关注：{{ news[3].text }}
               </div>
             </div>
-            <div v-if="status?.length">
-              <div class="lt-lg:text-0.8rem">
-                <div class="f-c-s">
-                  <div class="i-tabler-pencil-minus mr-2"></div>
-                  发表的随笔：{{ status[0].digg }}
-                </div>
-                <div class="f-c-s mt-5">
-                  <div class="i-tabler-books mr-2"></div>
-                  发表的文章：{{ status[1].digg }}
-                </div>
-                <div class="f-c-s mt-5">
-                  <div class="i-tabler-message-circle mr-2"></div>
-                  拥有的评论：{{ status[2].digg }}
-                </div>
-                <div class="f-c-s mt-5">
-                  <div class="i-tabler-chart-bar mr-2"></div>
-                  阅读的数量：{{ status[3].digg }}次
-                </div>
+            <div v-if="status?.length" class="text-0.9rem">
+              <div class="f-c-s">
+                <div class="i-tabler-pencil-minus mr-2"></div>
+                发表的随笔：{{ status[0].digg }}
+              </div>
+              <div class="f-c-s mt-5">
+                <div class="i-tabler-books mr-2"></div>
+                发表的文章：{{ status[1].digg }}
+              </div>
+              <div class="f-c-s mt-5">
+                <div class="i-tabler-message-circle mr-2"></div>
+                拥有的评论：{{ status[2].digg }}
+              </div>
+              <div class="f-c-s mt-5">
+                <div class="i-tabler-chart-bar mr-2"></div>
+                阅读的数量：{{ status[3].digg }}次
               </div>
             </div>
           </div>
@@ -378,7 +374,7 @@ await fetchData();
           </div>
         </div>
         <div class="f-c-b text-1rem">
-          <div v-if="news?.length" class="lt-lg:text-0.8rem">
+          <div v-if="news?.length" class="text-0.9rem">
             <div class="f-c-s cursor-pointer shine-text" @click="Navigation.go(news[0].href)">
               <div class="i-tabler-user mr-2"></div>
               昵称：{{ news[0].text }}
@@ -396,7 +392,7 @@ await fetchData();
               关注：{{ news[3].text }}
             </div>
           </div>
-          <div v-if="status?.length" class="lt-lg:text-0.8rem">
+          <div v-if="status?.length" class="text-0.9rem">
             <div class="f-c-s">
               <div class="i-tabler-pencil-minus mr-2"></div>
               发表的随笔：{{ status[0].digg }}

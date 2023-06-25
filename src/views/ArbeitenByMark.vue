@@ -21,7 +21,7 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div id="l-works-by-mark" class="page">
+  <div id="l-arbeiten-by-mark" class="page">
     <div class="content" v-if="markWorks">
       <el-page-header :icon="null" @back="$router.back()">
         <template #title>

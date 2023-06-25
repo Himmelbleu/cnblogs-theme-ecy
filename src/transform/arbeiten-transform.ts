@@ -10,12 +10,10 @@ export namespace ArbeitenTransform {
    */
   function getPage(dom: Element) {
     if (dom) {
-      const pages = dom.innerText.match(/[1-9]+/g);
+      const pages = dom.innerText.trim().match(/[0-9]+/g);
       if (pages) return pages.map(i => parseInt(i)).pop();
       else return 0;
-    } else {
-      return 0;
-    }
+    } else return 0;
   }
 
   /**

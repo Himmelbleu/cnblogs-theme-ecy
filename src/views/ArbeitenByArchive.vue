@@ -41,7 +41,7 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div id="l-works-by-archive" class="page">
+  <div id="l-arbeiten-by-archive" class="page">
     <div class="content" v-if="archiveList">
       <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveList.page">
         <template #content>
@@ -61,6 +61,7 @@ watch(route, async () => {
             :key="item.id"
             :item="item"
             :index="index"
+            :length="archiveList.data.length"
             :cover="images[imgsIndexs[index]]" />
         </template>
       </Pagination>

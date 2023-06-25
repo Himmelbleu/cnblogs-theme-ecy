@@ -93,7 +93,7 @@ watch(toRefStrHtml, () => {
 
 <template>
   <Teleport to="body">
-    <div class="l-amplifier noactive" ref="amplifierInst">
+    <div class="l-amplifier noactive transition-all-300" ref="amplifierInst">
       <div class="relative w-100% h-100%">
         <div class="w-100% h-100% f-c-c">
           <img
@@ -104,7 +104,7 @@ watch(toRefStrHtml, () => {
             class="l-amplifier__img"
             :class="{
               fixed: positionX && positionY && !!BleuVars.isPcDevice(),
-              transition: isOpenAnima
+              'transition-all-300': isOpenAnima
             }"
             :style="{
               left: positionX + 'px',
@@ -139,7 +139,6 @@ watch(toRefStrHtml, () => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  transition: all 0.2s ease-in-out;
   background-color: #222222b4;
 }
 
@@ -149,10 +148,6 @@ watch(toRefStrHtml, () => {
 
 .noactive {
   transform: scale(0, 0);
-}
-
-.transition {
-  transition: all 0.3s ease-in-out;
 }
 
 .l-amplifier__img {

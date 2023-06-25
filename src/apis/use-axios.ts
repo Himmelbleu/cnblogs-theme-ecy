@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "@/router";
 
 const request = axios.create({
   baseURL: `${BleuVars.getBaseURL()}`,
@@ -30,6 +31,8 @@ request.interceptors.response.use(
   },
   error => {
     ElMessage({ message: "失败请求，请稍后再试！", type: "error", grouping: true });
+    Broswer.endLoading();
+    router.push("/");
     return Promise.reject(error);
   }
 );

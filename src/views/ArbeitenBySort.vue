@@ -35,7 +35,7 @@ watch(route, async () => {
 </script>
 
 <template>
-  <div id="l-works-by-sort" class="page">
+  <div id="l-arbeiten-by-sort" class="page">
     <div class="content">
       <Pagination
         @nexpr="fetchData"
@@ -57,7 +57,7 @@ watch(route, async () => {
           <div
             class="mb-10 text-0.9rem text-c"
             v-html="typeL1Arbeiten.desc2 || typeL1Arbeiten.desc"></div>
-          <div class="text-0.9rem" v-if="typeL2Arbeiten?.length">
+          <div class="mb-10 text-0.9rem" v-if="typeL2Arbeiten?.length">
             <div
               class="hover f-c-s text-b"
               v-for="(item, index) in typeL2Arbeiten"
@@ -72,6 +72,7 @@ watch(route, async () => {
             :key="item.id"
             :item="item"
             :index="index"
+            :length="typeL1Arbeiten.data.length"
             :cover="arbeitenCouverture[couvertureIndexs[index]]" />
         </template>
       </Pagination>

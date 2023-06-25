@@ -37,7 +37,6 @@ await fetchData();
       <div class="mb-4 text-0.9rem text-b">{{ albumn.desc }}</div>
       <div class="f-c-b flex-wrap">
         <el-image
-          class="w-50 h-50 mb-4"
           v-for="(item, index) in srcList"
           :initial-index="index"
           :src="item"
