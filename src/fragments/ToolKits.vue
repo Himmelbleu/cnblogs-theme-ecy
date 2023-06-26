@@ -185,13 +185,13 @@ $move-step: 2.5rem;
 @include pc() {
   .take-toolkits {
     animation: take-toolkits-animation 0.3s linear;
-    right: 5rem;
+    right: 3rem;
   }
 
   @keyframes take-toolkits-animation {
     @for $i from 0 to 11 {
       #{$i * 10%} {
-        right: calc($i * 0.5rem);
+        right: calc($i * 0.3rem);
       }
     }
   }
@@ -220,7 +220,7 @@ $move-step: 2.5rem;
   @keyframes intake-toolkits-animation {
     @for $i from 0 to 11 {
       #{$i * 10%} {
-        right: calc(5rem + $i * -0.5rem);
+        right: calc(3rem + $i * -0.3rem);
       }
     }
   }

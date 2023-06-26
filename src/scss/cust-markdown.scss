@@ -25,34 +25,36 @@ pre {
   position: relative;
 
   code {
+    padding: 1.5rem 1.2rem 1.5rem 1.2rem;
     background: var(--l-blockcode-bg);
-  }
-
-  .code-tools {
-    --uno: absolute top-2 right-2 f-c-e text-0.8rem w-100%;
-
-    .code-language {
-      --uno: ml-4 text-c;
-    }
-  }
-
-  .code-modal {
-    --uno: absolute bottom-0 left-0 f-c-c rd-2 w-100%;
-    height: 3rem;
-    background-image: linear-gradient(
-      -180deg,
-      rgba(255, 255, 255, 0) 0%,
-      var(--l-codemodal-bg) 100%
-    );
-
-    .display-btn {
-      --uno: text-0.9rem;
-    }
   }
 }
 
 a > code {
   color: var(--text-primary) !important;
+}
+
+.code-tools {
+  --uno: absolute rd-2 top-0 right-0 text-0.8rem w-100%;
+
+  .right {
+    padding: 0.5rem 1.2rem 0.5rem 1.2rem;
+    --uno: b-b-primary b-b-1 b-b-solid text-primary;
+  }
+
+  .left {
+    padding: 0.5rem 1.2rem 0.5rem 1.2rem;
+  }
+}
+
+.code-modal {
+  --uno: absolute bottom-0 left-0 f-c-c rd-2 w-100%;
+  height: 3rem;
+  background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, var(--l-codemodal-bg) 100%);
+
+  .display-btn {
+    --uno: text-0.9rem;
+  }
 }
 
 .markdown-textual {

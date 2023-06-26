@@ -1,5 +1,5 @@
 // 制作代码块的工具栏
-export function createCodeTools(ele: HTMLElement) {
+export function createCodeTools(ele: HTMLElement, fileName?: string) {
   const lang = (
     ele
       .getAttribute("class")
@@ -7,26 +7,41 @@ export function createCodeTools(ele: HTMLElement) {
       .split("-")[1] || ""
   ).toUpperCase();
 
-  const eleClipboard = document.createElement("div");
-  eleClipboard.setAttribute("class", "code-clipboard hover");
-  eleClipboard.innerText = "复制";
+  const codeToolsInst = document.createElement("div");
+  const clipboardIcon = document.createElement("div");
+  const codeLang = document.createElement("div");
+  const leftInst = document.createElement("div");
 
-  const eleLang = document.createElement("div");
-  eleLang.setAttribute("class", "code-language");
-  eleLang.innerText = `语言 ${lang || ""}`;
+  clipboardIcon.setAttribute("class", "code-clipboard hover i-tabler-clipboard-list");
+  codeLang.setAttribute("class", "code-language text-c mr-2");
+  leftInst.setAttribute("class", "left f-c-b");
 
-  const eleTools = document.createElement("div");
-  eleTools.setAttribute("class", "code-tools");
-  eleTools.append(eleClipboard, eleLang);
+  if (fileName) {
+    const fileNameInst = document.createElement("div");
 
-  eleClipboard.addEventListener("click", () => {
+    fileNameInst.setAttribute("class", "right");
+    codeToolsInst.setAttribute("class", "code-tools f-c-b");
+
+    fileNameInst.innerText = fileName;
+
+    codeToolsInst.append(fileNameInst);
+  } else {
+    codeToolsInst.setAttribute("class", "code-tools f-c-e");
+  }
+
+  codeLang.innerText = `${lang || ""}`;
+
+  leftInst.append(codeLang, clipboardIcon);
+  codeToolsInst.append(leftInst);
+
+  clipboardIcon.addEventListener("click", () => {
     navigator.clipboard.writeText(ele.innerText).then(
       () => ElMessage({ message: "复制成功！", type: "success", grouping: true }),
       () => ElMessage({ message: "没有权限！", type: "error", grouping: true })
     );
   });
 
-  ele.insertAdjacentElement("afterend", eleTools);
+  ele.insertAdjacentElement("afterend", codeToolsInst);
 }
 
 // 因代码块高度过高而隐藏

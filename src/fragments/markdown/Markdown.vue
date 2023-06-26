@@ -2,7 +2,7 @@
 import { createCodeTools, createCodeModal } from "./index";
 import hljs from "highlight.js";
 
-defineProps({
+const props = defineProps({
   strHtml: {
     type: String,
     required: true
@@ -13,13 +13,19 @@ defineProps({
   },
   styleCss: {
     type: Object,
-    default() {
-      return {
-        fontSize: "1.1rem"
-      };
-    }
+    required: false
   }
 });
+
+const pattern = /file:([\d\w\.]+)/g;
+const matches: string[] = [];
+let match;
+
+while ((match = pattern.exec(props.strHtml)) !== null) {
+  matches.push(match[1]);
+}
+
+const replacedStrHtml = props.strHtml.replace(pattern, "");
 
 const emits = defineEmits(["update:realHtml"]);
 
@@ -34,10 +40,10 @@ function renderMarkdown() {
 
   const preInst = htmlInst.value.querySelectorAll<HTMLElement>("pre code");
 
-  preInst.forEach(i => {
-    hljs.highlightElement(i);
-    createCodeTools(i);
-    createCodeModal(i);
+  preInst.forEach((eleInst, index) => {
+    hljs.highlightElement(eleInst);
+    createCodeTools(eleInst, matches[index]);
+    createCodeModal(eleInst);
   });
 
   // math
@@ -67,5 +73,5 @@ onUpdated(() => {
 </script>
 
 <template>
-  <div class="markdown-textual" ref="htmlInst" :style="styleCss" v-html="strHtml"></div>
+  <div class="markdown-textual" ref="htmlInst" :style="styleCss" v-html="replacedStrHtml"></div>
 </template>

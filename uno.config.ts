@@ -39,9 +39,9 @@ export default defineConfig({
           * {
             color: inherit;
             line-height: 1.7;
-            font-family: var(--l-main-family);
             letter-spacing: 0.05rem;
             scroll-behavior: smooth;
+            font-family: var(--l-main-family);
             word-break: break-all;
             line-break: anywhere;
             box-sizing: border-box;

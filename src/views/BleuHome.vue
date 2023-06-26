@@ -177,7 +177,7 @@ await fetchData();
       <div
         class="f-c-c flex-col"
         @click="Navigation.go('http://github.com/' + BleuVars.getBlogApp())">
-        <div class="write-vertical-left text-0.9rem text-b bounce shine-text hover mb-4">
+        <div class="write-vertical-left text-0.9rem text-b bounce hover mb-4">
           {{ BleuVars.getBlogApp() }}'s github
         </div>
         <div class="i-tabler-brand-github hover mb-4 text-1.2rem text-b"></div>
@@ -273,7 +273,7 @@ await fetchData();
                 </div>
               </div>
               <div class="text-0.8rem text-ellipsis line-clamp-1 shine-text">
-                个签：{{ BleuVars.config.signature || "这个人很懒，什么也没有留下" }}
+                {{ BleuVars.config.signature || "这个人很懒，什么也没有留下" }}
               </div>
               <div class="w-60">
                 <el-input
@@ -363,7 +363,7 @@ await fetchData();
               </div>
             </div>
             <div class="text-0.8rem text-ellipsis line-clamp-1 shine-text">
-              个签：{{ BleuVars.config.signature || "这个人很懒，什么也没有留下" }}
+              {{ BleuVars.config.signature || "这个人很懒，什么也没有留下" }}
             </div>
             <div class="w-60">
               <el-input
