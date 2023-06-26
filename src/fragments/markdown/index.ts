@@ -12,7 +12,7 @@ export function createCodeTools(ele: HTMLElement, fileName?: string) {
   const codeLang = document.createElement("div");
   const leftInst = document.createElement("div");
 
-  clipboardIcon.setAttribute("class", "code-clipboard hover i-tabler-clipboard-list");
+  clipboardIcon.setAttribute("class", "code-clipboard hover");
   codeLang.setAttribute("class", "code-language text-c mr-2");
   leftInst.setAttribute("class", "left f-c-b");
 
@@ -30,6 +30,7 @@ export function createCodeTools(ele: HTMLElement, fileName?: string) {
   }
 
   codeLang.innerText = `${lang || ""}`;
+  clipboardIcon.innerText = "复制";
 
   leftInst.append(codeLang, clipboardIcon);
   codeToolsInst.append(leftInst);
