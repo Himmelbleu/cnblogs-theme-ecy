@@ -41,7 +41,6 @@ declare module 'vue' {
     ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
     ElResult: typeof import('element-plus/es')['ElResult']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
-    ExpandedBox: typeof import('./src/components/ExpandedBox.vue')['default']
     HollowedBox: typeof import('./src/components/HollowedBox.vue')['default']
     IEpArrowLeftBold: typeof import('~icons/ep/arrow-left-bold')['default']
     IEpArrowRightBold: typeof import('~icons/ep/arrow-right-bold')['default']

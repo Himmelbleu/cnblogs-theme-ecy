@@ -590,7 +590,7 @@ await fetchData();
       </div>
       <div v-if="column?.articleArchive?.length" class="f-c-b flex-wrap">
         <div class="mb-6 mr-4 hover" v-for="item in column.articleArchive">
-          <router-link :to="RouterPath.ArbeitenBySort(item.id)">
+          <router-link :to="RouterPath.ArbeitenByArchive('a', item.id)">
             {{ item.text }}
           </router-link>
         </div>

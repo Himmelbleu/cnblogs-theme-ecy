@@ -2,8 +2,8 @@
 import { ArbeitenApi } from "@/apis";
 
 const route = useRoute();
-let archiveDate = route.params.date;
-let archiveMode = route.params.mode;
+let archiveDate = route.params.date as string;
+let archiveMode = route.params.mode as string;
 const archiveList = shallowRef();
 const images = BleuVars.config.images?.arbeiten || [];
 const imgsIndexs = shallowRef();
@@ -16,9 +16,9 @@ async function fetchData() {
   if (archiveMode == "a") {
     promise = ArbeitenApi.getListByArchive(`${archiveDate}`, "article");
   } else if (archiveMode == "p") {
-    promise = ArbeitenApi.getListByArchive(`${archiveDate}`, "works");
+    promise = ArbeitenApi.getListByArchive(`${archiveDate}`, "arbeiten");
   } else {
-    promise = ArbeitenApi.getListByDay(`${String(archiveDate).replaceAll("-", "/")}`);
+    promise = ArbeitenApi.getListByDay(`${archiveDate.replaceAll("-", "/")}`);
   }
 
   archiveList.value = await promise;
@@ -30,8 +30,8 @@ async function fetchData() {
 
 watch(route, async () => {
   if (route.name === RouterName.ArbeitenByArchive) {
-    archiveMode = route.params.mode;
-    archiveDate = route.params.date;
+    archiveMode = route.params.mode as string;
+    archiveDate = route.params.date as string;
     await fetchData();
   }
 });

@@ -58,7 +58,7 @@ interface BleuMark {
 }
 
 /**
- * 随笔列表
+ * 首页随笔列表、某日下的随笔或文章列表
  */
 type BleuArbeitenList = Partial<{
   page: number;
@@ -67,11 +67,17 @@ type BleuArbeitenList = Partial<{
 }>;
 
 /**
- * 随笔列表，用于分类或标签区分的随笔列表
+ * 随笔档案、文章档案、随笔分类、档案分类四种列表，扩展 BleuArbeitenList 接口，
+ * 以上四种列表比 BleuArbeitenList 多了三个属性值。
  */
 interface BleuArbeitenList2 extends BleuArbeitenList {
+  /**
+   * 父分类描述
+   */
   desc?: string;
-  // 子分类描述
+  /**
+   * 子分类描述
+   */
   desc2?: string;
   isArticle?: boolean;
 }

@@ -1,40 +1,31 @@
 function onLoadedBleu() {
-  function setFontFamily() {
-    document.documentElement.style.setProperty(
-      "--l-main-family",
-      BleuVars.config.font?.main?.name || `var(--el-font-family)`
-    );
+  document.documentElement.style.setProperty(
+    "--l-main-family",
+    BleuVars.config.font?.main?.name || `var(--el-font-family)`
+  );
 
-    document.documentElement.style.setProperty(
-      "--l-code-family",
-      BleuVars.config.font?.code?.name || `var(--el-font-family)`
-    );
-    document.documentElement.style.setProperty(
-      "--l-code-size",
-      BleuVars.config.font?.code?.size || "0.8rem"
-    );
+  document.documentElement.style.setProperty(
+    "--l-code-family",
+    BleuVars.config.font?.code?.name || `var(--el-font-family)`
+  );
+  document.documentElement.style.setProperty(
+    "--l-code-size",
+    BleuVars.config.font?.code?.size || "0.8rem"
+  );
 
-    document.documentElement.style.setProperty(
-      "--l-art-family",
-      BleuVars.config.font?.art?.name || `var(--el-font-family)`
-    );
-    document.documentElement.style.setProperty(
-      "--l-art-size",
-      BleuVars.config.font?.art?.size || "1.2rem"
-    );
-  }
+  document.documentElement.style.setProperty(
+    "--l-art-family",
+    BleuVars.config.font?.art?.name || `var(--el-font-family)`
+  );
+  document.documentElement.style.setProperty(
+    "--l-art-size",
+    BleuVars.config.font?.art?.size || "1.2rem"
+  );
 
-  function setBleuOptions() {
-    const oldSetting = BleuStorage.getOptions().value;
-    const newSetting = JSON.stringify(
-      BleuStorage.refactor(oldSetting, BleuStorage.getOptionsTemp())
-    );
-    localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, newSetting);
-    document.documentElement.setAttribute("class", oldSetting.theme.mode);
-  }
-
-  setFontFamily();
-  setBleuOptions();
+  const oldSetting = BleuStorage.getOptions().value;
+  const newSetting = JSON.stringify(BleuStorage.refactor(oldSetting, BleuStorage.getOptionsTemp()));
+  localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, newSetting);
+  document.documentElement.setAttribute("class", oldSetting.theme.mode);
 }
 
 function beforeUseBleu() {
