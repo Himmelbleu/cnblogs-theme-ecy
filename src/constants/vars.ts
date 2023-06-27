@@ -31,10 +31,12 @@ export namespace BleuVars {
   /**
    * 获取博主自己的 blogUserGuid。在一些请求中需要使用该变量才能调用对应博客 API。
    */
-  export function getBlogGuid() {
+  export function getUserGuid() {
     if (import.meta.env.DEV) {
       return import.meta.env.VITE_BLOG_GUID;
-    } else return visitorUserId;
+    } else {
+      return visitorUserId;
+    }
   }
 
   /**

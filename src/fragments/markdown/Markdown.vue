@@ -17,7 +17,7 @@ const props = defineProps({
   }
 });
 
-const pattern = /file:([\d\w\.]+)/g;
+const pattern = /file:([\d\w\.\-\_]+)/g;
 const matches: string[] = [];
 let match;
 

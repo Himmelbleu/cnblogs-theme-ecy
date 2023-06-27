@@ -7,7 +7,7 @@ const arbProps = shallowRef();
 const arbPrevNext = shallowRef();
 const arbViewPoint = shallowRef();
 const arbIsLock = ref(false);
-const blogInfo = ref();
+const postInfo = ref();
 const realHtml = ref();
 const arbeitenId = ref(route.params.id as string);
 const loading = new Broswer.Loading();
@@ -28,7 +28,7 @@ async function fetchData(isInMounted?: boolean) {
   arbPrevNext.value = val3;
   arbViewPoint.value = val4;
   arbIsLock.value = val1.isLocked;
-  blogInfo.value = val5;
+  postInfo.value = val5;
 
   Broswer.setTitle(arbeiten.value.text);
   !isInMounted && loading.endLoading();
@@ -192,13 +192,11 @@ await fetchData(true);
           </router-link>
         </div>
       </div>
-      <div class="my-10 f-c-e" v-if="!isBlogOwner">
-        <div class="f-c-c">
-          <el-button type="primary" plain round size="small">
-            <span v-if="blogInfo.isFollowed" @click="ArbeitenApi.unfollow">- 取消关注</span>
-            <span v-else @click="ArbeitenApi.follow">+ 关注博主</span>
-          </el-button>
-        </div>
+      <div v-if="!isBlogOwner && isLogined" class="my-10 f-c-e">
+        <el-button type="primary" plain round size="small">
+          <span v-if="postInfo.isFollowed" @click="ArbeitenApi.unfollow">- 取消关注</span>
+          <span v-else @click="ArbeitenApi.follow">+ 关注博主</span>
+        </el-button>
       </div>
       <div class="my-10 f-c-c">
         <div class="f-c-c hover mr-8" @click="vote('Digg')">

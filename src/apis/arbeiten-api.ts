@@ -157,12 +157,15 @@ export namespace ArbeitenApi {
    * @param id 作品 ID
    */
   export async function getArbeitenInfo(id: string) {
-    let res = { isFollowed: false, isDigg: false };
-    const { data } = await request.get(
-      `/ajax/BlogPostInfo.aspx?blogId=${BleuVars.getBlogId()}&postId=${id}&blogUserGuid=${BleuVars.getBlogGuid()}`
-    );
-    res = ArbeitenTransform.toArbeitenInfo(strToDOM(data));
-    return res;
+    let resp = { isFollowed: false, isDigg: false };
+    const blogUserGuid = BleuVars.getUserGuid();
+    if (blogUserGuid && isLogined) {
+      const { data } = await request.get(
+        `/ajax/BlogPostInfo.aspx?blogId=${BleuVars.getBlogId()}&postId=${id}&blogUserGuid=${blogUserGuid}`
+      );
+      resp = ArbeitenTransform.toArbeitenInfo(strToDOM(data));
+    }
+    return resp;
   }
 
   /**
@@ -184,8 +187,9 @@ export namespace ArbeitenApi {
    * 关注博主
    */
   export async function follow() {
+    const blogUserGuid = BleuVars.getOppositeGuid();
     const { data } = await request.post(`/ajax/Follow/FollowBlogger.aspx`, {
-      blogUserGuid: BleuVars.getOppositeGuid()
+      blogUserGuid
     });
     if (data == "关注成功") ElMessage.success("关注成功！");
     else if (data == "未登录") ElMessage.error("没有登录！");
@@ -196,8 +200,9 @@ export namespace ArbeitenApi {
    * 取消关注
    */
   export async function unfollow() {
+    const blogUserGuid = BleuVars.getOppositeGuid();
     const { data } = await request.post(`/ajax/Follow/RemoveFollow.aspx`, {
-      blogUserGuid: BleuVars.getOppositeGuid()
+      blogUserGuid
     });
     if (data == "取消成功") ElMessage.success("取关成功！");
     else ElMessage.error("取关失败！");
