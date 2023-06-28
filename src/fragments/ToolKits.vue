@@ -7,13 +7,13 @@ const isInTop = ref(false);
 const isInBottom = ref(true);
 const isShowGuide = ref(false);
 const isTake = ref(false);
-let topNailInst: HTMLElement;
-let bottomNailInst: HTMLElement;
+let tNailInst: HTMLElement;
+let bNailInst: HTMLElement;
 const disabled = inject<boolean>(ProvideKey.Catalog);
 
 onMounted(() => {
-  topNailInst = document.querySelector("#l-top-nail");
-  bottomNailInst = document.querySelector("#l-bottom-nail");
+  tNailInst = document.querySelector("#l-top-nail");
+  bNailInst = document.querySelector("#l-bottom-nail");
 
   useWheelRollsUpAndDown(
     () => {
@@ -102,7 +102,7 @@ watch(route, () => {
     <div
       :class="{ 'show-3': bleuOps.toolkits.pin, 'close-3': !bleuOps.toolkits.pin }"
       class="absolute hover left-0 rd-2 bg-drop-primary"
-      @click="isInTop ? scrollTo(topNailInst) : scrollTo(bottomNailInst)">
+      @click="isInTop ? scrollTo(tNailInst) : scrollTo(bNailInst)">
       <div class="f-c-c w-8 h-8">
         <div
           class="i-tabler-arrow-bar-up"

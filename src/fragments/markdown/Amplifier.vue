@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { PropType } from "vue";
-import { wrapImgInAmplifier } from "./index";
-
 const props = defineProps({
   strHtml: {
     type: String,
@@ -66,6 +63,42 @@ function zoomOut() {
   width.value -= width.value * 0.15;
 }
 
+function render() {
+  function addEvent(image: HTMLImageElement) {
+    const eleTip = document.createElement("div");
+    eleTip.setAttribute("class", "text-b text-0.9rem mt-2");
+    eleTip.innerText = image.alt;
+
+    if (image.parentElement.tagName === "P") {
+      image.parentElement.setAttribute("class", `${props.unocss}`);
+      image.parentElement.insertAdjacentElement("beforeend", eleTip);
+    }
+
+    image.addEventListener("click", () => {
+      amplifierInst.value.classList.toggle("noactive");
+      amplifierInst.value.classList.toggle("active");
+      imageInst.value.src = image.getAttribute("src");
+      imageInst.value.style.width = `${image.width}px`;
+      imageInst.value.style.height = `${image.height}px`;
+      document.documentElement.style.overflow = "hidden";
+    });
+  }
+
+  if (Array.isArray(toRefRealHtml.value)) {
+    toRefRealHtml.value.forEach(element => {
+      const images = element.querySelectorAll("img");
+      images.forEach((image: any) => {
+        addEvent(image);
+      });
+    });
+  } else {
+    const images = toRefRealHtml.value.querySelectorAll("img");
+    images.forEach((image: any) => {
+      addEvent(image);
+    });
+  }
+}
+
 onMounted(() => {
   imageInst.value.addEventListener("mousewheel", e => {
     isOpenAnima.value = false;
@@ -82,13 +115,9 @@ onMounted(() => {
   });
 });
 
-watch(toRefRealHtml, () => {
-  wrapImgInAmplifier(toRefRealHtml.value, amplifierInst.value, imageInst.value, props.unocss);
-});
+watch(toRefRealHtml, render);
 
-watch(toRefStrHtml, () => {
-  wrapImgInAmplifier(toRefRealHtml.value, amplifierInst.value, imageInst.value, props.unocss);
-});
+watch(toRefStrHtml, render);
 </script>
 
 <template>

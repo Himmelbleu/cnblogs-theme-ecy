@@ -20,13 +20,15 @@ code {
   }
 }
 
-pre {
+.bleu-markdown {
   --uno: rd-2;
-  position: relative;
+  background: var(--l-blockcode-bg);
 
-  code {
-    padding: 1.5rem 1.2rem 1.5rem 1.2rem;
-    background: var(--l-blockcode-bg);
+  pre {
+    margin: 0 0 1rem 0;
+    code {
+      padding: 0 1.2rem 1.5rem 1.2rem;
+    }
   }
 }
 
@@ -35,8 +37,6 @@ a > code {
 }
 
 .code-tools {
-  --uno: absolute rd-2 top-0 right-0 text-0.8rem w-100%;
-
   .right {
     padding: 0.5rem 1.2rem 0.5rem 1.2rem;
     --uno: b-b-primary b-b-1 b-b-solid text-primary;
