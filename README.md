@@ -329,16 +329,16 @@ window.__BLEU_CONFIG__ = {
 };
 ```
 
-## markdownStyle
+## styleCss
 
 - 类型：object
 - 是否必填：否
 
-配置作品详细页内容的 markdown，以及评论区的 markdown 内容。
+配置 markdown 以及图片放大器样式。arbeiten 和 comment 符合 JS 的 style 样式对象。
 
 ```js
 window.__BLEU_CONFIG__ = {
-  markdownStyle: {
+  styleCss: {
     arbeiten: {
       fontSize: "1.1rem"
     },
@@ -349,25 +349,7 @@ window.__BLEU_CONFIG__ = {
 };
 ```
 
-## amplifierUnoCSS
-
-- 类型：object
-- 是否必填：否
-
-配置作品详细页内容的图片，以及评论区的图片。值必须是 unocss 的值，如 flex flex-wrap flex-col 等，具体可以查阅 [UnoCSS 交互文档](https://unocss.dev/interactive/)。
-
-```js
-window.__BLEU_CONFIG__ = {
-  amplifierUnoCSS: {
-    arbeiten: {
-      align: "f-c-c flex-col"
-    },
-    comment: {
-      align: "f-s-s flex-col"
-    }
-  }
-};
-```
+对于图片放大器，值必须是 UnoCSS，如 flex flex-wrap flex-col 等，具体可以查阅 [UnoCSS 交互文档](https://unocss.dev/interactive/)。
 
 其中 f-c-c 是本主题设置的 shortcuts，对照以下的值来设置。
 
@@ -379,6 +361,14 @@ const keys = [
   { k: "b", v: "between" },
   { k: "a", v: "around" }
 ];
+```
+
+```js
+window.__BLEU_CONFIG__ = {
+  styleCss: {
+    amplifier: "f-c-c flex-col"
+  }
+};
 ```
 
 ## 完整配置

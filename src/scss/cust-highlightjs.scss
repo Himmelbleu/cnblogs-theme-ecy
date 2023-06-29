@@ -20,6 +20,7 @@
   }
 
   &:hover::-webkit-scrollbar-thumb {
+    --uno: rd-2;
     background-color: var(--l-strip-bg);
   }
 }

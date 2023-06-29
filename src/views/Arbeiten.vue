@@ -8,7 +8,6 @@ const arbPrevNext = shallowRef();
 const arbViewPoint = shallowRef();
 const arbIsLock = ref(false);
 const postInfo = ref();
-const realHtml = ref();
 const arbeitenId = ref(route.params.id as string);
 const loading = new Broswer.Loading();
 
@@ -73,6 +72,8 @@ onMounted(() => {
 
   loading.endLoading();
 });
+
+const realHtml = ref<HTMLElement>();
 
 await fetchData(true);
 </script>
@@ -141,7 +142,7 @@ await fetchData(true);
         </div>
       </div>
       <Markdown
-        :style-css="BleuVars.config.markdownStyle?.arbeiten || { fontSize: '1.1rem' }"
+        :style-css="BleuVars.config.styleCss?.arbeiten || { fontSize: '1rem' }"
         :str-html="arbeiten.content"
         v-model:real-html="realHtml" />
       <div class="text-b mt-15 f-c-e text-0.9rem">
@@ -221,7 +222,7 @@ await fetchData(true);
       </div>
       <Catalog :str-html="arbeiten.content" :real-html="realHtml" />
       <Amplifier
-        :unocss="BleuVars.config.amplifierUnoCSS?.arbeiten || 'f-c-c flex-col'"
+        :style-css="BleuVars.config.styleCss?.amplifier || 'f-c-c flex-col'"
         :str-html="arbeiten.content"
         :real-html="realHtml" />
       <Comment :post-id="arbeitenId" />

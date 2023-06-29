@@ -194,16 +194,10 @@ interface BleuConfig {
   /**
    * markdown 样式配置
    */
-  markdownStyle?: {
-    arbeiten: any;
-    comment: any;
-  };
-  /**
-   * 放大器 unocss 配置
-   */
-  amplifierUnoCSS?: {
-    arbeiten: string;
-    comment: string;
+  styleCss?: {
+    arbeiten?: any;
+    comment?: any;
+    amplifier?: any;
   };
   /**
    * 图表

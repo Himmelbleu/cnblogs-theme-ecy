@@ -22,27 +22,29 @@ const props = defineProps({
 
 const emits = defineEmits(["update:realHtml"]);
 
-const bleuMk = ref("");
+const htmlInst = ref<HTMLElement>();
+const strHtmlRef = toRef(props, "strHtml");
+const markdown = ref("");
 
-function buildBleuPre(str: string) {
+function generateMarkdown() {
+  let mtc;
+  let str = props.strHtml;
   let regex = /<pre>[\s\S]*?<\/pre>/g;
-  let match;
-  let _str = str;
 
-  while ((match = regex.exec(str)) !== null) {
-    const pre = buildBleuPreStr(match[0]);
-    _str = _str.replace(match[0], pre);
+  while ((mtc = regex.exec(props.strHtml)) !== null) {
+    const pre = refactorMarkdown(mtc[0]);
+    str = str.replace(mtc[0], pre);
   }
 
-  return _str;
+  return str;
 }
 
-function buildBleuPreStr(str: string) {
+function refactorMarkdown(str: string) {
   const mt = str.match(/file:([\d\w\.\-\_/]+)/);
   const fn = mt ? mt[1] : "";
   const lg = str.match(/<code class="language-([\d\w]+)"/)[1].toUpperCase();
 
-  const template = `
+  const t = `
     <div class="tools ${fn ? "f-c-b" : "f-c-e"} f-c-b rd-2 rd-2 text-0.8rem w-100%">
       ${fn ? `<div class="right">${fn}</div>` : ""}
       <div class="left f-c-b text-c">
@@ -53,65 +55,49 @@ function buildBleuPreStr(str: string) {
   `;
 
   str = str.replace(/file:([\d\w\.\-\_/])*/g, "");
-  str = str.replace("<pre>", `<div class="bleu-pre">${template}<pre>`);
+  str = str.replace("<pre>", `<div class="bleu-pre">${t}<pre>`);
 
   return str + "</div></pre>";
 }
 
-function registerClipboardEvent(mkInst: HTMLElement, cnInst: HTMLElement) {
-  const clipboard = mkInst.querySelector(".clipboard");
-  clipboard.addEventListener("click", () => {
-    navigator.clipboard.writeText(cnInst.innerText).then(
+function registerMarkdown(mkd: HTMLElement, pre: HTMLElement) {
+  const clip = mkd.querySelector(".clipboard");
+  clip.addEventListener("click", () => {
+    navigator.clipboard.writeText(pre.innerText).then(
       () => ElMessage({ message: "复制成功！", type: "success", grouping: true }),
       () => ElMessage({ message: "没有权限！", type: "error", grouping: true })
     );
   });
 }
 
-let times = 0;
-const htmlInst = ref<HTMLElement>();
+function renderMarkdown() {
+  markdown.value = generateMarkdown();
 
-function render() {
-  const mkArrInst = htmlInst.value.querySelectorAll<HTMLElement>(".bleu-pre");
+  nextTick(() => {
+    htmlInst.value.querySelectorAll<HTMLElement>(".bleu-pre").forEach(i => {
+      const pre = i.querySelector<HTMLElement>("pre code");
+      hljs.highlightElement(pre);
+      registerMarkdown(i, pre);
+    });
 
-  mkArrInst.forEach((mkInst, index) => {
-    const preInst = mkInst.querySelector<HTMLElement>("pre code");
-    hljs.highlightElement(preInst);
-    registerClipboardEvent(mkInst, preInst);
+    // mathjax
+    const mathNodes = htmlInst.value.getElementsByClassName("math");
+    if (window.MathJax && mathNodes?.length > 0) {
+      window.MathJax.startup.promise = window.MathJax.startup.promise
+        .then(() => {
+          window.MathJax.typesetPromise(mathNodes);
+        })
+        .catch(console.error);
+    }
+
+    emits("update:realHtml", htmlInst.value);
   });
-
-  // mathjax
-  const mathNodes = htmlInst.value.getElementsByClassName("math");
-
-  if (window.MathJax && mathNodes.length > 0) {
-    window.MathJax.startup.promise = window.MathJax.startup.promise
-      .then(() => {
-        window.MathJax.typesetPromise(mathNodes);
-      })
-      .catch(console.error);
-  }
-
-  emits("update:realHtml", htmlInst.value);
 }
 
-onBeforeMount(() => {
-  bleuMk.value = buildBleuPre(props.strHtml);
-});
-
-onMounted(() => {
-  times++;
-  render();
-});
-
-onUpdated(() => {
-  times++;
-  if (times > 2) {
-    bleuMk.value = buildBleuPre(props.strHtml);
-    render();
-  }
-});
+onMounted(renderMarkdown);
+watch(strHtmlRef, renderMarkdown);
 </script>
 
 <template>
-  <div class="markdown-textual" ref="htmlInst" :style="styleCss" v-html="bleuMk"></div>
+  <div class="markdown-textual" ref="htmlInst" :style="styleCss" v-html="markdown"></div>
 </template>
