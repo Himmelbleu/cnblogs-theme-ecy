@@ -22,48 +22,44 @@ const props = defineProps({
 
 const emits = defineEmits(["update:realHtml"]);
 
-const strMarkdown = ref("");
+const bleuMk = ref("");
 
-function splitPreStr(str: string) {
-  const arr = str.split(/<\/pre>/g);
-  arr.pop();
-  return arr;
+function buildBleuPre(str: string) {
+  let regex = /<pre>[\s\S]*?<\/pre>/g;
+  let match;
+  let _str = str;
+
+  while ((match = regex.exec(str)) !== null) {
+    const pre = buildBleuPreStr(match[0]);
+    _str = _str.replace(match[0], pre);
+  }
+
+  return _str;
 }
 
-function generatePreStr(str: string) {
+function buildBleuPreStr(str: string) {
   const mt = str.match(/file:([\d\w\.\-\_/]+)/);
-  const filename = mt ? mt[1] : "";
-  const language = str.match(/<code class="language-([\d\w]+)"/)[1].toUpperCase();
+  const fn = mt ? mt[1] : "";
+  const lg = str.match(/<code class="language-([\d\w]+)"/)[1].toUpperCase();
 
   const template = `
-    <div class="code-tools ${filename ? "f-c-b" : "f-c-e"} f-c-b rd-2 rd-2 text-0.8rem w-100%">
-      ${filename ? `<div class="right">${filename}</div>` : ""}
+    <div class="tools ${fn ? "f-c-b" : "f-c-e"} f-c-b rd-2 rd-2 text-0.8rem w-100%">
+      ${fn ? `<div class="right">${fn}</div>` : ""}
       <div class="left f-c-b text-c">
-        <div class="code-language mr-2">${language}</div>
-        <div class="code-clipboard hover">复制</div>
+        <div class="language mr-2">${lg}</div>
+        <div class="clipboard hover">复制</div>
       </div>
     </div>
   `;
 
   str = str.replace(/file:([\d\w\.\-\_/])*/g, "");
-  str = str.replace("<pre>", `<div class="bleu-markdown">${template}<pre>`);
+  str = str.replace("<pre>", `<div class="bleu-pre">${template}<pre>`);
 
   return str + "</div></pre>";
 }
 
-function generateMarkdownStr() {
-  let strMarkdown = "";
-  const pres = splitPreStr(props.strHtml);
-
-  for (let i = 0; i < pres.length; i++) {
-    strMarkdown += generatePreStr(pres[i]);
-  }
-
-  return strMarkdown;
-}
-
-function generateClipEvent(mkInst: HTMLElement, cnInst: HTMLElement) {
-  const clipboard = mkInst.querySelector(".code-clipboard");
+function registerClipboardEvent(mkInst: HTMLElement, cnInst: HTMLElement) {
+  const clipboard = mkInst.querySelector(".clipboard");
   clipboard.addEventListener("click", () => {
     navigator.clipboard.writeText(cnInst.innerText).then(
       () => ElMessage({ message: "复制成功！", type: "success", grouping: true }),
@@ -76,12 +72,12 @@ let times = 0;
 const htmlInst = ref<HTMLElement>();
 
 function render() {
-  const mkArrInst = htmlInst.value.querySelectorAll<HTMLElement>(".bleu-markdown");
+  const mkArrInst = htmlInst.value.querySelectorAll<HTMLElement>(".bleu-pre");
 
   mkArrInst.forEach((mkInst, index) => {
     const preInst = mkInst.querySelector<HTMLElement>("pre code");
     hljs.highlightElement(preInst);
-    generateClipEvent(mkInst, preInst);
+    registerClipboardEvent(mkInst, preInst);
   });
 
   // mathjax
@@ -99,7 +95,7 @@ function render() {
 }
 
 onBeforeMount(() => {
-  strMarkdown.value = generateMarkdownStr();
+  bleuMk.value = buildBleuPre(props.strHtml);
 });
 
 onMounted(() => {
@@ -110,12 +106,12 @@ onMounted(() => {
 onUpdated(() => {
   times++;
   if (times > 2) {
-    strMarkdown.value = generateMarkdownStr();
+    bleuMk.value = buildBleuPre(props.strHtml);
     render();
   }
 });
 </script>
 
 <template>
-  <div class="markdown-textual" ref="htmlInst" :style="styleCss" v-html="strMarkdown"></div>
+  <div class="markdown-textual" ref="htmlInst" :style="styleCss" v-html="bleuMk"></div>
 </template>
