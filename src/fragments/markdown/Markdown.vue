@@ -40,22 +40,64 @@ function generateMarkdown() {
 }
 
 function refactorMarkdown(str: string) {
-  const mt = str.match(/file:([\d\w\.\-\_/]+)/);
-  const fn = mt ? mt[1] : "";
-  const lg = str.match(/<code class="language-([\d\w]+)"/)[1].toUpperCase();
+  const mt = str.match(/file:([a-zA-Z0-9.\-_\/]+)/);
+  const addLine = str.match(/add:\[(.*?)\]/);
+  const delLine = str.match(/del:\[(.*?)\]/);
+
+  let addLineNum = 0,
+    delLineNum = 0,
+    addTemp,
+    delTemp;
+
+  if (addLine || delLine) {
+    const len = str.split("\n");
+
+    if (addLine) {
+      len.forEach((i, index) => {
+        const mtAdd = i.match(/add:\[(.*?)\]/);
+        if (mtAdd) {
+          addLineNum = index;
+        }
+      });
+      addTemp = `<div class="added-line bg-emerald absolute left-0 w-100% opacity-20 rd-1" style="top: ${
+        addLineNum * 1.35
+      }rem; height: 1.5rem"></div>`;
+      str = str.replace(/add:\[(.*?)\]/g, `${addLine[1]}`);
+    }
+
+    if (delLine) {
+      len.forEach((i, index) => {
+        const mtDel = i.match(/del:\[(.*?)\]/);
+        if (mtDel) {
+          delLineNum = index;
+        }
+      });
+      delTemp = `<div class="delete-line bg-red absolute left-0 w-100% opacity-20 rd-1" style="top: ${
+        delLineNum * 1.35
+      }rem; height: 1.5rem"></div>`;
+      str = str.replace(/del:\[(.*?)\]/g, `${delLine[1]}`);
+    }
+  }
+
+  const mark = mt ? mt[1] : "";
+  const lang = str.match(/<code class="language-([\d\w]+)"/)[1].toUpperCase();
 
   const t = `
-    <div class="tools ${fn ? "f-c-b" : "f-c-e"} f-c-b rd-2 rd-2 text-0.8rem w-100%">
-      ${fn ? `<div class="right">${fn}</div>` : ""}
+    <div class="tools ${mark ? "f-c-b" : "f-c-e"} f-c-b rd-2 rd-2 text-0.8rem w-100%">
+      ${mark ? `<div class="right">${mark}</div>` : ""}
       <div class="left f-c-b text-c">
-        <div class="language mr-2">${lg}</div>
+        <div class="language mr-2">${lang}</div>
         <div class="clipboard hover">复制</div>
       </div>
     </div>
   `;
 
-  str = str.replace(/file:([\d\w\.\-\_/])*/g, "");
-  str = str.replace("<pre>", `<div class="bleu-pre">${t}<pre>`);
+  if (mark) str = str.replace(/file:([a-zA-Z0-9.\-_\/]+)/g, "");
+
+  str = str.replace(
+    "<pre>",
+    `<div class="bleu-pre">${t}<pre class="relative">${addTemp || ""}${delTemp || ""}`
+  );
 
   return str + "</div></pre>";
 }

@@ -169,6 +169,37 @@ pnpm run build
 <script src="https://blog-static.cnblogs.com/files/yjlblog/cursor-effects.js"></script>
 ```
 
+# 主题特性
+
+## 代码块左上角标注
+
+有时候代码块需要特意说明是哪个文件的，或者说明文件的路径等标注信息，在文本中直接说明有点繁琐，因此你只需要按照以下格式就可以实现一个代码块标注。
+
+`file:src/math_utils.js`
+
+```js
+file:src/math_utils.js
+function add(x, y) {
+  return x + y;
+}
+```
+
+## 代码块删除增加高亮
+
+我们可以在很多的博客、文档中看到代码块有删除、增加的背景高亮。这样可以让我们阅读的时候清楚地知道哪里改动，不需要过多的文字描述。
+
+所以，我特地开发了这一项功能。你只需要使用以下格式就可以让你的代码块中呈现删除或增加的高亮背景。
+
+- 删除 `del:[]`
+- 增加 `add:[]`
+
+```js
+function add(x, y) {
+  del:[return x + y]
+  add:[return y + x]
+}
+```
+
 # 配置主题
 
 ## icon
