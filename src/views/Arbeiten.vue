@@ -145,21 +145,11 @@ await fetchData(true);
         :style-css="BleuVars.config.styleCss?.arbeiten || { fontSize: '1rem' }"
         :str-html="arbeiten.content"
         v-model:real-html="realHtml" />
-      <div class="text-b mt-15 f-c-e text-0.9rem">
-        <div class="f-c-c mr-4">
-          <div class="i-tabler-calendar-stats mr-2"></div>
-          {{ arbeiten.date }}
-        </div>
-        <div class="f-c-c mr-4">
-          <div class="i-tabler-eye mr-2"></div>
-          {{ arbeiten.view }}次阅读
-        </div>
-        <div class="f-c-c">
-          <div class="i-tabler-message-2 mr-2"></div>
-          {{ arbeiten.comm }}条评论
-        </div>
-      </div>
-      <div class="copyright p-5 text-b mt-15">
+      <Amplifier
+        :style-css="BleuVars.config.styleCss?.amplifier || 'f-c-c flex-col'"
+        :str-html="arbeiten.content"
+        :real-html="realHtml" />
+      <div class="bg-b3 text-0.8rem p-5 text-b mt-5">
         <div class="f-c-s flex-wrap">
           <div class="i-tabler-user mr-2"></div>
           作者：<span
@@ -181,7 +171,7 @@ await fetchData(true);
           >」许可协议进行许可。
         </div>
       </div>
-      <div class="mt-15 text-0.9rem">
+      <div class="mt-5 text-0.9rem text-b">
         <div class="f-s-s mb-2" v-if="arbPrevNext?.prev?.href">
           <router-link class="hover" :to="RouterPath.Arbeiten(arbPrevNext.prev.href)">
             上一篇：{{ arbPrevNext.prev.text }}
@@ -193,38 +183,31 @@ await fetchData(true);
           </router-link>
         </div>
       </div>
-      <div v-if="!isBlogOwner && isLogined" class="my-10 f-c-e">
+      <div v-if="!isBlogOwner && isLogined" class="mt-10 f-c-e">
         <el-button type="primary" plain round size="small">
           <span v-if="postInfo.isFollowed" @click="ArbeitenApi.unfollow">- 取消关注</span>
           <span v-else @click="ArbeitenApi.follow">+ 关注博主</span>
         </el-button>
       </div>
-      <div class="my-10 f-c-c">
-        <div class="f-c-c hover mr-8" @click="vote('Digg')">
-          <div class="i-tabler-thumb-up mr-2"></div>
+      <div class="mt-20 f-c-c">
+        <el-button type="primary" plain @click="vote('Digg')" class="mr-5">
+          <div class="i-tabler-thumb-up mr-1"></div>
           赞成{{ arbViewPoint.diggCount }}
-        </div>
-        <div class="f-c-c hover mr-8" @click="vote('Bury')">
-          <div class="i-tabler-thumb-down mr-2"></div>
+        </el-button>
+        <el-button type="danger" plain @click="vote('Bury')" class="mr-5">
+          <div class="i-tabler-thumb-down mr-1"></div>
           反对{{ arbViewPoint.buryCount }}
-        </div>
-        <div class="f-c-c hover" @click="Native.saveArbeiten(arbeitenId)">
-          <div class="i-tabler-heart mr-2"></div>
-          收藏该文
-        </div>
+        </el-button>
+        <el-button type="success" plain @click="Native.saveArbeiten(arbeitenId)">
+          <div class="i-tabler-heart mr-1"></div>
+          收藏
+        </el-button>
       </div>
-      <div class="my-10 f-c-e text-0.9rem">
+      <div class="my-20 f-c-e text-0.9rem">
         分享：
-        <div class="f-c-c hover" @click="Native.shareToWechat">
-          <div class="i-tabler-brand-wechat mr-2"></div>
-          微信
-        </div>
+        <div class="i-tabler-brand-wechat mr-2 hover" @click="Native.shareToWechat"></div>
       </div>
       <Catalog :str-html="arbeiten.content" :real-html="realHtml" />
-      <Amplifier
-        :style-css="BleuVars.config.styleCss?.amplifier || 'f-c-c flex-col'"
-        :str-html="arbeiten.content"
-        :real-html="realHtml" />
       <Comment :post-id="arbeitenId" />
     </div>
     <div class="content" v-else>
@@ -245,9 +228,3 @@ await fetchData(true);
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.copyright {
-  background: var(--l-blockcode-bg);
-}
-</style>

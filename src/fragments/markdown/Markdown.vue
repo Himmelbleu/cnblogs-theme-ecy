@@ -59,9 +59,9 @@ function refactorMarkdown(str: string) {
           addLineNum = index;
         }
       });
-      addTemp = `<div class="added-line bg-emerald absolute left-0 w-100% opacity-20 rd-1" style="top: ${
-        addLineNum * 1.35
-      }rem; height: 1.5rem"></div>`;
+      addTemp = `<div class="added-line bg-emerald absolute left-0 w-100% opacity-10" style="top: ${
+        addLineNum * 1.5
+      }rem; height: 1rem"></div>`;
       str = str.replace(/add:\[(.*?)\]/g, `${addLine[1]}`);
     }
 
@@ -72,9 +72,9 @@ function refactorMarkdown(str: string) {
           delLineNum = index;
         }
       });
-      delTemp = `<div class="delete-line bg-red absolute left-0 w-100% opacity-20 rd-1" style="top: ${
-        delLineNum * 1.35
-      }rem; height: 1.5rem"></div>`;
+      delTemp = `<div class="deled-line bg-red absolute left-0 w-100% opacity-10" style="top: ${
+        delLineNum * 1.5
+      }rem; height: 1rem"></div>`;
       str = str.replace(/del:\[(.*?)\]/g, `${delLine[1]}`);
     }
   }
@@ -83,7 +83,7 @@ function refactorMarkdown(str: string) {
   const lang = str.match(/<code class="language-([\d\w]+)"/)[1].toUpperCase();
 
   const t = `
-    <div class="tools ${mark ? "f-c-b" : "f-c-e"} f-c-b rd-2 rd-2 text-0.8rem w-100%">
+    <div class="tools ${mark ? "f-c-b" : "f-c-e"} f-c-b rd-2 text-0.8rem w-100%">
       ${mark ? `<div class="right">${mark}</div>` : ""}
       <div class="left f-c-b text-c">
         <div class="language mr-2">${lang}</div>
@@ -103,8 +103,7 @@ function refactorMarkdown(str: string) {
 }
 
 function registerMarkdown(mkd: HTMLElement, pre: HTMLElement) {
-  const clip = mkd.querySelector(".clipboard");
-  clip.addEventListener("click", () => {
+  mkd.querySelector(".clipboard").addEventListener("click", () => {
     navigator.clipboard.writeText(pre.innerText).then(
       () => ElMessage({ message: "复制成功！", type: "success", grouping: true }),
       () => ElMessage({ message: "没有权限！", type: "error", grouping: true })
@@ -123,11 +122,11 @@ function renderMarkdown() {
     });
 
     // mathjax
-    const mathNodes = htmlInst.value.getElementsByClassName("math");
-    if (window.MathJax && mathNodes?.length > 0) {
+    const mathElArr = htmlInst.value.getElementsByClassName("math");
+    if (window.MathJax && mathElArr?.length > 0) {
       window.MathJax.startup.promise = window.MathJax.startup.promise
         .then(() => {
-          window.MathJax.typesetPromise(mathNodes);
+          window.MathJax.typesetPromise(mathElArr);
         })
         .catch(console.error);
     }

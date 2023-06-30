@@ -7,7 +7,8 @@ const loading = new Broswer.Loading();
 
 async function fetchData(index?: any) {
   loading.startLoading();
-  markWorks.value = await ArbeitenApi.getListByMark(`${route.params.tag}`, index);
+  const name = route.query.name;
+  markWorks.value = await ArbeitenApi.getListByMark(`${name}`, index);
   Broswer.setTitle(markWorks.value.hint);
   loading.endLoading();
 }
@@ -34,7 +35,7 @@ watch(route, async () => {
           <div class="text-1.2rem mb-5 mt-4">{{ markWorks.hint }}</div>
         </template>
       </el-page-header>
-      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="markWorks.page">
+      <Pagination @change="fetchData" @next="fetchData" @prev="fetchData" :count="markWorks.page">
         <template #content>
           <div class="relative mb-15" v-for="item of markWorks.data">
             <div class="text-1.2rem">

@@ -7,14 +7,11 @@
 
 code {
   margin: 0;
-  --uno: rd-2;
-  letter-spacing: 1.5px;
   color: var(--el-color-danger-light-3);
   font-family: var(--l-code-family);
   font-size: var(--l-code-size);
 
   span {
-    line-height: 1.8;
     font-family: var(--l-code-family);
     font-size: var(--l-code-size);
   }
@@ -22,14 +19,12 @@ code {
 
 .bleu-pre {
   --uno: rd-2;
-  background: var(--l-blockcode-bg);
+  margin: 1.5rem 0;
+  background: var(--l-bg-3);
 
   pre {
-    margin: 0 0 1rem 0;
-
-    code {
-      padding: 0 1.2rem 1.5rem 1.2rem;
-    }
+    margin: 0;
+    padding: 0 1.2rem 1.5rem 1.2rem;
   }
 
   .tools {
@@ -83,7 +78,7 @@ a > code {
   }
 
   blockquote {
-    background-color: var(--l-blockquote-bg);
+    background-color: var(--l-bg-1);
     color: var(--text-b);
     margin: 0;
     border: {
@@ -116,7 +111,6 @@ a > code {
 
   p {
     margin: 1.5rem 0;
-    line-height: 1.8;
   }
 
   img {
@@ -131,7 +125,6 @@ a > code {
     li {
       margin-bottom: 0.5rem;
       position: relative;
-      line-height: 1.8;
       list-style-type: none;
       counter-increment: step-counter;
 
@@ -146,7 +139,7 @@ a > code {
         --uno: f-c-c text-0.8rem;
         font-weight: 400;
         color: var(--text-a);
-        background: var(--l-step-bg);
+        background: var(--l-bg-2);
       }
     }
 

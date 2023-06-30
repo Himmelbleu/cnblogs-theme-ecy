@@ -18,12 +18,7 @@ provide(ProvideKey.Catalog, disabled);
       <RouterView v-slot="{ Component }">
         <template v-if="Component">
           <KeepAlive
-            :include="[
-              RouterName.BleuHome,
-              RouterName.MarkList,
-              RouterName.ArbeitenByCalendar,
-              RouterName.ArbeitenList
-            ]">
+            :include="[RouterName.BleuHome, RouterName.MarkList, RouterName.ArbeitenByCalendar]">
             <Suspense>
               <component :is="Component" />
             </Suspense>

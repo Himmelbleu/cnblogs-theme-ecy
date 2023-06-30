@@ -134,7 +134,7 @@ await fetchData();
         </div>
       </div>
       <div
-        class="transition-all-300 fixed-lt w-70 h-100vh z-90 bg-drop-primary"
+        class="transition-all-300 fixed-lt w-70 h-100vh z-90 bg-b1"
         :class="{ 'close-menu-body': !isActiveMenu, 'open-menu-body': isActiveMenu }">
         <div class="flow-auto select-none scroll-none h-100% mt-30">
           <div class="menu-list ml-10">
@@ -263,7 +263,7 @@ await fetchData();
             <img
               class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
               :src="BleuVars.config.avatar" />
-            <div class="f-s-b flex-col h-100%">
+            <div class="f-s-b flex-col py-4 h-100%">
               <!-- 积分和排名 -->
               <div v-if="column?.rankings?.length" class="f-c-s text-0.8rem text-b">
                 <div
@@ -353,7 +353,7 @@ await fetchData();
           <img
             class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
             :src="BleuVars.config.avatar || ''" />
-          <div class="f-s-b flex-col h-100%">
+          <div class="f-s-b flex-col py-4 h-100%">
             <!-- 积分和排名 -->
             <div v-if="column?.rankings?.length" class="f-c-s text-0.8rem text-b">
               <div
@@ -461,7 +461,7 @@ await fetchData();
       <!-- 图表 -->
       <div
         :class="{ 'scale-0': !isShowPieChart1, 'scale-100': isShowPieChart1 }"
-        class="transition-all-300 z-9 rd-2 bg-drop-primary absolute left-0 top-0">
+        class="transition-all-300 z-9 rd-2 bg-b1 absolute left-0 top-0">
         <div text="c 1rem">
           <div p="r-4 t-4" class="f-c-e hover" @click="isShowPieChart1 = !isShowPieChart1">
             <div class="i-tabler-arrows-minimize mr-2"></div>
@@ -499,7 +499,7 @@ await fetchData();
           </div>
           <div v-if="column?.essaySort?.length" class="f-c-b flex-wrap">
             <div class="mb-6 mr-4 hover" v-for="item in column.essaySort">
-              <router-link :to="RouterPath.ArbeitenBySort(item.id)">
+              <router-link :to="RouterPath.ArbeitenBySort(item.id, '1', true)">
                 {{ item.text }}
               </router-link>
             </div>
@@ -508,7 +508,7 @@ await fetchData();
         <!-- 图表 -->
         <div
           :class="{ 'scale-0': !isShowPieChart2, 'scale-100': isShowPieChart2 }"
-          class="transition-all-300 z-9 rd-2 bg-drop-primary absolute left-0 top-0">
+          class="transition-all-300 z-9 rd-2 bg-b1 absolute left-0 top-0">
           <div text="c 1rem">
             <div p="r-4 t-4" class="f-c-e hover" @click="isShowPieChart2 = !isShowPieChart2">
               <div class="i-tabler-arrows-minimize mr-2"></div>
@@ -528,7 +528,7 @@ await fetchData();
         </div>
         <div v-if="column?.articleSort?.length" class="f-c-b flex-wrap">
           <div class="mb-6 mr-4 hover" v-for="item in column.articleSort">
-            <router-link :to="RouterPath.ArbeitenBySort(item.id)">
+            <router-link :to="RouterPath.ArbeitenBySort(item.id, '1', true)">
               {{ item.text }}
             </router-link>
           </div>
@@ -570,7 +570,7 @@ await fetchData();
       <!-- 图表 -->
       <div
         :class="{ 'scale-0': !isShowLineChart, 'scale-100': isShowLineChart }"
-        class="transition-all-300 z-9 rd-2 bg-drop-primary absolute left-0 top-0">
+        class="transition-all-300 z-9 rd-2 bg-b1 absolute left-0 top-0">
         <div text="c 1rem">
           <div p="r-4 t-4" class="f-c-e hover" @click="isShowLineChart = !isShowLineChart">
             <div class="i-tabler-arrows-minimize mr-2"></div>

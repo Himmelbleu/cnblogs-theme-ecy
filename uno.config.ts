@@ -29,7 +29,10 @@ export default defineConfig({
       c: "var(--text-c)",
       d: "var(--text-d)",
       primary: "var(--text-primary)",
-      dropPrimary: "var(--l-background-bg)"
+      b1: "var(--l-bg-1)",
+      b2: "var(--l-bg-2)",
+      b3: "var(--l-bg-3)",
+      b4: "var(--l-bg-4)"
     }
   },
   preflights: [
@@ -62,8 +65,7 @@ export default defineConfig({
         "font-family": `var(--l-${d}-family) !important;`,
         "font-size": `var(--l-${d}-size) !important;`
       })
-    ],
-    [/^line-height-(\d+|\d+\.\d+)$/, ([, d]) => ({ "line-height": `${d}rem` })]
+    ]
   ],
   shortcuts: [
     // flex

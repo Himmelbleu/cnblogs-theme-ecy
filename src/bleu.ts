@@ -22,10 +22,10 @@ function onLoadedBleu() {
     BleuVars.config.font?.art?.size || "1.2rem"
   );
 
-  const oldSetting = BleuStorage.getOptions().value;
-  const newSetting = JSON.stringify(BleuStorage.refactor(oldSetting, BleuStorage.getOptionsTemp()));
-  localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, newSetting);
-  document.documentElement.setAttribute("class", oldSetting.theme.mode);
+  const oldst = BleuStorage.getOptions().value;
+  const newst = JSON.stringify(BleuStorage.refactor(oldst, BleuStorage.getOptionsTemp()));
+  localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, newst);
+  document.documentElement.setAttribute("class", oldst.theme.mode);
 }
 
 function beforeUseBleu() {
@@ -41,16 +41,16 @@ function afterUseBleu() {
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
-  PrettifyLog.primary("v2.7.1", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+  PrettifyLog.primary("v2.7.2", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
-export function useBleu(dev: Function, pro: Function) {
+export function useBleu(develop: Function, product: Function) {
   beforeUseBleu();
 
   if (import.meta.env.PROD) {
     BleuVars.config = window["__BLEU_CONFIG__"];
     onLoadedBleu();
-    pro();
+    product();
   } else if (import.meta.env.DEV) {
     BleuVars.config = {
       signature: "Time tick away, dream faded away.",
@@ -113,7 +113,7 @@ export function useBleu(dev: Function, pro: Function) {
       }
     };
     onLoadedBleu();
-    dev();
+    develop();
   }
 
   afterUseBleu();

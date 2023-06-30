@@ -42,7 +42,7 @@ await fetchData();
 <template>
   <div id="l-arbeiten-by-archive" class="page">
     <div class="content" v-if="archiveList">
-      <Pagination @nexpr="fetchData" @next="fetchData" @prev="fetchData" :count="archiveList.page">
+      <Pagination @change="fetchData" @next="fetchData" @prev="fetchData" :count="archiveList.page">
         <template #content>
           <el-page-header :icon="null" @back="$router.back()">
             <template #title>
