@@ -87,7 +87,7 @@ interface BleuArbeitenList2 extends BleuArbeitenList {
  */
 interface BleuArbeitenProps {
   tags: { text: string }[];
-  sorts: { href: string; text: string }[];
+  sorts: { id: string; text: string }[];
 }
 
 /**
@@ -151,6 +151,20 @@ interface BleuArbeitenPrevNext {
 interface BleuAlbumnItem {
   id: string;
   src: string;
+}
+
+interface BleuAlbumn {
+  title: string;
+  desc: string;
+  data: BleuMenuItemData[];
+}
+
+/**
+ * 作品状态，是否关注过博主，是否点过赞
+ */
+interface BleuArbeitenState {
+  isFollowed: boolean;
+  isDigg: boolean;
 }
 
 /**

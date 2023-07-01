@@ -2,7 +2,7 @@
 import { ArbeitenApi } from "@/apis";
 
 const route = useRoute();
-const markWorks = shallowRef();
+const markWorks = shallowRef<BleuArbeitenList2>();
 const loading = new Broswer.Loading();
 
 async function fetchData(index?: any) {

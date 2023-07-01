@@ -3,10 +3,10 @@ import { ArbeitenApi } from "@/apis";
 
 const router = useRouter();
 const route = useRoute();
-const typeL2Arbeiten = shallowRef();
-const typeL1Arbeiten = shallowRef();
+const typeL1Arbeiten = shallowRef<BleuArbeitenList2>();
+const typeL2Arbeiten = shallowRef<BleuArbeitenL2[]>();
 const arbeitenCouverture = BleuVars.config.images?.arbeiten || [];
-const couvertureIndexs = shallowRef();
+const couvertureIndexs = shallowRef<number[]>();
 const loading = new Broswer.Loading();
 
 const defaultIndex = ref(1);

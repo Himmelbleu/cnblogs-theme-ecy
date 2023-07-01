@@ -2,12 +2,12 @@
 import { ArbeitenApi } from "@/apis";
 
 const route = useRoute();
-const arbeiten = shallowRef();
-const arbProps = shallowRef();
-const arbPrevNext = shallowRef();
-const arbViewPoint = shallowRef();
+const arbeiten = shallowRef<BleuArbeiten>();
+const arbProps = shallowRef<BleuArbeitenProps>();
+const arbPrevNext = shallowRef<BleuArbeitenPrevNext>();
+const arbViewPoint = shallowRef<BlogArbeitenViewPoint>();
+const arbeitenState = ref<BleuArbeitenState>();
 const arbIsLock = ref(false);
-const postInfo = ref();
 const arbeitenId = ref(route.params.id as string);
 const loading = new Broswer.Loading();
 
@@ -19,15 +19,15 @@ async function fetchData(isInMounted?: boolean) {
     ArbeitenApi.getProps(arbeitenId.value),
     ArbeitenApi.getPrevNext(arbeitenId.value),
     ArbeitenApi.getViewPoint(arbeitenId.value),
-    ArbeitenApi.getArbeitenInfo(arbeitenId.value)
+    ArbeitenApi.getArbeitenState(arbeitenId.value)
   ]);
 
   arbeiten.value = val1;
   arbProps.value = val2;
   arbPrevNext.value = val3;
   arbViewPoint.value = val4;
+  arbeitenState.value = val5;
   arbIsLock.value = val1.isLocked;
-  postInfo.value = val5;
 
   Broswer.setTitle(arbeiten.value.text);
   !isInMounted && loading.endLoading();
@@ -81,7 +81,7 @@ await fetchData(true);
 <template>
   <div id="l-arbeiten" class="page">
     <div class="content mt-4" v-if="!arbIsLock">
-      <div class="text-1.6rem w-100%">{{ arbeiten.text }}</div>
+      <div class="text-1.4rem w-100%">{{ arbeiten.text }}</div>
       <div class="f-c-s lt-sm:flex-wrap mt-6 text-0.9rem">
         <div class="f-c-c mr-4">
           <div class="i-tabler-calendar-stats mr-2"></div>
@@ -118,7 +118,7 @@ await fetchData(true);
             v-for="(item, index) in arbProps.sorts"
             :class="{ 'mr-4': index !== arbProps.sorts.length - 1 }">
             <HollowedBox hover line="dotted" round>
-              <router-link :to="RouterPath.ArbeitenBySort(item.href)">
+              <router-link :to="RouterPath.ArbeitenBySort(item.id, '1', true)">
                 {{ item.text }}
               </router-link>
             </HollowedBox>
@@ -185,7 +185,7 @@ await fetchData(true);
       </div>
       <div v-if="!isBlogOwner && isLogined" class="mt-10 f-c-e">
         <el-button type="primary" plain round size="small">
-          <span v-if="postInfo.isFollowed" @click="ArbeitenApi.unfollow">- 取消关注</span>
+          <span v-if="arbeitenState.isFollowed" @click="ArbeitenApi.unfollow">- 取消关注</span>
           <span v-else @click="ArbeitenApi.follow">+ 关注博主</span>
         </el-button>
       </div>

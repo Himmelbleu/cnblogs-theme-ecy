@@ -6,7 +6,7 @@ let archiveDate = route.params.date as string;
 let archiveMode = route.params.mode as string;
 const archiveList = shallowRef();
 const images = BleuVars.config.images?.arbeiten || [];
-const imgsIndexs = shallowRef();
+const imgsIndexs = shallowRef<number[]>();
 const loading = new Broswer.Loading();
 
 async function fetchData() {

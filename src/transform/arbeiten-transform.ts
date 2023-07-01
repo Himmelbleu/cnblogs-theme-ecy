@@ -106,7 +106,7 @@ export namespace ArbeitenTransform {
 
     for (let i = 0; i < eleCates.length; i++) {
       data.sorts.push({
-        href: eleCates[i]
+        id: eleCates[i]
           .getAttribute("href")
           .match(/\/category\/\d+/g)[0]
           .split("/")[2]

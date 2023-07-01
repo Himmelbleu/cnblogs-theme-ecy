@@ -152,11 +152,11 @@ export namespace ArbeitenApi {
   }
 
   /**
-   * 获取作品的关注信息
+   * 获取作品状态信息
    *
    * @param id 作品 ID
    */
-  export async function getArbeitenInfo(id: string) {
+  export async function getArbeitenState(id: string): Promise<BleuArbeitenState> {
     let resp = { isFollowed: false, isDigg: false };
     const blogUserGuid = BleuVars.getUserGuid();
     if (blogUserGuid && isLogined) {

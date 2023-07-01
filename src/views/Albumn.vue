@@ -2,8 +2,8 @@
 import { DatumApi } from "@/apis";
 
 const route = useRoute();
-const albumn = shallowRef();
-const srcList = shallowRef();
+const albumn = shallowRef<BleuAlbumn>();
+const srcList = shallowRef<string[]>();
 const loading = new Broswer.Loading();
 
 async function fetchData() {

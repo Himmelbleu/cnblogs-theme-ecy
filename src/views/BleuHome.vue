@@ -4,10 +4,10 @@ import { ArbeitenApi, DatumApi } from "@/apis";
 import { useWheelRollsUpAndDown } from "@/hooks/use-mouse";
 import {} from "@/utils/native";
 
-const list = shallowRef();
-const news = shallowRef();
-const status = shallowRef();
-const topList = shallowRef();
+const list = shallowRef<BleuArbeitenList>();
+const news = shallowRef<BleuMenuItemData[]>();
+const status = shallowRef<BleuMenuItemData[]>();
+const topList = shallowRef<BleuTopList>();
 const column = shallowRef<BleuMenuColumn>();
 const markList = shallowRef<BleuMark[]>();
 const loading = new Broswer.Loading();

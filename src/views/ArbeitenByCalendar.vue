@@ -2,8 +2,8 @@
 import { DatumApi } from "@/apis";
 
 const date = new Date();
-const calendar = shallowRef();
 const dateModel = ref(date);
+const calendar = shallowRef<string[]>();
 const loading = new Broswer.Loading();
 
 loading.startLoading();
