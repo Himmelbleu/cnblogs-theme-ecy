@@ -279,6 +279,7 @@ await fetchData();
                 <el-input
                   v-model="searchVal"
                   @keyup.enter="Native.searchArbeiten(searchVal)"
+                  size="small"
                   placeholder="输入关键字"
                   clearable>
                   <template #prefix>
@@ -369,6 +370,7 @@ await fetchData();
               <el-input
                 v-model="searchVal"
                 @keyup.enter="Native.searchArbeiten(searchVal)"
+                size="small"
                 placeholder="输入关键字"
                 clearable>
                 <template #prefix>
