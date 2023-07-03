@@ -188,12 +188,12 @@ pnpm run build
 
 有时候代码块需要特意说明是哪个文件的，或者说明文件的路径等标注信息，在文本中直接说明有点繁琐，因此你只需要按照以下格式就可以实现一个代码块标注。
 
-`file:src/math_utils.js`
+`file:[src/math_utils.js]`
 
 在代码块内第一行写上代码块标注。
 
 ```js
-file: src / math_utils.js;
+file:[src/math_utils.js]
 function add(x, y) {
   return x + y;
 }

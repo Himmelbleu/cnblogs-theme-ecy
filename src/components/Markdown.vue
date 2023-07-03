@@ -40,7 +40,7 @@ function generateMarkdown() {
 }
 
 function refactorMarkdown(str: string) {
-  const mtMark = str.match(/file:([a-zA-Z0-9.\-_\/]+)/);
+  const mtMark = str.match(/file:\[([\u4e00-\u9fffa-zA-Z0-9.\-_\s\/]+)\]/);
   const mtAddLine = str.match(/add:\[(.*?)\]/);
   const mtDelLine = str.match(/del:\[(.*?)\]/);
 
@@ -92,7 +92,7 @@ function refactorMarkdown(str: string) {
     </div>
   `;
 
-  if (mark) str = str.replace(/file:([a-zA-Z0-9.\-_\/]+)/g, "");
+  if (mark) str = str.replace(/file:\[([\u4e00-\u9fffa-zA-Z0-9.\-_\s\/]+)\]/g, "");
 
   str = str.replace(
     "<pre>",
