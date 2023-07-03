@@ -57,8 +57,7 @@ pnpm run build
 
 ![](./docs/image-3.png)
 
-- 数学公式必须选择 MathJax3。
-- 其余的选项可以自行设置。
+编辑器推荐选择 markdown，主题特性是基于 markdown 编辑的文本内容进行开发的。数学公式必须选择 MathJax3，其余的选项可以自行设置。
 
 ## 控件设置
 
@@ -78,7 +77,16 @@ pnpm run build
 <!-- 主题样式 -->
 <link
   rel="stylesheet"
-  href="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.css?t=202307021514" />
+  href="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.css?t=202307031708" />
+
+<!-- 推荐字体 -->
+<link rel="stylesheet" href="https://fonts.loli.net/icon?family=ZCOOL+KuaiLe" />
+<link
+  rel="stylesheet"
+  href="https://cdn.bootcdn.net/ajax/libs/hack-font/3.3.0/web/hack-subset.min.css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-webfont/1.6.0/style.min.css" />
 
 <!-- 加载动画 CSS -->
 <style>
@@ -168,7 +176,7 @@ pnpm run build
 <!-- 主题 JS -->
 <script
   type="module"
-  src="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=202307021514"></script>
+  src="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=202307031708"></script>
 
 <!-- 鼠标特效 -->
 <script src="https://blog-static.cnblogs.com/files/yjlblog/cursor-effects.js"></script>
@@ -176,7 +184,7 @@ pnpm run build
 
 # 主题特性
 
-## 代码块左上角标注
+## 代码块标注
 
 有时候代码块需要特意说明是哪个文件的，或者说明文件的路径等标注信息，在文本中直接说明有点繁琐，因此你只需要按照以下格式就可以实现一个代码块标注。
 
@@ -185,17 +193,17 @@ pnpm run build
 在代码块内第一行写上代码块标注。
 
 ```js
-file:src/math_utils.js
+file: src / math_utils.js;
 function add(x, y) {
   return x + y;
 }
 ```
 
-## 代码块删除增加高亮
+## 代码块行高亮
 
-我们可以在很多的博客、文档中看到代码块有删除、增加的背景高亮。这样可以让我们阅读的时候清楚地知道哪里改动，不需要过多的文字描述。
+很多的博客、文档的代码块有删除行、增加行的背景高亮。这样让我们阅读的时候清楚地知道哪里改动，不需要过多的文字描述。
 
-所以，我特地开发了这一项功能。你只需要使用以下格式就可以让你的代码块中呈现删除或增加的高亮背景。
+所以，你只需要使用以下格式就可以让你的代码块中呈现删除或增加的高亮背景。
 
 - 删除 `del:[]`
 - 增加 `add:[]`
@@ -208,6 +216,10 @@ function add(x, y) {
   add:[return y + x]
 }
 ```
+
+## 主题更新
+
+因博客园有缓存，更改 `https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=202307031708` 链接中 `t` 等于的值，可以是日期，也可以是其他值。更改完成之后，就可以获取到最新的主题。
 
 # 配置主题
 
