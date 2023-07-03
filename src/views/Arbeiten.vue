@@ -117,11 +117,11 @@ await fetchData(true);
             class="mt-2"
             v-for="(item, index) in arbProps.sorts"
             :class="{ 'mr-4': index !== arbProps.sorts.length - 1 }">
-            <HollowedBox hover line="dotted" round>
-              <router-link :to="RouterPath.ArbeitenBySort(item.id, '1', true)">
+            <router-link :to="RouterPath.ArbeitenBySort(item.id, '1', true)">
+              <HollowedBox hover line="dotted" round>
                 {{ item.text }}
-              </router-link>
-            </HollowedBox>
+              </HollowedBox>
+            </router-link>
           </div>
         </div>
         <div class="f-c-s flex-wrap" v-if="arbProps?.tags?.length">
@@ -133,11 +133,11 @@ await fetchData(true);
             class="mt-2"
             v-for="(item, index) in arbProps.tags"
             :class="{ 'mr-4': index !== arbProps.tags.length - 1 }">
-            <HollowedBox line="dotted" hover round>
-              <router-link :to="RouterPath.ArbeitenByMark(item.text)">
+            <router-link :to="RouterPath.ArbeitenByMark(item.text)">
+              <HollowedBox line="dotted" hover round>
                 {{ item.text }}
-              </router-link>
-            </HollowedBox>
+              </HollowedBox>
+            </router-link>
           </div>
         </div>
       </div>

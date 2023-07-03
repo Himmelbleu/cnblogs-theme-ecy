@@ -188,7 +188,10 @@ await fetchData();
       <div class="lg:w-49% lg:h-100vh py-4" v-if="list?.data">
         <div class="h-100%" :class="{ 'f-c-b flex-col': list.data.length >= 4 }">
           <!-- 随笔列表 -->
-          <div class="lt-lg:mb-15" :class="{ 'mb-10': list.data.length < 4 }" v-for="item in list.data">
+          <div
+            class="lt-lg:mb-15"
+            :class="{ 'mb-10': list.data.length < 4 }"
+            v-for="item in list.data">
             <!-- 日期 -->
             <div class="f-c-s text-b text-0.9rem mb-2">
               <div class="i-tabler-clock-hour3 mr-2"></div>
@@ -228,9 +231,9 @@ await fetchData();
             </div>
           </div>
           <div class="f-c-e w-100%">
-            <HollowedBox round dotted hover @click="$router.push(RouterPath.ArbeitenList())">
-              <router-link :to="RouterPath.ArbeitenList()">MORE</router-link>
-            </HollowedBox>
+            <router-link :to="RouterPath.ArbeitenList('1')">
+              <HollowedBox round dotted hover>MORE</HollowedBox>
+            </router-link>
           </div>
         </div>
       </div>
@@ -256,11 +259,11 @@ await fetchData();
         class="lg:w-49% lg:ml-10 lg:h-100vh"
         :class="{ 'py-4': BleuVars.config.images?.home?.disabled }">
         <div>
-          <div class="caption mb-10">
+          <div class="caption mb-5">
             <div class="i-tabler-info-square-rounded mr-2"></div>
             博客信息
           </div>
-          <div class="f-c-s h-30 mb-10 text-1rem text-b">
+          <div class="f-c-s h-30 mb-5 text-1rem text-b">
             <!-- 头像 -->
             <img
               class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
@@ -325,7 +328,7 @@ await fetchData();
               </div>
               <div class="f-c-s mt-5">
                 <div class="i-tabler-chart-bar mr-2"></div>
-                阅读的数量：{{ status[3].digg }}次
+                阅读的数量：{{ status[3].digg }}
               </div>
             </div>
           </div>
@@ -347,13 +350,13 @@ await fetchData();
       v-if="
         !BleuVars.config.images?.home?.disabled && BleuVars.config.images?.home?.carousel?.length
       "
-      class="sm:f-s-b mt-20">
+      class="sm:f-s-b mt-10">
       <div class="sm:w-49%">
-        <div class="caption mb-10">
+        <div class="caption mb-5">
           <div class="i-tabler-info-square-rounded mr-2"></div>
           博客信息
         </div>
-        <div class="f-c-s h-30 mb-10 text-1rem text-b">
+        <div class="f-c-s h-30 mb-5 text-1rem text-b">
           <!-- 头像 -->
           <img
             class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
@@ -418,7 +421,7 @@ await fetchData();
             </div>
             <div class="f-c-s mt-5">
               <div class="i-tabler-chart-bar mr-2"></div>
-              阅读的数量：{{ status[3].digg }}次
+              阅读的数量：{{ status[3].digg }}
             </div>
           </div>
         </div>
@@ -435,7 +438,7 @@ await fetchData();
       </div>
     </div>
     <!-- area-5：随笔标签 -->
-    <div class="mt-20 relative" v-if="markList?.length">
+    <div class="mt-10 relative" v-if="markList?.length">
       <div
         class="transition-all-500"
         :class="{ 'opacity-100': !isShowPieChart1, 'opacity-30': isShowPieChart1 }">
@@ -453,15 +456,14 @@ await fetchData();
             "
             class="f-c-c cursor-pointer hover text-c text-1rem">
             <div class="i-tabler-zoom-in mr-2"></div>
-            图表
           </div>
         </div>
         <div class="f-s-b flex-wrap overflow-auto scroll-none">
-          <HollowedBox v-for="item in markList" hover line="dotted" round class="mr-4 mb-6">
-            <router-link :to="RouterPath.ArbeitenByMark(item.text)">
+          <router-link v-for="item in markList" :to="RouterPath.ArbeitenByMark(item.text)">
+            <HollowedBox hover line="dotted" round class="mr-4 mb-6">
               {{ item.text }}
-            </router-link>
-          </HollowedBox>
+            </HollowedBox>
+          </router-link>
         </div>
       </div>
       <!-- 图表 -->
@@ -500,7 +502,6 @@ await fetchData();
               "
               class="f-c-c cursor-pointer hover text-c text-1rem mr-4">
               <div class="i-tabler-zoom-in mr-2"></div>
-              图表
             </div>
           </div>
           <div class="f-c-b flex-wrap">
@@ -561,7 +562,6 @@ await fetchData();
               "
               class="f-c-c cursor-pointer hover text-c text-1rem mr-4">
               <div class="i-tabler-zoom-in mr-2"></div>
-              图表
             </div>
           </div>
           <div class="f-c-b flex-wrap">
