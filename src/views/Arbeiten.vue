@@ -190,15 +190,15 @@ await fetchData(true);
         </el-button>
       </div>
       <div class="mt-20 f-c-c">
-        <el-button type="primary" plain @click="vote('Digg')" class="mr-5">
+        <el-button text type="primary" bg @click="vote('Digg')" class="mr-5">
           <div class="i-tabler-thumb-up mr-1"></div>
           赞成{{ arbViewPoint.diggCount }}
         </el-button>
-        <el-button type="danger" plain @click="vote('Bury')" class="mr-5">
+        <el-button text type="danger" bg @click="vote('Bury')" class="mr-5">
           <div class="i-tabler-thumb-down mr-1"></div>
           反对{{ arbViewPoint.buryCount }}
         </el-button>
-        <el-button type="success" plain @click="Native.saveArbeiten(arbeitenId)">
+        <el-button text type="success" bg @click="Native.saveArbeiten(arbeitenId)">
           <div class="i-tabler-heart mr-1"></div>
           收藏
         </el-button>

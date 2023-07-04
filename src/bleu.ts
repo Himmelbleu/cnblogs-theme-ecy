@@ -1,26 +1,18 @@
+function setStyle(styles: Record<string, string>) {
+  for (const [property, value] of Object.entries(styles)) {
+    document.documentElement.style.setProperty(property, value);
+  }
+}
+
 function onLoadedBleu() {
-  document.documentElement.style.setProperty(
-    "--l-main-family",
-    BleuVars.config.font?.main?.name || `var(--el-font-family)`
-  );
-
-  document.documentElement.style.setProperty(
-    "--l-code-family",
-    BleuVars.config.font?.code?.name || `var(--el-font-family)`
-  );
-  document.documentElement.style.setProperty(
-    "--l-code-size",
-    BleuVars.config.font?.code?.size || "0.8rem"
-  );
-
-  document.documentElement.style.setProperty(
-    "--l-art-family",
-    BleuVars.config.font?.art?.name || `var(--el-font-family)`
-  );
-  document.documentElement.style.setProperty(
-    "--l-art-size",
-    BleuVars.config.font?.art?.size || "1.2rem"
-  );
+  setStyle({
+    "--l-main-family": BleuVars.config.font?.main?.name || `var(--el-font-family)`,
+    "--l-code-family": BleuVars.config.font?.code?.name || `var(--el-font-family)`,
+    "--l-code-size": BleuVars.config.font?.code?.size || "0.8rem",
+    "--l-art-family": BleuVars.config.font?.art?.name || `var(--el-font-family)`,
+    "--l-art-size": BleuVars.config.font?.art?.size || "1.2rem",
+    "--el-color-primary": `${BleuVars.config.theme?.color || "#409eff"}`
+  });
 
   const oldst = BleuStorage.getOptions().value;
   const newst = JSON.stringify(BleuStorage.refactor(oldst, BleuStorage.getOptionsTemp()));
@@ -41,7 +33,7 @@ function afterUseBleu() {
   document.head.append(icon);
 
   PrettifyLog.primary("GitHub", "https://github.com/Himmelbleu/cnblogs-theme-bleu");
-  PrettifyLog.primary("v2.7.3", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
+  PrettifyLog.primary("v2.7.4", "The Theme was Created By Himmelbleu, and Powered By Vue3 & Vite.");
 }
 
 export function useBleu(develop: Function, product: Function) {
@@ -93,7 +85,6 @@ export function useBleu(develop: Function, product: Function) {
           },
           series: [
             {
-              areaStyle: {},
               type: "radar",
               data: [
                 {
@@ -104,6 +95,9 @@ export function useBleu(develop: Function, product: Function) {
             }
           ]
         }
+      },
+      theme: {
+        color: "#FA7298"
       },
       font: {
         code: {
