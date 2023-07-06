@@ -82,7 +82,7 @@ await fetchData(true);
   <div id="l-arbeiten" class="page">
     <div class="content mt-4" v-if="!arbIsLock">
       <div class="text-1.4rem w-100%">{{ arbeiten.text }}</div>
-      <div class="f-c-s lt-sm:flex-wrap mt-6 text-0.9rem">
+      <div class="f-c-s lt-sm:flex-wrap mt-4 text-0.9rem">
         <div class="f-c-c mr-4">
           <div class="i-tabler-calendar-stats mr-2"></div>
           {{ arbeiten.date }}
@@ -107,9 +107,9 @@ await fetchData(true);
           编辑
         </div>
       </div>
-      <div class="mt-6 mb-10">
-        <div class="mb-4 f-c-s flex-wrap" v-if="arbProps?.sorts?.length">
-          <div class="f-c-s mt-2 mr-2 text-1rem">
+      <div class="mt-4 mb-10">
+        <div class="mb-2 f-c-s flex-wrap text-0.9rem" v-if="arbProps?.sorts?.length">
+          <div class="f-c-s mt-2 mr-2">
             <div class="i-tabler-category-2 mr-2"></div>
             分类：
           </div>
@@ -118,14 +118,14 @@ await fetchData(true);
             v-for="(item, index) in arbProps.sorts"
             :class="{ 'mr-4': index !== arbProps.sorts.length - 1 }">
             <router-link :to="RouterPath.ArbeitenBySort(item.id, '1', true)">
-              <HollowedBox hover line="dotted" round>
+              <HollowedBox hover>
                 {{ item.text }}
               </HollowedBox>
             </router-link>
           </div>
         </div>
-        <div class="f-c-s flex-wrap" v-if="arbProps?.tags?.length">
-          <div class="f-c-s mt-2 mr-2 text-1rem">
+        <div class="f-c-s flex-wrap text-0.9rem" v-if="arbProps?.tags?.length">
+          <div class="f-c-s mt-2 mr-2">
             <div class="i-tabler-bookmarks mr-2"></div>
             标签：
           </div>
@@ -134,7 +134,7 @@ await fetchData(true);
             v-for="(item, index) in arbProps.tags"
             :class="{ 'mr-4': index !== arbProps.tags.length - 1 }">
             <router-link :to="RouterPath.ArbeitenByMark(item.text)">
-              <HollowedBox line="dotted" hover round>
+              <HollowedBox hover>
                 {{ item.text }}
               </HollowedBox>
             </router-link>
@@ -149,7 +149,7 @@ await fetchData(true);
         :style-css="BleuVars.config.styleCss?.amplifier || 'f-c-c flex-col'"
         :str-html="arbeiten.content"
         :real-html="realHtml" />
-      <div class="bg-b3 text-0.8rem p-5 text-b mt-5">
+      <div class="bg-b3 text-0.9rem p-5 text-b mt-10">
         <div class="f-c-s flex-wrap">
           <div class="i-tabler-user mr-2"></div>
           作者：<span
@@ -171,7 +171,7 @@ await fetchData(true);
           >」许可协议进行许可。
         </div>
       </div>
-      <div class="mt-5 text-0.9rem text-b">
+      <div class="mt-4 text-0.9rem text-b">
         <div class="f-s-s mb-2" v-if="arbPrevNext?.prev?.href">
           <router-link class="hover" :to="RouterPath.Arbeiten(arbPrevNext.prev.href)">
             上一篇：{{ arbPrevNext.prev.text }}

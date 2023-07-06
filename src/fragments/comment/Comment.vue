@@ -54,7 +54,6 @@ await fetchData();
       <div class="i-tabler-list mr-2"></div>
       评论列表
     </div>
-    <!-- 列表盒子 -->
     <div class="mt-10" v-if="isLogined && comments?.length">
       <div
         class="clearfix mb-12"
@@ -64,11 +63,9 @@ await fetchData();
         <div class="f-c-s">
           <img class="mr-4 rd-50% w-14 h-14 object-cover" :src="item.avatar" />
           <div>
-            <!-- 作者 -->
             <div class="hover cursor-pointer" @click="Navigation.go(item.space)">
               {{ item.author }}
             </div>
-            <!-- 楼层 -->
             <div
               class="text-0.9rem text-b mt-2 f-c-c"
               :id="'level-' + item.commentId"
@@ -81,7 +78,6 @@ await fetchData();
             </div>
           </div>
         </div>
-        <!-- 内容 -->
         <div class="mt-4 relative" style="margin-left: 4.5rem">
           <textarea class="z--1 opacity-0 absolute top-0 left-0" :id="'upload-img-' + index" />
           <Markdown

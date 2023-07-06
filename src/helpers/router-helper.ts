@@ -4,7 +4,6 @@
  * @author Himmelbleu
  * @date 2022 年 12 月 1 日
  */
-
 import { useAnchorStore } from "@/store";
 import type { RouteRecordRaw, NavigationGuardNext } from "vue-router";
 
@@ -34,7 +33,7 @@ export const routes = <RouteRecordRaw[]>[
   },
   {
     name: RouterName.ArbeitenBySort,
-    path: RouterPath.ArbeitenBySort('', '', false),
+    path: RouterPath.ArbeitenBySort(),
     props: true,
     component: () => import("@/views/ArbeitenBySort.vue")
   },
@@ -69,7 +68,7 @@ export const routes = <RouteRecordRaw[]>[
   }
 ];
 
-function indexesWorksComment() {
+function positionToComment() {
   const result = /#\/\d+/g.exec(window.location.href);
   if (result !== null) {
     const anchor = result[0].split("#/")[1];
@@ -87,7 +86,7 @@ const routeRules = [
     params: {
       id: Textual.regexSplit(window.location.href, RouterRegx.Arbeiten, [2, 0], ["/", "."])
     },
-    before: indexesWorksComment
+    before: positionToComment
   },
   {
     regex: RouterRegx.ArbeitenBySort,

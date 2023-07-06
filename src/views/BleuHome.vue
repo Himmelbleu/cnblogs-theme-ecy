@@ -235,7 +235,6 @@ await fetchData();
           </div>
         </div>
       </div>
-      <!-- 轮播图 -->
       <div
         v-if="
           !BleuVars.config.images?.home?.disabled && BleuVars.config.images?.home?.carousel?.length
@@ -251,7 +250,6 @@ await fetchData();
           class="w-100% h-100% transition-all-800 absolute top-0 left-0 object-cover"
           :src="item" />
       </div>
-      <!-- 关闭轮播图，个人数据 -->
       <div
         v-else
         class="lg:w-49% lg:ml-10 lg:h-100vh"
@@ -262,12 +260,10 @@ await fetchData();
             博客信息
           </div>
           <div class="f-c-s h-30 mb-5 text-1rem text-b">
-            <!-- 头像 -->
             <img
               class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
               :src="BleuVars.config.avatar" />
             <div class="f-s-b flex-col py-4 h-100%">
-              <!-- 积分和排名 -->
               <div v-if="column?.rankings?.length" class="f-c-s text-0.8rem text-b">
                 <div
                   v-for="(item, index) in column.rankings"
@@ -342,7 +338,6 @@ await fetchData();
         </div>
       </div>
     </div>
-    <!-- 开启轮播图，个人数据 -->
     <div
       v-if="
         !BleuVars.config.images?.home?.disabled && BleuVars.config.images?.home?.carousel?.length
@@ -354,12 +349,10 @@ await fetchData();
           博客信息
         </div>
         <div class="f-c-s h-30 mb-5 text-1rem text-b">
-          <!-- 头像 -->
           <img
             class="w-25 h-25 rd-50% lt-lg:mr-8 lg:mr-10 object-cover"
             :src="BleuVars.config.avatar || ''" />
           <div class="f-s-b flex-col py-4 h-100%">
-            <!-- 积分和排名 -->
             <div v-if="column?.rankings?.length" class="f-c-s text-0.8rem text-b">
               <div
                 v-for="(item, index) in column.rankings"
@@ -455,7 +448,7 @@ await fetchData();
         </div>
         <div class="f-s-b flex-wrap overflow-auto scroll-none">
           <router-link v-for="item in markList" :to="RouterPath.ArbeitenByMark(item.text)">
-            <HollowedBox hover line="dotted" round class="mr-4 mb-6">
+            <HollowedBox hover class="mr-4 mb-6">
               {{ item.text }}
             </HollowedBox>
           </router-link>

@@ -1,5 +1,5 @@
-function setStyle(styles: Record<string, string>) {
-  for (const [property, value] of Object.entries(styles)) {
+function setStyle(style: Record<string, string>) {
+  for (const [property, value] of Object.entries(style)) {
     document.documentElement.style.setProperty(property, value);
   }
 }
@@ -14,10 +14,12 @@ function onLoadedBleu() {
     "--el-color-primary": `${BleuVars.config.theme?.color || "#409eff"}`
   });
 
-  const oldst = BleuStorage.getOptions().value;
-  const newst = JSON.stringify(BleuStorage.refactor(oldst, BleuStorage.getOptionsTemp()));
-  localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, newst);
-  document.documentElement.setAttribute("class", oldst.theme.mode);
+  const storageOps = BleuStorage.getOptions().value;
+  const refactorOps = JSON.stringify(
+    BleuStorage.refactor(storageOps, BleuStorage.getOptionsTemp())
+  );
+  localStorage.setItem(`l-${BleuVars.getBlogApp()}-setting`, refactorOps);
+  document.documentElement.setAttribute("class", storageOps.theme.mode);
 }
 
 function beforeUseBleu() {
@@ -50,7 +52,10 @@ export function useBleu(develop: Function, product: Function) {
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F52685712-3f98-4dd5-b05b-87cd8b8524c3%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1689215021&t=6944511081f659351480894aa55663eb",
       images: {
         background: {
-          src: "https://th.bing.com/th/id/R.e79036ab9e7ef09bd5951536125c60ac?rik=qzIaIiYX81%2fOAA&riu=http%3a%2f%2f5b0988e595225.cdn.sohucs.com%2fimages%2f20181103%2ffeaa7d14883047fb81bbaa16f681f583.jpeg&ehk=hywgeurG%2fR6NTPM5A6bkA4YGllkcUFzqDTWm%2fxfDeDU%3d&risl=&pid=ImgRaw&r=0"
+          src: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201811%2F01%2F20181101135242_aumss.jpg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1691243994&t=0a99f53883ef9459e648874adcf042f8",
+          repeat: "no-repeat",
+          position: "100%",
+          size: "100%"
         },
         arbeiten: [
           "https://anime.shochiku.co.jp/sukimega/wp-content/themes/sukimega_first_theme/common2/images/top_content_kv01.jpg",
@@ -86,6 +91,7 @@ export function useBleu(develop: Function, product: Function) {
           series: [
             {
               type: "radar",
+              areaStyle: {},
               data: [
                 {
                   value: [4, 1, 4, 3, 3.5, 1, 3.5, 2.5, 3.5],
@@ -95,9 +101,6 @@ export function useBleu(develop: Function, product: Function) {
             }
           ]
         }
-      },
-      theme: {
-        color: "#FA7298"
       },
       font: {
         code: {
