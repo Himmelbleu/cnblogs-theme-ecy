@@ -77,7 +77,7 @@ pnpm run build
 <!-- 主题样式 -->
 <link
   rel="stylesheet"
-  href="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.css?t=202307031708" />
+  href="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.css?t=20230708117" />
 
 <!-- 推荐字体 -->
 <link rel="stylesheet" href="https://fonts.loli.net/icon?family=ZCOOL+KuaiLe" />
@@ -176,7 +176,7 @@ pnpm run build
 <!-- 主题 JS -->
 <script
   type="module"
-  src="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=202307031708"></script>
+  src="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=20230708117"></script>
 
 <!-- 鼠标特效 -->
 <script src="https://blog-static.cnblogs.com/files/yjlblog/cursor-effects.js"></script>
@@ -212,7 +212,7 @@ function add(x, y) {
 
 ## 主题更新
 
-因博客园有缓存，更改 `https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=202307031708` 链接中 `t` 等于的值，可以是日期，也可以是其他值。更改完成之后，就可以获取到最新的主题。
+因博客园有缓存，更改 `https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=20230708117` 链接中 `t` 等于的值，可以是日期，也可以是其他值。更改完成之后，就可以获取到最新的主题。
 
 # 配置主题
 
@@ -232,16 +232,16 @@ window.__BLEU_CONFIG__ = {
 };
 ```
 
-<p style="color: #409EFF">#409EFF</p>
-<p style="color: #2D8CF0">#2D8CF0</p>
-<p style="color: #FA7298">#FA7298</p>
-<p style="color: #42B983">#42B983</p>
-<p style="color: #607D8B">#607D8B</p>
-<p style="color: #5E72E4">#5E72E4</p>
-<p style="color: #FF9700">#FF9700</p>
-<p style="color: #009688">#009688</p>
-<p style="color: #673BB7">#673BB7</p>
-<p style="color: #906f61">#906f61</p>
+<span style="color: #409EFF">#409EFF</span>
+<span style="color: #2D8CF0">#2D8CF0</span>
+<span style="color: #FA7298">#FA7298</span>
+<span style="color: #42B983">#42B983</span>
+<span style="color: #607D8B">#607D8B</span>
+<span style="color: #5E72E4">#5E72E4</span>
+<span style="color: #FF9700">#FF9700</span>
+<span style="color: #009688">#009688</span>
+<span style="color: #673BB7">#673BB7</span>
+<span style="color: #906f61">#906f61</span>
 
 ## icon
 
@@ -487,7 +487,7 @@ const keys = [
 ```js
 window.__BLEU_CONFIG__ = {
   styleCss: {
-    amplifier: "f-c-c flex-col"
+    amplifier: "f-c-c"
   }
 };
 ```

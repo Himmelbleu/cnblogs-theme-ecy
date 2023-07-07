@@ -123,9 +123,6 @@ const routeRules = [
 
 /**
  * 对原博客链接进行重写并提取重要信息。
- *
- * 比如，https://www.cnblogs.com/Himmelbleu/p/11111.html。要对该地址进行转换，得到一个 Vue Router 认识的 hash URL，
- * 需要该地址中 11111，即作品的 ID，通过 blogRoutingRules 博客园路由匹配规则获取。
  */
 export function redirect(next: NavigationGuardNext) {
   const matched = routeRules.find(rule => rule.regex.test(window.location.href));

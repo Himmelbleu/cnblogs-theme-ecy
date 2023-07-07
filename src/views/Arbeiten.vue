@@ -145,10 +145,7 @@ await fetchData(true);
         :style-css="BleuVars.config.styleCss?.arbeiten || { fontSize: '1rem' }"
         :str-html="arbeiten.content"
         v-model:real-html="realHtml" />
-      <Amplifier
-        :style-css="BleuVars.config.styleCss?.amplifier || 'f-c-c flex-col'"
-        :str-html="arbeiten.content"
-        :real-html="realHtml" />
+      <Catalog :str-html="arbeiten.content" :real-html="realHtml" />
       <div class="bg-b3 text-0.9rem p-5 text-b mt-10">
         <div class="f-c-s flex-wrap">
           <div class="i-tabler-user mr-2"></div>
@@ -160,7 +157,9 @@ await fetchData(true);
         </div>
         <div class="f-c-s flex-wrap">
           <div class="i-tabler-sign-right mr-2"></div>
-          出处：<span class="hover">https://www.cnblogs.com/himmelbleu/#/p/{{ arbeitenId }}</span>
+          出处：<span class="hover">
+            https://www.cnblogs.com/{{ BleuVars.getBlogApp() }}/#/p/{{ arbeitenId }}
+          </span>
         </div>
         <div class="f-c-s flex-wrap">
           <div class="i-tabler-license mr-2"></div>
@@ -207,7 +206,6 @@ await fetchData(true);
         分享：
         <div class="i-tabler-brand-wechat mr-2 hover" @click="Native.shareToWechat"></div>
       </div>
-      <Catalog :str-html="arbeiten.content" :real-html="realHtml" />
       <Comment :post-id="arbeitenId" />
     </div>
     <div class="content" v-else>
