@@ -77,7 +77,7 @@ pnpm run build
 <!-- 主题样式 -->
 <link
   rel="stylesheet"
-  href="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.css?t=20230708117" />
+  href="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.css?t=202307090102" />
 
 <!-- 推荐字体 -->
 <link rel="stylesheet" href="https://fonts.loli.net/icon?family=ZCOOL+KuaiLe" />
@@ -176,7 +176,7 @@ pnpm run build
 <!-- 主题 JS -->
 <script
   type="module"
-  src="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=20230708117"></script>
+  src="https://blog-static.cnblogs.com/files/blogs/666252/index-bleu.js?t=202307090102"></script>
 
 <!-- 鼠标特效 -->
 <script src="https://blog-static.cnblogs.com/files/yjlblog/cursor-effects.js"></script>

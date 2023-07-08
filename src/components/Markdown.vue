@@ -16,8 +16,12 @@ const props = defineProps({
     required: false
   },
   styleCss: {
-    type: Object,
+    type: String,
     required: false
+  },
+  fancyGroup: {
+    type: String,
+    required: true
   }
 });
 
@@ -55,9 +59,9 @@ function refactorImg(str: string, index: number) {
   const mtAlt = str.match(/alt="([^"]*)"/);
 
   const late = `
-    <div class="bleu-img ${BleuVars.config.styleCss?.amplifier || "f-c-c"}">
+    <div class="bleu-img ${props.styleCss}">
       <div>
-        <a href="${mtSrc[1]}" data-fancybox="bleu-gallery"
+        <a href="${mtSrc[1]}" data-fancybox="bleu-gallery-${props.fancyGroup}"
           data-download-src="${mtSrc[1]}" data-caption="${mtAlt ? mtAlt[1] : ""}">
           <img src="${mtSrc[1]}" class="rd-2" alt="${mtAlt ? mtAlt[1] : ""}" />
         </a>
