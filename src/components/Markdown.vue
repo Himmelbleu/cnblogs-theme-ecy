@@ -169,18 +169,21 @@ function renderMarkdown() {
       Toolbar: {
         display: {
           left: ["infobar"],
-          middle: ["zoomIn", "zoomOut", "toggle1to1", "rotateCCW", "rotateCW", "flipX", "flipY"],
+          middle: BleuVars.isPcDevice()
+            ? ["zoomIn", "zoomOut", "toggle1to1", "rotateCCW", "rotateCW", "flipX", "flipY"]
+            : [],
           right: ["slideshow", "thumbs", "close"]
         }
       },
       Hash: false
     };
 
-    if (!BleuVars.isPcDevice()) {
-      options["Toolbar"]["display"]["middle"] = [];
+    if (BleuVars.config?.fancybox) {
+      const merged = Object.assign({}, options, BleuVars.config.fancybox);
+      Fancybox.bind("[data-fancybox]", merged);
+    } else {
+      Fancybox.bind("[data-fancybox]", options);
     }
-
-    Fancybox.bind("[data-fancybox]", options);
 
     emits("update:realHtml", htmlInst.value);
   });

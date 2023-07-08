@@ -15,8 +15,6 @@
 - 界面简洁优雅，响应式网页设计。
 - 轻量配置，非常容易使用。
 - 提供暗黑模式和多种色彩主题，可随时切换。
-- 支持自定义导航栏菜单项、悬浮标题目录等。
-- 项目结构清晰，代码简单，可实现高度定制化开发。
 
 ## 开发
 
@@ -57,13 +55,14 @@ pnpm run build
 
 ![](./docs/image-3.png)
 
-编辑器推荐选择 markdown，主题特性是基于 markdown 编辑的文本内容进行开发的。数学公式必须选择 MathJax3，其余的选项可以自行设置。
+- 编辑器推荐选择 markdown，主题特性是基于 markdown 编辑的文本内容进行开发的。
+- 数学公式必须选择 MathJax3，其余的选项可以自行设置。
 
 ## 控件设置
 
 ![](./docs/image-4.png)
 
-- 控件选项仅供参考。
+上图所示控件选项仅供参考。
 
 ## 页首 HTML 代码
 
@@ -333,7 +332,7 @@ window.__BLEU_CONFIG__ = {
 
 （1）技能雷达
 
-技能雷达完全符合 echart 雷达图的配置，具体请查看 [echart 雷达图示例](https://echarts.apache.org/examples/zh/index.html#chart-type-radar)。
+查看官方示例 [echart 雷达图示例](https://echarts.apache.org/examples/zh/index.html#chart-type-radar)。
 
 ```js
 window.__BLEU_CONFIG__ = {
@@ -377,13 +376,11 @@ window.__BLEU_CONFIG__ = {
 };
 ```
 
-技能雷达的区域颜色和线条颜色的配置：[areaStyle](https://echarts.apache.org/zh/option.html#series-radar.areaStyle)、[lineStyle](https://echarts.apache.org/zh/option.html#series-radar.lineStyle)。
-
-这两个属性是 series 数组中对象元素下的属性，配置时不要配置错误了。
+查看官方文档说明：[areaStyle](https://echarts.apache.org/zh/option.html#series-radar.areaStyle)、[lineStyle](https://echarts.apache.org/zh/option.html#series-radar.lineStyle)。
 
 （2）随笔归档折线图
 
-点击链接查看 [areaStyle](https://echarts.apache.org/zh/option.html#series-line.areaStyle)、[lineStyle](https://echarts.apache.org/zh/option.html#series-line.lineStyle)。
+查看官方文档说明：[areaStyle](https://echarts.apache.org/zh/option.html#series-line.areaStyle)、[lineStyle](https://echarts.apache.org/zh/option.html#series-line.lineStyle)。
 
 ```js
 window.__BLEU_CONFIG__ = {
@@ -403,7 +400,7 @@ window.__BLEU_CONFIG__ = {
 - 类型：object
 - 是否必填：否
 
-配置主题的字体，默认字体使用 Element-Plus 的字体集。你可以配置你自己喜欢的字体。
+配置主题的字体，默认字体使用 Element-Plus 的字体集。
 
 1. 在“页首 HTML 代码”处插入一个字体 cdn 或者字体网址的 link 标签，表示引入字体到博客中。
 2. 得到字体名称。
@@ -455,24 +452,7 @@ window.__BLEU_CONFIG__ = {
 - 类型：object
 - 是否必填：否
 
-配置 markdown 以及图片放大器样式。arbeiten 和 comment 符合 JS 的 style 样式对象。
-
-```js
-window.__BLEU_CONFIG__ = {
-  styleCss: {
-    arbeiten: {
-      fontSize: "1.1rem"
-    },
-    comment: {
-      fontSize: "1rem"
-    }
-  }
-};
-```
-
-对于图片放大器，值必须是 UnoCSS，如 flex flex-wrap flex-col 等，具体可以查阅 [UnoCSS 交互文档](https://unocss.dev/interactive/)。
-
-其中 f-c-c 是本主题设置的 shortcuts，对照以下的值来设置。
+自定义 markdown 样式。值必须是 UnoCSS，如 flex flex-wrap flex-col 等，具体可以查阅 [UnoCSS 交互文档](https://unocss.dev/interactive/)。以下是本主题设置的 shortcuts，简化 flex items-center 等值的设置，对照以下列表来设置。
 
 ```js
 const keys = [
@@ -487,7 +467,30 @@ const keys = [
 ```js
 window.__BLEU_CONFIG__ = {
   styleCss: {
-    amplifier: "f-c-c"
+    arbeiten: "f-c-c",
+    comment: "f-c-s"
+  }
+};
+```
+
+## fancybox
+
+- 类型：object
+- 是否必填：否
+
+配置图片查看器。具体可以查阅 [Options | Fancybox](https://fancyapps.com/fancybox/api/options/)。
+
+```js
+window.__BLEU_CONFIG__ = {
+  fancybox: {
+    Toolbar: {
+      display: {
+        left: ["infobar"],
+        middle: ["zoomIn", "zoomOut", "toggle1to1", "rotateCCW", "rotateCW", "flipX", "flipY"],
+        right: ["slideshow", "thumbs", "close"]
+      }
+    },
+    Hash: false
   }
 };
 ```

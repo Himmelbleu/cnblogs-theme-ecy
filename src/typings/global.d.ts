@@ -214,6 +214,10 @@ interface BleuConfig {
     amplifier?: any;
   };
   /**
+   * fancybox 配置
+   */
+  fancybox?: any;
+  /**
    * 图表
    */
   chart: {
