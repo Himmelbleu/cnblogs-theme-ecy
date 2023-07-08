@@ -142,10 +142,11 @@ await fetchData(true);
         </div>
       </div>
       <Markdown
-        :style-css="BleuVars.config.styleCss?.arbeiten || 'f-c-c'"
+        :unocss-img="BleuVars.config.unocss?.ab?.img || 'f-c-c'"
+        :unocss-text="BleuVars.config.unocss?.ab?.text || 'text-1rem'"
+        :fancy-group="'arbeiten'"
         :str-html="arbeiten.content"
-        v-model:real-html="realHtml"
-        :fancy-group="'arbeiten'" />
+        v-model:real-html="realHtml" />
       <Catalog :str-html="arbeiten.content" :real-html="realHtml" />
       <div class="bg-b3 text-0.9rem p-5 text-b mt-10">
         <div class="f-c-s flex-wrap">

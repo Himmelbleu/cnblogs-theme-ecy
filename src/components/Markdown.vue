@@ -15,9 +15,11 @@ const props = defineProps({
     type: HTMLElement,
     required: false
   },
-  styleCss: {
-    type: String,
-    required: false
+  unocssImg: {
+    type: String
+  },
+  unocssText: {
+    type: String
   },
   fancyGroup: {
     type: String,
@@ -59,7 +61,7 @@ function refactorImg(str: string, index: number) {
   const mtAlt = str.match(/alt="([^"]*)"/);
 
   const late = `
-    <div class="bleu-img ${props.styleCss}">
+    <div class="bleu-img ${props.unocssImg}">
       <div>
         <a href="${mtSrc[1]}" data-fancybox="bleu-gallery-${props.fancyGroup}"
           data-download-src="${mtSrc[1]}" data-caption="${mtAlt ? mtAlt[1] : ""}">
@@ -194,5 +196,5 @@ watch(strHtmlRef, renderMarkdown);
 </script>
 
 <template>
-  <div class="markdown-textual" ref="htmlInst" :style="styleCss" v-html="markdown"></div>
+  <div class="markdown-textual" :class="unocssText" ref="htmlInst" v-html="markdown"></div>
 </template>

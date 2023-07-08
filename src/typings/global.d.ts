@@ -206,12 +206,17 @@ interface BleuConfig {
     };
   };
   /**
-   * markdown 样式配置
+   * 自定义 unocss，对作品和评论进行自定义
    */
-  styleCss?: {
-    arbeiten?: any;
-    comment?: any;
-    amplifier?: any;
+  unocss?: {
+    ab?: {
+      img?: string;
+      text?: string;
+    };
+    co?: {
+      img?: string;
+      text?: string;
+    };
   };
   /**
    * fancybox 配置

@@ -431,7 +431,7 @@ window.__BLEU_CONFIG__ = {
   font: {
     code: {
       name: "Hack, LXGW WenKai",
-      // 修改代码块的字体大小，单位建议 rem
+      // 修改文章中代码块字体大小，单位建议 rem
       size: "0.8rem"
     },
     main: {
@@ -447,12 +447,12 @@ window.__BLEU_CONFIG__ = {
 };
 ```
 
-## styleCss
+## unocss
 
 - 类型：object
 - 是否必填：否
 
-自定义 markdown 样式。值必须是 UnoCSS，如 flex flex-wrap flex-col 等，具体可以查阅 [UnoCSS 交互文档](https://unocss.dev/interactive/)。以下是本主题设置的 shortcuts，简化 flex items-center 等值的设置，对照以下列表来设置。
+自定义 unocss。具体可以查阅 [UnoCSS 交互文档](https://unocss.dev/interactive/)。以下是本主题设置的 shortcuts，简化 flex items-center 等值的设置，对照以下列表来设置。
 
 ```js
 const keys = [
@@ -466,9 +466,19 @@ const keys = [
 
 ```js
 window.__BLEU_CONFIG__ = {
-  styleCss: {
-    arbeiten: "f-c-c",
-    comment: "f-c-s"
+  unocss: {
+    ab: {
+      // 自定义文章内容图片的对其方式，左、中、右
+      img: "f-c-c",
+      // 自定义文章内容字体大小
+      text: "text-1rem"
+    },
+    co: {
+      // 自定义评论内容图片的对其方式，左、中、右
+      img: "f-c-s",
+      // 自定义评论内容字体大小
+      text: "text-0.9rem"
+    }
   }
 };
 ```

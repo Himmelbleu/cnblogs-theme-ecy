@@ -81,9 +81,10 @@ await fetchData();
         <div class="mt-4 relative" style="margin-left: 4.5rem">
           <textarea class="z--1 opacity-0 absolute top-0 left-0" :id="'upload-img-' + index" />
           <Markdown
-            :style-css="BleuVars.config.styleCss?.comment || 'f-c-s'"
-            :str-html="item.content"
-            :fancy-group="'comment-' + index" />
+            :unocss-img="BleuVars.config.unocss?.co?.img || 'f-c-s'"
+            :unocss-text="BleuVars.config.unocss?.co?.text || 'text-0.9rem'"
+            :fancy-group="'comment-' + index"
+            :str-html="item.content" />
         </div>
         <div class="more-action float-right f-c-e" v-show="!item.isEditing && !item.isAnsling">
           <el-dropdown>
