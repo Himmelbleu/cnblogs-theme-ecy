@@ -6,7 +6,7 @@
  */
 code {
   margin: 0;
-  color: var(--el-color-danger-light-3);
+  color: #d44a4a;
   font-family: var(--l-code-family);
   font-size: var(--l-code-size);
 
@@ -19,7 +19,7 @@ code {
 .bleu-pre {
   --uno: rd-2;
   margin: 1.5rem 0;
-  background: var(--l-bg-3);
+  background: var(--bg-3);
 
   pre {
     margin: 0;
@@ -27,12 +27,15 @@ code {
   }
 
   .tools {
-    .right {
+    .left {
+      margin-top: 0.5rem;
       padding: 0.5rem 1.2rem 0.5rem 1.2rem;
-      --uno: b-b-primary b-b-1 b-b-solid text-primary;
+      --uno: b-b-c b-b-1 b-b-solid text-a;
     }
 
-    .left {
+    .right {
+      margin-top: 0.5rem;
+      background-color: var(--bg-2);
       padding: 0.5rem 1.2rem 0.5rem 1.2rem;
     }
   }
@@ -47,25 +50,21 @@ a > code {
 }
 
 .markdown-textual {
-  h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    font-weight: 600 !important;
-  }
-
-  h1 {
-    font-size: 1.2rem !important;
+    color: var(--text-primary);
+    font-weight: 800 !important;
   }
 
   h2 {
-    font-size: 1.1rem !important;
+    font-size: 1.2rem !important;
   }
 
   h3 {
-    font-size: 1rem !important;
+    font-size: 1.1rem !important;
   }
 
   h4 {
@@ -80,8 +79,35 @@ a > code {
     font-size: 1rem !important;
   }
 
+  h1 {
+    font-size: 1.2rem !important;
+    color: #f0f0f0;
+    position: relative;
+    display: inline-block;
+    background: var(--text-primary);
+    padding: 0.3rem 1.5rem 0.1rem 1rem;
+    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.5rem;
+    box-shadow: 6px 3px 0 0 rgba(160, 160, 160, 0.2);
+
+    &::before {
+      content: " ";
+      display: inline-block;
+    }
+
+    &::after {
+      content: " ";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: block;
+      width: 55vw;
+      border-bottom: 2px solid var(--text-primary);
+    }
+  }
+
   blockquote {
-    background-color: var(--l-bg-1);
+    background-color: var(--bg-1);
     color: var(--text-b);
     margin: 0;
     border: {
@@ -108,12 +134,19 @@ a > code {
     border-bottom: 1px dotted var(--text-a);
   }
 
-  a {
-    color: var(--text-primary);
-  }
-
   p {
     margin: 1.5rem 0;
+
+    a {
+      padding-bottom: 2px;
+      --uno: hover b-b-a b-b-1 b-b-dotted text-a;
+
+      &::before {
+        content: "🔗";
+        display: inline-block;
+        margin-right: 0.2rem;
+      }
+    }
   }
 
   img {
@@ -133,16 +166,15 @@ a > code {
 
       &::before {
         content: counter(step-counter);
-        border-radius: 50%;
-        height: 1.7rem;
-        width: 1.7rem;
+        border-radius: 0.5rem;
+        height: 1.5rem;
+        width: 1.5rem;
         position: absolute;
         top: 0;
         left: -2.5rem;
         --uno: f-c-c text-0.8rem;
-        font-weight: 400;
         color: var(--text-a);
-        background: var(--l-bg-2);
+        background: var(--bg-2);
       }
     }
 

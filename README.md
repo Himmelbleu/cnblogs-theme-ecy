@@ -300,7 +300,9 @@ window.__BLEU_CONFIG__ = {
       // 同 css background-size
       size: "50% auto",
       // 同 css background-repeat
-      repeat: "repeat"
+      repeat: "repeat",
+      // 同 css background-position
+      position: "100%"
     },
     // 首页轮播图，不填代表关闭
     home: {

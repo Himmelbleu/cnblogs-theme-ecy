@@ -136,13 +136,13 @@ await fetchData();
 </template>
 
 <style scoped lang="scss">
-@include pc() {
+@include mixins.pc() {
   .more-action {
     --uno: w-8%;
   }
 }
 
-@include mb() {
+@include mixins.mb() {
   .more-action {
     --uno: w-10%;
   }

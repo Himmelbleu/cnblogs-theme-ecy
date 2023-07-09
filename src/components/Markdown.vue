@@ -120,12 +120,13 @@ function refactorPreCode(str: string) {
 
   const late = `
     <div class="tools ${mark ? "f-c-b" : "f-c-e"} f-c-b rd-2 text-0.8rem w-100%">
-      ${mark ? `<div class="right max-w-70% flow-auto white-nowrap scroll-none">${mark}</div>` : ""}
-      <div class="left w-30% f-c-e text-c">
+      <div class="left flow-auto white-nowrap scroll-none">${mark || lang + " Code"}</div>
+      <div class="right flex-1 flex-auto f-c-e text-c">
         <div class="language mr-2">${lang}</div>
         <div class="clipboard hover">复制</div>
       </div>
     </div>
+    ${!mark ? `<div class="mb-6"></div>` : ""} 
   `;
 
   if (mark) str = str.replace(/file:\[([\u4e00-\u9fffa-zA-Z0-9.\-_\s\/]+)\]/g, "");
