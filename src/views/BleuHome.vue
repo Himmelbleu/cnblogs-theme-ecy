@@ -191,7 +191,7 @@ await fetchData();
       <div class="lg:w-49% lg:h-100vh py-4" v-if="list?.data">
         <div class="h-100%" :class="{ 'f-c-b flex-col': list.data.length >= 4 }">
           <div
-            class="lt-lg:mb-15"
+            class="lt-lg:mb-15 w-100%"
             :class="{ 'mb-10': list.data.length < 4 }"
             v-for="item in list.data">
             <div class="f-c-s text-b text-0.9rem mb-2">

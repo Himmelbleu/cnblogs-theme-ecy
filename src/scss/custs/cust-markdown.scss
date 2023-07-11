@@ -52,12 +52,8 @@ code {
 .bleu-war,
 .bleu-tip {
   --uno: rd-2;
-  margin: 1.5rem 0;
-  border-radius: 0.5rem;
-  white-space: pre-wrap; /* 允许内容换行 */
-  word-wrap: break-word; /* 兼容旧版浏览器 */
-  overflow-wrap: break-word; /* 在单词内部换行 */
   position: relative;
+  border-radius: 0.5rem;
   padding: 1rem 1rem 1rem 1.5rem;
 }
 
@@ -214,7 +210,9 @@ a > code {
     border-bottom: 1px dotted var(--text-a);
   }
 
-  p {
+  p,
+  .bleu-tip,
+  .bleu-war {
     margin: 1.5rem 0;
 
     a {

@@ -3,8 +3,7 @@ import hljs from "highlight.js";
 import { Fancybox } from "@fancyapps/ui";
 
 hljs.configure({
-  ignoreUnescapedHTML: true,
-  noHighlightRe: /<code class="language-.+?">\s*(tip|war)\s*<\/code>/i
+  ignoreUnescapedHTML: true
 });
 
 const props = defineProps({
@@ -35,25 +34,39 @@ const strHtmlRef = toRef(props, "strHtml");
 const markdown = ref("");
 
 function generateMarkdown() {
-  let mtcCode, mtcImg;
+  let mtcCode, mtcImg, mtcTip, mtcWar;
   let regex1 = /<pre>[\s\S]*?<\/pre>/g;
   let regex2 = /<img[\s\S]*?>/g;
+  let regex3 = /tip:\[start\]([\s\S]*?)tip:\[end\]/g;
+  let regex4 = /war:\[start\]([\s\S]*?)war:\[end\]/g;
 
-  let c = props.strHtml;
+  let step1 = props.strHtml;
 
-  while ((mtcCode = regex1.exec(c)) !== null) {
+  while ((mtcCode = regex1.exec(step1)) !== null) {
     const r = refactorPreCode(mtcCode[0]);
-    c = c.replace(mtcCode[0], r);
+    step1 = step1.replace(mtcCode[0], r);
   }
 
-  let i = c;
+  let step2 = step1;
 
-  while ((mtcImg = regex2.exec(c)) !== null) {
+  while ((mtcImg = regex2.exec(step1)) !== null) {
     const r = refactorImg(mtcImg[0]);
-    i = i.replace(mtcImg[0], r);
+    step2 = step2.replace(mtcImg[0], r);
   }
 
-  return i;
+  let step3 = step2;
+  while ((mtcTip = regex3.exec(step2)) !== null) {
+    const r = refactorTip(mtcTip[1]);
+    step3 = step3.replace(mtcTip[0], r);
+  }
+
+  let step4 = step3;
+  while ((mtcWar = regex4.exec(step3)) !== null) {
+    const r = refactorWar(mtcWar[1]);
+    step4 = step4.replace(mtcWar[0], r);
+  }
+
+  return step4;
 }
 
 function refactorImg(str: string) {
@@ -75,39 +88,17 @@ function refactorImg(str: string) {
   return late;
 }
 
-function findTipPreCode(str: string) {
-  const regex = /<pre><code class="language-tip">([\s\S]*?)<\/code><\/pre>/;
-  const match = str.match(regex);
-  let r = "";
-
-  if (match) {
-    const content = match[1];
-
-    r = `
-<pre class="bleu-tip">
-💡提示：
-${content}</pre>
-    `;
-  }
-
+function refactorTip(str: string) {
+  let r = `
+<div class="bleu-tip"><div class="mb-2 font-bold">💡提示</div><div>${str}</div></div>
+  `;
   return r;
 }
 
-function findWraPreCode(str: string) {
-  const regex = /<pre><code class="language-war">([\s\S]*?)<\/code><\/pre>/;
-  const match = str.match(regex);
-  let w = "";
-
-  if (match) {
-    const content = match[1];
-
-    w = `
-<pre class="bleu-war">
-❗注意：
-${content}</pre>
-    `;
-  }
-
+function refactorWar(str: string) {
+  let w = `
+<div class="bleu-war"><div class="mb-2 font-bold">❗注意</div><div>${str}</div></div>
+  `;
   return w;
 }
 
@@ -162,7 +153,7 @@ function findNormalPreCode(str: string) {
           <div class="clipboard hover">复制</div>
         </div>
       </div>
-      ${!mark ? `<div class="mb-6"></div>` : ""} 
+      ${!mark ? `<div class="mb-6"></div>` : ""}
     `;
 
   if (mark) str = str.replace(/file:\[([\u4e00-\u9fffa-zA-Z0-9.\-_\s\/]+)\]/g, "");
@@ -176,16 +167,7 @@ function findNormalPreCode(str: string) {
 }
 
 function refactorPreCode(str: string) {
-  const isTip = str.match(/<pre><code class="language-tip">/);
-  const isWra = str.match(/<pre><code class="language-war">/);
-
-  if (isTip) {
-    return findTipPreCode(str);
-  } else if (isWra) {
-    return findWraPreCode(str);
-  } else {
-    return findNormalPreCode(str);
-  }
+  return findNormalPreCode(str);
 }
 
 function registerMarkdown(mkd: HTMLElement, pre: HTMLElement) {
