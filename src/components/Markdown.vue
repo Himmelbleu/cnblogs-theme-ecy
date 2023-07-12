@@ -80,7 +80,7 @@ function refactorImg(str: string) {
           data-download-src="${mtSrc[1]}" data-caption="${mtAlt ? mtAlt[1] : ""}">
           <img src="${mtSrc[1]}" class="rd-2" alt="${mtAlt ? mtAlt[1] : ""}" />
         </a>
-        <div class="bleu-caption f-c-c text-0.8rem text-b">${mtAlt ? mtAlt[1] : ""}</div>
+        <div class="f-c-c text-0.9rem text-b">${mtAlt ? mtAlt[1] : ""}</div>
       </div>
     </div>
   `;

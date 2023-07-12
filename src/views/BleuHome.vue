@@ -181,10 +181,10 @@ await fetchData();
       <div
         class="f-c-c flex-col"
         @click="Navigation.go('http://github.com/' + BleuVars.getBlogApp())">
-        <div class="write-vertical-left text-0.9rem text-b bounce hover mb-4">
+        <div class="write-vertical-left text-0.9rem text-a bounce hover mb-4">
           {{ BleuVars.getBlogApp() }}'s github
         </div>
-        <div class="i-tabler-brand-github hover mb-4 text-1.2rem text-b"></div>
+        <div class="i-tabler-brand-github hover mb-4 text-1.2rem text-a"></div>
       </div>
     </div>
     <div class="lg:f-s-b">

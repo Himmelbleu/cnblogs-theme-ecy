@@ -8,10 +8,17 @@
   display: block;
   overflow-x: auto;
   overflow-y: hidden;
-  color: var(--text-a);
+  color: var(--text-a) !important;
+  font-family: var(--l-code-family) !important;
+  font-size: var(--l-code-size) !important;
+
+  span {
+    font-family: var(--l-code-family) !important;
+    font-size: var(--l-code-size) !important;
+  }
 
   &::-webkit-scrollbar {
-    height: 0.5rem;
+    height: 0.3rem;
     width: 0;
   }
 
